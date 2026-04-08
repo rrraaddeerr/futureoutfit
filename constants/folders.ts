@@ -7,13 +7,14 @@ export interface FolderConfig {
 }
 
 export const DEFAULT_FOLDERS: FolderConfig[] = [
-  { id: 'props', name: 'Props', albumName: 'Ref: Props', icon: 'cube', color: '#FF6B6B' },
-  { id: 'color-ref', name: 'Color Ref', albumName: 'Ref: Color Ref', icon: 'paint-brush', color: '#4ECDC4' },
+  { id: 'furniture', name: 'Furniture', albumName: 'Ref: Furniture', icon: 'bed', color: '#FF6B6B' },
+  { id: 'materials', name: 'Materials', albumName: 'Ref: Materials', icon: 'th-large', color: '#4ECDC4' },
   { id: 'lighting', name: 'Lighting', albumName: 'Ref: Lighting', icon: 'lightbulb-o', color: '#FFE66D' },
-  { id: 'wardrobe', name: 'Wardrobe', albumName: 'Ref: Wardrobe', icon: 'user', color: '#A06CD5' },
-  { id: 'set-design', name: 'Set Design', albumName: 'Ref: Set Design', icon: 'home', color: '#FF9A76' },
-  { id: 'location', name: 'Location', albumName: 'Ref: Location', icon: 'map-marker', color: '#6BCB77' },
-  { id: 'continuity', name: 'Continuity', albumName: 'Ref: Continuity', icon: 'camera', color: '#4D96FF' },
+  { id: 'florals', name: 'Florals', albumName: 'Ref: Florals', icon: 'leaf', color: '#A06CD5' },
+  { id: 'signage', name: 'Signage', albumName: 'Ref: Signage', icon: 'font', color: '#FF9A76' },
+  { id: 'layout', name: 'Layout', albumName: 'Ref: Layout', icon: 'map', color: '#6BCB77' },
+  { id: 'venue', name: 'Venue', albumName: 'Ref: Venue', icon: 'building', color: '#4D96FF' },
+  { id: 'inspo', name: 'Inspo', albumName: 'Ref: Inspo', icon: 'star', color: '#FF6B9D' },
 ];
 
 let _nextId = 1;

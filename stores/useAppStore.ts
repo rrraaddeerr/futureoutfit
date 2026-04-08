@@ -51,6 +51,10 @@ interface AppState {
   sourceAlbumId: string | null;
   setPhotoSource: (source: 'all' | 'album', albumId?: string | null) => void;
 
+  // Session goal
+  sessionGoal: number; // 0 = unlimited
+  setSessionGoal: (goal: number) => void;
+
   // Last used folder (for quick access in picker)
   lastUsedFolderId: string | null;
   setLastUsedFolder: (id: string) => void;
@@ -155,6 +159,10 @@ export const useAppStore = create<AppState>()(
         set({ photoSource: source, sourceAlbumId: albumId });
       },
 
+      // Session goal
+      sessionGoal: 0,
+      setSessionGoal: (goal) => set({ sessionGoal: goal }),
+
       // Last used folder
       lastUsedFolderId: null,
       setLastUsedFolder: (id) => set({ lastUsedFolderId: id }),
@@ -166,6 +174,7 @@ export const useAppStore = create<AppState>()(
         folders: state.folders,
         photoSource: state.photoSource,
         sourceAlbumId: state.sourceAlbumId,
+        sessionGoal: state.sessionGoal,
         lastUsedFolderId: state.lastUsedFolderId,
       }),
     }

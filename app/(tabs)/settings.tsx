@@ -13,6 +13,8 @@ export default function SettingsScreen() {
     photoSource,
     sourceAlbumId,
     setPhotoSource,
+    sessionGoal,
+    setSessionGoal,
     pendingDeletes,
     clearPendingDeletes,
     resetSession,
@@ -119,6 +121,27 @@ export default function SettingsScreen() {
               )}
             </Pressable>
           ))}
+        </View>
+
+        {/* Session Goal */}
+        <Text style={styles.sectionTitle}>SESSION GOAL</Text>
+        <View style={styles.section}>
+          <Text style={styles.goalDescription}>
+            Set a target for each purge session. Great for chipping away at a big backlog.
+          </Text>
+          <View style={styles.goalRow}>
+            {[0, 50, 100, 200, 500].map((goal) => (
+              <Pressable
+                key={goal}
+                style={[styles.goalChip, sessionGoal === goal && { backgroundColor: Colors.tint, borderColor: Colors.tint }]}
+                onPress={() => setSessionGoal(goal)}
+              >
+                <Text style={[styles.goalChipText, sessionGoal === goal && { color: '#fff' }]}>
+                  {goal === 0 ? 'No limit' : `${goal}`}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
         </View>
 
         {/* Session */}
@@ -264,6 +287,32 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.border,
   },
   dangerText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  goalDescription: {
+    color: Colors.textSecondary,
+    fontSize: 13,
+    padding: Spacing.md,
+    paddingBottom: Spacing.sm,
+  },
+  goalRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: Spacing.sm,
+    padding: Spacing.md,
+    paddingTop: 0,
+  },
+  goalChip: {
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.sm,
+    borderRadius: BorderRadius.full,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    backgroundColor: Colors.surfaceLight,
+  },
+  goalChipText: {
+    color: Colors.textSecondary,
     fontSize: 14,
     fontWeight: '600',
   },

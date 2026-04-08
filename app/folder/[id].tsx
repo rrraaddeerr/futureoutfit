@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Pressable, Share, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import PhotoGrid from '@/components/PhotoGrid';
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, Spacing, BorderRadius } from '@/constants/theme';
 import { getOrCreateAlbum, getAlbumAssets } from '@/utils/mediaLibrary';
 import { useAppStore } from '@/stores/useAppStore';
 
@@ -40,6 +40,21 @@ export default function FolderDetailScreen() {
     }
   };
 
+  const handleShare = async () => {
+    if (assets.length === 0) {
+      Alert.alert('No Photos', 'Add some photos to this folder first.');
+      return;
+    }
+    try {
+      // Share the album info - on iOS, users can share individual photos via the Photos app
+      await Share.share({
+        message: `Check out my "${name}" reference collection (${assets.length} photos) - saved in the "${albumName}" album in Photos.`,
+      });
+    } catch (error) {
+      // User cancelled share
+    }
+  };
+
   return (
     <>
       <Stack.Screen
@@ -47,6 +62,11 @@ export default function FolderDetailScreen() {
           title: name || 'Folder',
           headerStyle: { backgroundColor: Colors.background },
           headerTintColor: Colors.text,
+          headerRight: () => (
+            <Pressable onPress={handleShare} style={{ padding: 8 }}>
+              <FontAwesome name="share-alt" size={18} color={Colors.text} />
+            </Pressable>
+          ),
         }}
       />
       <SafeAreaView style={styles.container} edges={[]}>

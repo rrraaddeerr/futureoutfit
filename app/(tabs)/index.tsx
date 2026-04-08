@@ -1,14 +1,17 @@
 import React from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import CardStack from '@/components/CardStack';
-import { Colors, Spacing } from '@/constants/theme';
+import { Colors, Spacing, BorderRadius } from '@/constants/theme';
 import { useAppStore } from '@/stores/useAppStore';
 import { deleteAssets } from '@/utils/mediaLibrary';
 
 export default function SwipeScreen() {
-  const { sessionStats, pendingDeletes, clearPendingDeletes, resetSession } = useAppStore();
+  const { sessionStats, sessionGoal, pendingDeletes, clearPendingDeletes, resetSession } = useAppStore();
   const hasSession = sessionStats.total > 0;
+  const goalProgress = sessionGoal > 0 ? Math.min(sessionStats.total / sessionGoal, 1) : 0;
+  const goalReached = sessionGoal > 0 && sessionStats.total >= sessionGoal;
 
   const finishSession = async () => {
     if (pendingDeletes.length > 0) {
@@ -23,7 +26,22 @@ export default function SwipeScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header with session stats */}
       <View style={styles.header}>
-        <Text style={styles.title}>PhotoPurge</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>PhotoPurge</Text>
+          {sessionGoal > 0 && hasSession && (
+            <Text style={[styles.goalText, goalReached && { color: Colors.keep }]}>
+              {sessionStats.total}/{sessionGoal}
+            </Text>
+          )}
+        </View>
+
+        {/* Session goal progress bar */}
+        {sessionGoal > 0 && hasSession && (
+          <View style={styles.progressBar}>
+            <View style={[styles.progressFill, { width: `${goalProgress * 100}%`, backgroundColor: goalReached ? Colors.keep : Colors.tint }]} />
+          </View>
+        )}
+
         {hasSession && (
           <View style={styles.statsRow}>
             <View style={styles.stat}>
@@ -41,6 +59,13 @@ export default function SwipeScreen() {
           </View>
         )}
       </View>
+
+      {/* Goal reached celebration */}
+      {goalReached && (
+        <View style={styles.goalBanner}>
+          <Text style={styles.goalBannerText}>Goal hit! Keep going or finish up.</Text>
+        </View>
+      )}
 
       {/* Card stack */}
       <View style={styles.cardArea}>
@@ -86,11 +111,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.sm,
   },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+  },
   title: {
     color: Colors.text,
     fontSize: 28,
     fontWeight: '800',
     letterSpacing: -0.5,
+  },
+  goalText: {
+    color: Colors.textSecondary,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  progressBar: {
+    height: 3,
+    backgroundColor: Colors.surfaceLight,
+    borderRadius: 2,
+    marginTop: Spacing.xs,
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: 2,
   },
   statsRow: {
     flexDirection: 'row',
@@ -110,6 +156,18 @@ const styles = StyleSheet.create({
     color: Colors.textMuted,
     fontSize: 12,
     fontWeight: '500',
+  },
+  goalBanner: {
+    marginHorizontal: Spacing.lg,
+    padding: Spacing.sm,
+    backgroundColor: Colors.keep + '22',
+    borderRadius: BorderRadius.sm,
+    alignItems: 'center',
+  },
+  goalBannerText: {
+    color: Colors.keep,
+    fontSize: 13,
+    fontWeight: '700',
   },
   cardArea: {
     flex: 1,
