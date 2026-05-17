@@ -3,14 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { InventoryItem } from "@/lib/types";
-import { sourceOwnerLabels } from "@/lib/categories";
 import { ItemCard } from "@/components/ItemCard";
 
 type Facets = {
   categories: string[];
-  eras: string[];
   tags: string[];
-  sources: string[];
 };
 
 const SORTS = ["Default", "Price · low to high", "Price · high to low", "A–Z"];
@@ -28,8 +25,6 @@ export function ArchiveBrowser({
 
   const [search, setSearch] = useState(() => params.get("q") ?? "");
   const [category, setCategory] = useState(() => params.get("category") ?? "");
-  const [era, setEra] = useState(() => params.get("era") ?? "");
-  const [source, setSource] = useState(() => params.get("source") ?? "");
   const [sort, setSort] = useState(() => params.get("sort") ?? "Default");
   const [tags, setTags] = useState<string[]>(() => {
     const t = params.get("tags") ?? params.get("tag");
@@ -47,25 +42,20 @@ export function ArchiveBrowser({
     const q = new URLSearchParams();
     if (search) q.set("q", search);
     if (category) q.set("category", category);
-    if (era) q.set("era", era);
-    if (source) q.set("source", source);
     if (sort !== "Default") q.set("sort", sort);
     if (tags.length) q.set("tags", tags.join(","));
     const qs = q.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-  }, [search, category, era, source, sort, tags, pathname, router]);
+  }, [search, category, sort, tags, pathname, router]);
 
   const toggleTag = (t: string) =>
     setTags((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));
 
-  const hasFilters =
-    search || category || era || source || tags.length > 0 || sort !== "Default";
+  const hasFilters = search || category || tags.length > 0 || sort !== "Default";
 
   const reset = () => {
     setSearch("");
     setCategory("");
-    setEra("");
-    setSource("");
     setSort("Default");
     setTags([]);
   };
@@ -74,17 +64,9 @@ export function ArchiveBrowser({
     const q = search.trim().toLowerCase();
     let list = items.filter((item) => {
       if (category && item.category !== category) return false;
-      if (era && item.era !== era) return false;
-      if (source && item.source_owner !== source) return false;
       if (tags.length > 0 && !tags.some((t) => item.tags.includes(t))) return false;
       if (q) {
-        const haystack = [
-          item.title,
-          item.description,
-          item.category,
-          item.era,
-          ...item.tags,
-        ]
+        const haystack = [item.title, item.description, item.category, ...item.tags]
           .join(" ")
           .toLowerCase();
         if (!haystack.includes(q)) return false;
@@ -92,21 +74,19 @@ export function ArchiveBrowser({
       return true;
     });
 
-    const priceOf = (i: InventoryItem) =>
-      i.price_day ?? Number.POSITIVE_INFINITY;
     if (sort === "Price · low to high") {
-      list = [...list].sort((a, b) => priceOf(a) - priceOf(b));
+      list = [...list].sort(
+        (a, b) =>
+          (a.price_week ?? Number.POSITIVE_INFINITY) -
+          (b.price_week ?? Number.POSITIVE_INFINITY)
+      );
     } else if (sort === "Price · high to low") {
-      list = [...list].sort((a, b) => {
-        const av = a.price_day ?? -1;
-        const bv = b.price_day ?? -1;
-        return bv - av;
-      });
+      list = [...list].sort((a, b) => (b.price_week ?? -1) - (a.price_week ?? -1));
     } else if (sort === "A–Z") {
       list = [...list].sort((a, b) => a.title.localeCompare(b.title));
     }
     return list;
-  }, [items, search, category, era, source, tags, sort]);
+  }, [items, search, category, tags, sort]);
 
   return (
     <div className="archive">
@@ -117,7 +97,7 @@ export function ArchiveBrowser({
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search the archive — title, vibe, era, function…"
+              placeholder="Search the archive — title, vibe, material, function…"
               aria-label="Search inventory"
             />
           </div>
@@ -131,30 +111,6 @@ export function ArchiveBrowser({
               {facets.categories.map((c) => (
                 <option key={c} value={c}>
                   {c}
-                </option>
-              ))}
-            </select>
-            <select
-              value={era}
-              onChange={(e) => setEra(e.target.value)}
-              aria-label="Filter by era"
-            >
-              <option value="">All eras</option>
-              {facets.eras.map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </select>
-            <select
-              value={source}
-              onChange={(e) => setSource(e.target.value)}
-              aria-label="Filter by source"
-            >
-              <option value="">All sources</option>
-              {facets.sources.map((s) => (
-                <option key={s} value={s}>
-                  {sourceOwnerLabels[s] ?? s}
                 </option>
               ))}
             </select>

@@ -47,20 +47,14 @@ export function getRelatedItems(item: InventoryItem, limit = 4): InventoryItem[]
 /** Distinct facet values present in the inventory — drives the archive filters. */
 export function getFacets() {
   const categories = new Set<string>();
-  const eras = new Set<string>();
   const tags = new Set<string>();
-  const sources = new Set<string>();
   for (const item of inventory) {
     categories.add(item.category);
-    eras.add(item.era);
-    sources.add(item.source_owner);
     item.tags.forEach((t) => tags.add(t));
   }
   return {
     categories: [...categories].sort(),
-    eras: [...eras].sort(),
     tags: [...tags].sort(),
-    sources: [...sources].sort(),
   };
 }
 
@@ -74,8 +68,9 @@ export function formatPrice(value: number | null): string {
   }).format(value);
 }
 
-/** Compact "from $X / day" used on archive cards. */
+/** Compact price teaser for archive cards — prefers the day rate, else weekly. */
 export function priceTeaser(item: InventoryItem): string {
-  if (item.price_day == null) return "Pricing on inquiry";
-  return `From ${formatPrice(item.price_day)} / day`;
+  if (item.price_day != null) return `From ${formatPrice(item.price_day)} / day`;
+  if (item.price_week != null) return `From ${formatPrice(item.price_week)} / week`;
+  return "Pricing on inquiry";
 }

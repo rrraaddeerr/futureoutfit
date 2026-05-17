@@ -21,7 +21,7 @@ export function ItemCard({ item }: { item: InventoryItem }) {
           <h3 className="card__title">{item.title}</h3>
           <div className="card__meta">
             <span className="card__price">{priceTeaser(item)}</span>
-            <span className="card__era">{item.era}</span>
+            {item.tags[0] && <span className="card__era">{item.tags[0]}</span>}
           </div>
         </div>
       </Link>

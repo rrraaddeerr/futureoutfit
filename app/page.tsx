@@ -3,31 +3,31 @@ import { CtaGrid } from "@/components/CtaGrid";
 import { ItemCard } from "@/components/ItemCard";
 import { TapeLabel } from "@/components/TapeLabel";
 import { TruckMark } from "@/components/TruckMark";
-import { getAllItems, getFeaturedItems } from "@/lib/inventory";
-import { practicalCategories } from "@/lib/categories";
+import { getAllItems, getFeaturedItems, getFacets } from "@/lib/inventory";
 
 const FEATURED_CATEGORIES = [
   { label: "Seating", q: "category=Seating" },
+  { label: "Signage", q: "category=Signage" },
+  { label: "Tables", q: "category=Tables" },
+  { label: "Cases & Carts", q: "category=Cases+%26+Carts" },
+  { label: "Storage", q: "category=Storage" },
+  { label: "Hospitality", q: "category=Hospitality" },
   { label: "Lighting", q: "category=Lighting" },
   { label: "Staging", q: "category=Staging" },
-  { label: "Cases & Carts", q: "category=Cases+%26+Carts" },
-  { label: "Signage", q: "category=Signage" },
-  { label: "Greenery", q: "category=Greenery" },
-  { label: "Neon", q: "tag=Neon" },
-  { label: "Server Room", q: "tag=Server+Room" },
-  { label: "Backstage", q: "tag=Backstage" },
-  { label: "Nightlife", q: "tag=Nightlife" },
-  { label: "Festival", q: "tag=Festival" },
-  { label: "Airport", q: "tag=Airport" },
+  { label: "Vintage", q: "tags=Vintage" },
+  { label: "Institutional", q: "tags=Institutional" },
+  { label: "Retail", q: "tags=Retail" },
+  { label: "Office", q: "tags=Office" },
 ];
 
 export default function HomePage() {
   const featured = getFeaturedItems(6);
   const itemCount = getAllItems().length;
+  const categoryCount = getFacets().categories.length;
 
   const readout = [
     { k: "Objects indexed", v: String(itemCount) },
-    { k: "Categories", v: String(practicalCategories.length) },
+    { k: "Categories", v: String(categoryCount) },
     { k: "Operator", v: "RaderENT" },
     { k: "HQ", v: "Vancouver" },
   ];

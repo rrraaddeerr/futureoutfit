@@ -1,16 +1,13 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { getAllItems, getItemBySlug, priceTeaser } from "@/lib/inventory";
+import { getItemBySlug, priceTeaser } from "@/lib/inventory";
 
 export const alt = "rent.co archive object";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export function generateStaticParams() {
-  return getAllItems().map((item) => ({ slug: item.slug }));
-}
-
+// Generated on demand (not prerendered) so builds stay fast as the catalog grows.
 const TRUCK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="#ff5a1f" stroke-width="2.4" stroke-linecap="square"><path d="M2 8h17v13H2z"/><path d="M19 13h6l5 5v3h-11z"/><circle cx="9" cy="24" r="3"/><circle cx="24" cy="24" r="3"/></svg>`;
 const truckUri = `data:image/svg+xml;base64,${Buffer.from(TRUCK).toString("base64")}`;
 
