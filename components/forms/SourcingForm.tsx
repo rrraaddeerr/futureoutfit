@@ -8,6 +8,8 @@ import {
   FileField,
   FormRow,
   FormFeedback,
+  Honeypot,
+  readHoneypot,
 } from "./fields";
 
 const empty = {
@@ -34,11 +36,12 @@ export function SourcingForm() {
     setFiles(Array.from(e.target.files ?? []).map((x) => ({ name: x.name, size: x.size })));
   };
 
-  async function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const hp = readHoneypot(e.currentTarget);
     setStatus("submitting");
     setError(undefined);
-    const res = await submitInquiry("sourcing", f, { attachments: files });
+    const res = await submitInquiry("sourcing", f, { attachments: files, hp });
     if (res.ok) {
       setStatus("success");
       setF(empty);
@@ -60,6 +63,7 @@ export function SourcingForm() {
 
   return (
     <form className="form" onSubmit={onSubmit}>
+      <Honeypot />
       <FormRow>
         <TextField name="name" label="Name" required value={f.name} onChange={set("name")} />
         <TextField

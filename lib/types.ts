@@ -44,4 +44,6 @@ export interface InquiryPayload {
   selected_items?: { id: string; title: string }[];
   attachments?: { name: string; size: number }[];
   submitted_at: string;
+  /** Honeypot value — populated only by bots; a filled value is discarded. */
+  hp?: string;
 }

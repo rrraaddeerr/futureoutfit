@@ -2,7 +2,15 @@
 
 import { useState, type FormEvent } from "react";
 import { submitInquiry } from "@/lib/submit";
-import { TextField, TextArea, SelectField, FormRow, FormFeedback } from "./fields";
+import {
+  TextField,
+  TextArea,
+  SelectField,
+  FormRow,
+  FormFeedback,
+  Honeypot,
+  readHoneypot,
+} from "./fields";
 
 const PROJECT_TYPES = [
   "Music / touring",
@@ -46,11 +54,15 @@ export function RentalRequestForm({
 
   const set = (k: keyof typeof empty) => (v: string) => setF((p) => ({ ...p, [k]: v }));
 
-  async function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const hp = readHoneypot(e.currentTarget);
     setStatus("submitting");
     setError(undefined);
-    const res = await submitInquiry("rental", f, { selected_items: selectedItems });
+    const res = await submitInquiry("rental", f, {
+      selected_items: selectedItems,
+      hp,
+    });
     if (res.ok) {
       setStatus("success");
       setF(empty);
@@ -72,6 +84,7 @@ export function RentalRequestForm({
 
   return (
     <form className="form" onSubmit={onSubmit}>
+      <Honeypot />
       <FormRow>
         <TextField name="name" label="Name" required value={f.name} onChange={set("name")} />
         <TextField

@@ -15,6 +15,7 @@ export async function submitInquiry(
   options: {
     selected_items?: { id: string; title: string }[];
     attachments?: { name: string; size: number }[];
+    hp?: string;
   } = {}
 ): Promise<SubmitResult> {
   const payload: InquiryPayload = {
@@ -23,6 +24,7 @@ export async function submitInquiry(
     selected_items: options.selected_items,
     attachments: options.attachments,
     submitted_at: new Date().toISOString(),
+    hp: options.hp,
   };
 
   try {

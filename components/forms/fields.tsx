@@ -148,6 +148,31 @@ export function FormRow({ children }: { children: ReactNode }) {
   return <div className="form-row">{children}</div>;
 }
 
+/**
+ * Off-screen honeypot field. Real visitors never see or fill it; bots that
+ * auto-fill every input give themselves away. Read in the form's submit
+ * handler via FormData and discarded server-side if populated.
+ */
+export function Honeypot() {
+  return (
+    <div className="hp-field" aria-hidden="true">
+      <label htmlFor="hp_website">Leave this field empty</label>
+      <input
+        id="hp_website"
+        name="hp_website"
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+      />
+    </div>
+  );
+}
+
+/** Reads the honeypot value from a submitted form element. */
+export function readHoneypot(form: HTMLFormElement): string {
+  return String(new FormData(form).get("hp_website") ?? "");
+}
+
 export function FormFeedback({
   status,
   error,

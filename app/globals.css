@@ -109,6 +109,15 @@ h4 {
   border: 0;
 }
 
+/* Spam honeypot — kept out of sight and out of the tab order. */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .skip-link {
   position: absolute;
   left: -999px;
