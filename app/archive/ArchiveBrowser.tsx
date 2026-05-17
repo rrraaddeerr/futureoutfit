@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { InventoryItem } from "@/lib/types";
 import { sourceOwnerLabels } from "@/lib/categories";
 import { ItemCard } from "@/components/ItemCard";
@@ -23,14 +23,37 @@ export function ArchiveBrowser({
   facets: Facets;
 }) {
   const params = useSearchParams();
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState(params.get("category") ?? "");
-  const [era, setEra] = useState("");
-  const [source, setSource] = useState("");
-  const [sort, setSort] = useState("Default");
-  const [tags, setTags] = useState<string[]>(
-    params.get("tag") ? [params.get("tag") as string] : []
-  );
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [search, setSearch] = useState(() => params.get("q") ?? "");
+  const [category, setCategory] = useState(() => params.get("category") ?? "");
+  const [era, setEra] = useState(() => params.get("era") ?? "");
+  const [source, setSource] = useState(() => params.get("source") ?? "");
+  const [sort, setSort] = useState(() => params.get("sort") ?? "Default");
+  const [tags, setTags] = useState<string[]>(() => {
+    const t = params.get("tags") ?? params.get("tag");
+    return t ? t.split(",").filter(Boolean) : [];
+  });
+
+  // Keep the URL in sync so a filtered archive view is shareable and
+  // bookmarkable. Skips the first run — initial state already came from the URL.
+  const firstRun = useRef(true);
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    const q = new URLSearchParams();
+    if (search) q.set("q", search);
+    if (category) q.set("category", category);
+    if (era) q.set("era", era);
+    if (source) q.set("source", source);
+    if (sort !== "Default") q.set("sort", sort);
+    if (tags.length) q.set("tags", tags.join(","));
+    const qs = q.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }, [search, category, era, source, sort, tags, pathname, router]);
 
   const toggleTag = (t: string) =>
     setTags((p) => (p.includes(t) ? p.filter((x) => x !== t) : [...p, t]));

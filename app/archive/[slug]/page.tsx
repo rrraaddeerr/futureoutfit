@@ -12,6 +12,7 @@ import { ItemPlaceholder } from "@/components/ItemPlaceholder";
 import { ItemCard } from "@/components/ItemCard";
 import { AddToRequestButton } from "@/components/AddToRequestButton";
 import { TapeLabel } from "@/components/TapeLabel";
+import { JsonLd } from "@/components/JsonLd";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -36,8 +37,31 @@ export default async function ItemPage({ params }: Params) {
 
   const related = getRelatedItems(item, 4);
 
+  const productLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: item.title,
+    description: item.description,
+    category: item.category,
+    sku: item.id,
+    ...(item.images.length > 0 ? { image: item.images } : {}),
+    ...(item.price_day != null
+      ? {
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "CAD",
+            price: item.price_day,
+            availability: "https://schema.org/LimitedAvailability",
+            businessFunction: "http://purl.org/goodrelations/v1#LeaseOut",
+            url: `https://rent.co/archive/${item.slug}`,
+          },
+        }
+      : {}),
+  };
+
   return (
     <div className="item">
+      <JsonLd data={productLd} />
       <div className="wrap">
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/archive">Archive</Link>

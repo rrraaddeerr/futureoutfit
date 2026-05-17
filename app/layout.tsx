@@ -2,7 +2,25 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { JsonLd } from "@/components/JsonLd";
 import "./globals.css";
+
+const ORGANIZATION_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "rent.co",
+  alternateName: "RaderENT",
+  description:
+    "Inquiry-based rental, sourcing, and infrastructure for culture — operated by RaderENT.",
+  url: "https://rent.co",
+  areaServed: "Worldwide",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Vancouver",
+    addressRegion: "BC",
+    addressCountry: "CA",
+  },
+};
 
 const marker = localFont({
   src: "./fonts/PermanentMarker.woff2",
@@ -46,6 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={marker.variable}>
       <body>
+        <JsonLd data={ORGANIZATION_LD} />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
