@@ -24,7 +24,11 @@ export interface InventoryItem {
   location: string;
   condition: string;
   availability_note: string;
-  /** Image paths under /public. Empty = render the archive placeholder. */
+  /**
+   * Image paths under /public — drop files in public/inventory and reference
+   * them here, e.g. ["/inventory/rc-002-1.jpg"]. Empty = render the generated
+   * archive-scan placeholder.
+   */
   images: string[];
   /** Optional hand-picked related item ids. Falls back to tag/category overlap. */
   related_items?: string[];

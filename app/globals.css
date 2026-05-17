@@ -16,9 +16,9 @@
   --accent: #ff5a1f;
   --accent-press: #e64a12;
 
-  --tape: #5b7f37;
+  --tape: #5f8338;
   --tape-edge: #45622a;
-  --tape-ink: #14160e;
+  --tape-ink: #131509;
 
   --font-sans: "Helvetica Neue", Helvetica, Arial, "Segoe UI", system-ui,
     sans-serif;
@@ -117,26 +117,31 @@ h4 {
   display: inline-block;
   font-family: var(--marker);
   font-weight: 400;
-  background: var(--tape);
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.05) 0 2px,
-    rgba(255, 255, 255, 0.03) 2px 4px
-  );
+  background-color: var(--tape);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.16));
   color: var(--tape-ink);
-  padding: 0.34em 0.95em 0.26em;
+  padding: 0.42em 1.05em 0.32em;
   font-size: 0.95rem;
-  line-height: 1.15;
+  line-height: 1.1;
   letter-spacing: 0.01em;
   white-space: nowrap;
-  box-shadow:
-    0 2px 5px rgba(0, 0, 0, 0.5),
-    inset 0 0 16px rgba(0, 0, 0, 0.22);
-  border-left: 1px solid rgba(0, 0, 0, 0.25);
-  border-right: 1px solid rgba(0, 0, 0, 0.25);
+  clip-path: polygon(
+    1% 7%,
+    4% 0%,
+    97% 5%,
+    100% 11%,
+    99% 93%,
+    96% 100%,
+    3% 96%,
+    0% 89%
+  );
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.55));
 }
 .tape--orange {
-  background: var(--accent);
+  background-color: var(--accent);
   color: #0c0c0d;
 }
 
@@ -328,38 +333,89 @@ h4 {
 /* ---------- Hero ---------- */
 
 .hero {
+  position: relative;
+  overflow: hidden;
   border-bottom: 1px solid var(--line);
   background:
     radial-gradient(
-      900px 360px at 12% -10%,
-      rgba(255, 90, 31, 0.13),
+      900px 380px at 12% -10%,
+      rgba(255, 90, 31, 0.14),
       transparent 70%
     ),
     var(--bg);
-  padding: 84px 0 64px;
+  padding: 88px 0 68px;
+}
+.hero__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: 0.45;
+  -webkit-mask-image: linear-gradient(170deg, #000, transparent 80%);
+  mask-image: linear-gradient(170deg, #000, transparent 80%);
+  pointer-events: none;
+}
+.hero__mark {
+  position: absolute;
+  right: -70px;
+  top: 36px;
+  color: var(--accent);
+  opacity: 0.07;
+  pointer-events: none;
+}
+.hero__inner {
+  position: relative;
 }
 .hero__tape {
   margin-bottom: 26px;
 }
 .hero__title {
-  font-size: clamp(2.6rem, 8vw, 5.4rem);
+  font-size: clamp(2.6rem, 8vw, 5.6rem);
   letter-spacing: -0.04em;
 }
 .hero__lead {
-  max-width: 620px;
-  margin-top: 24px;
+  max-width: 600px;
+  margin-top: 22px;
   font-size: 1.12rem;
   color: #cfcfca;
 }
-.hero__note {
-  margin-top: 20px;
+.hero__readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  margin-top: 34px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  width: fit-content;
+  max-width: 100%;
+}
+.hero__stat {
+  background: var(--bg);
+  padding: 13px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 132px;
+}
+.hero__stat--wide {
+  min-width: 0;
+}
+.hero__stat-k {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.63rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.14em;
   color: var(--muted);
-  border-left: 2px solid var(--accent);
-  padding-left: 12px;
+}
+.hero__stat-v {
+  font-family: var(--font-mono);
+  font-size: 0.96rem;
+  color: var(--text);
+}
+.hero__stat--wide .hero__stat-v {
+  color: var(--accent);
 }
 
 /* ---------- Sections ---------- */

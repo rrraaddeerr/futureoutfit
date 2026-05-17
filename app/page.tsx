@@ -2,7 +2,9 @@ import Link from "next/link";
 import { CtaGrid } from "@/components/CtaGrid";
 import { ItemCard } from "@/components/ItemCard";
 import { TapeLabel } from "@/components/TapeLabel";
-import { getFeaturedItems } from "@/lib/inventory";
+import { TruckMark } from "@/components/TruckMark";
+import { getAllItems, getFeaturedItems } from "@/lib/inventory";
+import { practicalCategories } from "@/lib/categories";
 
 const FEATURED_CATEGORIES = [
   { label: "Seating", q: "category=Seating" },
@@ -21,11 +23,21 @@ const FEATURED_CATEGORIES = [
 
 export default function HomePage() {
   const featured = getFeaturedItems(6);
+  const itemCount = getAllItems().length;
+
+  const readout = [
+    { k: "Objects indexed", v: String(itemCount) },
+    { k: "Categories", v: String(practicalCategories.length) },
+    { k: "Operator", v: "RaderENT" },
+    { k: "HQ", v: "Vancouver" },
+  ];
 
   return (
     <>
       <section className="hero">
-        <div className="wrap">
+        <div className="hero__grid" aria-hidden="true" />
+        <TruckMark size={420} className="hero__mark" />
+        <div className="wrap hero__inner">
           <TapeLabel className="hero__tape" rotate={-2}>
             Operated by RaderENT // Vancouver
           </TapeLabel>
@@ -35,15 +47,23 @@ export default function HomePage() {
             Source the <span className="hot">impossible</span>.
           </h1>
           <p className="hero__lead">
-            Rental, sourcing, and infrastructure for culture. rent.co is the
-            archive and logistics layer for the people who build culture
-            physically — touring, fashion, nightlife, festivals, film, and
-            everything that needs a real room.
+            Rental, sourcing, and infrastructure for culture — the archive and
+            logistics layer for everyone who builds culture physically. Touring,
+            fashion, nightlife, festivals, film, and anything that needs a real
+            room.
           </p>
-          <p className="hero__note">
-            Manual inquiry platform — not a checkout. Every request is read and
-            confirmed by a person.
-          </p>
+          <div className="hero__readout" role="list">
+            {readout.map((r) => (
+              <div className="hero__stat" role="listitem" key={r.k}>
+                <span className="hero__stat-k">{r.k}</span>
+                <span className="hero__stat-v">{r.v}</span>
+              </div>
+            ))}
+            <div className="hero__stat hero__stat--wide" role="listitem">
+              <span className="hero__stat-k">Mode</span>
+              <span className="hero__stat-v">Manual inquiry — no checkout</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -79,7 +99,7 @@ export default function HomePage() {
           <SectionHead
             tape="From the archive"
             title="Featured objects"
-            note="A curated subset, manually verified. Availability is confirmed by hand — nothing here is a live cart."
+            note="A manually verified subset of the inventory. Availability is confirmed by hand — never a live count, never a checkout."
             action={{ href: "/archive", label: "Browse all" }}
           />
           <div className="grid">
