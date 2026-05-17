@@ -197,6 +197,8 @@ export function ArchiveBrowser({
           )}
         </div>
 
+        <h2 className="sr-only">Inventory results</h2>
+
         {results.length === 0 ? (
           <div className="empty">
             <h3>Nothing matches that yet.</h3>

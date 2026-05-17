@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -54,6 +54,17 @@ export const metadata: Metadata = {
     siteName: "rent.co",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "rent.co — Rental, sourcing, and infrastructure for culture",
+    description:
+      "An inquiry-based rental and archive platform for curated physical inventory. Operated by RaderENT.",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0c0c0d",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
