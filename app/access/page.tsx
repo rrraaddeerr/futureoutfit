@@ -32,13 +32,15 @@ function chunk<T>(arr: T[], rows: number): T[][] {
 export default async function AccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ from?: string }>;
+  searchParams: Promise<{ from?: string; code?: string }>;
 }) {
-  const { from } = await searchParams;
+  const { from, code } = await searchParams;
   const dest =
     typeof from === "string" && from.startsWith("/") && !from.startsWith("/access")
       ? from
       : "/";
+  const initialCode =
+    typeof code === "string" ? code.replace(/[^A-Za-z0-9_-]/g, "").slice(0, 64) : "";
 
   const rows = chunk(shuffled(), 3);
   const directions = ["left", "right", "left"] as const;
@@ -83,7 +85,7 @@ export default async function AccessPage({
             step inside.
           </p>
 
-          <AccessForm from={dest} />
+          <AccessForm from={dest} initialCode={initialCode} />
 
           <p className="access-screen__footnote">
             No code?{" "}

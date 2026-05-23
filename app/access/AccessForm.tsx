@@ -3,9 +3,15 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
-export function AccessForm({ from }: { from: string }) {
+export function AccessForm({
+  from,
+  initialCode = "",
+}: {
+  from: string;
+  initialCode?: string;
+}) {
   const router = useRouter();
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(initialCode);
   const [status, setStatus] = useState<
     | { kind: "idle" }
     | { kind: "submitting" }
