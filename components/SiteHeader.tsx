@@ -1,10 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart";
 import { BrandStamp } from "./BrandStamp";
+
+function useGuestLabel(): string | null {
+  const [label, setLabel] = useState<string | null>(null);
+  useEffect(() => {
+    const m = document.cookie.match(/(?:^|;\s*)rentco_guest=([^;]+)/);
+    if (m) {
+      try {
+        setLabel(decodeURIComponent(m[1]));
+      } catch {
+        setLabel(m[1]);
+      }
+    }
+  }, []);
+  return label;
+}
 
 const NAV = [
   { href: "/archive", label: "Archive" },
@@ -18,6 +33,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const count = useCart((s) => s.ids.length);
   const hydrated = useCart((s) => s.hydrated);
+  const guest = useGuestLabel();
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -51,6 +67,17 @@ export function SiteHeader() {
             <span className="site-nav__count">{hydrated ? count : 0}</span>
           </Link>
         </nav>
+
+        {guest ? (
+          <div
+            className="site-header__guest"
+            aria-label={`Signed in as ${guest}`}
+            title={`Invited as ${guest}`}
+          >
+            <span className="site-header__guest-prefix">OPERATOR //</span>{" "}
+            <span className="site-header__guest-name">{guest}</span>
+          </div>
+        ) : null}
 
         <button
           type="button"
