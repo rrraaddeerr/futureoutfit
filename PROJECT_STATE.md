@@ -25,12 +25,19 @@ music / fashion / nightlife / festival / film world.
 ## Where it's deployed
 
 - **GitHub repo:** [rrraaddeerr/Rader1](https://github.com/rrraaddeerr/Rader1)
-- **Working branch:** `claude/build-rentco-mvp-LNT1S`
-- **Production branch:** `main` (force-pushed from working branch when shipping)
-- **Vercel project:** `mvp` under team `rentco`
-- **Current public URL:** `https://mvp-rentco.vercel.app`
+- **Working branch:** `claude/build-rentco-mvp-LNT1S` (drives PR #1)
+- **Vercel "Production Branch":** `claude/photo-purge-swipe-app-Mm7sH` (legacy
+  name from the original Expo project Vercel was first wired to). To ship to
+  production, fast-forward this branch from `main`:
+  `git push origin origin/main:refs/heads/claude/photo-purge-swipe-app-Mm7sH`.
+  Pushing to `main` alone only creates Vercel previews.
+- **Vercel project:** `mvp` (repo `rrraaddeerr/Rader1`)
+- **Current public URL:** `https://mvp-hazel-omega.vercel.app`
 - **Domain to attach:** `r-ent.co` (GoDaddy customer #117122741)
 - **Pull request:** [#1](https://github.com/rrraaddeerr/Rader1/pull/1)
+- **TODO when convenient:** in Vercel → mvp project → Settings → scroll for
+  the Git/Production-Branch setting, change Production Branch to `main` so we
+  can drop the photo-purge fast-forward step.
 
 ## Inventory
 
@@ -125,7 +132,18 @@ Resume-safe: re-runs skip photos already on disk.
 
 ## Deploy
 
-Push to `main` → Vercel auto-builds and ships in ~90 seconds.
+```bash
+# 1. Push working branch (updates PR #1, creates a Vercel preview)
+git push origin claude/build-rentco-mvp-LNT1S
+
+# 2. Fast-forward main from the working branch
+git push origin claude/build-rentco-mvp-LNT1S:main
+
+# 3. Ship to production (Vercel only auto-deploys this branch)
+git push origin origin/main:refs/heads/claude/photo-purge-swipe-app-Mm7sH
+```
+
+Production rebuilds in ~90 seconds.
 
 ## Domain setup (when ready)
 
