@@ -6,7 +6,8 @@ export const alt = "rent.co — Rental, sourcing, and infrastructure for culture
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const TRUCK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="#ff5a1f" stroke-width="2.4" stroke-linecap="square"><path d="M2 8h17v13H2z"/><path d="M19 13h6l5 5v3h-11z"/><circle cx="9" cy="24" r="3"/><circle cx="24" cy="24" r="3"/></svg>`;
+// Box truck with a lit firecracker mounted on the box — the operator mark.
+const TRUCK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none" stroke="#ff5a1f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13h17v12H2z"/><path d="M19 16h6l5 5v4h-11z"/><circle cx="9" cy="27" r="2.5"/><circle cx="24" cy="27" r="2.5"/><rect x="8" y="16" width="5" height="7"/><path d="M8 16l2.5 -2 2.5 2"/><path d="M10.5 14 Q12 12 11 10 Q9.5 8 11 6 Q12.5 4 11 2"/><circle cx="11" cy="2" r="1" fill="#ff5a1f"/></svg>`;
 const truckUri = `data:image/svg+xml;base64,${Buffer.from(TRUCK).toString("base64")}`;
 
 export default async function OpengraphImage() {
