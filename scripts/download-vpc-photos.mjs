@@ -115,7 +115,25 @@ async function downloadOne(drive, barcode, fileId, attempt = 1) {
 
 async function main() {
   const auth = await loadAuth();
+
+  // Some Google APIs reject OAuth-only calls without a quota project header.
+  // Read project_id from credentials.json and apply it to every request.
+  const creds = JSON.parse(readFileSync(CREDS_PATH, "utf8"));
+  const projectId = (creds.installed ?? creds.web).project_id;
+  google.options({ headers: { "x-goog-user-project": projectId } });
+
   const drive = google.drive({ version: "v3", auth });
+
+  // Auth probe — surfaces clear errors if the token or scopes are wrong.
+  try {
+    const probe = await drive.about.get({ fields: "user(emailAddress)" });
+    console.log(`auth ok — signed in as ${probe.data.user.emailAddress}`);
+  } catch (err) {
+    console.error("\nauth probe failed:", err.errors?.[0]?.message ?? err.message);
+    console.error("Fix: delete scripts/token.json and re-run to redo OAuth.");
+    console.error(`When the browser opens, make sure you sign in with the Drive owner — rt@raderturner.com (NOT a different Google account).`);
+    process.exit(1);
+  }
 
   mkdirSync(OUT_DIR, { recursive: true });
   const inv = JSON.parse(readFileSync(INVENTORY, "utf8"));
