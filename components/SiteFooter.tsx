@@ -1,9 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BrandStamp } from "./BrandStamp";
 
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@r-ent.co";
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  if (pathname === "/access") return null;
+
   return (
     <footer className="site-footer">
       <div className="site-footer__grid">

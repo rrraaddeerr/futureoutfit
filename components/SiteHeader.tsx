@@ -22,6 +22,8 @@ export function SiteHeader() {
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(href + "/");
 
+  if (pathname === "/access") return null;
+
   return (
     <header className="site-header">
       <div className="site-header__bar">

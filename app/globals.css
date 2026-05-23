@@ -1396,3 +1396,213 @@ textarea.field__control {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   Access gate — pre-launch invite screen
+   ============================================================ */
+
+.access-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 56px 24px 28px;
+  background:
+    radial-gradient(
+      1200px 700px at 50% -10%,
+      rgba(255, 90, 31, 0.07),
+      transparent 60%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.012) 0px,
+      rgba(255, 255, 255, 0.012) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    var(--bg);
+  color: var(--text);
+}
+
+.access-screen__card {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: auto 0;
+}
+
+.access-screen__stamp {
+  margin-bottom: 28px;
+  filter: drop-shadow(0 0 24px rgba(255, 90, 31, 0.12));
+}
+
+.access-screen__meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.access-screen__title {
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  margin-bottom: 18px;
+}
+
+.access-screen__copy {
+  font-size: 16px;
+  color: #c9c9c4;
+  max-width: 380px;
+  margin: 0 auto 28px;
+}
+
+.access-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.access-form__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.access-form__row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.access-form__input {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--line-2);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  letter-spacing: 3px;
+  padding: 16px 18px;
+  text-transform: uppercase;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 120ms ease, background 120ms ease;
+  min-width: 0;
+}
+
+.access-form__input::placeholder {
+  color: #4d4d50;
+  letter-spacing: 3px;
+}
+
+.access-form__input:focus {
+  border-color: var(--accent);
+  background: #1a1a1c;
+}
+
+.access-form__input[aria-invalid="true"] {
+  border-color: var(--accent);
+}
+
+.access-form__submit {
+  background: var(--tape);
+  color: var(--tape-ink);
+  border: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0 22px;
+  cursor: pointer;
+  transform: rotate(-1.4deg);
+  transition: transform 120ms ease, background 120ms ease;
+  white-space: nowrap;
+}
+
+.access-form__submit:hover:not(:disabled) {
+  background: #6b9341;
+  transform: rotate(-1.4deg) translateY(-1px);
+}
+
+.access-form__submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.access-form__error {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent);
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+.access-form--welcome {
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 18px 0;
+}
+
+.access-form__welcome-label {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.access-form__welcome-sub {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.access-screen__footnote {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.access-screen__footnote a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.access-screen__base {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #56565a;
+  text-transform: uppercase;
+  text-align: center;
+  padding-top: 32px;
+}
+
+@media (max-width: 480px) {
+  .access-form__row {
+    flex-direction: column;
+  }
+  .access-form__submit {
+    padding: 14px 22px;
+  }
+}
