@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { JsonLd } from "@/components/JsonLd";
+import { WelcomeFlash } from "@/components/WelcomeFlash";
 import "./globals.css";
 
 const ORGANIZATION_LD = {
@@ -87,6 +88,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteHeader />
+        <WelcomeFlash />
         <main id="main">{children}</main>
         <SiteFooter />
       </body>
