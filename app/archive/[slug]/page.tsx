@@ -10,6 +10,7 @@ import {
 import { sourceOwnerLabels } from "@/lib/categories";
 import { ItemPlaceholder } from "@/components/ItemPlaceholder";
 import { ItemCard } from "@/components/ItemCard";
+import { ItemGallery } from "@/components/ItemGallery";
 import { AddToRequestButton } from "@/components/AddToRequestButton";
 import { TapeLabel } from "@/components/TapeLabel";
 import { JsonLd } from "@/components/JsonLd";
@@ -76,8 +77,7 @@ export default async function ItemPage({ params }: Params) {
         <div className="item__top">
           <div className="item__media">
             {item.images.length > 0 ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={item.images[0]} alt={item.title} />
+              <ItemGallery images={item.images} title={item.title} />
             ) : (
               <ItemPlaceholder item={item} />
             )}
