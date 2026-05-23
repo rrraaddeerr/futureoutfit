@@ -83,6 +83,14 @@ links still unfurl with the brand teaser.
   comma-separated. The label is the name that greets the visitor.
 - **Default** (if unset): `operator:Operator,launch:Launch`.
 - **Cookie lifetime:** 60 days.
+- **Two ways to invite someone:**
+  - Direct gate link: `https://mvp-hazel-omega.vercel.app/access` (visitor
+    types their code)
+  - Personal link: `https://mvp-hazel-omega.vercel.app/i/<code>` (visitor
+    taps once, lands on home with cookie already set — feels personal)
+- **What invited visitors see:**
+  - One-time "Welcome, <name>." flash banner on the first page after entry
+  - Persistent `OPERATOR // <NAME>` badge in the site header
 - **Disable the gate** at full launch: delete `middleware.ts`,
   `app/access/`, `app/api/access/`, and the access CSS block at the
   bottom of `app/globals.css`.
