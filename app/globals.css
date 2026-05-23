@@ -1402,6 +1402,107 @@ textarea.field__control {
    ============================================================ */
 
 .access-screen {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.access-screen__marquee {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
+
+.access-marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.access-marquee__track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: access-marquee-left var(--speed, 90s) linear infinite;
+  will-change: transform;
+}
+
+.access-marquee--right .access-marquee__track {
+  animation-name: access-marquee-right;
+}
+
+.access-marquee__cell {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  background: #161617;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.access-marquee__cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes access-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes access-marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.access-screen__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      640px 460px at 50% 50%,
+      rgba(12, 12, 13, 0.96) 0%,
+      rgba(12, 12, 13, 0.88) 38%,
+      rgba(12, 12, 13, 0.6) 70%,
+      rgba(12, 12, 13, 0.2) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(12, 12, 13, 0.5) 0%,
+      rgba(12, 12, 13, 0.1) 30%,
+      rgba(12, 12, 13, 0.1) 70%,
+      rgba(12, 12, 13, 0.5) 100%
+    );
+}
+
+.access-screen__inner {
+  position: relative;
+  z-index: 2;
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
@@ -1410,21 +1511,6 @@ textarea.field__control {
   justify-content: space-between;
   align-items: center;
   padding: 56px 24px 28px;
-  background:
-    radial-gradient(
-      1200px 700px at 50% -10%,
-      rgba(255, 90, 31, 0.07),
-      transparent 60%
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.012) 0px,
-      rgba(255, 255, 255, 0.012) 1px,
-      transparent 1px,
-      transparent 4px
-    ),
-    var(--bg);
-  color: var(--text);
 }
 
 .access-screen__card {
@@ -1435,6 +1521,11 @@ textarea.field__control {
   align-items: center;
   text-align: center;
   margin: auto 0;
+  background: rgba(12, 12, 13, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 40px 32px 36px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .access-screen__stamp {
@@ -1604,5 +1695,18 @@ textarea.field__control {
   }
   .access-form__submit {
     padding: 14px 22px;
+  }
+  .access-marquee__cell {
+    width: 130px;
+    height: 130px;
+  }
+  .access-screen__card {
+    padding: 32px 22px 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .access-marquee__track {
+    animation: none;
   }
 }
