@@ -12,6 +12,7 @@ import { ItemPlaceholder } from "@/components/ItemPlaceholder";
 import { ItemCard } from "@/components/ItemCard";
 import { ItemGallery } from "@/components/ItemGallery";
 import { AddToRequestButton } from "@/components/AddToRequestButton";
+import { ShareButton } from "@/components/ShareButton";
 import { TapeLabel } from "@/components/TapeLabel";
 import { JsonLd } from "@/components/JsonLd";
 
@@ -111,7 +112,10 @@ export default async function ItemPage({ params }: Params) {
               Availability is not guaranteed live. {item.availability_note}
             </p>
 
-            <AddToRequestButton itemId={item.id} variant="full" />
+            <div className="item__actions">
+              <AddToRequestButton itemId={item.id} variant="full" />
+              <ShareButton label="Share this object" />
+            </div>
 
             <table className="spec">
               <tbody>
