@@ -62,6 +62,23 @@ music / fashion / nightlife / festival / film world.
 - `components/BrandStamp.tsx` — the hand-drawn logo (static SVG, no runtime rough.js)
 - `lib/inventory.ts` — data access, facets, related-item logic
 - `lib/cart.ts` — zustand store, localStorage-persisted
+- `middleware.ts` + `app/access/` + `app/api/access/route.ts` — pre-launch invite gate (cookie-based)
+
+## Pre-launch invite gate
+
+The whole site is gated behind `/access` during soft launch. Anyone
+without a valid `rentco_access` cookie gets redirected to the gate.
+Static assets, robots, sitemap, and OG images stay public so shared
+links still unfurl with the brand teaser.
+
+- **Configure codes** via the `ACCESS_CODES` env var on Vercel:
+  `alex:Alex,sam:Sam,marcus:Marcus,vip:VIP` — `code:Label` pairs,
+  comma-separated. The label is the name that greets the visitor.
+- **Default** (if unset): `operator:Operator,launch:Launch`.
+- **Cookie lifetime:** 60 days.
+- **Disable the gate** at full launch: delete `middleware.ts`,
+  `app/access/`, `app/api/access/`, and the access CSS block at the
+  bottom of `app/globals.css`.
 
 ## Decisions made (and why)
 
