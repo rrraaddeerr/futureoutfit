@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Battleship: Strait of Hormuz</title>
+<link rel="stylesheet" href="styles.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="ui">
+  <header id="topbar">
+    <div class="title">USN <span class="vs">vs</span> IRIN — STRAIT OF HORMUZ</div>
+    <div id="phase">PHASE: DEPLOY</div>
+    <div id="turn">TURN: —</div>
+  </header>
+
+  <aside id="sidebar">
+    <section class="panel" id="briefing">
+      <h2>OPERATIONS BRIEFING</h2>
+      <p>You command <b>CTF 50</b>, a US carrier strike group transiting the Strait of Hormuz.
+      Iranian asymmetric forces hold the chokepoint. They strike first and harder.</p>
+      <ul class="bullets">
+        <li><b>Enemy doctrine:</b> swarm boats, shore-launched ASCMs, mines, midget subs.</li>
+        <li><b>Enemy edge:</b> +1 salvo per turn, smaller silhouettes, hidden mine field.</li>
+        <li><b>Your edge:</b> aviation recon (one free reveal scan / 3 turns).</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="fleetUS">
+      <h2>USN ORDER OF BATTLE</h2>
+      <ul id="usFleetList"></ul>
+    </section>
+
+    <section class="panel" id="fleetIR">
+      <h2>IRIN / IRGCN (ENEMY)</h2>
+      <ul id="irFleetList"></ul>
+    </section>
+
+    <section class="panel" id="log">
+      <h2>COMBAT LOG</h2>
+      <div id="logList"></div>
+    </section>
+  </aside>
+
+  <div id="actions">
+    <button id="btnRotate" title="R">ROTATE</button>
+    <button id="btnRandom">RANDOM DEPLOY</button>
+    <button id="btnReady" class="primary">READY · BEGIN</button>
+    <button id="btnRecon" class="recon" disabled>RECON SCAN (0)</button>
+    <button id="btnRestart" hidden>NEW MISSION</button>
+  </div>
+
+  <div id="hint">Click cells on the <b>USN board</b> to place. Press R to rotate. Right-click cancels.</div>
+
+  <div id="endcard" hidden>
+    <div class="card">
+      <h1 id="endTitle">VICTORY</h1>
+      <p id="endBody"></p>
+      <button id="endRestart">NEW MISSION</button>
+    </div>
+  </div>
+</div>
+
+<canvas id="scene"></canvas>
+
+<script type="module" src="game.js"></script>
+</body>
+</html>
