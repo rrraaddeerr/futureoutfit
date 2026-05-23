@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/cart";
-import { TruckMark } from "./TruckMark";
+import { BrandStamp } from "./BrandStamp";
 
 const NAV = [
   { href: "/archive", label: "Archive" },
@@ -25,10 +25,8 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header__bar">
-        <Link href="/" className="brand" onClick={() => setOpen(false)}>
-          <TruckMark size={26} />
-          <span className="brand__name">rent.co</span>
-          <span className="brand__by">by RaderENT</span>
+        <Link href="/" className="brand" onClick={() => setOpen(false)} aria-label="rent.co — home">
+          <BrandStamp size={64} className="brand__stamp" />
         </Link>
 
         <nav className={`site-nav ${open ? "site-nav--open" : ""}`}>

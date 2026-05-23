@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/api/",
     },
-    sitemap: "https://rent.co/sitemap.xml",
+    sitemap: "https://r-ent.co/sitemap.xml",
   };
 }

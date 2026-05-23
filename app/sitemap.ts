@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllItems } from "@/lib/inventory";
 
-const BASE = "https://rent.co";
+const BASE = "https://r-ent.co";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = ["", "/archive", "/consult", "/source", "/about", "/request"].map(

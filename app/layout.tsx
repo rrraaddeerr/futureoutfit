@@ -12,7 +12,7 @@ const ORGANIZATION_LD = {
   alternateName: "RaderENT",
   description:
     "Inquiry-based rental, sourcing, and infrastructure for culture — operated by RaderENT.",
-  url: "https://rent.co",
+  url: "https://r-ent.co",
   areaServed: "Worldwide",
   address: {
     "@type": "PostalAddress",
@@ -29,8 +29,15 @@ const marker = localFont({
   display: "swap",
 });
 
+const rocksalt = localFont({
+  src: "./fonts/RockSalt.ttf",
+  variable: "--font-rocksalt",
+  weight: "400",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rent.co"),
+  metadataBase: new URL("https://r-ent.co"),
   title: {
     default: "rent.co — Rental, sourcing, and infrastructure for culture",
     template: "%s — rent.co",
@@ -73,7 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={marker.variable}>
+    <html lang="en" className={`${marker.variable} ${rocksalt.variable}`}>
       <body>
         <JsonLd data={ORGANIZATION_LD} />
         <a href="#main" className="skip-link">

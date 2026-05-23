@@ -53,7 +53,7 @@ export default async function ItemPage({ params }: Params) {
             price: item.price_day,
             availability: "https://schema.org/LimitedAvailability",
             businessFunction: "http://purl.org/goodrelations/v1#LeaseOut",
-            url: `https://rent.co/archive/${item.slug}`,
+            url: `https://r-ent.co/archive/${item.slug}`,
           },
         }
       : {}),

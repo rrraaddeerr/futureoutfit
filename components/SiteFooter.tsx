@@ -1,17 +1,14 @@
 import Link from "next/link";
-import { TruckMark } from "./TruckMark";
+import { BrandStamp } from "./BrandStamp";
 
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@rent.co";
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@r-ent.co";
 
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-footer__grid">
         <div className="site-footer__brand">
-          <div className="brand">
-            <TruckMark size={24} />
-            <span className="brand__name">rent.co</span>
-          </div>
+          <BrandStamp size={120} className="site-footer__stamp" />
           <p className="site-footer__line">
             Rental, sourcing, and infrastructure for culture.
           </p>
