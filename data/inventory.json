@@ -1106,7 +1106,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208764.jpg"
+    ]
   },
   {
     "id": "vpc-50002181",
@@ -1124,7 +1126,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002181.jpg"
+    ]
   },
   {
     "id": "vpc-50015427",
@@ -1144,7 +1148,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Not Exactly As Pictured. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015427.jpg"
+    ]
   },
   {
     "id": "vpc-TAP002",
@@ -1162,7 +1168,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/TAP002.jpg"
+    ]
   },
   {
     "id": "vpc-118800",
@@ -1183,7 +1191,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118800.jpg"
+    ]
   },
   {
     "id": "vpc-116115",
@@ -1203,7 +1213,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "(Not Identical to Photo). Availability confirmed manually on request.",
-    "images": [],
+    "images": [
+      "/inventory/116115.jpg"
+    ],
     "featured": true
   },
   {
@@ -1224,7 +1236,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002262.jpg"
+    ]
   },
   {
     "id": "vpc-50032697",
@@ -1246,7 +1260,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50032697.jpg"
+    ]
   },
   {
     "id": "vpc-50021649",
@@ -1267,7 +1283,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021649.jpg"
+    ]
   },
   {
     "id": "vpc-50006263",
@@ -1287,7 +1305,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Comes with Choice of Bottle. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006263.jpg"
+    ]
   },
   {
     "id": "vpc-50006496",
@@ -1308,7 +1328,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Condition Not Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006496.jpg"
+    ]
   },
   {
     "id": "vpc-50036545",
@@ -1326,7 +1348,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50036545.jpg"
+    ]
   },
   {
     "id": "vpc-50006508",
@@ -1347,7 +1371,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006508.jpg"
+    ]
   },
   {
     "id": "vpc-115909",
@@ -1367,7 +1393,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115909.jpg"
+    ]
   },
   {
     "id": "vpc-50015420",
@@ -1387,7 +1415,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015420.jpg"
+    ]
   },
   {
     "id": "vpc-TAP001",
@@ -1405,7 +1435,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/TAP001.jpg"
+    ]
   },
   {
     "id": "vpc-70000692",
@@ -1423,7 +1455,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70000692.jpg"
+    ]
   },
   {
     "id": "vpc-207984",
@@ -1443,7 +1477,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207984.jpg"
+    ]
   },
   {
     "id": "vpc-50023956",
@@ -1463,7 +1499,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Condition Not Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50023956.jpg"
+    ]
   },
   {
     "id": "vpc-70006554",
@@ -1485,7 +1523,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Stand Separate. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70006554.jpg"
+    ]
   },
   {
     "id": "vpc-70000221",
@@ -1505,7 +1545,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70000221.jpg"
+    ]
   },
   {
     "id": "vpc-60000444",
@@ -1523,7 +1565,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Comes with Choice of Bottle. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/60000444.jpg"
+    ]
   },
   {
     "id": "vpc-50004918",
@@ -1543,7 +1587,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004918.jpg"
+    ]
   },
   {
     "id": "vpc-50034932",
@@ -1561,7 +1607,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50034932.jpg"
+    ]
   },
   {
     "id": "vpc-50005104",
@@ -1581,7 +1629,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005104.jpg"
+    ]
   },
   {
     "id": "vpc-115517",
@@ -1601,7 +1651,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": [],
+    "images": [
+      "/inventory/115517.jpg"
+    ],
     "featured": true
   },
   {
@@ -1622,7 +1674,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014669.jpg"
+    ]
   },
   {
     "id": "vpc-TAP007",
@@ -1640,7 +1694,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/TAP007.jpg"
+    ]
   },
   {
     "id": "vpc-118792",
@@ -1660,7 +1716,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118792.jpg"
+    ]
   },
   {
     "id": "vpc-50021635",
@@ -1683,7 +1741,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021635.jpg"
+    ]
   },
   {
     "id": "vpc-208845",
@@ -1701,7 +1761,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208845.jpg"
+    ]
   },
   {
     "id": "vpc-50019918",
@@ -1723,7 +1785,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50019918.jpg"
+    ]
   },
   {
     "id": "vpc-70000220",
@@ -1741,7 +1805,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70000220.jpg"
+    ]
   },
   {
     "id": "vpc-50006260",
@@ -1761,7 +1827,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Comes with Choice of Bottle. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006260.jpg"
+    ]
   },
   {
     "id": "vpc-50006410",
@@ -1783,7 +1851,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006410.jpg"
+    ]
   },
   {
     "id": "vpc-50034938",
@@ -1801,7 +1871,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50034938.jpg"
+    ]
   },
   {
     "id": "vpc-70022918",
@@ -1821,7 +1893,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70022918.jpg"
+    ]
   },
   {
     "id": "vpc-115924",
@@ -1842,7 +1916,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115924.jpg"
+    ]
   },
   {
     "id": "vpc-50014678",
@@ -1863,7 +1939,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014678.jpg"
+    ]
   },
   {
     "id": "vpc-TAP004",
@@ -1881,7 +1959,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/TAP004.jpg"
+    ]
   },
   {
     "id": "vpc-118790",
@@ -1902,7 +1982,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": [],
+    "images": [
+      "/inventory/118790.jpg"
+    ],
     "featured": true
   },
   {
@@ -1926,7 +2008,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021634.jpg"
+    ]
   },
   {
     "id": "vpc-50002269",
@@ -1946,7 +2030,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002269.jpg"
+    ]
   },
   {
     "id": "vpc-317725",
@@ -1966,7 +2052,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/317725.jpg"
+    ]
   },
   {
     "id": "vpc-50005575",
@@ -1986,7 +2074,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005575.jpg"
+    ]
   },
   {
     "id": "vpc-50026588",
@@ -2006,7 +2096,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Comes with Blue Plastic Water Tank. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026588.jpg"
+    ]
   },
   {
     "id": "vpc-50004021",
@@ -2027,7 +2119,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004021.jpg"
+    ]
   },
   {
     "id": "vpc-50036505",
@@ -2045,7 +2139,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50036505.jpg"
+    ]
   },
   {
     "id": "vpc-50023388",
@@ -2063,7 +2159,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50023388.jpg"
+    ]
   },
   {
     "id": "vpc-116053",
@@ -2083,7 +2181,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116053.jpg"
+    ]
   },
   {
     "id": "vpc-50014679",
@@ -2103,7 +2203,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014679.jpg"
+    ]
   },
   {
     "id": "vpc-TAP003",
@@ -2121,7 +2223,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/TAP003.jpg"
+    ]
   },
   {
     "id": "vpc-319172",
@@ -2139,7 +2243,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/319172.jpg"
+    ]
   },
   {
     "id": "vpc-50015970",
@@ -2157,7 +2263,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015970.jpg"
+    ]
   },
   {
     "id": "vpc-50042975",
@@ -2177,7 +2285,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50042975.jpg"
+    ]
   },
   {
     "id": "vpc-50005072",
@@ -2195,7 +2305,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005072.jpg"
+    ]
   },
   {
     "id": "vpc-50026727",
@@ -2217,7 +2329,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026727.jpg"
+    ]
   },
   {
     "id": "vpc-303359",
@@ -2238,7 +2352,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/303359.jpg"
+    ]
   },
   {
     "id": "vpc-50036498",
@@ -2256,7 +2372,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50036498.jpg"
+    ]
   },
   {
     "id": "vpc-50021830",
@@ -2278,7 +2396,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021830.jpg"
+    ]
   },
   {
     "id": "vpc-50062253",
@@ -2296,7 +2416,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50062253.jpg"
+    ]
   },
   {
     "id": "vpc-50014786",
@@ -2316,7 +2438,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014786.jpg"
+    ]
   },
   {
     "id": "vpc-10244156",
@@ -2337,7 +2461,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/10244156.jpg"
+    ]
   },
   {
     "id": "vpc-50032586",
@@ -2357,7 +2483,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Condition Not Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50032586.jpg"
+    ]
   },
   {
     "id": "vpc-118985",
@@ -2378,7 +2506,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118985.jpg"
+    ]
   },
   {
     "id": "vpc-50066716",
@@ -2396,7 +2526,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50066716.jpg"
+    ]
   },
   {
     "id": "vpc-118964",
@@ -2417,7 +2549,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118964.jpg"
+    ]
   },
   {
     "id": "vpc-320328",
@@ -2438,7 +2572,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/320328.jpg"
+    ]
   },
   {
     "id": "vpc-50006640",
@@ -2458,7 +2594,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006640.jpg"
+    ]
   },
   {
     "id": "vpc-50036469",
@@ -2476,7 +2614,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50036469.jpg"
+    ]
   },
   {
     "id": "vpc-115147",
@@ -2494,7 +2634,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115147.jpg"
+    ]
   },
   {
     "id": "vpc-70001631",
@@ -2512,7 +2654,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70001631.jpg"
+    ]
   },
   {
     "id": "vpc-50014787",
@@ -2533,7 +2677,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014787.jpg"
+    ]
   },
   {
     "id": "vpc-TAP005",
@@ -2551,7 +2697,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/TAP005.jpg"
+    ]
   },
   {
     "id": "vpc-50061254",
@@ -2571,7 +2719,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50061254.jpg"
+    ]
   },
   {
     "id": "vpc-50020230",
@@ -2589,7 +2739,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50020230.jpg"
+    ]
   },
   {
     "id": "vpc-50015093",
@@ -2607,7 +2759,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015093.jpg"
+    ]
   },
   {
     "id": "vpc-118633",
@@ -2630,7 +2784,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118633.jpg"
+    ]
   },
   {
     "id": "vpc-50001339",
@@ -2650,7 +2806,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50001339.jpg"
+    ]
   },
   {
     "id": "vpc-50004367",
@@ -2670,7 +2828,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004367.jpg"
+    ]
   },
   {
     "id": "vpc-50035334",
@@ -2688,7 +2848,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50035334.jpg"
+    ]
   },
   {
     "id": "vpc-208512",
@@ -2706,7 +2868,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208512.jpg"
+    ]
   },
   {
     "id": "vpc-50011738",
@@ -2724,7 +2888,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011738.jpg"
+    ]
   },
   {
     "id": "vpc-60000266",
@@ -2742,7 +2908,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/60000266.jpg"
+    ]
   },
   {
     "id": "vpc-TAP006",
@@ -2760,7 +2928,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/TAP006.jpg"
+    ]
   },
   {
     "id": "vpc-118794",
@@ -2780,7 +2950,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118794.jpg"
+    ]
   },
   {
     "id": "vpc-376085",
@@ -2801,7 +2973,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/376085.jpg"
+    ]
   },
   {
     "id": "vpc-50031799",
@@ -2819,7 +2993,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031799.jpg"
+    ]
   },
   {
     "id": "vpc-208941",
@@ -2842,7 +3018,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208941.jpg"
+    ]
   },
   {
     "id": "vpc-50031393",
@@ -2860,7 +3038,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031393.jpg"
+    ]
   },
   {
     "id": "vpc-206338",
@@ -2882,7 +3062,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Paint Condition Not Identical to Photo. Availability confirmed manually on request.",
-    "images": [],
+    "images": [
+      "/inventory/206338.jpg"
+    ],
     "featured": true
   },
   {
@@ -2903,7 +3085,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50039319.jpg"
+    ]
   },
   {
     "id": "vpc-116533",
@@ -2921,7 +3105,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116533.jpg"
+    ]
   },
   {
     "id": "vpc-50025589",
@@ -2941,7 +3127,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025589.jpg"
+    ]
   },
   {
     "id": "vpc-60001817",
@@ -2961,7 +3149,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Productions May Add Decals or Removeable Graphics. Stored in Yard. Condition & Graphics May Not Be Identical to Photo.. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/60001817.jpg"
+    ]
   },
   {
     "id": "vpc-50061900",
@@ -2979,7 +3169,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50061900.jpg"
+    ]
   },
   {
     "id": "vpc-50012978",
@@ -2999,7 +3191,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012978.jpg"
+    ]
   },
   {
     "id": "vpc-208509",
@@ -3017,7 +3211,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208509.jpg"
+    ]
   },
   {
     "id": "vpc-50031800",
@@ -3035,7 +3231,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031800.jpg"
+    ]
   },
   {
     "id": "vpc-313174",
@@ -3055,7 +3253,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/313174.jpg"
+    ]
   },
   {
     "id": "vpc-50031910",
@@ -3076,7 +3276,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031910.jpg"
+    ]
   },
   {
     "id": "vpc-50004303",
@@ -3098,7 +3300,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004303.jpg"
+    ]
   },
   {
     "id": "vpc-119478",
@@ -3118,7 +3322,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/119478.jpg"
+    ]
   },
   {
     "id": "vpc-206978",
@@ -3136,7 +3342,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206978.jpg"
+    ]
   },
   {
     "id": "vpc-115518",
@@ -3157,7 +3365,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115518.jpg"
+    ]
   },
   {
     "id": "vpc-50015502",
@@ -3175,7 +3385,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015502.jpg"
+    ]
   },
   {
     "id": "vpc-10233279",
@@ -3195,7 +3407,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/10233279.jpg"
+    ]
   },
   {
     "id": "vpc-50012981",
@@ -3215,7 +3429,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012981.jpg"
+    ]
   },
   {
     "id": "vpc-208379",
@@ -3235,7 +3451,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208379.jpg"
+    ]
   },
   {
     "id": "vpc-50031798",
@@ -3253,7 +3471,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031798.jpg"
+    ]
   },
   {
     "id": "vpc-206305",
@@ -3271,7 +3491,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206305.jpg"
+    ]
   },
   {
     "id": "vpc-50026773",
@@ -3292,7 +3514,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "This Item Is Not to Be Painted. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026773.jpg"
+    ]
   },
   {
     "id": "vpc-50002460",
@@ -3314,7 +3538,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002460.jpg"
+    ]
   },
   {
     "id": "vpc-50037880",
@@ -3334,7 +3560,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50037880.jpg"
+    ]
   },
   {
     "id": "vpc-206972",
@@ -3352,7 +3580,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206972.jpg"
+    ]
   },
   {
     "id": "vpc-50001390",
@@ -3370,7 +3600,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50001390.jpg"
+    ]
   },
   {
     "id": "vpc-50015550",
@@ -3390,7 +3622,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015550.jpg"
+    ]
   },
   {
     "id": "vpc-10236559",
@@ -3410,7 +3644,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/10236559.jpg"
+    ]
   },
   {
     "id": "vpc-50004650",
@@ -3428,7 +3664,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Large Quantity Set, Actual Condition May Vary. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004650.jpg"
+    ]
   },
   {
     "id": "vpc-304949",
@@ -3448,7 +3686,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/304949.jpg"
+    ]
   },
   {
     "id": "vpc-208203",
@@ -3468,7 +3708,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": [],
+    "images": [
+      "/inventory/208203.jpg"
+    ],
     "featured": true
   },
   {
@@ -3489,7 +3731,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015857.jpg"
+    ]
   },
   {
     "id": "vpc-50032024",
@@ -3510,7 +3754,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50032024.jpg"
+    ]
   },
   {
     "id": "vpc-50051470",
@@ -3530,7 +3776,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50051470.jpg"
+    ]
   },
   {
     "id": "vpc-50037879",
@@ -3550,7 +3798,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50037879.jpg"
+    ]
   },
   {
     "id": "vpc-208774",
@@ -3568,7 +3818,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208774.jpg"
+    ]
   },
   {
     "id": "vpc-50004113",
@@ -3588,7 +3840,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004113.jpg"
+    ]
   },
   {
     "id": "vpc-50015549",
@@ -3606,7 +3860,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015549.jpg"
+    ]
   },
   {
     "id": "vpc-50004644",
@@ -3624,7 +3880,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Large Quantity Set, Actual Condition May Vary. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004644.jpg"
+    ]
   },
   {
     "id": "vpc-50004009",
@@ -3645,7 +3903,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004009.jpg"
+    ]
   },
   {
     "id": "vpc-50040621",
@@ -3663,7 +3923,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50040621.jpg"
+    ]
   },
   {
     "id": "vpc-208593",
@@ -3683,7 +3945,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208593.jpg"
+    ]
   },
   {
     "id": "vpc-50004488",
@@ -3704,7 +3968,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004488.jpg"
+    ]
   },
   {
     "id": "vpc-50031159",
@@ -3726,7 +3992,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031159.jpg"
+    ]
   },
   {
     "id": "vpc-50057489",
@@ -3744,7 +4012,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50057489.jpg"
+    ]
   },
   {
     "id": "vpc-50035506",
@@ -3762,7 +4032,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50035506.jpg"
+    ]
   },
   {
     "id": "vpc-70001203",
@@ -3780,7 +4052,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70001203.jpg"
+    ]
   },
   {
     "id": "vpc-50037495",
@@ -3800,7 +4074,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50037495.jpg"
+    ]
   },
   {
     "id": "vpc-209000",
@@ -3822,7 +4098,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Condition Not Identical to Photo, More Distressed. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/209000.jpg"
+    ]
   },
   {
     "id": "vpc-50036977",
@@ -3844,7 +4122,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50036977.jpg"
+    ]
   },
   {
     "id": "vpc-118918",
@@ -3864,7 +4144,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118918.jpg"
+    ]
   },
   {
     "id": "vpc-50039932",
@@ -3884,7 +4166,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50039932.jpg"
+    ]
   },
   {
     "id": "vpc-50004492",
@@ -3905,7 +4189,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Large Quantity Set, Actual Condition May Vary. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004492.jpg"
+    ]
   },
   {
     "id": "vpc-50024513",
@@ -3927,7 +4213,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50024513.jpg"
+    ]
   },
   {
     "id": "vpc-207397",
@@ -3947,7 +4235,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207397.jpg"
+    ]
   },
   {
     "id": "vpc-50000267",
@@ -3965,7 +4255,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50000267.jpg"
+    ]
   },
   {
     "id": "vpc-50002261",
@@ -3985,7 +4277,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Shade Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002261.jpg"
+    ]
   },
   {
     "id": "vpc-50026801",
@@ -4008,7 +4302,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026801.jpg"
+    ]
   },
   {
     "id": "vpc-118063",
@@ -4028,7 +4324,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118063.jpg"
+    ]
   },
   {
     "id": "vpc-50036978",
@@ -4050,7 +4348,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50036978.jpg"
+    ]
   },
   {
     "id": "vpc-50005340",
@@ -4068,7 +4368,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005340.jpg"
+    ]
   },
   {
     "id": "vpc-50011594",
@@ -4088,7 +4390,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011594.jpg"
+    ]
   },
   {
     "id": "vpc-118815",
@@ -4106,7 +4410,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118815.jpg"
+    ]
   },
   {
     "id": "vpc-50006481",
@@ -4126,7 +4432,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006481.jpg"
+    ]
   },
   {
     "id": "vpc-50061395",
@@ -4147,7 +4455,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50061395.jpg"
+    ]
   },
   {
     "id": "vpc-50033266",
@@ -4167,7 +4477,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50033266.jpg"
+    ]
   },
   {
     "id": "vpc-50065990",
@@ -4188,7 +4500,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50065990.jpg"
+    ]
   },
   {
     "id": "vpc-50020074",
@@ -4210,7 +4524,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50020074.jpg"
+    ]
   },
   {
     "id": "vpc-50039555",
@@ -4228,7 +4544,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50039555.jpg"
+    ]
   },
   {
     "id": "vpc-116964",
@@ -4246,7 +4564,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116964.jpg"
+    ]
   },
   {
     "id": "vpc-50025868",
@@ -4264,7 +4584,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025868.jpg"
+    ]
   },
   {
     "id": "vpc-50020414",
@@ -4286,7 +4608,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50020414.jpg"
+    ]
   },
   {
     "id": "vpc-50015509",
@@ -4306,7 +4630,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Dressing & Baskets Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015509.jpg"
+    ]
   },
   {
     "id": "vpc-50006482",
@@ -4326,7 +4652,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006482.jpg"
+    ]
   },
   {
     "id": "vpc-118588",
@@ -4346,7 +4674,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118588.jpg"
+    ]
   },
   {
     "id": "vpc-221069",
@@ -4366,7 +4696,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/221069.jpg"
+    ]
   },
   {
     "id": "vpc-50020698",
@@ -4386,7 +4718,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50020698.jpg"
+    ]
   },
   {
     "id": "vpc-50014747",
@@ -4406,7 +4740,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014747.jpg"
+    ]
   },
   {
     "id": "vpc-50002412",
@@ -4427,7 +4763,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002412.jpg"
+    ]
   },
   {
     "id": "vpc-50041380",
@@ -4445,7 +4783,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50041380.jpg"
+    ]
   },
   {
     "id": "vpc-50039550",
@@ -4463,7 +4803,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50039550.jpg"
+    ]
   },
   {
     "id": "vpc-50000586",
@@ -4481,7 +4823,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50000586.jpg"
+    ]
   },
   {
     "id": "vpc-50021014",
@@ -4503,7 +4847,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021014.jpg"
+    ]
   },
   {
     "id": "vpc-50006593",
@@ -4523,7 +4869,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006593.jpg"
+    ]
   },
   {
     "id": "vpc-118621",
@@ -4543,7 +4891,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118621.jpg"
+    ]
   },
   {
     "id": "vpc-50034021",
@@ -4563,7 +4913,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50034021.jpg"
+    ]
   },
   {
     "id": "vpc-114249",
@@ -4581,7 +4933,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114249.jpg"
+    ]
   },
   {
     "id": "vpc-50014748",
@@ -4599,7 +4953,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014748.jpg"
+    ]
   },
   {
     "id": "vpc-118699",
@@ -4619,7 +4975,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118699.jpg"
+    ]
   },
   {
     "id": "vpc-206544",
@@ -4637,7 +4995,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206544.jpg"
+    ]
   },
   {
     "id": "vpc-50002813",
@@ -4655,7 +5015,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002813.jpg"
+    ]
   },
   {
     "id": "vpc-118667",
@@ -4677,7 +5039,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Not Identical to Photo, Rolling Base Missing. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118667.jpg"
+    ]
   },
   {
     "id": "vpc-116735",
@@ -4697,7 +5061,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116735.jpg"
+    ]
   },
   {
     "id": "vpc-50006639",
@@ -4717,7 +5083,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006639.jpg"
+    ]
   },
   {
     "id": "vpc-118584",
@@ -4737,7 +5105,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118584.jpg"
+    ]
   },
   {
     "id": "vpc-115374",
@@ -4755,7 +5125,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115374.jpg"
+    ]
   },
   {
     "id": "vpc-114272",
@@ -4773,7 +5145,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114272.jpg"
+    ]
   },
   {
     "id": "vpc-50014751",
@@ -4794,7 +5168,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014751.jpg"
+    ]
   },
   {
     "id": "vpc-118321",
@@ -4814,7 +5190,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118321.jpg"
+    ]
   },
   {
     "id": "vpc-206578",
@@ -4834,7 +5212,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206578.jpg"
+    ]
   },
   {
     "id": "vpc-377020",
@@ -4852,7 +5232,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/377020.jpg"
+    ]
   },
   {
     "id": "vpc-118570",
@@ -4872,7 +5254,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118570.jpg"
+    ]
   },
   {
     "id": "vpc-208416",
@@ -4890,7 +5274,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208416.jpg"
+    ]
   },
   {
     "id": "vpc-50006594",
@@ -4910,7 +5296,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006594.jpg"
+    ]
   },
   {
     "id": "vpc-118587",
@@ -4930,7 +5318,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118587.jpg"
+    ]
   },
   {
     "id": "vpc-116394",
@@ -4948,7 +5338,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": [],
+    "images": [
+      "/inventory/116394.jpg"
+    ],
     "featured": true
   },
   {
@@ -4967,7 +5359,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115844.jpg"
+    ]
   },
   {
     "id": "vpc-50014725",
@@ -4987,7 +5381,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014725.jpg"
+    ]
   },
   {
     "id": "vpc-118106",
@@ -5005,7 +5401,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Large Quantity Set, Actual Condition May Vary. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118106.jpg"
+    ]
   },
   {
     "id": "vpc-116989",
@@ -5023,7 +5421,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116989.jpg"
+    ]
   },
   {
     "id": "vpc-208938",
@@ -5041,7 +5441,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Productions May Add Removeable Valet Decals to This Podium. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208938.jpg"
+    ]
   },
   {
     "id": "vpc-50011380",
@@ -5061,7 +5463,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011380.jpg"
+    ]
   },
   {
     "id": "vpc-320402",
@@ -5081,7 +5485,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/320402.jpg"
+    ]
   },
   {
     "id": "vpc-50011172",
@@ -5099,7 +5505,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011172.jpg"
+    ]
   },
   {
     "id": "vpc-50061417",
@@ -5119,7 +5527,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50061417.jpg"
+    ]
   },
   {
     "id": "vpc-115334",
@@ -5137,7 +5547,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115334.jpg"
+    ]
   },
   {
     "id": "vpc-50002163",
@@ -5157,7 +5569,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002163.jpg"
+    ]
   },
   {
     "id": "vpc-50015630",
@@ -5179,7 +5593,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015630.jpg"
+    ]
   },
   {
     "id": "vpc-118343",
@@ -5199,7 +5615,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118343.jpg"
+    ]
   },
   {
     "id": "vpc-206740",
@@ -5220,7 +5638,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206740.jpg"
+    ]
   },
   {
     "id": "vpc-50059963",
@@ -5238,7 +5658,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Valet Decal Must Be Left on. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50059963.jpg"
+    ]
   },
   {
     "id": "vpc-50051124",
@@ -5258,7 +5680,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50051124.jpg"
+    ]
   },
   {
     "id": "vpc-377670",
@@ -5279,7 +5703,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/377670.jpg"
+    ]
   },
   {
     "id": "vpc-208182",
@@ -5299,7 +5725,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208182.jpg"
+    ]
   },
   {
     "id": "vpc-115335",
@@ -5317,7 +5745,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115335.jpg"
+    ]
   },
   {
     "id": "vpc-115867",
@@ -5337,7 +5767,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115867.jpg"
+    ]
   },
   {
     "id": "vpc-50014759",
@@ -5358,7 +5790,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014759.jpg"
+    ]
   },
   {
     "id": "vpc-118336",
@@ -5376,7 +5810,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118336.jpg"
+    ]
   },
   {
     "id": "vpc-206755",
@@ -5394,7 +5830,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "May Not Be Identical to Photo, Productions May Add Their Own Temporary Decals / Graphics. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206755.jpg"
+    ]
   },
   {
     "id": "vpc-208782",
@@ -5412,7 +5850,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Bowls/Trays Available. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208782.jpg"
+    ]
   },
   {
     "id": "vpc-208756",
@@ -5430,7 +5870,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208756.jpg"
+    ]
   },
   {
     "id": "vpc-70000446",
@@ -5450,7 +5892,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70000446.jpg"
+    ]
   },
   {
     "id": "vpc-50006632",
@@ -5468,7 +5912,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006632.jpg"
+    ]
   },
   {
     "id": "vpc-115330",
@@ -5486,7 +5932,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115330.jpg"
+    ]
   },
   {
     "id": "vpc-50004095",
@@ -5507,7 +5955,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004095.jpg"
+    ]
   },
   {
     "id": "vpc-50014757",
@@ -5529,7 +5979,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014757.jpg"
+    ]
   },
   {
     "id": "vpc-50015726",
@@ -5549,7 +6001,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015726.jpg"
+    ]
   },
   {
     "id": "vpc-114432",
@@ -5567,7 +6021,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114432.jpg"
+    ]
   },
   {
     "id": "vpc-50017485",
@@ -5587,7 +6043,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50017485.jpg"
+    ]
   },
   {
     "id": "vpc-50013147",
@@ -5605,7 +6063,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50013147.jpg"
+    ]
   },
   {
     "id": "vpc-305305",
@@ -5625,7 +6085,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/305305.jpg"
+    ]
   },
   {
     "id": "vpc-50005212",
@@ -5645,7 +6107,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005212.jpg"
+    ]
   },
   {
     "id": "vpc-115663",
@@ -5663,7 +6127,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115663.jpg"
+    ]
   },
   {
     "id": "vpc-115927",
@@ -5681,7 +6147,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115927.jpg"
+    ]
   },
   {
     "id": "vpc-50014755",
@@ -5703,7 +6171,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014755.jpg"
+    ]
   },
   {
     "id": "vpc-118122",
@@ -5721,7 +6191,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118122.jpg"
+    ]
   },
   {
     "id": "vpc-116987",
@@ -5739,7 +6211,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116987.jpg"
+    ]
   },
   {
     "id": "vpc-50010981",
@@ -5759,7 +6233,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50010981.jpg"
+    ]
   },
   {
     "id": "vpc-118857",
@@ -5780,7 +6256,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118857.jpg"
+    ]
   },
   {
     "id": "vpc-70000411",
@@ -5798,7 +6276,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70000411.jpg"
+    ]
   },
   {
     "id": "vpc-114469",
@@ -5818,7 +6298,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114469.jpg"
+    ]
   },
   {
     "id": "vpc-116588",
@@ -5836,7 +6318,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116588.jpg"
+    ]
   },
   {
     "id": "vpc-115911",
@@ -5854,7 +6338,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115911.jpg"
+    ]
   },
   {
     "id": "vpc-50021705",
@@ -5875,7 +6361,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Stored in Yard, Not Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021705.jpg"
+    ]
   },
   {
     "id": "vpc-208628",
@@ -5895,7 +6383,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208628.jpg"
+    ]
   },
   {
     "id": "vpc-70003463",
@@ -5913,7 +6403,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70003463.jpg"
+    ]
   },
   {
     "id": "vpc-50004284",
@@ -5934,7 +6426,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004284.jpg"
+    ]
   },
   {
     "id": "vpc-50011827",
@@ -5954,7 +6448,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011827.jpg"
+    ]
   },
   {
     "id": "vpc-118549",
@@ -5974,7 +6470,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118549.jpg"
+    ]
   },
   {
     "id": "vpc-114467",
@@ -5992,7 +6490,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114467.jpg"
+    ]
   },
   {
     "id": "vpc-116665",
@@ -6010,7 +6510,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116665.jpg"
+    ]
   },
   {
     "id": "vpc-50004104",
@@ -6028,7 +6530,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004104.jpg"
+    ]
   },
   {
     "id": "vpc-50002881",
@@ -6048,7 +6552,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Condition Not Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002881.jpg"
+    ]
   },
   {
     "id": "vpc-208913",
@@ -6068,7 +6574,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208913.jpg"
+    ]
   },
   {
     "id": "vpc-50006817",
@@ -6089,7 +6597,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006817.jpg"
+    ]
   },
   {
     "id": "vpc-50005586",
@@ -6107,7 +6617,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005586.jpg"
+    ]
   },
   {
     "id": "vpc-118864",
@@ -6129,7 +6641,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118864.jpg"
+    ]
   },
   {
     "id": "vpc-208933",
@@ -6149,7 +6663,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208933.jpg"
+    ]
   },
   {
     "id": "vpc-50011039",
@@ -6167,7 +6683,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011039.jpg"
+    ]
   },
   {
     "id": "vpc-208179",
@@ -6185,7 +6703,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208179.jpg"
+    ]
   },
   {
     "id": "vpc-50004109",
@@ -6205,7 +6725,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004109.jpg"
+    ]
   },
   {
     "id": "vpc-50002332",
@@ -6223,7 +6745,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002332.jpg"
+    ]
   },
   {
     "id": "vpc-118033",
@@ -6243,7 +6767,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118033.jpg"
+    ]
   },
   {
     "id": "vpc-50019238",
@@ -6263,7 +6789,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50019238.jpg"
+    ]
   },
   {
     "id": "vpc-50005587",
@@ -6281,7 +6809,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005587.jpg"
+    ]
   },
   {
     "id": "vpc-50004404",
@@ -6299,7 +6829,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004404.jpg"
+    ]
   },
   {
     "id": "vpc-50031777",
@@ -6317,7 +6849,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031777.jpg"
+    ]
   },
   {
     "id": "vpc-50026130",
@@ -6337,7 +6871,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026130.jpg"
+    ]
   },
   {
     "id": "vpc-119967",
@@ -6355,7 +6891,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/119967.jpg"
+    ]
   },
   {
     "id": "vpc-50025212",
@@ -6375,7 +6913,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025212.jpg"
+    ]
   },
   {
     "id": "vpc-50002884",
@@ -6393,7 +6933,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002884.jpg"
+    ]
   },
   {
     "id": "vpc-118473",
@@ -6414,7 +6956,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118473.jpg"
+    ]
   },
   {
     "id": "vpc-377897",
@@ -6432,7 +6976,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "May Not Be Identical to Photo, Productions May Add Their Own Temporary Decals / Graphics. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/377897.jpg"
+    ]
   },
   {
     "id": "vpc-50005595",
@@ -6450,7 +6996,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005595.jpg"
+    ]
   },
   {
     "id": "vpc-70008485",
@@ -6471,7 +7019,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70008485.jpg"
+    ]
   },
   {
     "id": "vpc-118418",
@@ -6492,7 +7042,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118418.jpg"
+    ]
   },
   {
     "id": "vpc-206702",
@@ -6512,7 +7064,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206702.jpg"
+    ]
   },
   {
     "id": "vpc-378153",
@@ -6532,7 +7086,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/378153.jpg"
+    ]
   },
   {
     "id": "vpc-50057255",
@@ -6552,7 +7108,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50057255.jpg"
+    ]
   },
   {
     "id": "vpc-50001335",
@@ -6570,7 +7128,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50001335.jpg"
+    ]
   },
   {
     "id": "vpc-118470",
@@ -6591,7 +7151,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118470.jpg"
+    ]
   },
   {
     "id": "vpc-50021379",
@@ -6612,7 +7174,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021379.jpg"
+    ]
   },
   {
     "id": "vpc-50005600",
@@ -6630,7 +7194,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005600.jpg"
+    ]
   },
   {
     "id": "vpc-207511",
@@ -6648,7 +7214,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207511.jpg"
+    ]
   },
   {
     "id": "vpc-208803",
@@ -6666,7 +7234,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208803.jpg"
+    ]
   },
   {
     "id": "vpc-70004769",
@@ -6687,7 +7257,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70004769.jpg"
+    ]
   },
   {
     "id": "vpc-207542",
@@ -6707,7 +7279,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207542.jpg"
+    ]
   },
   {
     "id": "vpc-50021722",
@@ -6729,7 +7303,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021722.jpg"
+    ]
   },
   {
     "id": "vpc-50012332",
@@ -6749,7 +7325,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012332.jpg"
+    ]
   },
   {
     "id": "vpc-50002893",
@@ -6767,7 +7345,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Large Quantity Set, Actual Condition May Vary. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002893.jpg"
+    ]
   },
   {
     "id": "vpc-206577",
@@ -6787,7 +7367,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206577.jpg"
+    ]
   },
   {
     "id": "vpc-50005588",
@@ -6805,7 +7387,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005588.jpg"
+    ]
   },
   {
     "id": "vpc-207588",
@@ -6823,7 +7407,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207588.jpg"
+    ]
   },
   {
     "id": "vpc-60000130",
@@ -6843,7 +7429,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Stored in Yard, Condition Not Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/60000130.jpg"
+    ]
   },
   {
     "id": "vpc-376054",
@@ -6863,7 +7451,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/376054.jpg"
+    ]
   },
   {
     "id": "vpc-207490",
@@ -6883,7 +7473,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207490.jpg"
+    ]
   },
   {
     "id": "vpc-114237",
@@ -6903,7 +7495,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Shade Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114237.jpg"
+    ]
   },
   {
     "id": "vpc-50015440",
@@ -6921,7 +7515,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015440.jpg"
+    ]
   },
   {
     "id": "vpc-50002925",
@@ -6941,7 +7537,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Large Quantity Set, Actual Condition May Vary. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002925.jpg"
+    ]
   },
   {
     "id": "vpc-50019237",
@@ -6961,7 +7559,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50019237.jpg"
+    ]
   },
   {
     "id": "vpc-50026219",
@@ -6982,7 +7582,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026219.jpg"
+    ]
   },
   {
     "id": "vpc-116932",
@@ -7002,7 +7604,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116932.jpg"
+    ]
   },
   {
     "id": "vpc-50005319",
@@ -7020,7 +7624,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005319.jpg"
+    ]
   },
   {
     "id": "vpc-50026965",
@@ -7041,7 +7647,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026965.jpg"
+    ]
   },
   {
     "id": "vpc-207495",
@@ -7059,7 +7667,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207495.jpg"
+    ]
   },
   {
     "id": "vpc-114240",
@@ -7079,7 +7689,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Shade Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114240.jpg"
+    ]
   },
   {
     "id": "vpc-208723",
@@ -7097,7 +7709,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208723.jpg"
+    ]
   },
   {
     "id": "vpc-118843",
@@ -7139,7 +7753,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50041604.jpg"
+    ]
   },
   {
     "id": "vpc-115327",
@@ -7159,7 +7775,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115327.jpg"
+    ]
   },
   {
     "id": "vpc-50005318",
@@ -7177,7 +7795,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005318.jpg"
+    ]
   },
   {
     "id": "vpc-50026999",
@@ -7198,7 +7818,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026999.jpg"
+    ]
   },
   {
     "id": "vpc-116575",
@@ -7216,7 +7838,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116575.jpg"
+    ]
   },
   {
     "id": "vpc-50022328",
@@ -7234,7 +7858,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50022328.jpg"
+    ]
   },
   {
     "id": "vpc-50014670",
@@ -7255,7 +7881,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50014670.jpg"
+    ]
   },
   {
     "id": "vpc-118100",
@@ -7276,7 +7904,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118100.jpg"
+    ]
   },
   {
     "id": "vpc-50017808",
@@ -7294,7 +7924,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50017808.jpg"
+    ]
   },
   {
     "id": "vpc-117937",
@@ -7314,7 +7946,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/117937.jpg"
+    ]
   },
   {
     "id": "vpc-206328",
@@ -7336,7 +7970,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206328.jpg"
+    ]
   },
   {
     "id": "vpc-50013458",
@@ -7356,7 +7992,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50013458.jpg"
+    ]
   },
   {
     "id": "vpc-118642",
@@ -7374,7 +8012,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118642.jpg"
+    ]
   },
   {
     "id": "vpc-50022326",
@@ -7395,7 +8035,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50022326.jpg"
+    ]
   },
   {
     "id": "vpc-50015591",
@@ -7415,7 +8057,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015591.jpg"
+    ]
   },
   {
     "id": "vpc-118240",
@@ -7437,7 +8081,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Mismatched Large Quantity Set - Condition, Measurements & Colour Slightly Different on All. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118240.jpg"
+    ]
   },
   {
     "id": "vpc-115907",
@@ -7458,7 +8104,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115907.jpg"
+    ]
   },
   {
     "id": "vpc-50031363",
@@ -7476,7 +8124,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Stored in Yard, Condition May Not Be Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031363.jpg"
+    ]
   },
   {
     "id": "vpc-50004059",
@@ -7496,7 +8146,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004059.jpg"
+    ]
   },
   {
     "id": "vpc-50027659",
@@ -7517,7 +8169,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50027659.jpg"
+    ]
   },
   {
     "id": "vpc-118573",
@@ -7535,7 +8189,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118573.jpg"
+    ]
   },
   {
     "id": "vpc-50022327",
@@ -7555,7 +8211,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50022327.jpg"
+    ]
   },
   {
     "id": "vpc-50015618",
@@ -7575,7 +8233,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015618.jpg"
+    ]
   },
   {
     "id": "vpc-50031457",
@@ -7598,7 +8258,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Mismatched Set of 4 - Condition, Height & Colour Slightly Different on All. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031457.jpg"
+    ]
   },
   {
     "id": "vpc-117393",
@@ -7616,7 +8278,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/117393.jpg"
+    ]
   },
   {
     "id": "vpc-50040119",
@@ -7636,7 +8300,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50040119.jpg"
+    ]
   },
   {
     "id": "vpc-220830",
@@ -7657,7 +8323,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/220830.jpg"
+    ]
   },
   {
     "id": "vpc-50013149",
@@ -7675,7 +8343,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50013149.jpg"
+    ]
   },
   {
     "id": "vpc-320200",
@@ -7695,7 +8365,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/320200.jpg"
+    ]
   },
   {
     "id": "vpc-50022331",
@@ -7716,7 +8388,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50022331.jpg"
+    ]
   },
   {
     "id": "vpc-50015468",
@@ -7734,7 +8408,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015468.jpg"
+    ]
   },
   {
     "id": "vpc-220823",
@@ -7754,7 +8430,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/220823.jpg"
+    ]
   },
   {
     "id": "vpc-114402",
@@ -7774,7 +8452,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114402.jpg"
+    ]
   },
   {
     "id": "vpc-50004706",
@@ -7792,7 +8472,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004706.jpg"
+    ]
   },
   {
     "id": "vpc-118510",
@@ -7812,7 +8494,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118510.jpg"
+    ]
   },
   {
     "id": "vpc-50012131",
@@ -7833,7 +8517,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012131.jpg"
+    ]
   },
   {
     "id": "vpc-50005525",
@@ -7853,7 +8539,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005525.jpg"
+    ]
   },
   {
     "id": "vpc-50018841",
@@ -7874,7 +8562,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Shade Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50018841.jpg"
+    ]
   },
   {
     "id": "vpc-50031037",
@@ -7896,7 +8586,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031037.jpg"
+    ]
   },
   {
     "id": "vpc-118723",
@@ -7916,7 +8608,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118723.jpg"
+    ]
   },
   {
     "id": "vpc-208597",
@@ -7934,7 +8628,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208597.jpg"
+    ]
   },
   {
     "id": "vpc-50005174",
@@ -7952,7 +8648,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005174.jpg"
+    ]
   },
   {
     "id": "vpc-50012955",
@@ -7972,7 +8670,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012955.jpg"
+    ]
   },
   {
     "id": "vpc-50012125",
@@ -7992,7 +8692,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012125.jpg"
+    ]
   },
   {
     "id": "vpc-50005527",
@@ -8012,7 +8714,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005527.jpg"
+    ]
   },
   {
     "id": "vpc-50010466",
@@ -8032,7 +8736,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50010466.jpg"
+    ]
   },
   {
     "id": "vpc-50026395",
@@ -8056,7 +8762,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026395.jpg"
+    ]
   },
   {
     "id": "vpc-118116",
@@ -8074,7 +8782,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118116.jpg"
+    ]
   },
   {
     "id": "vpc-208598",
@@ -8092,7 +8802,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208598.jpg"
+    ]
   },
   {
     "id": "vpc-50006277",
@@ -8110,7 +8822,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006277.jpg"
+    ]
   },
   {
     "id": "vpc-118596",
@@ -8131,7 +8845,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118596.jpg"
+    ]
   },
   {
     "id": "vpc-50025785",
@@ -8152,7 +8868,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025785.jpg"
+    ]
   },
   {
     "id": "vpc-50005526",
@@ -8172,7 +8890,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005526.jpg"
+    ]
   },
   {
     "id": "vpc-70002583",
@@ -8193,7 +8913,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70002583.jpg"
+    ]
   },
   {
     "id": "vpc-118962",
@@ -8213,7 +8935,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118962.jpg"
+    ]
   },
   {
     "id": "vpc-117399",
@@ -8231,7 +8955,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/117399.jpg"
+    ]
   },
   {
     "id": "vpc-50005173",
@@ -8249,7 +8975,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005173.jpg"
+    ]
   },
   {
     "id": "vpc-206332",
@@ -8267,7 +8995,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206332.jpg"
+    ]
   },
   {
     "id": "vpc-115363",
@@ -8285,7 +9015,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115363.jpg"
+    ]
   },
   {
     "id": "vpc-50040231",
@@ -8305,7 +9037,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50040231.jpg"
+    ]
   },
   {
     "id": "vpc-70002834",
@@ -8323,7 +9057,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70002834.jpg"
+    ]
   },
   {
     "id": "vpc-208923",
@@ -8343,7 +9079,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Condition & Seat Colour May Not Be Identical. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208923.jpg"
+    ]
   },
   {
     "id": "vpc-315455",
@@ -8363,7 +9101,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/315455.jpg"
+    ]
   },
   {
     "id": "vpc-70010151",
@@ -8384,7 +9124,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70010151.jpg"
+    ]
   },
   {
     "id": "vpc-313220",
@@ -8405,7 +9147,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/313220.jpg"
+    ]
   },
   {
     "id": "vpc-115965",
@@ -8423,7 +9167,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115965.jpg"
+    ]
   },
   {
     "id": "vpc-70006498",
@@ -8443,7 +9189,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70006498.jpg"
+    ]
   },
   {
     "id": "vpc-319303",
@@ -8463,7 +9211,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/319303.jpg"
+    ]
   },
   {
     "id": "vpc-50006582",
@@ -8483,7 +9233,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006582.jpg"
+    ]
   },
   {
     "id": "vpc-118645",
@@ -8506,7 +9258,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118645.jpg"
+    ]
   },
   {
     "id": "vpc-60004051",
@@ -8527,7 +9281,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/60004051.jpg"
+    ]
   },
   {
     "id": "vpc-50025665",
@@ -8547,7 +9303,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025665.jpg"
+    ]
   },
   {
     "id": "vpc-70006499",
@@ -8567,7 +9325,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70006499.jpg"
+    ]
   },
   {
     "id": "vpc-118018",
@@ -8585,7 +9345,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118018.jpg"
+    ]
   },
   {
     "id": "vpc-50011476",
@@ -8603,7 +9365,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011476.jpg"
+    ]
   },
   {
     "id": "vpc-118623",
@@ -8623,7 +9387,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118623.jpg"
+    ]
   },
   {
     "id": "vpc-50060132",
@@ -8644,7 +9410,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Dressing Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50060132.jpg"
+    ]
   },
   {
     "id": "vpc-115946",
@@ -8664,7 +9432,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115946.jpg"
+    ]
   },
   {
     "id": "vpc-117121",
@@ -8682,7 +9452,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/117121.jpg"
+    ]
   },
   {
     "id": "vpc-118095",
@@ -8703,7 +9475,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118095.jpg"
+    ]
   },
   {
     "id": "vpc-50042139",
@@ -8721,7 +9495,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50042139.jpg"
+    ]
   },
   {
     "id": "vpc-50004446",
@@ -8741,7 +9517,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004446.jpg"
+    ]
   },
   {
     "id": "vpc-208779",
@@ -8763,7 +9541,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208779.jpg"
+    ]
   },
   {
     "id": "vpc-115951",
@@ -8783,7 +9563,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115951.jpg"
+    ]
   },
   {
     "id": "vpc-116728",
@@ -8801,7 +9583,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116728.jpg"
+    ]
   },
   {
     "id": "vpc-118039",
@@ -8819,7 +9603,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118039.jpg"
+    ]
   },
   {
     "id": "vpc-374728",
@@ -8839,7 +9625,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374728.jpg"
+    ]
   },
   {
     "id": "vpc-118597",
@@ -8860,7 +9648,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118597.jpg"
+    ]
   },
   {
     "id": "vpc-118686",
@@ -8883,7 +9673,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118686.jpg"
+    ]
   },
   {
     "id": "vpc-115722",
@@ -8901,7 +9693,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115722.jpg"
+    ]
   },
   {
     "id": "vpc-116729",
@@ -8919,7 +9713,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116729.jpg"
+    ]
   },
   {
     "id": "vpc-118038",
@@ -8939,7 +9735,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118038.jpg"
+    ]
   },
   {
     "id": "vpc-374661",
@@ -8960,7 +9758,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374661.jpg"
+    ]
   },
   {
     "id": "vpc-50050236",
@@ -8978,7 +9778,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50050236.jpg"
+    ]
   },
   {
     "id": "vpc-118410",
@@ -8998,7 +9800,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118410.jpg"
+    ]
   },
   {
     "id": "vpc-115966",
@@ -9016,7 +9820,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115966.jpg"
+    ]
   },
   {
     "id": "vpc-70005876",
@@ -9037,7 +9843,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70005876.jpg"
+    ]
   },
   {
     "id": "vpc-118199",
@@ -9057,7 +9865,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118199.jpg"
+    ]
   },
   {
     "id": "vpc-50059809",
@@ -9075,7 +9885,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50059809.jpg"
+    ]
   },
   {
     "id": "vpc-50015186",
@@ -9096,7 +9908,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015186.jpg"
+    ]
   },
   {
     "id": "vpc-118403",
@@ -9114,7 +9928,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118403.jpg"
+    ]
   },
   {
     "id": "vpc-50005577",
@@ -9136,7 +9952,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005577.jpg"
+    ]
   },
   {
     "id": "vpc-70005879",
@@ -9157,7 +9975,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70005879.jpg"
+    ]
   },
   {
     "id": "vpc-208937",
@@ -9178,7 +9998,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208937.jpg"
+    ]
   },
   {
     "id": "vpc-117391",
@@ -9198,7 +10020,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/117391.jpg"
+    ]
   },
   {
     "id": "vpc-118638",
@@ -9221,7 +10045,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118638.jpg"
+    ]
   },
   {
     "id": "vpc-118532",
@@ -9241,7 +10067,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118532.jpg"
+    ]
   },
   {
     "id": "vpc-50004419",
@@ -9261,7 +10089,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004419.jpg"
+    ]
   },
   {
     "id": "vpc-70005878",
@@ -9282,7 +10112,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70005878.jpg"
+    ]
   },
   {
     "id": "vpc-50031339",
@@ -9303,7 +10135,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031339.jpg"
+    ]
   },
   {
     "id": "vpc-116967",
@@ -9321,7 +10155,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/116967.jpg"
+    ]
   },
   {
     "id": "vpc-50025856",
@@ -9341,7 +10177,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025856.jpg"
+    ]
   },
   {
     "id": "vpc-118684",
@@ -9362,7 +10200,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118684.jpg"
+    ]
   },
   {
     "id": "vpc-50004990",
@@ -9382,7 +10222,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004990.jpg"
+    ]
   },
   {
     "id": "vpc-50006514",
@@ -9403,7 +10245,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006514.jpg"
+    ]
   },
   {
     "id": "vpc-50031452",
@@ -9425,7 +10269,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031452.jpg"
+    ]
   },
   {
     "id": "vpc-50051450",
@@ -9445,7 +10291,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50051450.jpg"
+    ]
   },
   {
     "id": "vpc-206314",
@@ -9466,7 +10314,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206314.jpg"
+    ]
   },
   {
     "id": "vpc-50042179",
@@ -9488,7 +10338,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Dressing Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50042179.jpg"
+    ]
   },
   {
     "id": "vpc-50006495",
@@ -9508,7 +10360,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006495.jpg"
+    ]
   },
   {
     "id": "vpc-50006511",
@@ -9529,7 +10383,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006511.jpg"
+    ]
   },
   {
     "id": "vpc-118092",
@@ -9551,7 +10407,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118092.jpg"
+    ]
   },
   {
     "id": "vpc-114428",
@@ -9569,7 +10427,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114428.jpg"
+    ]
   },
   {
     "id": "vpc-50017431",
@@ -9590,7 +10450,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50017431.jpg"
+    ]
   },
   {
     "id": "vpc-50004774",
@@ -9608,7 +10470,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004774.jpg"
+    ]
   },
   {
     "id": "vpc-206386",
@@ -9628,7 +10492,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Condition Not Identical to Photo. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206386.jpg"
+    ]
   },
   {
     "id": "vpc-50042610",
@@ -9648,7 +10514,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50042610.jpg"
+    ]
   },
   {
     "id": "vpc-208932",
@@ -9669,7 +10537,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208932.jpg"
+    ]
   },
   {
     "id": "vpc-374558",
@@ -9690,7 +10560,9 @@
     "location": "VPC · Vancouver",
     "condition": "Distressed — character piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374558.jpg"
+    ]
   },
   {
     "id": "vpc-50005157",
@@ -9708,7 +10580,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005157.jpg"
+    ]
   },
   {
     "id": "vpc-70002918",
@@ -9726,7 +10600,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70002918.jpg"
+    ]
   },
   {
     "id": "vpc-50002301",
@@ -9747,7 +10623,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002301.jpg"
+    ]
   },
   {
     "id": "vpc-50002429",
@@ -9765,7 +10643,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002429.jpg"
+    ]
   },
   {
     "id": "vpc-50018951",
@@ -9785,7 +10665,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50018951.jpg"
+    ]
   },
   {
     "id": "vpc-118983",
@@ -9805,7 +10687,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118983.jpg"
+    ]
   },
   {
     "id": "vpc-50004432",
@@ -9825,7 +10709,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004432.jpg"
+    ]
   },
   {
     "id": "vpc-50025301",
@@ -9846,7 +10732,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025301.jpg"
+    ]
   },
   {
     "id": "vpc-208944",
@@ -9864,7 +10752,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208944.jpg"
+    ]
   },
   {
     "id": "vpc-50020148",
@@ -9884,7 +10774,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50020148.jpg"
+    ]
   },
   {
     "id": "vpc-207949",
@@ -9902,7 +10794,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207949.jpg"
+    ]
   },
   {
     "id": "vpc-50004793",
@@ -9920,7 +10814,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004793.jpg"
+    ]
   },
   {
     "id": "vpc-50031527",
@@ -9942,7 +10838,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031527.jpg"
+    ]
   },
   {
     "id": "vpc-50012296",
@@ -9960,7 +10858,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012296.jpg"
+    ]
   },
   {
     "id": "vpc-374722",
@@ -9981,7 +10881,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374722.jpg"
+    ]
   },
   {
     "id": "vpc-50039285",
@@ -10002,7 +10904,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50039285.jpg"
+    ]
   },
   {
     "id": "vpc-118509",
@@ -10020,7 +10924,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118509.jpg"
+    ]
   },
   {
     "id": "vpc-50031551",
@@ -10040,7 +10946,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031551.jpg"
+    ]
   },
   {
     "id": "vpc-50011595",
@@ -10058,7 +10966,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011595.jpg"
+    ]
   },
   {
     "id": "vpc-114418",
@@ -10079,7 +10989,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114418.jpg"
+    ]
   },
   {
     "id": "vpc-70001712",
@@ -10097,7 +11009,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70001712.jpg"
+    ]
   },
   {
     "id": "vpc-50004780",
@@ -10115,7 +11029,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Large Quantity Set, Actual Condition May Vary. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004780.jpg"
+    ]
   },
   {
     "id": "vpc-50025224",
@@ -10136,7 +11052,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50025224.jpg"
+    ]
   },
   {
     "id": "vpc-208996",
@@ -10157,7 +11075,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208996.jpg"
+    ]
   },
   {
     "id": "vpc-50013477",
@@ -10175,7 +11095,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50013477.jpg"
+    ]
   },
   {
     "id": "vpc-70001208",
@@ -10195,7 +11117,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/70001208.jpg"
+    ]
   },
   {
     "id": "vpc-114438",
@@ -10213,7 +11137,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114438.jpg"
+    ]
   },
   {
     "id": "vpc-50004176",
@@ -10233,7 +11159,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004176.jpg"
+    ]
   },
   {
     "id": "vpc-118477",
@@ -10253,7 +11181,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118477.jpg"
+    ]
   },
   {
     "id": "vpc-50021796",
@@ -10273,7 +11203,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021796.jpg"
+    ]
   },
   {
     "id": "vpc-50041030",
@@ -10291,7 +11223,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50041030.jpg"
+    ]
   },
   {
     "id": "vpc-118583",
@@ -10312,7 +11246,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118583.jpg"
+    ]
   },
   {
     "id": "vpc-50032176",
@@ -10332,7 +11268,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50032176.jpg"
+    ]
   },
   {
     "id": "vpc-50004882",
@@ -10352,7 +11290,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004882.jpg"
+    ]
   },
   {
     "id": "vpc-60000027",
@@ -10374,7 +11314,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/60000027.jpg"
+    ]
   },
   {
     "id": "vpc-50002527",
@@ -10395,7 +11337,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002527.jpg"
+    ]
   },
   {
     "id": "vpc-319361",
@@ -10416,7 +11360,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/319361.jpg"
+    ]
   },
   {
     "id": "vpc-50005234",
@@ -10436,7 +11382,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005234.jpg"
+    ]
   },
   {
     "id": "vpc-60000028",
@@ -10458,7 +11406,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/60000028.jpg"
+    ]
   },
   {
     "id": "vpc-50002589",
@@ -10476,7 +11426,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50002589.jpg"
+    ]
   },
   {
     "id": "vpc-50031025",
@@ -10494,7 +11446,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031025.jpg"
+    ]
   },
   {
     "id": "vpc-50001430",
@@ -10512,7 +11466,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Frame Has Top Access & Holds 22x28\" Sign. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50001430.jpg"
+    ]
   },
   {
     "id": "vpc-118545",
@@ -10536,7 +11492,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118545.jpg"
+    ]
   },
   {
     "id": "vpc-50011817",
@@ -10557,7 +11515,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Dressing Not Included. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011817.jpg"
+    ]
   },
   {
     "id": "vpc-208967",
@@ -10579,7 +11539,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208967.jpg"
+    ]
   },
   {
     "id": "vpc-50001423",
@@ -10597,7 +11559,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Frame Has Top Access & Holds 22x28\" Sign. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50001423.jpg"
+    ]
   },
   {
     "id": "vpc-118423",
@@ -10617,7 +11581,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118423.jpg"
+    ]
   },
   {
     "id": "vpc-50058279",
@@ -10638,7 +11604,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50058279.jpg"
+    ]
   },
   {
     "id": "vpc-118480",
@@ -10658,7 +11626,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118480.jpg"
+    ]
   },
   {
     "id": "vpc-374680",
@@ -10678,7 +11648,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374680.jpg"
+    ]
   },
   {
     "id": "vpc-50061478",
@@ -10698,7 +11670,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50061478.jpg"
+    ]
   },
   {
     "id": "vpc-50026949",
@@ -10718,7 +11692,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50026949.jpg"
+    ]
   },
   {
     "id": "vpc-BEANBAG1",
@@ -10736,7 +11712,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/BEANBAG1.jpg"
+    ]
   },
   {
     "id": "vpc-50031258",
@@ -10758,7 +11736,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031258.jpg"
+    ]
   },
   {
     "id": "vpc-50059442",
@@ -10778,7 +11758,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50059442.jpg"
+    ]
   },
   {
     "id": "vpc-118603",
@@ -10799,7 +11781,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118603.jpg"
+    ]
   },
   {
     "id": "vpc-50031247",
@@ -10821,7 +11805,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031247.jpg"
+    ]
   },
   {
     "id": "vpc-115884",
@@ -10839,7 +11825,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115884.jpg"
+    ]
   },
   {
     "id": "vpc-50004452",
@@ -10857,7 +11845,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50004452.jpg"
+    ]
   },
   {
     "id": "vpc-206413",
@@ -10875,7 +11865,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206413.jpg"
+    ]
   },
   {
     "id": "vpc-208380",
@@ -10893,7 +11885,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208380.jpg"
+    ]
   },
   {
     "id": "vpc-118492",
@@ -10913,7 +11907,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118492.jpg"
+    ]
   },
   {
     "id": "vpc-50019703",
@@ -10931,7 +11927,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50019703.jpg"
+    ]
   },
   {
     "id": "vpc-208406",
@@ -10951,7 +11949,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/208406.jpg"
+    ]
   },
   {
     "id": "vpc-50039363",
@@ -10971,7 +11971,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Photos Show Entire Sectional. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50039363.jpg"
+    ]
   },
   {
     "id": "vpc-374559",
@@ -10989,7 +11991,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374559.jpg"
+    ]
   },
   {
     "id": "vpc-50051357",
@@ -11009,7 +12013,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50051357.jpg"
+    ]
   },
   {
     "id": "vpc-50039362",
@@ -11029,7 +12035,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Photos Show Entire Sectional. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50039362.jpg"
+    ]
   },
   {
     "id": "vpc-114221",
@@ -11047,7 +12055,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114221.jpg"
+    ]
   },
   {
     "id": "vpc-221296",
@@ -11070,7 +12080,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/221296.jpg"
+    ]
   },
   {
     "id": "vpc-118444",
@@ -11090,7 +12102,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118444.jpg"
+    ]
   },
   {
     "id": "vpc-50005119",
@@ -11110,7 +12124,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005119.jpg"
+    ]
   },
   {
     "id": "vpc-301849",
@@ -11133,7 +12149,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/301849.jpg"
+    ]
   },
   {
     "id": "vpc-320477",
@@ -11154,7 +12172,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/320477.jpg"
+    ]
   },
   {
     "id": "vpc-50005118",
@@ -11172,7 +12192,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50005118.jpg"
+    ]
   },
   {
     "id": "vpc-50021594",
@@ -11194,7 +12216,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Condition Not Identical to Photo, No Longer Rusty or Aged. Availability confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50021594.jpg"
+    ]
   },
   {
     "id": "vpc-50041020",
@@ -11216,7 +12240,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50041020.jpg"
+    ]
   },
   {
     "id": "vpc-50041780",
@@ -11234,7 +12260,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50041780.jpg"
+    ]
   },
   {
     "id": "vpc-50031835",
@@ -11256,7 +12284,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50031835.jpg"
+    ]
   },
   {
     "id": "vpc-50012976",
@@ -11276,7 +12306,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012976.jpg"
+    ]
   },
   {
     "id": "vpc-50051902",
@@ -11296,7 +12328,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50051902.jpg"
+    ]
   },
   {
     "id": "vpc-50011932",
@@ -11318,7 +12352,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011932.jpg"
+    ]
   },
   {
     "id": "vpc-206453",
@@ -11338,7 +12374,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206453.jpg"
+    ]
   },
   {
     "id": "vpc-50015351",
@@ -11356,7 +12394,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50015351.jpg"
+    ]
   },
   {
     "id": "vpc-117362",
@@ -11376,7 +12416,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/117362.jpg"
+    ]
   },
   {
     "id": "vpc-118154",
@@ -11398,7 +12440,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118154.jpg"
+    ]
   },
   {
     "id": "vpc-206575",
@@ -11416,7 +12460,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/206575.jpg"
+    ]
   },
   {
     "id": "vpc-50011933",
@@ -11437,7 +12483,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50011933.jpg"
+    ]
   },
   {
     "id": "vpc-374601",
@@ -11458,7 +12506,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374601.jpg"
+    ]
   },
   {
     "id": "vpc-50006225",
@@ -11476,7 +12526,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50006225.jpg"
+    ]
   },
   {
     "id": "vpc-374836",
@@ -11496,7 +12548,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/374836.jpg"
+    ]
   },
   {
     "id": "vpc-207396",
@@ -11518,7 +12572,9 @@
     "location": "VPC · Vancouver",
     "condition": "Aged — honest wear",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/207396.jpg"
+    ]
   },
   {
     "id": "vpc-114129",
@@ -11536,7 +12592,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/114129.jpg"
+    ]
   },
   {
     "id": "vpc-305177",
@@ -11557,7 +12615,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/305177.jpg"
+    ]
   },
   {
     "id": "vpc-117522",
@@ -11575,7 +12635,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/117522.jpg"
+    ]
   },
   {
     "id": "vpc-115488",
@@ -11593,7 +12655,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115488.jpg"
+    ]
   },
   {
     "id": "vpc-115487",
@@ -11611,7 +12675,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/115487.jpg"
+    ]
   },
   {
     "id": "vpc-118169",
@@ -11633,7 +12699,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118169.jpg"
+    ]
   },
   {
     "id": "vpc-50020201",
@@ -11654,7 +12722,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50020201.jpg"
+    ]
   },
   {
     "id": "vpc-118161",
@@ -11677,7 +12747,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118161.jpg"
+    ]
   },
   {
     "id": "vpc-118143",
@@ -11697,7 +12769,9 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/118143.jpg"
+    ]
   },
   {
     "id": "vpc-50032122",
@@ -11719,7 +12793,9 @@
     "location": "VPC · Vancouver",
     "condition": "Vintage — period piece",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50032122.jpg"
+    ]
   },
   {
     "id": "vpc-50012543",
@@ -11739,6 +12815,8 @@
     "location": "VPC · Vancouver",
     "condition": "Good — rental stock",
     "availability_note": "Availability is not guaranteed live; confirmed manually on request.",
-    "images": []
+    "images": [
+      "/inventory/50012543.jpg"
+    ]
   }
 ]
