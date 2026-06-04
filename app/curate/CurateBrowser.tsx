@@ -1,13 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { VPCItem } from "@/lib/vpc-catalog";
 
 type Decision = "keep" | "cut" | "star";
+type Verdict = "skip" | "review" | "takeAll";
 type SubcategoryStat = { subcategory: string; count: number; withPhoto: number };
 
 const DECISIONS_KEY = "rentco_curate_v1";
 const RENAMES_KEY = "rentco_curate_renames_v1";
+const SORT_KEY = "rentco_curate_sort_v1";
 
 function loadJSON<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -36,6 +39,7 @@ export function CurateBrowser({
 }) {
   const [decisions, setDecisions] = useState<Record<string, Decision>>({});
   const [renames, setRenames] = useState<Record<string, string>>({});
+  const [verdicts, setVerdicts] = useState<Record<string, Verdict>>({});
   const [hydrated, setHydrated] = useState(false);
   const [selectedSubs, setSelectedSubs] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
@@ -51,6 +55,7 @@ export function CurateBrowser({
   useEffect(() => {
     setDecisions(loadJSON<Record<string, Decision>>(DECISIONS_KEY, {}));
     setRenames(loadJSON<Record<string, string>>(RENAMES_KEY, {}));
+    setVerdicts(loadJSON<Record<string, Verdict>>(SORT_KEY, {}));
     setHydrated(true);
   }, []);
 
@@ -128,13 +133,30 @@ export function CurateBrowser({
 
   const counts = useMemo(() => {
     let keep = 0, cut = 0, star = 0;
-    for (const v of Object.values(decisions)) {
-      if (v === "keep") keep++;
-      else if (v === "cut") cut++;
-      else if (v === "star") star++;
+    for (const it of items) {
+      if (verdicts[it.subcategory] === "skip") continue;
+      const dec = decisions[it.barcode] ??
+        (verdicts[it.subcategory] === "takeAll" ? ("keep" as Decision) : undefined);
+      if (dec === "keep") keep++;
+      else if (dec === "cut") cut++;
+      else if (dec === "star") star++;
     }
     return { keep, cut, star, total: items.length };
-  }, [decisions, items.length]);
+  }, [decisions, verdicts, items]);
+
+  const sortStats = useMemo(() => {
+    let skipSubs = 0, reviewSubs = 0, takeAllSubs = 0, takeAllItems = 0;
+    for (const s of subcategories) {
+      const v = verdicts[s.subcategory];
+      if (v === "skip") skipSubs++;
+      else if (v === "review") reviewSubs++;
+      else if (v === "takeAll") {
+        takeAllSubs++;
+        takeAllItems += s.count;
+      }
+    }
+    return { skipSubs, reviewSubs, takeAllSubs, takeAllItems };
+  }, [subcategories, verdicts]);
 
   // Per-subcategory decision rollups so chips can show progress.
   const subStateBySub = useMemo(() => {
@@ -162,21 +184,30 @@ export function CurateBrowser({
     return out;
   }, [subcategories, barcodesBySubcategory, decisions]);
 
+  const effective = (it: VPCItem): Decision | undefined => {
+    const explicit = decisions[it.barcode];
+    if (explicit) return explicit;
+    return verdicts[it.subcategory] === "takeAll" ? "keep" : undefined;
+  };
+
   const filteredSubs = useMemo(() => {
     const q = subSearch.trim().toLowerCase();
     return subcategories.filter((s) => {
+      // Sort-skipped categories are hidden entirely from the picker.
+      if (verdicts[s.subcategory] === "skip") return false;
       if (!q) return true;
       const label = (renames[s.subcategory] ?? s.subcategory).toLowerCase();
       return label.includes(q) || s.subcategory.toLowerCase().includes(q);
     });
-  }, [subSearch, subcategories, renames]);
+  }, [subSearch, subcategories, renames, verdicts]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return items.filter((it) => {
+      if (verdicts[it.subcategory] === "skip") return false;
       if (selectedSubs.size > 0 && !selectedSubs.has(it.subcategory)) return false;
       if (photoOnly && !it.photo && !it.thumb) return false;
-      const dec = decisions[it.barcode];
+      const dec = effective(it);
       if (!showDecided && dec) return false;
       if (!showCut && dec === "cut") return false;
       if (q) {
@@ -185,7 +216,8 @@ export function CurateBrowser({
       }
       return true;
     });
-  }, [items, selectedSubs, photoOnly, showDecided, showCut, search, decisions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, selectedSubs, photoOnly, showDecided, showCut, search, decisions, verdicts]);
 
   const toggleSub = (sub: string) => {
     setSelectedSubs((prev) => {
@@ -197,19 +229,33 @@ export function CurateBrowser({
   };
 
   const exportPicks = () => {
+    // Build the effective keep/cut/star lists, combining explicit per-item
+    // decisions with "take all" subcategories (every item auto-kept).
+    const keep: string[] = [];
+    const star: string[] = [];
+    const cut: string[] = [];
+    for (const it of items) {
+      if (verdicts[it.subcategory] === "skip") continue;
+      const explicit = decisions[it.barcode];
+      const eff = explicit ??
+        (verdicts[it.subcategory] === "takeAll" ? "keep" : undefined);
+      if (eff === "star") {
+        star.push(it.barcode);
+        keep.push(it.barcode);
+      } else if (eff === "keep") {
+        keep.push(it.barcode);
+      } else if (eff === "cut") {
+        cut.push(it.barcode);
+      }
+    }
     const out = {
       generated: new Date().toISOString(),
       counts,
       renames,
-      keep: Object.entries(decisions)
-        .filter(([_, v]) => v === "keep" || v === "star")
-        .map(([b]) => b),
-      star: Object.entries(decisions)
-        .filter(([_, v]) => v === "star")
-        .map(([b]) => b),
-      cut: Object.entries(decisions)
-        .filter(([_, v]) => v === "cut")
-        .map(([b]) => b),
+      subcategoryVerdicts: verdicts,
+      keep,
+      star,
+      cut,
     };
     const blob = new Blob([JSON.stringify(out, null, 2)], {
       type: "application/json",
@@ -243,6 +289,9 @@ export function CurateBrowser({
           </span>
         </div>
         <div className="curate__bar-actions">
+          <Link href="/curate/sort" className="curate__btn">
+            Sort subcategories →
+          </Link>
           <button
             type="button"
             className="curate__btn"
@@ -257,6 +306,27 @@ export function CurateBrowser({
           </button>
         </div>
       </header>
+
+      {(sortStats.skipSubs > 0 || sortStats.takeAllSubs > 0) ? (
+        <div className="curate__sortbanner">
+          <span>
+            Sort active:{" "}
+            {sortStats.skipSubs ? (
+              <><b>{sortStats.skipSubs}</b> subs hidden</>
+            ) : null}
+            {sortStats.skipSubs && sortStats.takeAllSubs ? " · " : ""}
+            {sortStats.takeAllSubs ? (
+              <>
+                <b className="hot">{sortStats.takeAllSubs}</b> taking all (
+                <b>{sortStats.takeAllItems}</b> auto-kept)
+              </>
+            ) : null}
+          </span>
+          <Link href="/curate/sort" className="curate__sortbanner-link">
+            Adjust →
+          </Link>
+        </div>
+      ) : null}
 
       {pickerOpen ? (
         <aside className="curate__picker" aria-label="Subcategory picker">
@@ -475,7 +545,10 @@ export function CurateBrowser({
             <ItemCard
               key={it.barcode}
               item={it}
-              decision={decisions[it.barcode]}
+              decision={effective(it)}
+              fromTakeAll={
+                !decisions[it.barcode] && verdicts[it.subcategory] === "takeAll"
+              }
               onSet={setDecision}
             />
           ))
@@ -488,15 +561,17 @@ export function CurateBrowser({
 function ItemCard({
   item,
   decision,
+  fromTakeAll,
   onSet,
 }: {
   item: VPCItem;
   decision?: Decision;
+  fromTakeAll?: boolean;
   onSet: (b: string, d: Decision | null) => void;
 }) {
   const set = (d: Decision) => onSet(item.barcode, decision === d ? null : d);
   return (
-    <article className={`ccard ccard--${decision ?? "undecided"}`}>
+    <article className={`ccard ccard--${decision ?? "undecided"} ${fromTakeAll ? "ccard--takeall" : ""}`}>
       <div className="ccard__media">
         {item.thumb || item.photo ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -513,7 +588,13 @@ function ItemCard({
         )}
         {decision ? (
           <span className={`ccard__badge ccard__badge--${decision}`}>
-            {decision === "keep" ? "KEPT" : decision === "star" ? "★ STAR" : "CUT"}
+            {fromTakeAll && decision === "keep"
+              ? "★ TAKE-ALL"
+              : decision === "keep"
+              ? "KEPT"
+              : decision === "star"
+              ? "★ STAR"
+              : "CUT"}
           </span>
         ) : null}
       </div>
