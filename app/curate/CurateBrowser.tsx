@@ -82,7 +82,7 @@ export function CurateBrowser({
     const q = search.trim().toLowerCase();
     return items.filter((it) => {
       if (selectedSubs.size > 0 && !selectedSubs.has(it.subcategory)) return false;
-      if (photoOnly && !it.photo) return false;
+      if (photoOnly && !it.photo && !it.thumb) return false;
       const dec = decisions[it.barcode];
       if (!showDecided && dec) return false;
       if (!showCut && dec === "cut") return false;
@@ -302,9 +302,13 @@ function ItemCard({
   return (
     <article className={`ccard ccard--${decision ?? "undecided"}`}>
       <div className="ccard__media">
-        {item.photo ? (
+        {item.thumb || item.photo ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.photo} alt={item.name} loading="lazy" />
+          <img
+            src={item.thumb ?? item.photo!}
+            alt={item.name}
+            loading="lazy"
+          />
         ) : (
           <div className="ccard__noimg">
             <span className="ccard__noimg-label">{item.subcategory || "—"}</span>

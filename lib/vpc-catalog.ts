@@ -11,6 +11,7 @@ export type VPCItem = {
   priceWeek: number | null;
   priceRaw: string;
   photo: string | null;
+  thumb: string | null;
 };
 
 function parseCsv(text: string): string[][] {
@@ -79,6 +80,7 @@ export function getVPCItems(): VPCItem[] {
     price: idx("price"),
   };
   const inventoryDir = join(process.cwd(), "public/inventory");
+  const thumbsDir = join(inventoryDir, "thumbs");
   const items: VPCItem[] = [];
   for (let i = 1; i < rows.length; i++) {
     const r = rows[i];
@@ -86,6 +88,8 @@ export function getVPCItems(): VPCItem[] {
     if (!barcode) continue;
     const photoRel = `/inventory/${barcode}.jpg`;
     const photoAbs = join(inventoryDir, `${barcode}.jpg`);
+    const thumbRel = `/inventory/thumbs/${barcode}.jpg`;
+    const thumbAbs = join(thumbsDir, `${barcode}.jpg`);
     items.push({
       barcode,
       category: (r[ix.category] || "").trim(),
@@ -96,6 +100,7 @@ export function getVPCItems(): VPCItem[] {
       priceRaw: (r[ix.price] || "").trim(),
       priceWeek: parsePriceWeek(r[ix.price] || ""),
       photo: existsSync(photoAbs) ? photoRel : null,
+      thumb: existsSync(thumbAbs) ? thumbRel : null,
     });
   }
   CACHE = items;
@@ -113,7 +118,7 @@ export function getSubcategoryStats(): {
     const key = it.subcategory || "(uncategorized)";
     const cur = map.get(key) || { count: 0, withPhoto: 0 };
     cur.count++;
-    if (it.photo) cur.withPhoto++;
+    if (it.photo || it.thumb) cur.withPhoto++;
     map.set(key, cur);
   }
   return [...map.entries()]
