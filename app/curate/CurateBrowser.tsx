@@ -6,23 +6,24 @@ import type { VPCItem } from "@/lib/vpc-catalog";
 type Decision = "keep" | "cut" | "star";
 type SubcategoryStat = { subcategory: string; count: number; withPhoto: number };
 
-const STORAGE_KEY = "rentco_curate_v1";
+const DECISIONS_KEY = "rentco_curate_v1";
+const RENAMES_KEY = "rentco_curate_renames_v1";
 
-function loadDecisions(): Record<string, Decision> {
-  if (typeof window === "undefined") return {};
+function loadJSON<T>(key: string, fallback: T): T {
+  if (typeof window === "undefined") return fallback;
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {};
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
     const parsed = JSON.parse(raw);
-    return parsed && typeof parsed === "object" ? parsed : {};
+    return parsed && typeof parsed === "object" ? (parsed as T) : fallback;
   } catch {
-    return {};
+    return fallback;
   }
 }
 
-function saveDecisions(d: Record<string, Decision>) {
+function saveJSON(key: string, val: unknown) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+    localStorage.setItem(key, JSON.stringify(val));
   } catch {}
 }
 
@@ -34,6 +35,7 @@ export function CurateBrowser({
   subcategories: SubcategoryStat[];
 }) {
   const [decisions, setDecisions] = useState<Record<string, Decision>>({});
+  const [renames, setRenames] = useState<Record<string, string>>({});
   const [hydrated, setHydrated] = useState(false);
   const [selectedSubs, setSelectedSubs] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
@@ -42,15 +44,35 @@ export function CurateBrowser({
   const [showCut, setShowCut] = useState(false);
   const [subSearch, setSubSearch] = useState("");
   const [pickerOpen, setPickerOpen] = useState(true);
+  const [menuFor, setMenuFor] = useState<string | null>(null);
+  const [renamingFor, setRenamingFor] = useState<string | null>(null);
+  const [renameDraft, setRenameDraft] = useState("");
 
   useEffect(() => {
-    setDecisions(loadDecisions());
+    setDecisions(loadJSON<Record<string, Decision>>(DECISIONS_KEY, {}));
+    setRenames(loadJSON<Record<string, string>>(RENAMES_KEY, {}));
     setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (hydrated) saveDecisions(decisions);
+    if (hydrated) saveJSON(DECISIONS_KEY, decisions);
   }, [decisions, hydrated]);
+
+  useEffect(() => {
+    if (hydrated) saveJSON(RENAMES_KEY, renames);
+  }, [renames, hydrated]);
+
+  // Barcodes grouped by their VPC subcategory — for bulk operations.
+  const barcodesBySubcategory = useMemo(() => {
+    const map = new Map<string, string[]>();
+    for (const it of items) {
+      const key = it.subcategory || "(uncategorized)";
+      const arr = map.get(key) ?? [];
+      arr.push(it.barcode);
+      map.set(key, arr);
+    }
+    return map;
+  }, [items]);
 
   const setDecision = (barcode: string, d: Decision | null) => {
     setDecisions((prev) => {
@@ -59,6 +81,49 @@ export function CurateBrowser({
       else next[barcode] = d;
       return next;
     });
+  };
+
+  const cutWholeSubcategory = (sub: string) => {
+    const barcodes = barcodesBySubcategory.get(sub) ?? [];
+    setDecisions((prev) => {
+      const next = { ...prev };
+      for (const b of barcodes) next[b] = "cut";
+      return next;
+    });
+    setMenuFor(null);
+  };
+
+  const restoreWholeSubcategory = (sub: string) => {
+    const barcodes = barcodesBySubcategory.get(sub) ?? [];
+    setDecisions((prev) => {
+      const next = { ...prev };
+      for (const b of barcodes) delete next[b];
+      return next;
+    });
+    setMenuFor(null);
+  };
+
+  const startRename = (sub: string) => {
+    setRenamingFor(sub);
+    setRenameDraft(renames[sub] ?? "");
+    setMenuFor(null);
+  };
+
+  const commitRename = (sub: string) => {
+    const draft = renameDraft.trim();
+    setRenames((prev) => {
+      const next = { ...prev };
+      if (!draft || draft === sub) delete next[sub];
+      else next[sub] = draft;
+      return next;
+    });
+    setRenamingFor(null);
+    setRenameDraft("");
+  };
+
+  const cancelRename = () => {
+    setRenamingFor(null);
+    setRenameDraft("");
   };
 
   const counts = useMemo(() => {
@@ -71,12 +136,40 @@ export function CurateBrowser({
     return { keep, cut, star, total: items.length };
   }, [decisions, items.length]);
 
+  // Per-subcategory decision rollups so chips can show progress.
+  const subStateBySub = useMemo(() => {
+    const out = new Map<
+      string,
+      { decided: number; cut: number; keep: number; star: number; total: number }
+    >();
+    for (const stat of subcategories) {
+      const bs = barcodesBySubcategory.get(stat.subcategory) ?? [];
+      let cut = 0, keep = 0, star = 0;
+      for (const b of bs) {
+        const d = decisions[b];
+        if (d === "cut") cut++;
+        else if (d === "keep") keep++;
+        else if (d === "star") star++;
+      }
+      out.set(stat.subcategory, {
+        decided: cut + keep + star,
+        cut,
+        keep,
+        star,
+        total: bs.length,
+      });
+    }
+    return out;
+  }, [subcategories, barcodesBySubcategory, decisions]);
+
   const filteredSubs = useMemo(() => {
     const q = subSearch.trim().toLowerCase();
-    return subcategories.filter((s) =>
-      q ? s.subcategory.toLowerCase().includes(q) : true
-    );
-  }, [subSearch, subcategories]);
+    return subcategories.filter((s) => {
+      if (!q) return true;
+      const label = (renames[s.subcategory] ?? s.subcategory).toLowerCase();
+      return label.includes(q) || s.subcategory.toLowerCase().includes(q);
+    });
+  }, [subSearch, subcategories, renames]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -107,6 +200,7 @@ export function CurateBrowser({
     const out = {
       generated: new Date().toISOString(),
       counts,
+      renames,
       keep: Object.entries(decisions)
         .filter(([_, v]) => v === "keep" || v === "star")
         .map(([b]) => b),
@@ -198,24 +292,125 @@ export function CurateBrowser({
           <div className="curate__sub-grid" role="listbox" aria-multiselectable="true">
             {filteredSubs.map((s) => {
               const on = selectedSubs.has(s.subcategory);
+              const state = subStateBySub.get(s.subcategory);
+              const allCut = state && state.total > 0 && state.cut === state.total;
+              const renamedTo = renames[s.subcategory];
+              const isRenaming = renamingFor === s.subcategory;
+              const menuOpen = menuFor === s.subcategory;
+              const label = renamedTo ?? s.subcategory;
+
               return (
-                <button
+                <div
                   key={s.subcategory}
-                  type="button"
-                  role="option"
-                  aria-selected={on}
-                  className={`curate__sub ${on ? "is-on" : ""}`}
-                  onClick={() => toggleSub(s.subcategory)}
-                  title={`${s.count} items · ${s.withPhoto} with photo`}
+                  className={`curate__subwrap ${allCut ? "is-allcut" : ""}`}
                 >
-                  <span className="curate__sub-name">{s.subcategory}</span>
-                  <span className="curate__sub-counts">
-                    {s.count}
-                    {s.withPhoto > 0 ? (
-                      <span className="curate__sub-photos"> · {s.withPhoto}📷</span>
-                    ) : null}
-                  </span>
-                </button>
+                  {isRenaming ? (
+                    <div className="curate__sub-rename">
+                      <input
+                        type="text"
+                        value={renameDraft}
+                        autoFocus
+                        onChange={(e) => setRenameDraft(e.target.value)}
+                        placeholder={s.subcategory}
+                        className="curate__sub-rename-input"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") commitRename(s.subcategory);
+                          else if (e.key === "Escape") cancelRename();
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="curate__sub-rename-btn"
+                        onClick={() => commitRename(s.subcategory)}
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        className="curate__sub-rename-btn curate__sub-rename-btn--ghost"
+                        onClick={cancelRename}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={on}
+                        className={`curate__sub ${on ? "is-on" : ""}`}
+                        onClick={() => toggleSub(s.subcategory)}
+                        title={
+                          renamedTo
+                            ? `Renamed from "${s.subcategory}" · ${s.count} items · ${s.withPhoto} with photo`
+                            : `${s.count} items · ${s.withPhoto} with photo`
+                        }
+                      >
+                        <span className="curate__sub-name">
+                          {label}
+                          {renamedTo ? (
+                            <span className="curate__sub-was">was: {s.subcategory}</span>
+                          ) : null}
+                        </span>
+                        <span className="curate__sub-counts">
+                          {state && state.decided > 0 ? (
+                            <span className="curate__sub-progress">
+                              {state.decided}/{state.total}
+                            </span>
+                          ) : (
+                            <span>{s.count}</span>
+                          )}
+                          {s.withPhoto > 0 ? (
+                            <span className="curate__sub-photos"> · {s.withPhoto}📷</span>
+                          ) : null}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        className="curate__sub-menu-btn"
+                        aria-label={`Actions for ${label}`}
+                        aria-expanded={menuOpen}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setMenuFor(menuOpen ? null : s.subcategory);
+                        }}
+                      >
+                        ⋯
+                      </button>
+                      {menuOpen ? (
+                        <div className="curate__sub-menu" role="menu">
+                          <button
+                            type="button"
+                            className="curate__sub-menu-item"
+                            onClick={() => startRename(s.subcategory)}
+                            role="menuitem"
+                          >
+                            ✎ Rename…
+                          </button>
+                          <button
+                            type="button"
+                            className="curate__sub-menu-item curate__sub-menu-item--danger"
+                            onClick={() => cutWholeSubcategory(s.subcategory)}
+                            role="menuitem"
+                          >
+                            ✗ Cut all {s.count}
+                          </button>
+                          {state && state.decided > 0 ? (
+                            <button
+                              type="button"
+                              className="curate__sub-menu-item"
+                              onClick={() => restoreWholeSubcategory(s.subcategory)}
+                              role="menuitem"
+                            >
+                              ↺ Reset decisions ({state.decided})
+                            </button>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </>
+                  )}
+                </div>
               );
             })}
           </div>
@@ -266,7 +461,8 @@ export function CurateBrowser({
             <h3>Pick a subcategory to start.</h3>
             <p>
               Tap subcategories in the picker above to scope what you&apos;re reviewing.
-              You can also search across everything from the toolbar.
+              You can also search across everything from the toolbar. Use the ⋯ menu
+              on a subcategory to bulk-cut or rename it.
             </p>
           </div>
         ) : filtered.length === 0 ? (
