@@ -69,14 +69,15 @@ export function SiteHeader() {
         </nav>
 
         {guest ? (
-          <div
+          <Link
+            href="/ops"
             className="site-header__guest"
-            aria-label={`Signed in as ${guest}`}
-            title={`Invited as ${guest}`}
+            aria-label={`Signed in as ${guest} — open operator dashboard`}
+            title={`Invited as ${guest} — tap for /ops`}
           >
             <span className="site-header__guest-prefix">OPERATOR //</span>{" "}
             <span className="site-header__guest-name">{guest}</span>
-          </div>
+          </Link>
         ) : null}
 
         <button

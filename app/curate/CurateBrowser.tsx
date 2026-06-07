@@ -292,6 +292,9 @@ export function CurateBrowser({
           <Link href="/curate/sort" className="curate__btn">
             Sort subcategories →
           </Link>
+          <Link href="/curate/preview" className="curate__btn">
+            Preview →
+          </Link>
           <button
             type="button"
             className="curate__btn"
