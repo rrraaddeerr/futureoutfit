@@ -72,6 +72,11 @@ export default async function OpsPage() {
     local: true,
   };
 
+  const notionDbId = process.env.NOTION_DATABASE_ID?.replace(/-/g, "") ?? null;
+  const notionUrl = notionDbId
+    ? `https://www.notion.so/${notionDbId}`
+    : null;
+
   return (
     <div className="ops">
       <div className="wrap">
@@ -132,6 +137,17 @@ export default async function OpsPage() {
                 ? "Inquiries are duplicated to local file + Notion."
                 : "Set NOTION_TOKEN and NOTION_DATABASE_ID on Vercel to forward to Notion."}
             </div>
+            {notionUrl ? (
+              <a
+                href={notionUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="curate__btn"
+                style={{ marginTop: 10, alignSelf: "flex-start" }}
+              >
+                Open Notion DB ↗
+              </a>
+            ) : null}
           </section>
         </div>
 
