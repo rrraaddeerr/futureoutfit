@@ -51,6 +51,7 @@ export function CurateBrowser({
   const [menuFor, setMenuFor] = useState<string | null>(null);
   const [renamingFor, setRenamingFor] = useState<string | null>(null);
   const [renameDraft, setRenameDraft] = useState("");
+  const [focusedBarcode, setFocusedBarcode] = useState<string | null>(null);
 
   useEffect(() => {
     setDecisions(loadJSON<Record<string, Decision>>(DECISIONS_KEY, {}));
@@ -218,6 +219,72 @@ export function CurateBrowser({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, selectedSubs, photoOnly, showDecided, showCut, search, decisions, verdicts]);
+
+  // Keyboard shortcuts for the visible grid — 1/2/3 decide on the focused
+  // card, arrow keys move focus. When nothing is focused, the first decision
+  // key auto-focuses the first item.
+  useEffect(() => {
+    if (filtered.length === 0) {
+      if (focusedBarcode !== null) setFocusedBarcode(null);
+      return;
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.target instanceof HTMLSelectElement) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const idx = focusedBarcode
+        ? filtered.findIndex((it) => it.barcode === focusedBarcode)
+        : -1;
+
+      const focusAt = (i: number) => {
+        const it = filtered[Math.max(0, Math.min(i, filtered.length - 1))];
+        if (!it) return;
+        setFocusedBarcode(it.barcode);
+        if (typeof document !== "undefined") {
+          const el = document.querySelector(`[data-barcode="${it.barcode}"]`);
+          el?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      };
+
+      if (e.key === "ArrowDown" || e.key === "j") {
+        e.preventDefault();
+        focusAt(idx < 0 ? 0 : idx + 1);
+      } else if (e.key === "ArrowUp" || e.key === "k") {
+        e.preventDefault();
+        focusAt(idx < 0 ? 0 : idx - 1);
+      } else if (e.key === "Escape") {
+        setFocusedBarcode(null);
+      } else if (e.key === "1" || e.key === "c" || e.key === "x") {
+        e.preventDefault();
+        const target = idx >= 0 ? filtered[idx] : filtered[0];
+        if (target) {
+          const cur = effective(target);
+          setDecision(target.barcode, cur === "cut" ? null : "cut");
+          focusAt((idx < 0 ? 0 : idx) + 1);
+        }
+      } else if (e.key === "2" || e.key === "s") {
+        e.preventDefault();
+        const target = idx >= 0 ? filtered[idx] : filtered[0];
+        if (target) {
+          const cur = effective(target);
+          setDecision(target.barcode, cur === "star" ? null : "star");
+          focusAt((idx < 0 ? 0 : idx) + 1);
+        }
+      } else if (e.key === "3" || e.key === "Enter") {
+        e.preventDefault();
+        const target = idx >= 0 ? filtered[idx] : filtered[0];
+        if (target) {
+          const cur = effective(target);
+          setDecision(target.barcode, cur === "keep" ? null : "keep");
+          focusAt((idx < 0 ? 0 : idx) + 1);
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filtered, focusedBarcode, decisions, verdicts]);
 
   const toggleSub = (sub: string) => {
     setSelectedSubs((prev) => {
@@ -528,6 +595,14 @@ export function CurateBrowser({
         </div>
       </div>
 
+      {filtered.length > 0 ? (
+        <div className="curate__hotkeys" aria-hidden="true">
+          <kbd>1</kbd> cut · <kbd>2</kbd> ★ star · <kbd>3</kbd> keep
+          {" · "}
+          <kbd>↑</kbd><kbd>↓</kbd> nav · <kbd>esc</kbd> unfocus
+        </div>
+      ) : null}
+
       <div className="curate__grid">
         {selectedSubs.size === 0 && !search ? (
           <div className="curate__empty">
@@ -552,6 +627,8 @@ export function CurateBrowser({
               fromTakeAll={
                 !decisions[it.barcode] && verdicts[it.subcategory] === "takeAll"
               }
+              focused={focusedBarcode === it.barcode}
+              onFocus={() => setFocusedBarcode(it.barcode)}
               onSet={setDecision}
             />
           ))
@@ -565,16 +642,24 @@ function ItemCard({
   item,
   decision,
   fromTakeAll,
+  focused,
+  onFocus,
   onSet,
 }: {
   item: VPCItem;
   decision?: Decision;
   fromTakeAll?: boolean;
+  focused?: boolean;
+  onFocus?: () => void;
   onSet: (b: string, d: Decision | null) => void;
 }) {
   const set = (d: Decision) => onSet(item.barcode, decision === d ? null : d);
   return (
-    <article className={`ccard ccard--${decision ?? "undecided"} ${fromTakeAll ? "ccard--takeall" : ""}`}>
+    <article
+      data-barcode={item.barcode}
+      onClick={onFocus}
+      className={`ccard ccard--${decision ?? "undecided"} ${fromTakeAll ? "ccard--takeall" : ""} ${focused ? "ccard--focused" : ""}`}
+    >
       <div className="ccard__media">
         {item.thumb || item.photo ? (
           // eslint-disable-next-line @next/next/no-img-element

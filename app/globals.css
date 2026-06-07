@@ -2503,7 +2503,41 @@ textarea.field__control {
 }
 
 .ccard--takeall { border-color: rgba(255, 90, 31, 0.55); }
+.ccard--focused {
+  box-shadow: 0 0 0 2px var(--accent), 0 8px 24px rgba(255, 90, 31, 0.25);
+  transform: translateY(-1px);
+  z-index: 2;
+}
 .ccard__badge--keep { color: var(--tape); border: 1px solid var(--tape); }
+
+.curate__hotkeys {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 10px;
+  border: 1px dashed var(--line);
+  margin-bottom: 12px;
+}
+.curate__hotkeys kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid var(--line-2);
+  background: var(--panel);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  margin: 0 2px;
+}
+
+@media (max-width: 600px) {
+  .curate__hotkeys { display: none; }
+}
 
 .sort__shell {
   max-width: 760px;
