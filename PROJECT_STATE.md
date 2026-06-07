@@ -69,7 +69,15 @@ music / fashion / nightlife / festival / film world.
 - `components/BrandStamp.tsx` — the hand-drawn logo (static SVG, no runtime rough.js)
 - `lib/inventory.ts` — data access, facets, related-item logic
 - `lib/cart.ts` — zustand store, localStorage-persisted
+- `lib/vpc-catalog.ts` — VPC CSV parser, used by /curate
+- `lib/categorize.ts` — VPC-subcat → rent.co category classifier (mirrored in apply-picks.mjs)
 - `middleware.ts` + `app/access/` + `app/api/access/route.ts` — pre-launch invite gate (cookie-based)
+- `app/curate/` — per-item VPC review tool (grid, keyboard shortcuts, bulk subcat actions)
+- `app/curate/sort/` — subcategory triage (Skip / Review / Take all)
+- `app/curate/preview/` — preview the resolved keep set grouped by final rent.co category
+- `app/ops/` — operator dashboard (archive stats, inquiry routing, curate progress)
+- `scripts/apply-picks.mjs` — applies an Export Picks JSON to data/inventory.json
+- `scripts/download-vpc-thumbs.mjs` — low-rez thumb puller for /curate (240px, ~5 KB each)
 
 ## Pre-launch invite gate
 
@@ -94,6 +102,45 @@ links still unfurl with the brand teaser.
 - **Disable the gate** at full launch: delete `middleware.ts`,
   `app/access/`, `app/api/access/`, and the access CSS block at the
   bottom of `app/globals.css`.
+- **OG image:** `/access/opengraph-image` — gate-specific share unfurl
+  ("The archive is open for invited guests"). Used when `/i/<code>` or
+  `/access` links unfurl in iMessage/Slack/Twitter.
+
+## Curation workflow
+
+End-to-end flow from VPC catalog to live archive:
+
+1. **Triage** at `/curate/sort` — speed-blast through all 951 VPC
+   subcategories. For each: Skip (hide forever), Review (per-item later),
+   or Take all (auto-keep every item in this subcat). Keyboard 1/2/3.
+2. **Review** at `/curate` — for "Review" subcats, item-by-item Keep/
+   Star/Cut. Keyboard 1/2/3 on focused item, ↑↓ to navigate. ⋯ menu on
+   each subcategory chip lets you rename it, bulk-cut, or reset.
+3. **Preview** at `/curate/preview` — see the resolved keep set grouped
+   by final rent.co category (`Seating`, `Lighting`, etc. — auto-
+   classified from VPC subcat). Spot-check before export.
+4. **Export** — downloads `rentco-curate-<timestamp>.json` with
+   `{keep, star, cut, renames, subcategoryVerdicts}` by barcode. Import
+   button on `/curate` accepts the same shape to sync between devices.
+5. **Apply** — `node scripts/apply-picks.mjs path/to/picks.json` reads
+   the JSON, classifies into rent.co categories, builds
+   `data/inventory.json`, prints a stat summary including how many
+   items still need high-rez photo backfill.
+6. **Backfill** photos for kept items with no high-rez:
+   `node scripts/download-vpc-photos.mjs` (resume-safe).
+7. **Ship.** Commit + triple-push (see Deploy below).
+
+## Inquiry routing
+
+- Always logs to console + appends to `data/submissions/<kind>.ndjson`
+  when the filesystem is writable.
+- Forwards to `INQUIRY_WEBHOOK_URL` if set (Zapier, Make, generic).
+- Forwards to **Notion** if both `NOTION_TOKEN` and `NOTION_DATABASE_ID`
+  are set. Database needs these properties (exact names): Name (Title),
+  Kind (Select: rental/consult/sourcing), Status (Select: New/...),
+  Email (Email), Phone (Phone), Company (Text), Submitted (Date),
+  Items (Text), Details (Text).
+- `/ops` dashboard surfaces routing status and recent NDJSON entries.
 
 ## Decisions made (and why)
 
