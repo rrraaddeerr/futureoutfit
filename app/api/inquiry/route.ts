@@ -133,5 +133,53 @@ export async function POST(request: Request) {
     }
   }
 
+  const notionToken = process.env.NOTION_TOKEN;
+  const notionDb = process.env.NOTION_DATABASE_ID;
+  if (notionToken && notionDb) {
+    try {
+      await fetch("https://api.notion.com/v1/pages", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${notionToken}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(buildNotionPage(notionDb, record)),
+      });
+    } catch (err) {
+      console.error("[inquiry] notion forward failed:", err);
+    }
+  }
+
   return NextResponse.json({ ok: true });
+}
+
+function buildNotionPage(databaseId: string, r: InquiryPayload) {
+  const f = r.fields;
+  const who = f.name || f.company || f.email || "Anonymous";
+  const items = r.selected_items?.length
+    ? r.selected_items.map((i) => `${i.title} (${i.id})`).join("\n")
+    : "";
+  const fieldDump = Object.entries(f)
+    .filter(([k]) => !["name", "email", "phone", "company"].includes(k))
+    .map(([k, v]) => `${k}: ${v}`)
+    .join("\n");
+
+  const richText = (s: string) =>
+    s ? [{ type: "text", text: { content: s.slice(0, 1900) } }] : [];
+
+  return {
+    parent: { database_id: databaseId },
+    properties: {
+      Name: { title: [{ text: { content: `${r.kind} · ${who}` } }] },
+      Kind: { select: { name: r.kind } },
+      Status: { select: { name: "New" } },
+      Email: f.email ? { email: f.email } : { email: null },
+      Phone: f.phone ? { phone_number: f.phone } : { phone_number: null },
+      Company: { rich_text: richText(f.company || "") },
+      Submitted: { date: { start: r.submitted_at || new Date().toISOString() } },
+      Items: { rich_text: richText(items) },
+      Details: { rich_text: richText(fieldDump) },
+    },
+  };
 }
