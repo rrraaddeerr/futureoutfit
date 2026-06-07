@@ -113,6 +113,49 @@ export function SortBrowser({
   const goPrev = () => setIndex((i) => Math.max(0, i - 1));
   const goNext = () => setIndex((i) => Math.min(queue.length - 1, i + 1));
 
+  // Touch swipe — right=take all, left=skip, down=review.
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
+    null
+  );
+  const [swipeNudge, setSwipeNudge] = useState<Verdict | null>(null);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    setTouchStart({ x: t.clientX, y: t.clientY });
+    setSwipeNudge(null);
+  };
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!touchStart) return;
+    const t = e.touches[0];
+    const dx = t.clientX - touchStart.x;
+    const dy = t.clientY - touchStart.y;
+    const ax = Math.abs(dx);
+    const ay = Math.abs(dy);
+    if (ax > 30 && ax > ay) setSwipeNudge(dx > 0 ? "takeAll" : "skip");
+    else if (ay > 30 && dy > 0) setSwipeNudge("review");
+    else setSwipeNudge(null);
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart || !current) {
+      setTouchStart(null);
+      setSwipeNudge(null);
+      return;
+    }
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.x;
+    const dy = t.clientY - touchStart.y;
+    const ax = Math.abs(dx);
+    const ay = Math.abs(dy);
+    const min = 80;
+    if (ax > ay && ax > min) {
+      decide(current.subcategory, dx > 0 ? "takeAll" : "skip");
+    } else if (ay > min && dy > 0) {
+      decide(current.subcategory, "review");
+    }
+    setTouchStart(null);
+    setSwipeNudge(null);
+  };
+
   // Keyboard shortcuts.
   useEffect(() => {
     if (!current) return;
@@ -228,7 +271,12 @@ export function SortBrowser({
           </p>
         </div>
       ) : (
-        <article className="sort__card">
+        <article
+          className={`sort__card ${swipeNudge ? `sort__card--nudge-${swipeNudge}` : ""}`}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           <div className="sort__head">
             <div>
               <div className="sort__sub-name">{current.subcategory}</div>
@@ -299,6 +347,10 @@ export function SortBrowser({
               ★ Take all
               <span className="sort__action-hint">keep every item in this category</span>
             </button>
+          </div>
+
+          <div className="sort__swipe-hint" aria-hidden="true">
+            swipe ← skip · ↓ review · → take all
           </div>
 
           <div className="sort__nav">

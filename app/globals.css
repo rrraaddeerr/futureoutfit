@@ -2607,6 +2607,37 @@ textarea.field__control {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+  touch-action: pan-y;
+}
+.sort__card--nudge-skip {
+  border-color: var(--muted);
+  transform: translateX(-6px);
+  box-shadow: -8px 0 24px rgba(255, 255, 255, 0.06);
+}
+.sort__card--nudge-review {
+  border-color: var(--text);
+  transform: translateY(4px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.06);
+}
+.sort__card--nudge-takeAll {
+  border-color: var(--accent);
+  transform: translateX(6px);
+  box-shadow: 8px 0 24px rgba(255, 90, 31, 0.2);
+}
+
+.sort__swipe-hint {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-align: center;
+  text-transform: uppercase;
+  padding-top: 2px;
+}
+@media (max-width: 760px) {
+  .sort__swipe-hint { display: block; }
 }
 
 .sort__head {
