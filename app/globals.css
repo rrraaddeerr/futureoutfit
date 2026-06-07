@@ -2074,6 +2074,10 @@ textarea.field__control {
 }
 .curate__btn--accent:hover { background: var(--accent-press); color: #0c0c0d; }
 
+.curate__btn--ghost-file {
+  cursor: pointer;
+}
+
 .curate__picker {
   background: var(--panel);
   border: 1px solid var(--line);

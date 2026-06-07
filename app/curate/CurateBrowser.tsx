@@ -286,6 +286,68 @@ export function CurateBrowser({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filtered, focusedBarcode, decisions, verdicts]);
 
+  const importPicks = async (file: File) => {
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      if (typeof parsed !== "object" || parsed === null) throw new Error("not an object");
+      const mode =
+        typeof window !== "undefined" &&
+        window.confirm(
+          "Import picks?\n\nOK = merge with current decisions (existing wins)\nCancel = replace everything"
+        );
+      if (!mode) {
+        // Replace
+        const nextDec: Record<string, Decision> = {};
+        for (const b of parsed.keep ?? []) {
+          if (typeof b === "string") nextDec[b] = "keep";
+        }
+        for (const b of parsed.star ?? []) {
+          if (typeof b === "string") nextDec[b] = "star";
+        }
+        for (const b of parsed.cut ?? []) {
+          if (typeof b === "string") nextDec[b] = "cut";
+        }
+        setDecisions(nextDec);
+        setRenames(parsed.renames && typeof parsed.renames === "object" ? parsed.renames : {});
+        setVerdicts(
+          parsed.subcategoryVerdicts && typeof parsed.subcategoryVerdicts === "object"
+            ? parsed.subcategoryVerdicts
+            : {}
+        );
+      } else {
+        // Merge — current decisions stay, imported only fills gaps
+        setDecisions((prev) => {
+          const next = { ...prev };
+          for (const b of parsed.keep ?? []) {
+            if (typeof b === "string" && !next[b]) next[b] = "keep";
+          }
+          for (const b of parsed.star ?? []) {
+            if (typeof b === "string" && !next[b]) next[b] = "star";
+          }
+          for (const b of parsed.cut ?? []) {
+            if (typeof b === "string" && !next[b]) next[b] = "cut";
+          }
+          return next;
+        });
+        if (parsed.renames && typeof parsed.renames === "object") {
+          setRenames((prev) => ({ ...parsed.renames, ...prev }));
+        }
+        if (parsed.subcategoryVerdicts && typeof parsed.subcategoryVerdicts === "object") {
+          setVerdicts((prev) => ({ ...parsed.subcategoryVerdicts, ...prev }));
+        }
+      }
+    } catch (err) {
+      if (typeof window !== "undefined") {
+        window.alert(
+          `Couldn't read that file. Expected a rentco-curate-*.json from Export.\n\n${
+            err instanceof Error ? err.message : String(err)
+          }`
+        );
+      }
+    }
+  };
+
   const toggleSub = (sub: string) => {
     setSelectedSubs((prev) => {
       const next = new Set(prev);
@@ -371,6 +433,19 @@ export function CurateBrowser({
             {pickerOpen ? "Hide" : "Show"} subcategories
             {selectedSubs.size > 0 ? ` (${selectedSubs.size})` : ""}
           </button>
+          <label className="curate__btn curate__btn--ghost-file">
+            Import
+            <input
+              type="file"
+              accept="application/json,.json"
+              onChange={(e) => {
+                const f = e.currentTarget.files?.[0];
+                if (f) importPicks(f);
+                e.currentTarget.value = "";
+              }}
+              hidden
+            />
+          </label>
           <button type="button" className="curate__btn curate__btn--accent" onClick={exportPicks}>
             Export picks
           </button>
