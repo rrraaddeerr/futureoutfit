@@ -73,14 +73,45 @@ function parsePriceWeek(raw) {
   return m ? Math.round(parseFloat(m[1])) : null;
 }
 
-// Loose tag harvest from VPC's description — captures vibe words that
-// rent.co indexes for cultural search.
+// Mirror of lib/categorize.ts rules — kept in sync manually because this
+// runs in Node and that file is TS-only.
+const CATEGORY_RULES = {
+  "Practical Seating": ["folding chair", "stacking chair", "stacking stool", "crew chair", "folding stool", "bleacher"],
+  "Practical Lighting": ["work light", "shop light", "floodlight", "flood light", "utility light", "trouble light", "stand light"],
+  "Pipe & Drape": ["pipe and drape", "drape", "curtain", "room divider", "divider screen", "backdrop", "valance", "tapestry"],
+  "Water Stations": ["water cooler", "water station", "drinking fountain", "water fountain", "water dispenser", "hydration"],
+  "Cases & Carts": ["road case", "hand truck", "cart", "trolley", "dolly", "case", "crate", "trunk", "luggage", "suitcase", "briefcase"],
+  Seating: ["armchair", "chair", "sofa", "couch", "bench", "stool", "settee", "loveseat", "ottoman", "recliner", "throne", "pew", "rocker", "banquette"],
+  Tables: ["table", "desk", "console", "nightstand", "vanity", "sideboard", "credenza", "workbench"],
+  Lighting: ["chandelier", "candelabra", "candlestick", "candle", "lamp", "sconce", "lantern", "pendant light", "light fixture"],
+  Signage: ["signage", "sign", "poster", "marquee", "letterboard", "billboard", "plaque", "banner", "neon", "artwork", "painting", "framed", "frame", "picture", "wall decor", "mirror"],
+  Hospitality: ["bar", "fridge", "refrigerator", "stove", "oven", "kitchen", "dishware", "glassware", "catering", "buffet", "dining", "cutlery", "barbecue", "grill", "keg", "platter", "teapot", "coffee maker"],
+  Greenery: ["plant", "tree", "flower", "floral", "fern", "palm", "topiary", "foliage", "shrub", "ivy", "hedge", "greenery"],
+  Staging: ["platform", "riser", "stage deck", "easel", "pedestal", "podium", "pillar", "column", "rostrum"],
+  Logistics: ["pallet", "ladder", "wheelbarrow", "generator", "compressor", "forklift", "tool box", "toolbox", "tool chest", "garage", "engine", "scaffold"],
+  Storage: ["shelving", "shelf", "bookcase", "bookshelf", "cabinet", "locker", "cupboard", "armoire", "wardrobe", "storage rack", "filing", "bin", "tote", "barrel", "container", "drawer"],
+};
+
 const TAG_HINTS = [
   "Vintage", "Antique", "Aged", "Distressed", "Rustic", "Decorative",
   "Ornate", "Industrial", "Modern", "Folding", "Rolling", "Painted",
   "Wood", "Metal", "Brass", "Leather", "Hospital", "Institutional",
   "Retail", "Office", "Hotel", "Airport", "Neon",
 ];
+
+function classifyCategory(vpcSub, name, description) {
+  const hay = `${vpcSub} ${name} ${description}`.toLowerCase();
+  let best = null, bestScore = 0;
+  for (const [cat, keywords] of Object.entries(CATEGORY_RULES)) {
+    let s = 0;
+    for (const kw of keywords) {
+      const re = new RegExp(`\\b${kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
+      if (re.test(hay)) s += kw.includes(" ") ? 3 : 2;
+    }
+    if (s > bestScore) { best = cat; bestScore = s; }
+  }
+  return bestScore >= 2 ? best : null;
+}
 
 function tagsFor(item) {
   const blob = `${item.name} ${item.description}`.toLowerCase();
@@ -163,7 +194,10 @@ if (missing.length) {
 const items = [];
 for (const it of found.values()) {
   const rawCat = it.subcategory || it.category || "Misc";
-  const category = renames[rawCat] ?? rawCat;
+  const category =
+    renames[rawCat] ??
+    classifyCategory(it.subcategory, it.name, it.description) ??
+    rawCat;
   const tags = tagsFor(it);
   if (starSet.has(it.barcode) && !tags.includes("Featured")) {
     tags.unshift("Featured");

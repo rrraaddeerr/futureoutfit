@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { classifyCategory } from "@/lib/categorize";
 
 type Decision = "keep" | "cut" | "star";
 type Verdict = "skip" | "review" | "takeAll";
@@ -64,17 +65,29 @@ export function PreviewBrowser({ items }: { items: SlimItem[] }) {
   }, [items, decisions, verdicts]);
 
   const byCategory = useMemo(() => {
-    const map = new Map<string, { items: SlimItem[]; withPhoto: number; renamed?: string }>();
+    const map = new Map<
+      string,
+      { items: SlimItem[]; withPhoto: number; sources: Set<string> }
+    >();
     for (const it of resolved.keep) {
       const rawCat = it.subcategory;
-      const cat = renames[rawCat] ?? rawCat;
-      const bucket = map.get(cat) ?? { items: [], withPhoto: 0, renamed: renames[rawCat] ? rawCat : undefined };
+      const cat =
+        renames[rawCat] ??
+        classifyCategory(rawCat, it.name, it.description) ??
+        rawCat;
+      const bucket = map.get(cat) ?? { items: [], withPhoto: 0, sources: new Set<string>() };
       bucket.items.push(it);
+      bucket.sources.add(rawCat);
       if (it.photo || it.thumb) bucket.withPhoto++;
       map.set(cat, bucket);
     }
     return [...map.entries()]
-      .map(([cat, v]) => ({ category: cat, ...v }))
+      .map(([cat, v]) => ({
+        category: cat,
+        items: v.items,
+        withPhoto: v.withPhoto,
+        sources: [...v.sources],
+      }))
       .sort((a, b) => b.items.length - a.items.length);
   }, [resolved.keep, renames]);
 
@@ -186,8 +199,11 @@ export function PreviewBrowser({ items }: { items: SlimItem[] }) {
               {bucket.category}{" "}
               <span className="preview__cat-count">{bucket.items.length}</span>
             </h2>
-            {bucket.renamed ? (
-              <span className="preview__renamed">renamed from {bucket.renamed}</span>
+            {bucket.sources.length > 0 ? (
+              <span className="preview__renamed">
+                from {bucket.sources.slice(0, 3).join(" · ")}
+                {bucket.sources.length > 3 ? ` +${bucket.sources.length - 3} more` : ""}
+              </span>
             ) : null}
             <span className="preview__cat-meta">
               {bucket.withPhoto} of {bucket.items.length} with image
