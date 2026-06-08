@@ -99,7 +99,22 @@ const TAG_HINTS = [
   "Retail", "Office", "Hotel", "Airport", "Neon",
 ];
 
+const SUBCAT_ROOT_MAP = {
+  Lighting: "Lighting", Candles: "Lighting", Neon: "Lighting", Lamp: "Lighting", Chandelier: "Lighting",
+  Chair: "Seating", Stool: "Seating", Sofa: "Seating", Bench: "Seating", Ottoman: "Seating",
+  Table: "Tables", Desk: "Tables", Counter: "Tables", Sideboard: "Tables", Credenza: "Tables", Vanity: "Tables", "Buffet/Hutch": "Tables",
+  Cabinet: "Storage", Shelf: "Storage", Rack: "Storage", Locker: "Storage", Wardrobe: "Storage", Dresser: "Storage", Bin: "Storage", Crate: "Storage", Box: "Storage", Trunk: "Storage", Basket: "Storage", Bucket: "Storage", Safe: "Storage",
+  Case: "Cases & Carts", Cart: "Cases & Carts", Luggage: "Cases & Carts",
+  Sign: "Signage", Mirror: "Signage", Art: "Signage", "Wall Dec": "Signage", Tapestry: "Signage", Photography: "Signage",
+  Plinth: "Staging", Podium: "Staging", Stand: "Staging", Stanchion: "Staging", Column: "Staging",
+  Bar: "Hospitality", Restaurant: "Hospitality", Drinkware: "Hospitality", Cookware: "Hospitality", Bowl: "Hospitality",
+  Plant: "Greenery", Garden: "Greenery",
+  Tool: "Logistics", Hardware: "Logistics", Ladder: "Logistics", Garage: "Logistics", Industrial: "Logistics",
+};
+
 function classifyCategory(vpcSub, name, description) {
+  const root = (vpcSub || "").split(",")[0].trim();
+  if (root && SUBCAT_ROOT_MAP[root]) return SUBCAT_ROOT_MAP[root];
   const hay = `${vpcSub} ${name} ${description}`.toLowerCase();
   let best = null, bestScore = 0;
   for (const [cat, keywords] of Object.entries(CATEGORY_RULES)) {

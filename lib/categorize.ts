@@ -193,6 +193,67 @@ const CULTURAL_RULES: Record<string, string[]> = {
   Touring: ["road case", "touring", "flight case"],
 };
 
+// First-word root of the VPC subcategory ("Lighting, Lamp" -> "Lighting")
+// is a strong signal. Map these to rent.co categories before keyword scoring.
+const SUBCAT_ROOT_MAP: Record<string, string> = {
+  Lighting: "Lighting",
+  Candles: "Lighting",
+  Neon: "Lighting",
+  Lamp: "Lighting",
+  Chandelier: "Lighting",
+  Chair: "Seating",
+  Stool: "Seating",
+  Sofa: "Seating",
+  Bench: "Seating",
+  Ottoman: "Seating",
+  Table: "Tables",
+  Desk: "Tables",
+  Counter: "Tables",
+  Sideboard: "Tables",
+  Credenza: "Tables",
+  Vanity: "Tables",
+  "Buffet/Hutch": "Tables",
+  Cabinet: "Storage",
+  Shelf: "Storage",
+  Rack: "Storage",
+  Locker: "Storage",
+  Wardrobe: "Storage",
+  Dresser: "Storage",
+  Bin: "Storage",
+  Crate: "Storage",
+  Box: "Storage",
+  Trunk: "Storage",
+  Basket: "Storage",
+  Bucket: "Storage",
+  Safe: "Storage",
+  Case: "Cases & Carts",
+  Cart: "Cases & Carts",
+  Luggage: "Cases & Carts",
+  Sign: "Signage",
+  Mirror: "Signage",
+  Art: "Signage",
+  "Wall Dec": "Signage",
+  Tapestry: "Signage",
+  Photography: "Signage",
+  Plinth: "Staging",
+  Podium: "Staging",
+  Stand: "Staging",
+  Stanchion: "Staging",
+  Column: "Staging",
+  Bar: "Hospitality",
+  Restaurant: "Hospitality",
+  Drinkware: "Hospitality",
+  Cookware: "Hospitality",
+  Bowl: "Hospitality",
+  Plant: "Greenery",
+  Garden: "Greenery",
+  Tool: "Logistics",
+  Hardware: "Logistics",
+  Ladder: "Logistics",
+  Garage: "Logistics",
+  Industrial: "Logistics",
+};
+
 const DESCRIPTIVE_TAGS = [
   "Vintage",
   "Antique",
@@ -235,6 +296,14 @@ export function classifyCategory(
   name: string,
   description: string
 ): string | null {
+  // 1. Strong signal: the first word of VPC's subcategory string. Beats any
+  //    keyword matches in name/description (a "Lighting, Lamp" item should
+  //    always be Lighting even if the description mentions a "table").
+  const root = vpcSubcategory.split(",")[0].trim();
+  if (root && SUBCAT_ROOT_MAP[root]) {
+    return SUBCAT_ROOT_MAP[root];
+  }
+  // 2. Fallback to keyword scoring across all VPC fields.
   const haystack = `${vpcSubcategory} ${name} ${description}`.toLowerCase();
   const scores = score(haystack, CATEGORY_RULES);
   let best: string | null = null;
