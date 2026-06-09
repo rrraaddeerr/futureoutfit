@@ -1,0 +1,14 @@
+name = "rentco-sets"
+main = "src/index.js"
+compatibility_date = "2025-05-01"
+
+# Bind the KV namespace. Run `wrangler kv namespace create rentco-sets-kv`
+# once, then paste the printed `id` into the `id` field below before deploying.
+[[kv_namespaces]]
+binding = "SETS_KV"
+id = "REPLACE_WITH_KV_ID"
+
+# The OPERATOR_TOKEN is set as a secret, not committed here. Run:
+#   wrangler secret put OPERATOR_TOKEN
+# and paste the random token when prompted. The same token goes in
+# Vercel's RENTCO_SETS_TOKEN env var so rent.co can write.
