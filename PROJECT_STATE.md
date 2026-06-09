@@ -130,6 +130,22 @@ End-to-end flow from VPC catalog to live archive:
    `node scripts/download-vpc-photos.mjs` (resume-safe).
 7. **Ship.** Commit + triple-push (see Deploy below).
 
+## Sets (client proposals)
+
+Operator-built proposals you send to clients/directors. They open a public
+URL, see your picks grouped into sections (Seating, Lighting, etc.), and
+respond Approve / Maybe / Pass per item. Real-time tally back to operator.
+
+- **Operator pages** (gated): `/sets`, `/sets/new`, `/sets/[id]`
+- **Public presentation:** `/set/[slug]` (slug is unguessable, no login)
+- **Storage:** Cloudflare Worker at `worker/rentco-sets/` (deployed separately
+  to e.g. `rentco-sets.raderturner.workers.dev`). KV-backed. See its README.
+- **Env vars needed on Vercel:**
+  - `RENTCO_SETS_URL` — worker URL
+  - `RENTCO_SETS_TOKEN` — same as the worker's OPERATOR_TOKEN secret
+  - `NEXT_PUBLIC_RENTCO_SETS_URL` — same as RENTCO_SETS_URL (used by client
+    code on /set/[slug] to POST responses)
+
 ## Inquiry routing
 
 - Always logs to console + appends to `data/submissions/<kind>.ndjson`

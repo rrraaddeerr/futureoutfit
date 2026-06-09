@@ -86,6 +86,7 @@ export default async function OpsPage() {
             <h1 className="ops__title">Control panel</h1>
           </div>
           <div className="ops__head-links">
+            <Link href="/sets" className="curate__btn curate__btn--accent">/sets</Link>
             <Link href="/curate" className="curate__btn">/curate</Link>
             <Link href="/curate/sort" className="curate__btn">/curate/sort</Link>
             <Link href="/curate/preview" className="curate__btn">/curate/preview</Link>
