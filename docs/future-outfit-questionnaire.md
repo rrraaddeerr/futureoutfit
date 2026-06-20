@@ -29,6 +29,28 @@ write "not sure" freely. Nothing here is locked.
 
 ---
 
+## 🔑 Emerging core insight — "the family closet, done with dignity"
+
+The center of gravity is shifting from a mood board toward **circulation**:
+
+- The killer feature is **dignified, digital hand-me-downs at scale.** Rader's
+  family is **50+ people** who already lend, but things fall through the
+  cracks and people **re-buy what someone would gladly have passed on.** Same
+  problem in friend groups, coworkers, any tight crew.
+- **Flat-rate shipping baked in** so out-of-town family isn't excluded.
+- **Ethical spine (non-negotiable):** it must NOT become rich kids flexing
+  expensive stuff and treating others like charity. Equity + dignity by design.
+- **Playful analog mechanics as real tools, not decoration:**
+  - **Coin flip = fairness** (two cousins want the same item → chance, not
+    status or first-come, decides).
+  - **Guess Who = discovery** (find what's in the family's closets without
+    anyone flexing).
+  - **Paper fortune teller** (cootie catcher) = playful outfit/decision moments.
+  - **"Twinning" + shouting out big/little cousins** = communal credit, celebrate
+    who you got it from.
+- **"Thanks" = the response to a heart/like.** The social grammar is gratitude
+  in both directions (heart someone's look → they reply "thanks").
+
 ## 0. The one-liner
 > A family style journal where kids save the looks they love, dream up their
 > "future outfit," learn the skills to make or find it, and get it through a
