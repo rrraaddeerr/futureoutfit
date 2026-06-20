@@ -51,6 +51,23 @@ The center of gravity is shifting from a mood board toward **circulation**:
 - **"Thanks" = the response to a heart/like.** The social grammar is gratitude
   in both directions (heart someone's look → they reply "thanks").
 
+### Refinements (latest)
+
+- **Movement, not lending:** items **pass / sell / gift** onward — they don't
+  come back. If circulation works, borrowing is unnecessary; you just pass it
+  on again. **History accumulates in the garment** (lineage = a feature).
+- **Selling is allowed** → real commerce between members, not only freebies.
+  (This *raises* the stakes on keeping it from feeling like flexing — see open Qs.)
+- **Anti-flex levers chosen:** **fairness by chance** for contested items +
+  **no charity framing between members, ever.**
+- **Philanthropy is a deliberate THANKS arm (not peer charity):** offer to
+  **donate items that have circulated a long time**; a **THANKS-sent box** that
+  goes to the **donor's chosen cause**; a **curated local-donation list — "not
+  just Value Village."**
+- **Launch circle:** Rader's **50+ family** as the hand-me-down proving ground,
+  **+ a couple of circles from his personal network — deliberately wide
+  demographic** (test equity across real income differences, not in a bubble).
+
 ## 0. The one-liner
 > A family style journal where kids save the looks they love, dream up their
 > "future outfit," learn the skills to make or find it, and get it through a
