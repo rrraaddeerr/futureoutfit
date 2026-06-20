@@ -5,6 +5,30 @@ write "not sure" freely. Nothing here is locked.
 
 ---
 
+## ✅ Answers captured so far (live)
+
+- **Name:** FUTURE OUTFIT by TTHHAANNKKSS — keeping it (at least for now).
+- **"THANKS" meaning:** gratitude + a Canadian double-meaning, AND it's the
+  name of Rader's existing clothing store / vintage rental business — years of
+  history, most of the city knows it, ~3,000 dormant followers to reawaken.
+- **Brand strategy:** this is a **relaunch of THANKS with FUTURE OUTFIT as the
+  focus** — **app / service first**; a store can be *part* of it, not the point.
+- **First real kid:** nephew **Franky**, going into **grade 7**, no phone yet.
+- **Audience stance:** must work for **phone-free kids / screen-cautious
+  families** — accommodate it well, but don't make it the headline.
+- **Franky's access:** mainly a **parent's phone**, possibly a **school
+  computer**, and a **screen-free version / integration is a MUST**.
+- **Dream capture:** **Apple share-sheet** — tap share on any photo / app /
+  game screenshot and it lands in FUTURE OUTFIT. Pull a look from *anywhere*.
+- **v1 heart:** Inspiration & wishlists (exact mechanics still TBD — looking at
+  Pinterest + AI/"Clueless prop" outfit tools for reference; priority is
+  **simplicity** and capture-from-anywhere).
+- **Eventually:** photo upload + tagging, wishlists/boards, learn/classes hub,
+  trade/swap + donate.
+- **Family model:** mixed family — kids + grown-ups, different views.
+
+---
+
 ## 0. The one-liner
 > A family style journal where kids save the looks they love, dream up their
 > "future outfit," learn the skills to make or find it, and get it through a
