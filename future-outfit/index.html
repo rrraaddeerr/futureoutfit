@@ -3,189 +3,187 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#e6dccb" />
-<title>FUTURE OUTFIT · by TTHHAANNKKSS</title>
+<meta name="theme-color" content="#13111c" />
+<title>FUTURE OUTFIT · explore who you are</title>
 <style>
   :root{
-    --paper:#efe7d6;        /* warm thrift paper */
-    --paper-2:#e6dccb;
-    --card:#fbf7ee;
-    --ink:#211d18;
-    --ink-soft:#5c554a;
-    --line:#d8cdb6;
-    --accent:#d9482f;       /* rust signal */
-    --accent-soft:#f4d3c9;
-    --gift:#3f7a4f;         /* green = gift */
-    --thanks:#c2402e;       /* heart */
-    --sell:#9a6b00;         /* mustard = for sale */
-    --tag:#2b2924;
-    --radius:16px;
-    --shadow:0 1px 0 #fff8 inset, 0 6px 18px #2b241a14;
-    --max:720px;
+    --bg:#100e18;            /* deep future-night */
+    --bg-2:#171326;
+    --panel:#1d1830;
+    --panel-2:#241d3b;
+    --line:#332a52;
+    --ink:#f4f0ff;
+    --ink-soft:#b3a9d4;
+    --ink-dim:#7d7299;
+    --violet:#8b6cff;
+    --pink:#ff5fa2;
+    --cyan:#4fe3d0;
+    --gold:#ffd166;
+    --grad:linear-gradient(120deg,#8b6cff,#ff5fa2 60%,#ffb25f);
+    --grad-cool:linear-gradient(120deg,#4fe3d0,#8b6cff);
+    --radius:22px;
+    --max:560px;
+    --shadow:0 10px 30px #0007;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
   body{
     font-family:ui-rounded,"Segoe UI",-apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;
-    background:var(--paper);
-    color:var(--ink);
-    line-height:1.45;
-    -webkit-font-smoothing:antialiased;
-    padding-bottom:88px;
+    background:radial-gradient(120% 80% at 50% -10%,#241d3b 0%,var(--bg) 55%);
+    color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;
+    padding-bottom:96px;min-height:100vh;
   }
   .wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+  a{color:inherit}
 
-  /* ---------- header ---------- */
-  header.app{
-    position:sticky;top:0;z-index:40;
-    background:linear-gradient(var(--paper),var(--paper) 70%,#efe7d6cc);
-    backdrop-filter:saturate(1.1) blur(6px);
-    border-bottom:1px solid var(--line);
-  }
-  .brandrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 12px;max-width:var(--max);margin:0 auto}
+  /* header */
+  header.app{position:sticky;top:0;z-index:40;background:linear-gradient(var(--bg),#100e18f2 75%,#100e1800);backdrop-filter:blur(8px);padding-top:env(safe-area-inset-top)}
+  .brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px 12px;max-width:var(--max);margin:0 auto}
   .brand{display:flex;flex-direction:column;line-height:1}
-  .brand .fo{font-weight:900;letter-spacing:.02em;font-size:20px}
-  .brand .by{font-size:11px;color:var(--ink-soft);letter-spacing:.18em;margin-top:4px}
-  .brand .by b{color:var(--accent);letter-spacing:.04em}
-  .circlechip{
-    display:flex;align-items:center;gap:8px;background:var(--card);
-    border:1px solid var(--line);border-radius:999px;padding:6px 10px 6px 6px;
-    box-shadow:var(--shadow);cursor:pointer;font-size:13px;font-weight:700
-  }
-  .avatar{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800}
+  .brand .fo{font-weight:900;font-size:19px;letter-spacing:.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .brand .by{font-size:10px;color:var(--ink-dim);letter-spacing:.22em;margin-top:5px}
+  .brand .by b{color:var(--ink-soft)}
+  .me{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 5px;font-size:13px;font-weight:800;cursor:pointer}
+  .me .dot{width:28px;height:28px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-size:14px}
 
-  /* ---------- view title ---------- */
-  .viewhead{padding:18px 0 6px}
-  .viewhead h1{margin:0;font-size:26px;font-weight:900;letter-spacing:-.01em}
-  .viewhead p{margin:6px 0 0;color:var(--ink-soft);font-size:14px}
+  .viewhead{padding:12px 0 2px}
+  .viewhead h1{margin:0;font-size:27px;font-weight:900;letter-spacing:-.02em}
+  .viewhead p{margin:7px 0 0;color:var(--ink-soft);font-size:14px}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 
-  /* ---------- filters ---------- */
-  .filters{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+  /* discover feed */
+  .feed{display:flex;flex-direction:column;gap:18px;padding:16px 0 8px}
+  .look{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);cursor:pointer}
+  .look .pic{aspect-ratio:4/5;display:grid;place-items:center;position:relative}
+  .look .pic .emoji{font-size:96px;filter:drop-shadow(0 8px 14px #0005)}
+  .look .pic .era{position:absolute;top:12px;left:12px;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800;letter-spacing:.04em}
+  .look .pic .savez{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;display:grid;place-items:center;font-size:18px;cursor:pointer}
+  .look .pic .savez.on{background:var(--grad);border-color:transparent}
+  .look .cap{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 13px;background:linear-gradient(#0000,#000a 60%)}
+  .look .cap .nm{font-weight:900;font-size:17px}
+  .look .vibes{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+  .vibe{font-size:11px;font-weight:800;border-radius:999px;padding:3px 9px;background:#ffffff1f;border:1px solid #ffffff24}
+  .look .peek{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:12px;color:#e9e2ff;opacity:.9}
+
+  .chip{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--grad);color:#1a0f2e;border-color:transparent}
+  .filters{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none}
   .filters::-webkit-scrollbar{display:none}
-  .chip{
-    white-space:nowrap;border:1px solid var(--line);background:var(--card);
-    color:var(--ink-soft);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer
-  }
-  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
-  /* ---------- grid ---------- */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 0 8px}
-  @media(min-width:560px){.grid{grid-template-columns:1fr 1fr 1fr}}
-  .card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    overflow:hidden;box-shadow:var(--shadow);cursor:pointer;display:flex;flex-direction:column;
-    transition:transform .12s ease
-  }
-  .card:active{transform:scale(.985)}
-  .thumb{aspect-ratio:1/1.12;position:relative;display:grid;place-items:center;overflow:hidden}
-  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-  .thumb .emoji{font-size:54px;filter:drop-shadow(0 4px 6px #0002)}
-  .statusdot{
-    position:absolute;top:8px;left:8px;font-size:11px;font-weight:800;letter-spacing:.02em;
-    padding:4px 8px;border-radius:999px;color:#fff;text-transform:uppercase
-  }
-  .thanksbadge{position:absolute;top:8px;right:8px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:800;padding:3px 7px;color:var(--thanks)}
-  .cardbody{padding:10px 11px 12px}
-  .cardbody .name{font-weight:800;font-size:14px;line-height:1.2}
-  .cardbody .meta{color:var(--ink-soft);font-size:12px;margin-top:3px}
-  .price{font-weight:900;font-size:13px;margin-top:6px}
-  .price.free{color:var(--gift)}
-  .price.thanks{color:var(--thanks)}
-  .price.sell{color:var(--sell)}
-
-  /* ---------- empty ---------- */
-  .empty{text-align:center;color:var(--ink-soft);padding:48px 20px;border:1px dashed var(--line);border-radius:var(--radius);margin-top:14px}
-  .empty .big{font-size:34px}
-
-  /* ---------- detail / modal ---------- */
-  .sheet-bg{position:fixed;inset:0;background:#211d1899;z-index:60;display:none;opacity:0;transition:opacity .18s}
+  /* sheet */
+  .sheet-bg{position:fixed;inset:0;background:#05030bcc;z-index:60;display:none;opacity:0;transition:.18s}
   .sheet-bg.open{display:block;opacity:1}
-  .sheet{
-    position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--paper);
-    border-radius:22px 22px 0 0;max-width:var(--max);margin:0 auto;max-height:92vh;overflow:auto;
-    transform:translateY(100%);transition:transform .24s cubic-bezier(.2,.8,.2,1);
-    border-top:1px solid var(--line)
-  }
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--bg-2);border-radius:26px 26px 0 0;max-width:var(--max);margin:0 auto;max-height:94vh;overflow:auto;transform:translateY(100%);transition:transform .26s cubic-bezier(.2,.85,.2,1);border-top:1px solid var(--line)}
   .sheet.open{transform:translateY(0)}
-  .grab{width:42px;height:5px;background:var(--line);border-radius:999px;margin:10px auto 4px}
-  .sheet .pad{padding:8px 18px 28px}
-  .heroimg{aspect-ratio:1/1;border-radius:16px;overflow:hidden;display:grid;place-items:center;margin:8px 0 14px;border:1px solid var(--line)}
-  .heroimg img{width:100%;height:100%;object-fit:cover}
-  .heroimg .emoji{font-size:96px}
-  .d-name{font-size:22px;font-weight:900;margin:0}
-  .d-sub{color:var(--ink-soft);margin:4px 0 0;font-size:14px}
-  .story{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:14px 0;font-size:14px}
-  .story .q{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);font-weight:800;margin-bottom:4px}
+  .grab{width:44px;height:5px;background:var(--line);border-radius:999px;margin:10px auto 2px}
+  .pad{padding:6px 18px 30px}
+  .hero{aspect-ratio:4/5;border-radius:18px;display:grid;place-items:center;margin:8px 0 14px;border:1px solid var(--line);position:relative;overflow:hidden}
+  .hero .emoji{font-size:120px}
+  .hero .era{position:absolute;top:12px;left:12px;background:#0008;border:1px solid #ffffff2a;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800}
 
-  .lineage{margin:14px 0}
-  .lineage .q{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);font-weight:800;margin-bottom:8px}
-  .trail{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-  .trail .node{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 10px 4px 4px;font-size:12px;font-weight:700}
-  .trail .arrow{color:var(--accent);font-weight:900}
-  .trail .you{border-color:var(--accent);color:var(--accent);border-style:dashed}
+  .sec{margin:18px 0}
+  .sec .lab{display:flex;align-items:center;gap:8px;font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin-bottom:10px}
+  .piece{display:flex;gap:11px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:11px 13px;margin-bottom:8px}
+  .piece .pemoji{font-size:24px;line-height:1.1}
+  .piece .pn{font-weight:800;font-size:14px}
+  .piece .pd{color:var(--ink-soft);font-size:13px;margin-top:1px}
 
-  .pricebox{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0}
-  .pricebox .big{font-size:22px;font-weight:900}
-  .splitnote{font-size:12px;color:var(--ink-soft);margin-top:2px}
-  .splitnote b{color:var(--gift)}
+  .know{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 15px;font-size:14px;color:var(--ink-soft)}
+  .know b{color:var(--ink)}
+  .swatches{display:flex;gap:8px;margin:10px 0 8px}
+  .sw{width:34px;height:34px;border-radius:10px;border:1px solid #ffffff2a}
 
-  .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:800;cursor:pointer}
-  .btn.primary{background:var(--accent);color:#fff}
-  .btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
-  .btn.thanks{background:var(--accent-soft);color:var(--thanks)}
-  .btn + .btn{margin-top:10px}
-  .btnrow{display:flex;gap:10px}
-  .btnrow .btn{margin-top:0}
+  .wherewrap{display:flex;gap:8px;flex-wrap:wrap}
+  .where{display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:700}
+  .where.soon{opacity:.6}
+  .where .tag{font-size:10px;font-weight:900;color:var(--cyan);border:1px solid var(--cyan);border-radius:999px;padding:1px 6px;margin-left:2px}
 
-  .interested{font-size:13px;color:var(--ink-soft);margin:12px 0 0;text-align:center}
+  .btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;border:none;border-radius:15px;padding:16px;font-size:16px;font-weight:900;cursor:pointer;color:#1a0f2e;background:var(--grad)}
+  .btn.alt{background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+  .btn.cool{background:var(--grad-cool)}
+  .btn+.btn{margin-top:10px}
+  .btnrow{display:flex;gap:10px}.btnrow .btn{margin-top:0}
 
-  /* coin flip */
-  .flipstage{text-align:center;padding:10px 0 4px}
-  .coin{width:96px;height:96px;border-radius:50%;margin:6px auto;display:grid;place-items:center;font-size:40px;font-weight:900;color:#3a2f12;background:radial-gradient(circle at 35% 30%,#ffe7a3,#d9a82e 70%,#9a7414);box-shadow:0 8px 18px #0003}
-  .coin.spin{animation:flip .9s ease-in-out}
-  @keyframes flip{0%{transform:rotateX(0)}100%{transform:rotateX(1800deg)}}
+  /* you / vibe */
+  .vibecard{border-radius:var(--radius);padding:20px;background:var(--grad);color:#1a0f2e;box-shadow:var(--shadow)}
+  .vibecard.empty{background:var(--panel);color:var(--ink);border:1px dashed var(--line);text-align:center}
+  .vibecard .vt{font-size:13px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+  .vibecard .vn{font-size:28px;font-weight:900;margin:4px 0 6px;letter-spacing:-.02em}
+  .vibecard .vd{font-size:14px;font-weight:600}
+  .vibecard .traits{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+  .vibecard .traits span{background:#0e0a1c2e;border:1px solid #1a0f2e33;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:800}
 
-  /* ---------- forms ---------- */
-  label.fld{display:block;margin:14px 0 0}
-  label.fld .lab{font-size:13px;font-weight:800;margin-bottom:6px;display:block}
-  input[type=text],input[type=number],textarea,select{
-    width:100%;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:13px;font:inherit;color:var(--ink)
-  }
-  textarea{min-height:80px;resize:vertical}
-  .seg{display:flex;gap:8px;flex-wrap:wrap}
-  .seg .opt{flex:1;min-width:90px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px;text-align:center;font-weight:800;cursor:pointer;font-size:14px}
-  .seg .opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .photo-drop{border:2px dashed var(--line);border-radius:16px;padding:22px;text-align:center;color:var(--ink-soft);background:var(--card);cursor:pointer}
-  .photo-drop.has{padding:0;border-style:solid;overflow:hidden}
-  .photo-drop img{width:100%;display:block;border-radius:14px}
-  .hint{font-size:12px;color:var(--ink-soft);margin-top:6px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .mini{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+  .mini .mp{aspect-ratio:1/1.1;display:grid;place-items:center;font-size:46px}
+  .mini .mn{padding:8px 10px 10px;font-size:13px;font-weight:800}
 
-  /* about cards */
-  .info{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:14px 0;box-shadow:var(--shadow)}
-  .info h3{margin:0 0 6px;font-size:16px}
-  .info p{margin:0;color:var(--ink-soft);font-size:14px}
-  .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .pill{font-size:12px;font-weight:800;border-radius:999px;padding:5px 10px;border:1px solid var(--line);background:var(--paper)}
+  .empty{text-align:center;color:var(--ink-soft);padding:40px 18px;border:1px dashed var(--line);border-radius:var(--radius);margin-top:14px}
+  .empty .big{font-size:38px}
 
-  .phase2{display:inline-block;font-size:11px;font-weight:800;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:middle}
+  /* quests */
+  .quest{display:flex;gap:13px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:11px;cursor:pointer}
+  .quest .q-ic{width:46px;height:46px;border-radius:13px;background:var(--grad-cool);display:grid;place-items:center;font-size:22px;flex:none;color:#06201d}
+  .quest .q-t{font-weight:900;font-size:15px}
+  .quest .q-d{color:var(--ink-soft);font-size:13px;margin-top:2px}
+  .quest .q-x{margin-left:auto;flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:15px;font-weight:900}
+  .quest.done{opacity:.7}
+  .quest.done .q-x{background:var(--cyan);border-color:var(--cyan);color:#06201d}
+  .questbar{height:10px;border-radius:999px;background:var(--panel);border:1px solid var(--line);overflow:hidden;margin:6px 0 16px}
+  .questbar i{display:block;height:100%;background:var(--grad);width:0;transition:width .5s}
 
-  /* ---------- tab bar ---------- */
-  nav.tabs{
-    position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--card);
-    border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));
-    display:flex;justify-content:space-around;max-width:var(--max);margin:0 auto
-  }
-  nav.tabs button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink-soft);font-size:11px;font-weight:700;cursor:pointer;padding:4px 10px;border-radius:12px}
-  nav.tabs button .ic{font-size:21px;line-height:1}
-  nav.tabs button[aria-selected="true"]{color:var(--accent)}
-  nav.tabs button.add .ic{background:var(--accent);color:#fff;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;margin-top:-14px;box-shadow:0 6px 14px #d9482f55}
+  /* learn */
+  .accord{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:12px;background:var(--panel)}
+  .accord>summary{list-style:none;cursor:pointer;padding:15px 16px;font-weight:900;font-size:15px;display:flex;align-items:center;gap:10px}
+  .accord>summary::-webkit-details-marker{display:none}
+  .accord>summary .ar{margin-left:auto;transition:.2s;color:var(--ink-dim)}
+  .accord[open]>summary .ar{transform:rotate(90deg)}
+  .accord .body{padding:0 16px 16px;color:var(--ink-soft);font-size:14px}
+  .accord .body p{margin:0 0 10px}
+  .gloss{display:flex;flex-direction:column;gap:0}
+  .gloss .g{padding:11px 0;border-top:1px solid var(--line)}
+  .gloss .g:first-child{border-top:none}
+  .gloss .gt{font-weight:800;color:var(--ink)}
+  .movement{display:flex;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+  .movement:first-child{border-top:none}
+  .movement .me2{font-size:30px}
+  .tip{display:flex;gap:10px;margin-bottom:9px}
+  .tip .te{font-size:18px}
 
-  .toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80}
+  /* ask grown-up */
+  .adult{display:flex;align-items:center;gap:11px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:9px;cursor:pointer;text-align:left;color:inherit}
+  .adult[aria-pressed="true"]{border-color:var(--violet);background:var(--panel-2)}
+  .adult .ad{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#1a0f2e}
+  .adult .an{font-weight:900}.adult .ar{font-size:12px;color:var(--ink-soft)}
+  .qpick{display:flex;flex-direction:column;gap:8px;margin:6px 0 12px}
+  .qopt{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer}
+  .qopt[aria-pressed="true"]{border-color:var(--pink);background:var(--panel-2)}
+  textarea{width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:13px;font:inherit;color:var(--ink);min-height:64px;resize:vertical}
+  .safe-note{display:flex;gap:9px;background:#4fe3d014;border:1px solid #4fe3d040;border-radius:13px;padding:12px;font-size:13px;color:#bdf3ec;margin:14px 0}
+
+  /* quiz */
+  .qz-prog{font-size:12px;color:var(--ink-dim);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+  .qz-q{font-size:21px;font-weight:900;margin:0 0 16px}
+  .qz-opt{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);background:var(--panel);border-radius:15px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:10px;color:inherit;text-align:left}
+  .qz-opt .qe{font-size:26px}
+  .qz-opt:active{transform:scale(.99)}
+
+  .teaser{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px dashed var(--line);border-radius:16px;padding:14px;margin-top:16px}
+  .teaser .ti{font-size:30px}
+
+  /* tabs */
+  nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#150f24f2;backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:9px 6px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:space-around;max-width:var(--max);margin:0 auto}
+  nav.tabs button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink-dim);font-size:11px;font-weight:800;cursor:pointer;padding:5px 12px;border-radius:14px}
+  nav.tabs button .ic{font-size:22px;line-height:1}
+  nav.tabs button[aria-selected="true"]{color:var(--ink)}
+  nav.tabs button[aria-selected="true"] .ic{transform:translateY(-1px)}
+
+  .toast{position:fixed;left:50%;bottom:108px;transform:translateX(-50%) translateY(20px);background:var(--grad);color:#1a0f2e;padding:13px 20px;border-radius:999px;font-weight:900;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80;box-shadow:var(--shadow)}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  .view{display:none;animation:fade .2s}
-  .view.active{display:block}
-  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+  .view{display:none}.view.active{display:block;animation:fade .25s}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+  .floatask{position:fixed;right:16px;bottom:108px;z-index:45;background:var(--grad-cool);color:#06201d;border:none;border-radius:999px;padding:13px 16px;font-weight:900;font-size:14px;box-shadow:var(--shadow);cursor:pointer;display:flex;gap:7px;align-items:center}
 </style>
 </head>
 <body>
@@ -196,487 +194,433 @@
       <div class="fo">FUTURE&nbsp;OUTFIT</div>
       <div class="by">by <b>TTHHAANNKKSS</b></div>
     </div>
-    <div class="circlechip" id="circleChip" title="Switch profile (demo)">
-      <span class="avatar" id="meAvatar">RT</span>
-      <span id="meName">Turner Family</span>
-    </div>
+    <div class="me" id="meChip"><span class="dot">🛹</span><span>Franky</span></div>
   </div>
 </header>
 
 <main class="wrap">
 
-  <!-- CLOSET -->
-  <section class="view active" id="view-closet">
+  <!-- DISCOVER -->
+  <section class="view active" id="view-discover">
     <div class="viewhead">
-      <h1>The Closet</h1>
-      <p>What your circle is passing on. Give something a 2nd&nbsp;— or 3rd&nbsp;— life.</p>
+      <h1>Discover <span class="grad-text">you</span></h1>
+      <p>Looks from every era and corner — not just the mall. Tap any one to find out exactly what it is.</p>
     </div>
     <div class="filters" id="filters"></div>
-    <div class="grid" id="closetGrid"></div>
+    <div class="feed" id="feed"></div>
   </section>
 
-  <!-- WISHLIST -->
-  <section class="view" id="view-wish">
+  <!-- QUESTS -->
+  <section class="view" id="view-quests">
     <div class="viewhead">
-      <h1>Future Outfit <span class="phase2">pings · Phase&nbsp;2</span></h1>
-      <p>Save the looks you're dreaming toward. Soon, we'll quietly tell you when one shows up in your circles.</p>
+      <h1>Style <span class="grad-text">quests</span></h1>
+      <p>Little missions to help you explore who you are.</p>
     </div>
-    <div class="grid" id="wishGrid"></div>
+    <div class="questbar"><i id="questFill"></i></div>
+    <div id="questList"></div>
   </section>
 
-  <!-- ADD -->
-  <section class="view" id="view-add">
-    <div class="viewhead">
-      <h1 id="addTitle">Add to the Closet</h1>
-      <p id="addSub">A photo and a few words. That's it.</p>
+  <!-- YOU -->
+  <section class="view" id="view-you">
+    <div class="viewhead"><h1>Your <span class="grad-text">vibe</span></h1></div>
+    <div id="vibeBox"></div>
+    <div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Saved looks</h1></div>
+    <div id="savedBox"></div>
+    <div id="askedBox"></div>
+    <div class="teaser">
+      <span class="ti">🧺</span>
+      <div><b>The Family Closet</b><div style="color:var(--ink-soft);font-size:13px">Soon: the real clothes your family is passing on — claim them, free or for thanks. <i>Coming next.</i></div></div>
     </div>
-
-    <div class="photo-drop" id="photoDrop">
-      <input type="file" id="photoInput" accept="image/*" capture="environment" hidden />
-      <div id="photoPlaceholder">📸<br><b>Add a photo</b><div class="hint">Snap it or pick from your camera roll</div></div>
-    </div>
-
-    <label class="fld"><span class="lab">What is it?</span>
-      <input type="text" id="f-name" placeholder="e.g. Corduroy chore jacket" />
-    </label>
-
-    <div id="closetOnly">
-      <label class="fld"><span class="lab">Size</span>
-        <input type="text" id="f-size" placeholder="e.g. Kids 10–12 / Adult M / 8.5" />
-      </label>
-
-      <label class="fld"><span class="lab">How are you passing it on?</span></label>
-      <div class="seg" id="statusSeg">
-        <div class="opt" data-status="gift" aria-pressed="true">🎁 Gift</div>
-        <div class="opt" data-status="thanks">💛 Pay&nbsp;with&nbsp;Thanks</div>
-        <div class="opt" data-status="sell">🏷️ Sell</div>
-      </div>
-
-      <label class="fld" id="priceFld" style="display:none"><span class="lab">Price (CAD)</span>
-        <input type="number" id="f-price" placeholder="Keep it kind" min="0" />
-        <div class="hint">Half of our small fee goes to a cause you choose. No brand-flexing — it's about the story, not the label.</div>
-      </label>
-    </div>
-
-    <label class="fld"><span class="lab" id="storyLab">Why does it deserve a next life?</span>
-      <textarea id="f-story" placeholder="A line of story. Where it's been, why you loved it, who it might suit."></textarea>
-    </label>
-
-    <button class="btn primary" id="submitItem" style="margin-top:18px">Add it ✦</button>
-    <p class="hint" style="text-align:center;margin-top:10px">Setting up a family circle is always free.</p>
   </section>
 
-  <!-- ABOUT -->
-  <section class="view" id="view-about">
+  <!-- LEARN -->
+  <section class="view" id="view-learn">
     <div class="viewhead">
-      <h1>How THANKS works</h1>
-      <p>A shared closet for the people you trust — built so it never feels like charity.</p>
+      <h1>Learn the <span class="grad-text">language</span></h1>
+      <p>So you never have to work up the courage to ask a stranger.</p>
     </div>
-
-    <div class="info">
-      <h3>🎲 Fair by chance</h3>
-      <p>Two people want the same thing? A coin flip decides — not who's fastest, richest, or loudest.</p>
-    </div>
-    <div class="info">
-      <h3>💛 “Thanks” is the currency</h3>
-      <p>You don't collect likes here. You give and receive <b>thanks</b>. Gratitude, both ways.</p>
-    </div>
-    <div class="info">
-      <h3>🧵 History lives in the clothes</h3>
-      <p>Every piece carries its lineage — who wore it before you. A jacket with a story beats a new one.</p>
-    </div>
-    <div class="info">
-      <h3>🤝 Honest about money</h3>
-      <p>Most of this is free or gifted. When something sells, our fee is the same anyone would charge — but <b>half is donated to a cause the seller picks.</b> We tell you exactly what's philanthropy and what keeps THANKS alive.</p>
-      <div class="pillrow">
-        <span class="pill">Free to start a circle</span>
-        <span class="pill">½ of fees → your cause</span>
-        <span class="pill">Flat-rate shipping*</span>
-      </div>
-      <p class="hint" style="margin-top:10px">*Shipping kept at cost so out-of-town family isn't left out — Chit&nbsp;Chats / Canada&nbsp;Post (in exploration).</p>
-    </div>
-    <div class="info">
-      <h3>📦 Pass it on, or pass it forward</h3>
-      <p>Something been around a while? Donate it through a THANKS box to a local cause you choose — a real list, not just the obvious big-box drop-off.</p>
-    </div>
-    <p class="hint" style="text-align:center;margin:18px 0 8px">FUTURE OUTFIT · by TTHHAANNKKSS — MVP prototype</p>
+    <div id="learnBox"></div>
   </section>
 
 </main>
 
-<!-- DETAIL SHEET -->
+<button class="floatask" id="floatAsk">💬 Ask a grown-up</button>
+
 <div class="sheet-bg" id="sheetBg"></div>
-<div class="sheet" id="sheet">
-  <div class="grab"></div>
-  <div class="pad" id="sheetPad"></div>
-</div>
+<div class="sheet" id="sheet"><div class="grab"></div><div class="pad" id="sheetPad"></div></div>
 
 <nav class="tabs">
-  <button data-go="closet" aria-selected="true"><span class="ic">🧺</span>Closet</button>
-  <button data-go="wish"><span class="ic">✨</span>Future</button>
-  <button class="add" data-go="add"><span class="ic">＋</span>Add</button>
-  <button data-go="about"><span class="ic">♥</span>THANKS</button>
+  <button data-go="discover" aria-selected="true"><span class="ic">🪐</span>Discover</button>
+  <button data-go="quests"><span class="ic">🎯</span>Quests</button>
+  <button data-go="you"><span class="ic">✨</span>You</button>
+  <button data-go="learn"><span class="ic">📚</span>Learn</button>
 </nav>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* ----------------------------------------------------------
-   FUTURE OUTFIT by TTHHAANNKKSS — MVP (self-contained)
-   State persists in localStorage. No backend needed.
----------------------------------------------------------- */
-const ME = { id:"rader", name:"Rader", initials:"RT", hue:14 };
-const KEY = "fo_state_v1";
-
-const PEOPLE = {
-  rader:{name:"Rader", initials:"RT", hue:14},
-  rae:{name:"Aunt Rae", initials:"AR", hue:280},
-  mia:{name:"Mia", initials:"MI", hue:200},
-  franky:{name:"Franky", initials:"FR", hue:130},
-  jules:{name:"Cousin Jules", initials:"CJ", hue:340},
-  papa:{name:"Papa Turner", initials:"PT", hue:30},
-  nadia:{name:"Nadia", initials:"NA", hue:170},
-  theo:{name:"Little Theo", initials:"LT", hue:50},
-};
-function av(id){const p=PEOPLE[id]||{initials:"?",hue:0};return p;}
-
-const SEED = [
-  {id:"i1",name:"Corduroy chore jacket",emoji:"🧥",size:"Adult M",cat:"Outerwear",
-   status:"thanks",price:0,owner:"rae",
-   story:"Lived through three winters of art-school. Big pockets, broken in just right. Wants someone who'll keep painting in it.",
-   lineage:["papa","rae"],thanks:12,hue:28,interested:[]},
-  {id:"i2",name:"Red high-tops",emoji:"👟",size:"Kids 4Y",cat:"Shoes",
-   status:"gift",price:0,owner:"mia",
-   story:"Mia blasted through a growth spurt. Barely scuffed. Free to the next fast kid.",
-   lineage:["mia"],thanks:5,hue:6,interested:["franky"]},
-  {id:"i3",name:"Vintage band tee",emoji:"👕",size:"Adult S",cat:"Tops",
-   status:"sell",price:24,owner:"jules",
-   story:"Soft as anything. Got it at a Montreal fest in '19. Selling because it shrank on me, not because I want to.",
-   lineage:["jules"],thanks:8,hue:330,interested:[]},
-  {id:"i4",name:"Wool toque (hand-knit)",emoji:"🧶",size:"One size",cat:"Accessories",
-   status:"gift",price:0,owner:"papa",
-   story:"Grandma knit a whole batch. Warmest thing you'll own. Pass it down the line.",
-   lineage:["papa"],thanks:19,hue:34,interested:[]},
-  {id:"i5",name:"Denim overalls",emoji:"👖",size:"Kids 8",cat:"Bottoms",
-   status:"thanks",price:0,owner:"nadia",
-   story:"Theo wore these, then they sat folded. Too good to forget — a little garden-dirt patina included.",
-   lineage:["theo","nadia"],thanks:7,hue:210,interested:["franky","mia"]},
-  {id:"i6",name:"Plaid flannel",emoji:"🧥",size:"Adult L",cat:"Tops",
-   status:"sell",price:18,owner:"rader",
-   story:"My go-to until I sized down. Classic. ½ of the fee goes to the food bank on this one.",
-   lineage:["rader"],thanks:4,hue:0,interested:[]},
-  {id:"i7",name:"Pleated school skirt",emoji:"👗",size:"Kids 10",cat:"Bottoms",
-   status:"gift",price:0,owner:"rae",
-   story:"Outgrown but immaculate. Perfect for someone starting a new school year.",
-   lineage:["jules","rae"],thanks:6,hue:265,interested:[]},
-  {id:"i8",name:"Puffer vest",emoji:"🦺",size:"Kids 12",cat:"Outerwear",
-   status:"thanks",price:0,owner:"jules",
-   story:"Cozy layer, zips clean. Franky's been eyeing one like this for skateboarding.",
-   lineage:["jules"],thanks:9,hue:150,interested:[]},
-  {id:"i9",name:"Leather satchel",emoji:"👜",size:"One size",cat:"Accessories",
-   status:"sell",price:40,owner:"nadia",
-   story:"Real leather, ages beautifully. Carried it through college. Ready for its next chapter.",
-   lineage:["rae","nadia"],thanks:11,hue:25,interested:[]},
-  {id:"i10",name:"Rain boots",emoji:"🥾",size:"Kids 2Y",cat:"Shoes",
-   status:"gift",price:0,owner:"mia",
-   story:"Splashed one puddle season. Free — west-coast essential.",
-   lineage:["mia"],thanks:3,hue:190,interested:[]},
+/* =========================================================
+   FUTURE OUTFIT by TTHHAANNKKSS — Franky's explore MVP
+   Self-contained. State persists in localStorage.
+========================================================= */
+const KEY="fo_kid_v1";
+const ADULTS=[
+  {id:"dad",name:"Dad (Rader)",rel:"Your dad",hue:"linear-gradient(135deg,#8b6cff,#ff5fa2)"},
+  {id:"rae",name:"Aunt Rae",rel:"The thrift wizard of the family",hue:"linear-gradient(135deg,#4fe3d0,#8b6cff)"},
+  {id:"papa",name:"Papa Turner",rel:"Vintage everything",hue:"linear-gradient(135deg,#ffb25f,#ff5fa2)"},
 ];
 
-function load(){
-  try{
-    const s = JSON.parse(localStorage.getItem(KEY));
-    if(s && s.items) return s;
-  }catch(e){}
-  return { items: SEED.map(x=>({...x})), wish: [] };
-}
-function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
-let state = load();
+/* ---- diverse, non-mall looks (the blend: curated + starter pack) ---- */
+const LOOKS=[
+  {id:"l1",name:"90s Skate Rat",emoji:"🛹",hue:"linear-gradient(150deg,#3a2f6b,#ff5fa2)",era:"’90s",cat:"Street",
+   vibes:["baggy","worn-in","fearless"],
+   pieces:[["👕","Faded graphic tee","Soft from a hundred washes — the fade is the flex"],["👖","Baggy carpenter jeans","Loose leg, hammer loop. Room to move (and bail)"],["👟","Chunky skate shoes","Flat soles to feel the board"],["🧦","Tube socks","Pulled high, on purpose"]],
+   era_note:"Born in California skateparks in the 1990s. The whole point was anti-mall: thrifted, beat-up, yours.",
+   colors:["#2b2550","#ff5fa2","#e9e2ff"],color_note:"Faded brights on washed-out neutrals — nothing matches too hard. Lived-in beats brand-new.",
+   where:["thrift","secondhand","make"],care:"Don't bin the rips — patch them. Skate holes are a badge.",movement:"skate"},
+  {id:"l2",name:"Cottage Wanderer",emoji:"🌿",hue:"linear-gradient(150deg,#2e5b3f,#ffd166)",era:"timeless",cat:"Soft",
+   vibes:["cosy","earthy","storybook"],
+   pieces:[["🧥","Knit cardigan","Chunky, hand-made if you're lucky"],["👗","Floral midi dress","Little prints, soft fabric"],["🥾","Lace-up boots","For real walking"],["🧺","Woven basket bag","Carries your finds"]],
+   era_note:"‘Cottagecore’ — a 2020s love letter to slow, handmade, outdoorsy living. Lots of it is genuinely vintage.",
+   colors:["#2e5b3f","#ffd166","#f4ead2"],color_note:"Greens, creams and a warm yellow — colours pulled straight from a garden.",
+   where:["thrift","make","closet"],care:"Hand-wash knits cold, dry them flat so they keep their shape.",movement:"craft"},
+  {id:"l3",name:"Y2K Future Kid",emoji:"🦋",hue:"linear-gradient(150deg,#4fe3d0,#8b6cff)",era:"’00s",cat:"Bold",
+   vibes:["shiny","playful","loud"],
+   pieces:[["🧥","Cropped puffer","Metallic, a little space-age"],["👖","Low-rise cargos","Pockets everywhere"],["👟","Bulky trainers","The chunkier the better"],["🦋","Butterfly clips","Tiny chaos, big joy"]],
+   era_note:"Year-2000 optimism: everyone thought the future would be shiny. Now it's back, mostly thrifted.",
+   colors:["#4fe3d0","#8b6cff","#c0d6ff"],color_note:"Icy metallics and candy brights — colours that catch the light.",
+   where:["secondhand","thrift"],care:"Metallics hate the dryer. Air-dry to keep the shine.",movement:"y2k"},
+  {id:"l4",name:"Old-Money Prep",emoji:"🎾",hue:"linear-gradient(150deg,#1d3b6b,#e9e2ff)",era:"’70s–now",cat:"Sharp",
+   vibes:["clean","crisp","quiet"],
+   pieces:[["🧥","Navy blazer","Structured shoulders, gold buttons"],["👕","Collared polo","Tucked, simple"],["🩳","Pleated shorts","Sit at the waist"],["👞","Leather loafers","No socks shown"]],
+   era_note:"East-coast prep, alive since the 1970s. ‘Quiet luxury’ is the same idea: no logos, all fit.",
+   colors:["#1d3b6b","#ffffff","#b58a3a"],color_note:"Navy, white and a touch of gold — calm colours that say ‘I'm not trying too hard.’",
+   where:["thrift","secondhand","closet"],care:"Hang blazers on wide hangers so the shoulders stay sharp.",movement:"prep"},
+  {id:"l5",name:"Punk Patchwork",emoji:"🧷",hue:"linear-gradient(150deg,#1a1a1a,#ff5fa2)",era:"’70s–’80s",cat:"Bold",
+   vibes:["DIY","rebel","sharp"],
+   pieces:[["🧥","Studded jacket","Customised by hand"],["👕","Band tee","Cut and re-stitched"],["👖","Ripped skinnies","Held together with pins"],["🥾","Combat boots","Built to last forever"]],
+   era_note:"London & New York, late 1970s. Punks couldn't afford fashion, so they MADE it — safety pins and all.",
+   colors:["#1a1a1a","#ff5fa2","#d8d8d8"],color_note:"Black with one shock of colour. The mess is the message.",
+   where:["thrift","make"],care:"Sew on patches by hand — every repair adds to the story.",movement:"punk"},
+  {id:"l6",name:"Mod Sharp",emoji:"🛵",hue:"linear-gradient(150deg,#0e2a52,#ffd166)",era:"’60s",cat:"Sharp",
+   vibes:["neat","graphic","retro"],
+   pieces:[["🧥","Slim parka","Fishtail back"],["👕","Polo with stripes","Clean lines"],["👖","Tailored trousers","Cropped at the ankle"],["👟","Desert boots","Suede, simple"]],
+   era_note:"‘Mods’ in 1960s Britain — scooters, soul music, and razor-sharp tailoring on a budget.",
+   colors:["#0e2a52","#ffd166","#ffffff"],color_note:"Bold blocks and stripes — graphic, like a poster.",
+   where:["thrift","secondhand"],care:"Steam, don't iron, delicate trims.",movement:"mod"},
+  {id:"l7",name:"Workwear Maker",emoji:"🔧",hue:"linear-gradient(150deg,#5b3a1d,#ffd166)",era:"timeless",cat:"Sturdy",
+   vibes:["tough","honest","useful"],
+   pieces:[["🧥","Chore jacket","Square cut, big pockets — a worker's classic"],["👖","Duck canvas pants","Stiff at first, perfect later"],["👕","Heavy tee","Thick cotton"],["🥾","Work boots","Re-soleable"]],
+   era_note:"French & American workwear, 1900s onward. Built for farmers and railroad crews — which is why it never wears out.",
+   colors:["#5b3a1d","#3a5a40","#e8d8b0"],color_note:"Earthy, useful colours that hide a day's work.",
+   where:["thrift","secondhand","closet"],care:"Wash less, wear more — workwear ages best with use.",movement:"workwear"},
+  {id:"l8",name:"Hip-Hop Heritage",emoji:"🎤",hue:"linear-gradient(150deg,#1a1a1a,#ffd166)",era:"’80s–’90s",cat:"Street",
+   vibes:["proud","bold","fresh"],
+   pieces:[["🧥","Track jacket","Bold colour-blocks"],["👖","Relaxed denim","Clean, roomy"],["👟","Fresh sneakers","Laces crisp"],["🧢","Snapback cap","Flat brim"]],
+   era_note:"New York, 1980s–90s. Self-expression and pride, head to toe — a culture that reshaped all of fashion.",
+   colors:["#1a1a1a","#ffd166","#ff5fa2"],color_note:"Confident colour-blocking — own the whole look, not one piece.",
+   where:["secondhand","thrift"],care:"Keep sneakers fresh with a soft brush, never the washing machine.",movement:"hiphop"},
+];
 
-/* ---------- helpers ---------- */
-const $ = s=>document.querySelector(s);
-const $$ = s=>[...document.querySelectorAll(s)];
-function tile(hue){return `linear-gradient(145deg,hsl(${hue} 45% 86%),hsl(${(hue+30)%360} 40% 74%))`;}
-function avatarHTML(id,size){const p=av(id);return `<span class="avatar" style="background:hsl(${p.hue} 45% 45%);${size?`width:${size}px;height:${size}px;font-size:${size*.42}px`:''}">${p.initials}</span>`;}
-function statusLabel(s){return s==="gift"?"Gift":s==="thanks"?"Pay w/ Thanks":"For sale";}
-function statusColor(s){return s==="gift"?"var(--gift)":s==="thanks"?"var(--thanks)":"var(--sell)";}
-function priceHTML(it){
-  if(it.status==="gift") return `<div class="price free">Free · a gift 🎁</div>`;
-  if(it.status==="thanks") return `<div class="price thanks">Pay with Thanks 💛</div>`;
-  return `<div class="price sell">$${it.price} CAD</div>`;
-}
-function thumbInner(it){
-  if(it.photo) return `<img src="${it.photo}" alt="">`;
-  return `<span class="emoji">${it.emoji||"👕"}</span>`;
-}
-let toastT;
-function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2200);}
+const GLOSSARY=[
+  ["Silhouette","The overall shape an outfit makes — boxy, slim, flowy. It matters more than any single piece."],
+  ["Chore jacket","A boxy workwear jacket with big square pockets. Originally for French labourers."],
+  ["Loafers","Slip-on leather shoes, no laces. Smart but easy."],
+  ["Palette","The set of colours in a look. A tight palette (2–3 colours) usually looks intentional."],
+  ["Vintage","Genuinely old (usually 20+ years). Not the same as ‘retro’, which just looks old."],
+  ["Deadstock","Brand-new old items that were never sold — found in warehouses. A thrifter's treasure."],
+  ["Capsule","A small set of clothes that all mix together. Fewer pieces, more outfits."],
+  ["Drape","How fabric falls and hangs. Heavy drape = flowy; stiff fabric holds a shape."],
+  ["Thrifting","Buying secondhand from charity shops, markets and resale apps. Cheaper, greener, one-of-a-kind."],
+];
 
-/* ---------- filters ---------- */
-const CATS = ["All","Outerwear","Tops","Bottoms","Shoes","Accessories"];
-let activeCat = "All";
+const MOVEMENTS=[
+  ["skate","🛹","Skate","From 1970s California empty pools to ’90s street. Worn-in, cheap, and totally anti-fashion — which made it fashion."],
+  ["punk","🧷","Punk","Mid-’70s London & NYC. Too broke for trends, punks cut up and pinned together their own. DIY forever."],
+  ["mod","🛵","Mod","1960s Britain — scooters, soul and impossibly sharp tailoring, all on a working budget."],
+  ["hiphop","🎤","Hip-Hop","1980s New York. A whole culture of pride and self-expression that ended up reshaping global style."],
+  ["prep","🎾","Prep","1970s East-coast US. Quiet, clean, no logos — the original ‘quiet luxury.’"],
+  ["workwear","🔧","Workwear","Early-1900s farms and railroads. Built so tough it outlived its jobs and became a style."],
+  ["y2k","🦋","Y2K","Around the year 2000 everyone imagined a shiny future. Now it's back — mostly secondhand."],
+  ["craft","🌿","Craft / Cottage","A modern return to handmade, mended, outdoorsy clothes. Slow fashion at its kindest."],
+];
+
+const THRIFT101=[
+  ["What even is thrift?","Thrift means buying clothes secondhand — from charity shops, markets, or apps. Someone loved it first; now it's your turn. It's cheaper, kinder to the planet, and you find things nobody else has."],
+  ["Why it beats the mall","The mall sells the same few things to everyone. Thrift is a treasure hunt — every rack is different, and the best stuff has a story the mall could never sell you."],
+  ["How to actually thrift","1) Go with time, not a list. 2) Check the fit, not the label. 3) Look in every section — kids, adults, all of it. 4) Try it on. 5) If it makes you smile, that's the sign."],
+];
+const CARE=[
+  ["🧵","Sew a button or patch — 10 minutes and a thing lasts years longer."],
+  ["💧","Wash cold and less often. Most clothes die in the dryer, not on you."],
+  ["🌬️","Air-dry knits and anything shiny so they keep their shape and shine."],
+  ["✂️","A rip isn't the end. A visible mend is its own kind of cool."],
+];
+
+const QUESTS=[
+  {id:"q1",ic:"🕰️",t:"Time traveller",d:"Save a look from before you were born.",auto:s=>s.saved.some(id=>{const l=LOOKS.find(x=>x.id===id);return l&&/’[679]/.test(l.era);})},
+  {id:"q2",ic:"🔍",t:"Code-breaker",d:"Decode any look to see what it's made of.",auto:s=>s.decoded.length>0},
+  {id:"q3",ic:"💬",t:"Brave question",d:"Ask a grown-up what something is — no courage tax.",auto:s=>s.asked.length>0},
+  {id:"q4",ic:"🎨",t:"Find your colour",d:"Save 3 looks and spot what they have in common.",auto:s=>s.saved.length>=3},
+  {id:"q5",ic:"🌟",t:"Know thyself",d:"Take the vibe quiz and name your style.",auto:s=>!!s.vibe},
+  {id:"q6",ic:"🛍️",t:"Skip the mall",d:"Learn one new thing in Thrift 101.",auto:s=>s.learnedThrift},
+];
+
+const VIBES={
+  street:{name:"Street Original",desc:"Bold, worn-in, fearless. You wear comfort like armour and don't care what the mall thinks.",traits:["baggy","graphic","worn-in"],emoji:"🛹"},
+  soft:{name:"Soft Wanderer",desc:"Cosy, earthy, a little storybook. Your style feels like a warm afternoon outdoors.",traits:["cosy","handmade","earthy"],emoji:"🌿"},
+  sharp:{name:"Quiet Sharp",desc:"Clean lines, calm colours, nothing shouting. You let the fit do the talking.",traits:["crisp","tailored","timeless"],emoji:"🎾"},
+  bold:{name:"Future Bold",desc:"Shiny, playful, loud and proud. You treat getting dressed like a celebration.",traits:["bright","shiny","playful"],emoji:"🦋"},
+};
+
+/* ---------- state ---------- */
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign({saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false},s);}catch(e){}return{saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false};}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+let state=load();
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2300);}
+function esc(s){return(s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
+function whereLabel(w){return{thrift:["🛒","Thrift shop"],secondhand:["📱","Resale app"],make:["✂️","Make / DIY"],closet:["🧺","Family closet"]}[w];}
+
+/* ---------- discover ---------- */
+const CATS=["For you","Street","Soft","Sharp","Bold","Sturdy"];
+let activeCat="For you";
 function renderFilters(){
-  $("#filters").innerHTML = CATS.map(c=>`<button class="chip" data-cat="${c}" aria-pressed="${c===activeCat}">${c}</button>`).join("");
-  $$("#filters .chip").forEach(b=>b.onclick=()=>{activeCat=b.dataset.cat;renderFilters();renderCloset();});
+  $("#filters").innerHTML=CATS.map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===activeCat}">${c}</button>`).join("");
+  $$("#filters .chip").forEach(b=>b.onclick=()=>{activeCat=b.dataset.c;renderFilters();renderFeed();});
+}
+function feedItems(){
+  let arr=[...LOOKS];
+  if(activeCat==="For you"&&state.vibe){
+    const want={street:"Street",soft:"Soft",sharp:"Sharp",bold:"Bold"}[state.vibe];
+    arr.sort((a,b)=>(b.cat===want)-(a.cat===want));
+  }else if(activeCat!=="For you"){arr=arr.filter(l=>l.cat===activeCat);}
+  return arr;
+}
+function renderFeed(){
+  const f=$("#feed");const arr=feedItems();
+  if(!arr.length){f.innerHTML=`<div class="empty"><div class="big">🪐</div>Nothing in this style yet.</div>`;return;}
+  f.innerHTML=arr.map(l=>{
+    const on=state.saved.includes(l.id);
+    return `<article class="look" data-id="${l.id}">
+      <div class="pic" style="background:${l.hue}">
+        <span class="era">${l.era}</span>
+        <button class="savez ${on?'on':''}" data-save="${l.id}">${on?'💜':'🤍'}</button>
+        <span class="emoji">${l.emoji}</span>
+      </div>
+      <div class="cap">
+        <div class="nm">${esc(l.name)}</div>
+        <div class="vibes">${l.vibes.map(v=>`<span class="vibe">${v}</span>`).join("")}</div>
+        <div class="peek">🔍 Tap to decode it & learn where to find it</div>
+      </div>
+    </article>`;}).join("");
+  $$("#feed .look").forEach(a=>a.onclick=e=>{if(e.target.dataset.save)return;openLook(a.dataset.id);});
+  $$("#feed .savez").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleSave(b.dataset.save);});
+}
+function toggleSave(id){
+  const i=state.saved.indexOf(id);
+  if(i>=0){state.saved.splice(i,1);toast("Removed");}
+  else{state.saved.unshift(id);toast("Saved to Your Vibe ✨");}
+  save();renderFeed();refreshQuests();
 }
 
-/* ---------- closet ---------- */
-function renderCloset(){
-  const items = state.items.filter(it=>activeCat==="All"||it.cat===activeCat);
-  const g = $("#closetGrid");
-  if(!items.length){g.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="big">🧺</div>Nothing here yet — be the first to pass something on.</div>`;return;}
-  g.innerHTML = items.map(it=>`
-    <div class="card" data-id="${it.id}">
-      <div class="thumb" style="background:${tile(it.hue)}">
-        <span class="statusdot" style="background:${statusColor(it.status)}">${statusLabel(it.status)}</span>
-        ${it.thanks?`<span class="thanksbadge">♥ ${it.thanks}</span>`:""}
-        ${thumbInner(it)}
-      </div>
-      <div class="cardbody">
-        <div class="name">${esc(it.name)}</div>
-        <div class="meta">${esc(it.size)} · ${av(it.owner).name}</div>
-        ${priceHTML(it)}
-      </div>
-    </div>`).join("");
-  $$("#closetGrid .card").forEach(c=>c.onclick=()=>openItem(c.dataset.id));
-}
-function esc(s){return (s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
+/* ---------- look detail ---------- */
+function openLook(id){
+  const l=LOOKS.find(x=>x.id===id);if(!l)return;
+  if(!state.decoded.includes(id)){state.decoded.push(id);save();refreshQuests();}
+  const on=state.saved.includes(id);
+  const mv=MOVEMENTS.find(m=>m[0]===l.movement);
+  $("#sheetPad").innerHTML=`
+    <div class="hero" style="background:${l.hue}"><span class="era">${l.era}</span><span class="emoji">${l.emoji}</span></div>
+    <h2 style="margin:0;font-size:24px;font-weight:900">${esc(l.name)}</h2>
+    <div class="vibes" style="margin-top:8px">${l.vibes.map(v=>`<span class="vibe" style="background:#ffffff12;border-color:var(--line)">${v}</span>`).join("")}</div>
 
-/* ---------- wishlist ---------- */
-function renderWish(){
-  const g=$("#wishGrid");
-  if(!state.wish.length){
-    g.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="big">✨</div>No saved looks yet.<br>Tap <b>Add → Save a look</b> to start your Future Outfit.</div>`;
-    return;
-  }
-  g.innerHTML = state.wish.map(w=>`
-    <div class="card" data-id="${w.id}">
-      <div class="thumb" style="background:${tile(w.hue)}">${w.photo?`<img src="${w.photo}">`:`<span class="emoji">✨</span>`}</div>
-      <div class="cardbody"><div class="name">${esc(w.name||"A look I love")}</div><div class="meta">${esc(w.why||"")}</div></div>
-    </div>`).join("");
-  $$("#wishGrid .card").forEach(c=>c.onclick=()=>{
-    const w=state.wish.find(x=>x.id===c.dataset.id);
-    if(confirm("Remove this from your Future Outfit?")){state.wish=state.wish.filter(x=>x.id!==w.id);save();renderWish();}
-  });
-}
-
-/* ---------- item detail ---------- */
-let currentItem=null;
-function openItem(id){
-  const it=state.items.find(x=>x.id===id); if(!it)return;
-  currentItem=it;
-  const trail = [...(it.lineage||[]),"__you"].map((n,i,arr)=>{
-    const isYou = n==="__you";
-    const node = isYou
-      ? `<span class="node you">${avatarHTML(ME.id,22)} you?</span>`
-      : `<span class="node">${avatarHTML(n,22)} ${av(n).name}</span>`;
-    return node + (i<arr.length-1?` <span class="arrow">→</span> `:"");
-  }).join("");
-
-  const mine = it.owner===ME.id;
-  const wants = it.interested||[];
-  const iWant = wants.includes(ME.id);
-
-  let action;
-  if(mine){
-    action = `<button class="btn ghost" disabled>This is yours — you're passing it on 💫</button>`;
-  } else {
-    action = `<button class="btn primary" id="claimBtn">${iWant?"You're in the running ✓":"I'd love this"}</button>
-              <div class="btnrow" style="margin-top:10px">
-                <button class="btn thanks" id="thanksBtn">♥ Thanks (${it.thanks})</button>
-                <button class="btn ghost" id="wishFromItem">✨ Save look</button>
-              </div>`;
-  }
-
-  const others = wants.filter(w=>w!==ME.id).length;
-  const interestedNote = wants.length
-    ? `<p class="interested">${wants.length} ${wants.length===1?"person wants":"people want"} this${iWant&&others?` (including you)`:""}.${wants.length>1?` If it stays tied, a coin flip decides. 🎲`:""}</p>`
-    : "";
-
-  $("#sheetPad").innerHTML = `
-    <div class="heroimg" style="background:${tile(it.hue)}">${it.photo?`<img src="${it.photo}">`:`<span class="emoji">${it.emoji||"👕"}</span>`}</div>
-    <span class="statusdot" style="position:static;display:inline-block;background:${statusColor(it.status)};margin-bottom:8px">${statusLabel(it.status)}</span>
-    <h2 class="d-name">${esc(it.name)}</h2>
-    <p class="d-sub">${esc(it.size)} · passed on by ${av(it.owner).name}</p>
-
-    <div class="story"><div class="q">Why it deserves a next life</div>${esc(it.story)}</div>
-
-    <div class="pricebox">
-      <div>
-        ${it.status==="sell"
-          ? `<div class="big">$${it.price} <span style="font-size:13px;font-weight:700;color:var(--ink-soft)">CAD</span></div>
-             <div class="splitnote">Our fee is standard — <b>half goes to a cause ${av(it.owner).name} chose.</b></div>`
-          : it.status==="gift"
-            ? `<div class="big" style="color:var(--gift)">Free</div><div class="splitnote">A gift. Just say thanks. 💛</div>`
-            : `<div class="big" style="color:var(--thanks)">Pay with Thanks</div><div class="splitnote">No money — gratitude is the price.</div>`}
-      </div>
-      <div style="font-size:34px">${it.status==="sell"?"🏷️":it.status==="gift"?"🎁":"💛"}</div>
+    <div class="sec">
+      <div class="lab">🔍 Decode the look</div>
+      ${l.pieces.map(p=>`<div class="piece"><span class="pemoji">${p[0]}</span><div><div class="pn">${esc(p[1])}</div><div class="pd">${esc(p[2])}</div></div></div>`).join("")}
     </div>
 
-    <div class="lineage"><div class="q">Lineage — who wore it before</div><div class="trail">${trail}</div></div>
+    <div class="sec">
+      <div class="lab">🕰️ Era & origin</div>
+      <div class="know">${esc(l.era_note)}</div>
+    </div>
 
-    ${action}
-    ${interestedNote}
-    <div style="height:8px"></div>
+    <div class="sec">
+      <div class="lab">🎨 Why these colours work</div>
+      <div class="swatches">${l.colors.map(c=>`<span class="sw" style="background:${c}"></span>`).join("")}</div>
+      <div class="know">${esc(l.color_note)}</div>
+    </div>
+
+    <div class="sec">
+      <div class="lab">🛍️ Where to find it (not the mall)</div>
+      <div class="wherewrap">${l.where.map(w=>{const wl=whereLabel(w);const soon=w==="closet";return `<span class="where ${soon?'soon':''}">${wl[0]} ${wl[1]}${soon?'<span class="tag">soon</span>':''}</span>`;}).join("")}</div>
+    </div>
+
+    <div class="sec">
+      <div class="lab">🧵 Care tip</div>
+      <div class="know">${esc(l.care)}</div>
+    </div>
+
+    ${mv?`<div class="sec"><div class="lab">📚 The story behind it</div><div class="know"><b>${mv[2]}.</b> ${esc(mv[3])}</div></div>`:""}
+
+    <button class="btn" id="saveBtn">${on?'💜 Saved to Your Vibe':'🤍 Save to Your Vibe'}</button>
+    <button class="btn cool" id="askBtn" style="margin-top:10px">💬 Ask a grown-up about this</button>
   `;
-
-  if(!mine){
-    $("#claimBtn").onclick=()=>claim(it);
-    $("#thanksBtn").onclick=()=>{it.thanks++;save();toast("Thanks sent 💛");openItem(it.id);renderCloset();};
-    $("#wishFromItem").onclick=()=>{
-      state.wish.unshift({id:"w"+Date.now(),name:it.name,why:"Saved from the closet",hue:it.hue,photo:it.photo||null});
-      save();toast("Saved to your Future Outfit ✨");
-    };
-  }
+  $("#saveBtn").onclick=()=>{toggleSave(id);openLook(id);};
+  $("#askBtn").onclick=()=>openAsk(l);
   openSheet();
 }
 
-function claim(it){
-  it.interested = it.interested||[];
-  if(!it.interested.includes(ME.id)) it.interested.push(ME.id);
-  save();
-  if(it.interested.length>1){
-    runCoinFlip(it);
-  } else {
-    toast("You're in line — it's yours! 🎉");
-    openItem(it.id); renderCloset();
-  }
-}
-
-function runCoinFlip(it){
-  const names = it.interested.map(p=>p===ME.id?"You":av(p).name);
-  $("#sheetPad").innerHTML = `
-    <h2 class="d-name" style="text-align:center">Fair by chance 🎲</h2>
-    <p class="d-sub" style="text-align:center">${names.join(", ")} all want <b>${esc(it.name)}</b>.<br>No one's faster or richer here — the coin decides.</p>
-    <div class="flipstage">
-      <div class="coin" id="coin">?</div>
-      <button class="btn primary" id="flipBtn" style="margin-top:16px">Flip the coin</button>
-    </div>`;
-  $("#flipBtn").onclick=()=>{
-    const coin=$("#coin"); coin.classList.add("spin");
-    $("#flipBtn").disabled=true;
-    setTimeout(()=>{
-      const winner = it.interested[Math.floor(Math.random()*it.interested.length)];
-      const won = winner===ME.id;
-      coin.textContent = won?"😄":av(winner).initials;
-      coin.classList.remove("spin");
-      const cause = won?"It's yours — go say thanks! 💛":`${av(winner).name} won it fair and square.`;
-      $("#flipStageMsg")?.remove();
-      $(".flipstage").insertAdjacentHTML("beforeend",`<p id="flipStageMsg" style="font-weight:800;margin-top:14px">${cause}</p><button class="btn ghost" id="backBtn" style="margin-top:10px">Back to closet</button>`);
-      $("#backBtn").onclick=()=>{closeSheet();renderCloset();};
-      // record resolution: winner becomes pending owner (demo)
-      if(won) it.interested=[ME.id];
-    },950);
+/* ---------- ask a grown-up ---------- */
+let askPick={adult:null,q:null};
+function openAsk(look){
+  askPick={adult:null,q:null};
+  const qs=look?[
+    `What exactly is the “${look.name}” look made of?`,
+    `Where could I find a look like “${look.name}”?`,
+    `Would this style suit me?`
+  ]:[
+    "I saw someone with a cool jacket — how do I find out what it is?",
+    "How do I start thrifting?",
+    "What's a good first look for me?"
+  ];
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">Ask a grown-up 💬</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">No working up the courage to ask a stranger. Ask someone who's got you.</p>
+    <div class="safe-note">🛡️ <div>You only ever talk to grown-ups <b>you and your family chose</b>. No strangers, ever.</div></div>
+    <div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:8px 0 10px">Who do you want to ask?</div>
+    <div id="adultList">${ADULTS.map(a=>`<button class="adult" data-a="${a.id}"><span class="ad" style="background:${a.hue}">${a.name[0]}</span><div><div class="an">${esc(a.name)}</div><div class="ar">${esc(a.rel)}</div></div></button>`).join("")}</div>
+    <div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:14px 0 8px">What do you want to know?</div>
+    <div class="qpick" id="qpick">${qs.map((q,i)=>`<button class="qopt" data-q="${i}">${esc(q)}</button>`).join("")}</div>
+    <textarea id="qfree" placeholder="…or write your own question"></textarea>
+    <button class="btn cool" id="sendAsk" style="margin-top:14px">Send it 💌</button>
+  `;
+  $$("#adultList .adult").forEach(b=>b.onclick=()=>{askPick.adult=b.dataset.a;$$("#adultList .adult").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $$("#qpick .qopt").forEach(b=>b.onclick=()=>{askPick.q=qs[b.dataset.q];$("#qfree").value="";$$("#qpick .qopt").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $("#qfree").oninput=()=>{$$("#qpick .qopt").forEach(x=>x.setAttribute("aria-pressed","false"));};
+  $("#sendAsk").onclick=()=>{
+    const q=$("#qfree").value.trim()||askPick.q;
+    if(!askPick.adult){toast("Pick who to ask first 🙂");return;}
+    if(!q){toast("Pick or write a question 🙂");return;}
+    const who=ADULTS.find(a=>a.id===askPick.adult);
+    state.asked.unshift({to:who.name,q,when:Date.now()});save();refreshQuests();
+    toast(who.name.split(" ")[0]+" will get back to you 💛");closeSheet();
+    if($("#view-you").classList.contains("active"))renderYou();
   };
+  openSheet();
+}
+$("#floatAsk").onclick=()=>openAsk(null);
+
+/* ---------- you ---------- */
+function renderYou(){
+  const vb=$("#vibeBox");
+  if(state.vibe){
+    const v=VIBES[state.vibe];
+    vb.innerHTML=`<div class="vibecard"><div class="vt">Your style is</div><div class="vn">${v.emoji} ${v.name}</div><div class="vd">${v.desc}</div><div class="traits">${v.traits.map(t=>`<span>${t}</span>`).join("")}</div></div>
+      <button class="btn alt" id="retake" style="margin-top:12px">Retake the vibe quiz</button>`;
+    $("#retake").onclick=startQuiz;
+  }else{
+    vb.innerHTML=`<div class="vibecard empty"><div style="font-size:40px">🔮</div><h3 style="margin:8px 0 4px">What's your vibe?</h3><p style="color:var(--ink-soft);margin:0 0 14px">Take a 4-question quiz to name your style and unlock a feed made for you.</p><button class="btn" id="takeQuiz">Take the vibe quiz</button></div>`;
+    $("#takeQuiz").onclick=startQuiz;
+  }
+  const sb=$("#savedBox");
+  if(!state.saved.length){sb.innerHTML=`<div class="empty"><div class="big">✨</div>No saved looks yet.<br>Tap 🤍 on anything in Discover.</div>`;}
+  else{
+    sb.innerHTML=`<div class="grid">${state.saved.map(id=>{const l=LOOKS.find(x=>x.id===id);if(!l)return"";return `<div class="mini" data-id="${id}"><div class="mp" style="background:${l.hue}">${l.emoji}</div><div class="mn">${esc(l.name)}</div></div>`;}).join("")}</div>`;
+    $$("#savedBox .mini").forEach(m=>m.onclick=()=>openLook(m.dataset.id));
+  }
+  const ab=$("#askedBox");
+  if(state.asked.length){
+    ab.innerHTML=`<div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Questions you asked</h1></div>`+
+      state.asked.slice(0,5).map(a=>`<div class="know" style="margin-bottom:8px">💬 To <b>${esc(a.to)}</b>: “${esc(a.q)}”</div>`).join("");
+  }else ab.innerHTML="";
 }
 
-/* ---------- sheet ---------- */
+/* ---------- quiz ---------- */
+const QUIZ=[
+  {q:"Pick a weekend.",opts:[["🛹","Skatepark & music","street"],["🌿","A long walk outdoors","soft"],["🎾","Tidy room, good book","sharp"],["🎉","A party, somewhere loud","bold"]]},
+  {q:"Your dream find at a thrift shop?",opts:[["👕","A perfect faded tee","street"],["🧶","A hand-knit cardigan","soft"],["🧥","A sharp navy blazer","sharp"],["🦋","Something shiny & wild","bold"]]},
+  {q:"Pick a colour mood.",opts:[["🌑","Washed-out & worn","street"],["🍃","Earthy greens & cream","soft"],["🌊","Navy, white, calm","sharp"],["🌈","Bright & metallic","bold"]]},
+  {q:"What should an outfit do?",opts:[["💪","Let me move & not care","street"],["☁️","Feel cosy & kind","soft"],["✨","Look clean & sharp","sharp"],["🔊","Turn heads","bold"]]},
+];
+let qz={i:0,score:{street:0,soft:0,sharp:0,bold:0}};
+function startQuiz(){qz={i:0,score:{street:0,soft:0,sharp:0,bold:0}};renderQuiz();openSheet();}
+function renderQuiz(){
+  if(qz.i>=QUIZ.length){
+    const best=Object.entries(qz.score).sort((a,b)=>b[1]-a[1])[0][0];
+    state.vibe=best;save();refreshQuests();
+    const v=VIBES[best];
+    $("#sheetPad").innerHTML=`<div style="text-align:center;padding:10px 0">
+      <div style="font-size:64px">${v.emoji}</div>
+      <div style="font-size:13px;font-weight:900;letter-spacing:.1em;color:var(--ink-dim);text-transform:uppercase;margin-top:6px">Your vibe is</div>
+      <h2 class="grad-text" style="font-size:30px;margin:4px 0 8px">${v.name}</h2>
+      <p style="color:var(--ink-soft);max-width:340px;margin:0 auto 18px">${v.desc}</p>
+      <button class="btn" id="qzDone">See my feed →</button></div>`;
+    $("#qzDone").onclick=()=>{closeSheet();activeCat="For you";renderFilters();renderFeed();go("discover");toast("Feed tuned to your vibe ✨");};
+    return;
+  }
+  const item=QUIZ[qz.i];
+  $("#sheetPad").innerHTML=`<div class="qz-prog">Question ${qz.i+1} of ${QUIZ.length}</div>
+    <p class="qz-q">${item.q}</p>
+    ${item.opts.map((o,k)=>`<button class="qz-opt" data-k="${k}"><span class="qe">${o[0]}</span>${o[1]}</button>`).join("")}`;
+  $$("#sheetPad .qz-opt").forEach(b=>b.onclick=()=>{qz.score[item.opts[b.dataset.k][2]]++;qz.i++;renderQuiz();});
+}
+
+/* ---------- quests ---------- */
+function refreshQuests(){
+  QUESTS.forEach(q=>{if(q.auto(state)&&!state.quests.includes(q.id)){state.quests.push(q.id);}});
+  save();
+  if($("#view-quests").classList.contains("active"))renderQuests();
+}
+function renderQuests(){
+  const done=state.quests.length,total=QUESTS.length;
+  $("#questFill").style.width=Math.round(done/total*100)+"%";
+  $("#questList").innerHTML=QUESTS.map(q=>{const d=state.quests.includes(q.id);
+    return `<div class="quest ${d?'done':''}" data-q="${q.id}"><div class="q-ic">${q.ic}</div><div><div class="q-t">${q.t}</div><div class="q-d">${q.d}</div></div><div class="q-x">${d?'✓':''}</div></div>`;}).join("");
+  $$("#questList .quest").forEach(el=>el.onclick=()=>{
+    const q=QUESTS.find(x=>x.id===el.dataset.q);
+    if(state.quests.includes(q.id)){toast("Done — nice ✨");return;}
+    const hint={q1:"Open a ’60s–’90s look in Discover and save it.",q2:"Tap any look to decode what it's made of.",q3:"Hit ‘Ask a grown-up’ and send a question.",q4:"Save 3 looks, then check what colours repeat.",q5:"Head to the You tab and take the vibe quiz.",q6:"Open Learn → Thrift 101."}[q.id];
+    toast(hint||"Keep exploring!");
+  });
+}
+
+/* ---------- learn ---------- */
+function renderLearn(){
+  $("#learnBox").innerHTML=`
+    <details class="accord" id="acThrift"><summary>🛍️ Thrift 101 <span class="ar">›</span></summary>
+      <div class="body">${THRIFT101.map(t=>`<p><b style="color:var(--ink)">${esc(t[0])}</b><br>${esc(t[1])}</p>`).join("")}</div></details>
+    <details class="accord"><summary>🗣️ Style words <span class="ar">›</span></summary>
+      <div class="body"><div class="gloss">${GLOSSARY.map(g=>`<div class="g"><span class="gt">${esc(g[0])}</span> — ${esc(g[1])}</div>`).join("")}</div></div></details>
+    <details class="accord"><summary>🎬 Where looks come from <span class="ar">›</span></summary>
+      <div class="body">${MOVEMENTS.map(m=>`<div class="movement"><span class="me2">${m[1]}</span><div><b style="color:var(--ink)">${esc(m[2])}</b><br>${esc(m[3])}</div></div>`).join("")}</div></details>
+    <details class="accord"><summary>🧵 Care & repair <span class="ar">›</span></summary>
+      <div class="body">${CARE.map(c=>`<div class="tip"><span class="te">${c[0]}</span><span>${esc(c[1])}</span></div>`).join("")}</div></details>
+    <div class="safe-note" style="margin-top:16px">💛 <div>Knowing this stuff means you never have to feel small for not knowing. That's the whole point.</div></div>`;
+  $("#acThrift").addEventListener("toggle",e=>{if(e.target.open&&!state.learnedThrift){state.learnedThrift=true;save();refreshQuests();}});
+}
+
+/* ---------- sheet & nav ---------- */
 function openSheet(){$("#sheetBg").classList.add("open");requestAnimationFrame(()=>$("#sheet").classList.add("open"));}
 function closeSheet(){$("#sheet").classList.remove("open");$("#sheetBg").classList.remove("open");}
 $("#sheetBg").onclick=closeSheet;
+$("#meChip").onclick=()=>toast("Demo: you're Franky 🛹 — a kid-safe view");
 
-/* ---------- tabs ---------- */
-let addMode="item"; // item | look
-function go(view){
-  $$(".view").forEach(v=>v.classList.remove("active"));
-  $("#view-"+view).classList.add("active");
-  $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.go===view));
-  if(view==="closet")renderCloset();
-  if(view==="wish")renderWish();
+function go(v){
+  $$(".view").forEach(x=>x.classList.remove("active"));
+  $("#view-"+v).classList.add("active");
+  $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.go===v));
+  if(v==="discover"){renderFilters();renderFeed();}
+  if(v==="quests")renderQuests();
+  if(v==="you")renderYou();
+  if(v==="learn")renderLearn();
   window.scrollTo({top:0});
 }
 $$("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.go));
 
-/* ---------- add form ---------- */
-let pendingPhoto=null, pendingStatus="gift";
-
-$("#photoDrop").onclick=()=>$("#photoInput").click();
-$("#photoInput").onchange=e=>{
-  const f=e.target.files[0]; if(!f)return;
-  const r=new FileReader();
-  r.onload=()=>{pendingPhoto=r.result;$("#photoDrop").classList.add("has");$("#photoDrop").innerHTML=`<img src="${pendingPhoto}">`;};
-  r.readAsDataURL(f);
-};
-$$("#statusSeg .opt").forEach(o=>o.onclick=()=>{
-  pendingStatus=o.dataset.status;
-  $$("#statusSeg .opt").forEach(x=>x.setAttribute("aria-pressed",x===o));
-  $("#priceFld").style.display = pendingStatus==="sell"?"block":"none";
-});
-
-function setAddMode(m){
-  addMode=m;
-  const item = m==="item";
-  $("#addTitle").textContent = item?"Add to the Closet":"Save a Future look";
-  $("#addSub").textContent = item?"A photo and a few words. That's it.":"Something you're dreaming toward. No need to own it.";
-  $("#closetOnly").style.display = item?"block":"none";
-  $("#storyLab").textContent = item?"Why does it deserve a next life?":"What do you love about it?";
-  $("#submitItem").textContent = item?"Add it ✦":"Save look ✨";
-}
-
-$("#submitItem").onclick=()=>{
-  const name=$("#f-name").value.trim();
-  if(!name){toast("Give it a name first 🙂");return;}
-  const hue=Math.floor(Math.random()*360);
-  if(addMode==="look"){
-    state.wish.unshift({id:"w"+Date.now(),name,why:$("#f-story").value.trim(),hue,photo:pendingPhoto});
-    save();resetForm();toast("Saved to your Future Outfit ✨");go("wish");return;
-  }
-  const it={
-    id:"i"+Date.now(),name,emoji:"👕",
-    size:$("#f-size").value.trim()||"One size",
-    cat:"Tops",
-    status:pendingStatus,
-    price: pendingStatus==="sell"? (parseInt($("#f-price").value)||0) : 0,
-    owner:ME.id,
-    story:$("#f-story").value.trim()||"Ready for its next chapter.",
-    lineage:[ME.id],thanks:0,hue,photo:pendingPhoto,interested:[]
-  };
-  state.items.unshift(it);
-  save();resetForm();toast("Added to the closet 🧺");go("closet");
-};
-function resetForm(){
-  $("#f-name").value="";$("#f-size").value="";$("#f-story").value="";if($("#f-price"))$("#f-price").value="";
-  pendingPhoto=null;pendingStatus="gift";
-  $("#photoDrop").classList.remove("has");
-  $("#photoDrop").innerHTML=`<input type="file" id="photoInput" accept="image/*" capture="environment" hidden /><div id="photoPlaceholder">📸<br><b>Add a photo</b><div class="hint">Snap it or pick from your camera roll</div></div>`;
-  $("#photoInput").onchange=arguments.callee.photoHandler; // rebind below
-  bindPhoto();
-  $$("#statusSeg .opt").forEach(x=>x.setAttribute("aria-pressed",x.dataset.status==="gift"));
-  $("#priceFld").style.display="none";
-  setAddMode("item");
-}
-function bindPhoto(){
-  $("#photoDrop").onclick=()=>$("#photoInput").click();
-  $("#photoInput").onchange=e=>{
-    const f=e.target.files[0]; if(!f)return;
-    const r=new FileReader();
-    r.onload=()=>{pendingPhoto=r.result;$("#photoDrop").classList.add("has");$("#photoDrop").innerHTML=`<img src="${pendingPhoto}">`;};
-    r.readAsDataURL(f);
-  };
-}
-
-/* add-mode toggle injected at top of Add view */
-(function injectModeToggle(){
-  const seg=document.createElement("div");
-  seg.className="seg";seg.style.marginBottom="4px";
-  seg.innerHTML=`<div class="opt" data-m="item" aria-pressed="true">🧺 Pass on an item</div><div class="opt" data-m="look" aria-pressed="false">✨ Save a look</div>`;
-  const head=$("#view-add .viewhead");
-  head.after(seg);
-  seg.querySelectorAll(".opt").forEach(o=>o.onclick=()=>{
-    seg.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed",x===o));
-    setAddMode(o.dataset.m);
-  });
-})();
-
-/* profile switcher (demo) */
-$("#circleChip").onclick=()=>{
-  toast("Demo: you're Rader, in the Turner Family circle 👋");
-};
-
-/* ---------- boot ---------- */
-renderFilters();
-renderCloset();
-$("#meAvatar").style.background=`hsl(${ME.hue} 45% 45%)`;
+/* boot */
+renderFilters();renderFeed();refreshQuests();
 </script>
 </body>
 </html>
