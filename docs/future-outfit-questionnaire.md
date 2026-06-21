@@ -68,6 +68,24 @@ The center of gravity is shifting from a mood board toward **circulation**:
   **+ a couple of circles from his personal network — deliberately wide
   demographic** (test equity across real income differences, not in a bubble).
 
+### Money & MVP decisions (latest)
+
+- **MVP TODAY** is the ask. The wishlist↔closet **"ping me" loop is Phase 2**;
+  for the MVP, wishlist = personal saving + manual browse.
+- **Money model:** **Depop-style, but with free / gifting / "thank you for
+  giving my clothes a 2nd (or 3rd) life"** as the warm default.
+- **Garment lineage:** concept in now, **depth later**.
+- **Revenue (prove-it-first; finalize w/ Luis):**
+  - Possible **cut of sales** = the *same* fee anyone would charge, but **half of
+    it is donated to a cause the seller chooses.**
+  - **Shipping:** do NOT add margin (margins are thin; keep it doable). Rader
+    expects a natural **kickback from the shipping partner** — leaning
+    **Chit Chats**, but **Canada Post** is appealing for national pride/relevance.
+  - **Setting up a family circle should be free**; paid features likely live in
+    **stores / collections** (TBD).
+  - Make a **nominal sum at first**; be **transparent** about the line between
+    **philanthropy vs. what THANKS earns**, so the business can keep innovating.
+
 ## 0. The one-liner
 > A family style journal where kids save the looks they love, dream up their
 > "future outfit," learn the skills to make or find it, and get it through a
