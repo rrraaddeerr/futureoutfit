@@ -56,6 +56,8 @@
   .look{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);cursor:pointer}
   .look .pic{aspect-ratio:4/5;display:grid;place-items:center;position:relative}
   .look .pic .emoji{font-size:96px;filter:drop-shadow(0 8px 14px #0005)}
+  .pic .art,.hero .art,.mp .art{width:82%;height:82%;display:block}
+  .pic>img,.hero>img,.mp>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .look .pic .era{position:absolute;top:12px;left:12px;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800;letter-spacing:.04em}
   .look .pic .savez{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;display:grid;place-items:center;font-size:18px;cursor:pointer}
   .look .pic .savez.on{background:var(--grad);border-color:transparent}
@@ -115,7 +117,7 @@
 
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
   .mini{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel);cursor:pointer}
-  .mini .mp{aspect-ratio:1/1.1;display:grid;place-items:center;font-size:46px}
+  .mini .mp{aspect-ratio:1/1.1;display:grid;place-items:center;font-size:46px;position:relative;overflow:hidden}
   .mini .mn{padding:8px 10px 10px;font-size:13px;font-weight:800}
 
   .empty{text-align:center;color:var(--ink-soft);padding:40px 18px;border:1px dashed var(--line);border-radius:var(--radius);margin-top:14px}
@@ -270,79 +272,84 @@ const ADULTS=[
   {id:"papa",name:"Papa Turner",rel:"Vintage everything",hue:"linear-gradient(135deg,#ffb25f,#ff5fa2)"},
 ];
 
-/* ---- diverse, non-mall looks (the blend: curated + starter pack) ---- */
+/* ---- the catalogue: design-forward, beyond-the-mall looks ----
+   Each look has optional `img` (local file path) for real photos later;
+   with no photo it renders as on-brand vector art. No internet fetching. */
 const LOOKS=[
-  {id:"l1",name:"90s Skate Rat",emoji:"🛹",hue:"linear-gradient(150deg,#3a2f6b,#ff5fa2)",era:"’90s",cat:"Street",
-   vibes:["baggy","worn-in","fearless"],
-   pieces:[["👕","Faded graphic tee","Soft from a hundred washes — the fade is the flex"],["👖","Baggy carpenter jeans","Loose leg, hammer loop. Room to move (and bail)"],["👟","Chunky skate shoes","Flat soles to feel the board"],["🧦","Tube socks","Pulled high, on purpose"]],
-   era_note:"Born in California skateparks in the 1990s. The whole point was anti-mall: thrifted, beat-up, yours.",
-   colors:["#2b2550","#ff5fa2","#e9e2ff"],color_note:"Faded brights on washed-out neutrals — nothing matches too hard. Lived-in beats brand-new.",
-   where:["thrift","secondhand","make"],care:"Don't bin the rips — patch them. Skate holes are a badge.",movement:"skate"},
-  {id:"l2",name:"Cottage Wanderer",emoji:"🌿",hue:"linear-gradient(150deg,#2e5b3f,#ffd166)",era:"timeless",cat:"Soft",
-   vibes:["cosy","earthy","storybook"],
-   pieces:[["🧥","Knit cardigan","Chunky, hand-made if you're lucky"],["👗","Floral midi dress","Little prints, soft fabric"],["🥾","Lace-up boots","For real walking"],["🧺","Woven basket bag","Carries your finds"]],
-   era_note:"‘Cottagecore’ — a 2020s love letter to slow, handmade, outdoorsy living. Lots of it is genuinely vintage.",
-   colors:["#2e5b3f","#ffd166","#f4ead2"],color_note:"Greens, creams and a warm yellow — colours pulled straight from a garden.",
-   where:["thrift","make","closet"],care:"Hand-wash knits cold, dry them flat so they keep their shape.",movement:"craft"},
-  {id:"l3",name:"Y2K Future Kid",emoji:"🦋",hue:"linear-gradient(150deg,#4fe3d0,#8b6cff)",era:"’00s",cat:"Bold",
-   vibes:["shiny","playful","loud"],
-   pieces:[["🧥","Cropped puffer","Metallic, a little space-age"],["👖","Low-rise cargos","Pockets everywhere"],["👟","Bulky trainers","The chunkier the better"],["🦋","Butterfly clips","Tiny chaos, big joy"]],
-   era_note:"Year-2000 optimism: everyone thought the future would be shiny. Now it's back, mostly thrifted.",
-   colors:["#4fe3d0","#8b6cff","#c0d6ff"],color_note:"Icy metallics and candy brights — colours that catch the light.",
-   where:["secondhand","thrift"],care:"Metallics hate the dryer. Air-dry to keep the shine.",movement:"y2k"},
-  {id:"l4",name:"Old-Money Prep",emoji:"🎾",hue:"linear-gradient(150deg,#1d3b6b,#e9e2ff)",era:"’70s–now",cat:"Sharp",
-   vibes:["clean","crisp","quiet"],
-   pieces:[["🧥","Navy blazer","Structured shoulders, gold buttons"],["👕","Collared polo","Tucked, simple"],["🩳","Pleated shorts","Sit at the waist"],["👞","Leather loafers","No socks shown"]],
-   era_note:"East-coast prep, alive since the 1970s. ‘Quiet luxury’ is the same idea: no logos, all fit.",
-   colors:["#1d3b6b","#ffffff","#b58a3a"],color_note:"Navy, white and a touch of gold — calm colours that say ‘I'm not trying too hard.’",
-   where:["thrift","secondhand","closet"],care:"Hang blazers on wide hangers so the shoulders stay sharp.",movement:"prep"},
-  {id:"l5",name:"Punk Patchwork",emoji:"🧷",hue:"linear-gradient(150deg,#1a1a1a,#ff5fa2)",era:"’70s–’80s",cat:"Bold",
-   vibes:["DIY","rebel","sharp"],
-   pieces:[["🧥","Studded jacket","Customised by hand"],["👕","Band tee","Cut and re-stitched"],["👖","Ripped skinnies","Held together with pins"],["🥾","Combat boots","Built to last forever"]],
-   era_note:"London & New York, late 1970s. Punks couldn't afford fashion, so they MADE it — safety pins and all.",
-   colors:["#1a1a1a","#ff5fa2","#d8d8d8"],color_note:"Black with one shock of colour. The mess is the message.",
-   where:["thrift","make"],care:"Sew on patches by hand — every repair adds to the story.",movement:"punk"},
-  {id:"l6",name:"Mod Sharp",emoji:"🛵",hue:"linear-gradient(150deg,#0e2a52,#ffd166)",era:"’60s",cat:"Sharp",
-   vibes:["neat","graphic","retro"],
-   pieces:[["🧥","Slim parka","Fishtail back"],["👕","Polo with stripes","Clean lines"],["👖","Tailored trousers","Cropped at the ankle"],["👟","Desert boots","Suede, simple"]],
-   era_note:"‘Mods’ in 1960s Britain — scooters, soul music, and razor-sharp tailoring on a budget.",
-   colors:["#0e2a52","#ffd166","#ffffff"],color_note:"Bold blocks and stripes — graphic, like a poster.",
-   where:["thrift","secondhand"],care:"Steam, don't iron, delicate trims.",movement:"mod"},
-  {id:"l7",name:"Workwear Maker",emoji:"🔧",hue:"linear-gradient(150deg,#5b3a1d,#ffd166)",era:"timeless",cat:"Sturdy",
-   vibes:["tough","honest","useful"],
-   pieces:[["🧥","Chore jacket","Square cut, big pockets — a worker's classic"],["👖","Duck canvas pants","Stiff at first, perfect later"],["👕","Heavy tee","Thick cotton"],["🥾","Work boots","Re-soleable"]],
-   era_note:"French & American workwear, 1900s onward. Built for farmers and railroad crews — which is why it never wears out.",
-   colors:["#5b3a1d","#3a5a40","#e8d8b0"],color_note:"Earthy, useful colours that hide a day's work.",
+  {id:"l1",name:"Avant-Garde Drape",emoji:"🩶",img:null,hue:"linear-gradient(155deg,#2a2730,#0e0d12)",era:"avant-garde",cat:"Avant",heri:false,
+   vibes:["draped","dark","sculptural"],
+   pieces:[["🧥","Long draped coat","Falls like liquid — the shape is the whole point"],["👕","Elongated layering top","Hangs past the waist, asymmetric hem"],["👖","Dropped-crotch trousers","Loose, tapered, a little mysterious"],["🥾","Chunky leather boots","Heavy sole, hand-finished"]],
+   era_note:"Avant-garde / artisanal designers — think Rick Owens — treat clothing like dark sculpture. Drape, texture and shape matter far more than any logo. Most of it lives in resale, not malls.",
+   colors:["#0e0d12","#3a3742","#cabfae"],color_note:"Shades of black and char with one bone-neutral. The interest is in texture and shape, not bright colour.",
+   where:["resale","secondhand","make"],care:"Keep blacks out of direct sun so they stay deep, not grey.",movement:"avant"},
+  {id:"l2",name:"Japanese Black",emoji:"🖤",img:null,hue:"linear-gradient(155deg,#22232a,#0b0b0f)",era:"’80s–now",cat:"Avant",heri:true,
+   vibes:["oversized","all-black","asymmetric"],
+   pieces:[["🧥","Oversized blazer","Big shoulders, dropped seams"],["👕","Layered tunic","Worn long over everything"],["👖","Wide cropped trousers","Room to move, ankle on show"],["👞","Leather derbies","Simple, matte"]],
+   era_note:"In the 1980s, Tokyo designers Yohji Yamamoto and Comme des Garçons stunned Paris with oversized, all-black, imperfect-on-purpose clothes. They rewired what fashion could be.",
+   colors:["#0b0b0f","#2b2b33","#6b6b76"],color_note:"All black, but in different textures and weights — that's how a single colour stays interesting.",
+   where:["resale","secondhand"],care:"Steam to reset the drape; hang on wide hangers.",movement:"japanese"},
+  {id:"l3",name:"Pleats & Future Fabric",emoji:"🪭",img:null,hue:"linear-gradient(155deg,#ff7a3c,#7c3cff)",era:"’90s–now",cat:"Future",heri:false,
+   vibes:["pleated","light","kinetic"],
+   pieces:[["👕","Micro-pleated top","Springs back into shape, weighs nothing"],["👖","Pleated wide pants","Move like origami"],["👜","Geometric bag","Folds flat, opens into a shape"],["👟","Minimal sneakers","Let the clothes do the talking"]],
+   era_note:"Designers like Issey Miyake turned clothing into technology — engineered permanent pleats, new materials, garments that pack tiny and move like paper art.",
+   colors:["#7c3cff","#ff7a3c","#0e0d12"],color_note:"Two bold brights against black — the colour IS the statement when the shapes are simple.",
+   where:["resale","secondhand"],care:"Fold along the pleats; never iron them flat.",movement:"future"},
+  {id:"l4",name:"Big Balenciaga",emoji:"🧊",img:null,hue:"linear-gradient(155deg,#6f7378,#1c1d20)",era:"now",cat:"Street",heri:false,
+   vibes:["oversized","exaggerated","bold"],
+   pieces:[["🧥","Huge hoodie","Shoulders way past your own"],["👖","Baggy denim","Puddles at the ankle"],["👟","Chunky ‘dad’ sneakers","Massive, on purpose"],["🧢","Logo cap","One loud accent"]],
+   era_note:"Modern Balenciaga blew everything up — giant shoulders, enormous shoes — turning streetwear into runway. The point is bold proportion: too big becomes the look.",
+   colors:["#1c1d20","#6f7378","#c8ff3c"],color_note:"Concrete greys and black with one acid pop — like a city wall with a tag on it.",
+   where:["resale","secondhand"],care:"Air out big knits; spot-clean chunky soles with a brush.",movement:"luxstreet"},
+  {id:"l5",name:"Workwear Maker",emoji:"🔧",img:null,hue:"linear-gradient(155deg,#5b3a1d,#2c2a1c)",era:"timeless",cat:"Workwear",heri:true,
+   vibes:["sturdy","honest","useful"],
+   pieces:[["🧥","Chore jacket","Square cut, big pockets — a worker's classic"],["👖","Duck canvas pants","Stiff at first, perfect later"],["👕","Heavy tee","Thick cotton that holds its shape"],["🥾","Work boots","Re-soleable, built to outlive you"]],
+   era_note:"French & American workwear, 1900s onward. Built for farmers and rail crews, so it never wears out — which is exactly why designers and thrifters love it now.",
+   colors:["#2c2a1c","#5b3a1d","#3a5a40"],color_note:"Earthy, useful colours that hide a hard day — and only look better worn in.",
    where:["thrift","secondhand","closet"],care:"Wash less, wear more — workwear ages best with use.",movement:"workwear"},
-  {id:"l8",name:"Hip-Hop Heritage",emoji:"🎤",hue:"linear-gradient(150deg,#1a1a1a,#ffd166)",era:"’80s–’90s",cat:"Street",
-   vibes:["proud","bold","fresh"],
-   pieces:[["🧥","Track jacket","Bold colour-blocks"],["👖","Relaxed denim","Clean, roomy"],["👟","Fresh sneakers","Laces crisp"],["🧢","Snapback cap","Flat brim"]],
-   era_note:"New York, 1980s–90s. Self-expression and pride, head to toe — a culture that reshaped all of fashion.",
-   colors:["#1a1a1a","#ffd166","#ff5fa2"],color_note:"Confident colour-blocking — own the whole look, not one piece.",
-   where:["secondhand","thrift"],care:"Keep sneakers fresh with a soft brush, never the washing machine.",movement:"hiphop"},
+  {id:"l6",name:"Modern Streetwear",emoji:"🧢",img:null,hue:"linear-gradient(155deg,#3a3f2c,#15140f)",era:"now",cat:"Street",heri:false,
+   vibes:["boxy","layered","remixable"],
+   pieces:[["👕","Boxy graphic tee","Sits square, prints with meaning"],["👖","Cargo pants","Pockets that actually carry stuff"],["👟","Hi-top sneakers","Comfort first"],["🧶","Beanie","Folded, everyday"]],
+   era_note:"Today's streetwear pulls from skate, hip-hop and workwear all at once — comfort-first, built to mix, remix and pass around. The opposite of a one-size mall rack.",
+   colors:["#15140f","#3a3f2c","#e8e0cf"],color_note:"Washed khaki, black and cream — neutrals that let one graphic piece pop.",
+   where:["thrift","secondhand","make"],care:"Cold wash, hang dry — keeps prints and shape sharp.",movement:"street"},
+  {id:"l7",name:"Dark Techwear",emoji:"🛰️",img:null,hue:"linear-gradient(155deg,#202327,#0a0b0d)",era:"’00s–now",cat:"Future",heri:false,
+   vibes:["technical","utility","precise"],
+   pieces:[["🧥","Shell jacket","Waterproof, taped seams, lots of zips"],["👖","Tactical trousers","Articulated knees, cargo straps"],["🎒","Buckle harness","Carries gear, looks engineered"],["🥾","Gore-Tex boots","Dry feet, city-ready"]],
+   era_note:"Techwear borrows outdoor tech fabrics, straps and zips for the city — labels like ACRONYM and 1017 ALYX 9SM lead it. Every detail has a job: function as style.",
+   colors:["#0a0b0d","#202327","#ff6a00"],color_note:"Stealth black and graphite with a single safety-orange — like high-tech equipment.",
+   where:["resale","secondhand"],care:"Wash with tech-fabric soap; never fabric softener (it kills the waterproofing).",movement:"techwear"},
+  {id:"l8",name:"Gorpcore Trail",emoji:"🏔️",img:null,hue:"linear-gradient(155deg,#1f5b3a,#ff8a3c)",era:"now",cat:"Outdoor",heri:false,
+   vibes:["outdoorsy","cosy","colourful"],
+   pieces:[["🧥","Fleece jacket","Warm, fuzzy, retro colour-blocks"],["👖","Shell over-pants","Crinkly, weatherproof"],["👟","Trail runners","Grippy, built for rough ground"],["🧶","Knit beanie","Bright pom optional"]],
+   era_note:"‘Gorpcore’ turns hiking gear into everyday style — fleeces, shells and trail shoes. It's practical, durable, and tons of it turns up secondhand.",
+   colors:["#1f5b3a","#ff8a3c","#e8e0cf"],color_note:"Forest green and a sunset orange — outdoor colours that read as cheerful in the city.",
+   where:["thrift","secondhand"],care:"Re-proof shells now and then; brush fleece to keep it fluffy.",movement:"gorpcore"},
 ];
 
 const GLOSSARY=[
-  ["Silhouette","The overall shape an outfit makes — boxy, slim, flowy. It matters more than any single piece."],
-  ["Chore jacket","A boxy workwear jacket with big square pockets. Originally for French labourers."],
-  ["Loafers","Slip-on leather shoes, no laces. Smart but easy."],
+  ["Silhouette","The overall shape an outfit makes — boxy, slim, draped. It matters more than any single piece."],
+  ["Proportion","How big or small pieces are next to your body — oversized, cropped, exaggerated. The heart of modern fashion."],
+  ["Drape","How fabric falls and hangs. Heavy drape flows; stiff fabric holds a shape. Avant-garde lives here."],
+  ["Avant-garde","Experimental design that breaks the usual rules on purpose — clothing treated as art."],
   ["Palette","The set of colours in a look. A tight palette (2–3 colours) usually looks intentional."],
-  ["Vintage","Genuinely old (usually 20+ years). Not the same as ‘retro’, which just looks old."],
+  ["Chore jacket","A boxy workwear jacket with big square pockets. Originally for French labourers."],
+  ["Selvedge denim","Premium denim woven on old-style looms with a clean self-finished edge. Fades into something personal."],
+  ["Techwear","Clothing made from technical, outdoor fabrics with useful straps, zips and pockets."],
+  ["Archive","Older pieces from a designer's past collections — hunted down secondhand by fans."],
   ["Deadstock","Brand-new old items that were never sold — found in warehouses. A thrifter's treasure."],
-  ["Capsule","A small set of clothes that all mix together. Fewer pieces, more outfits."],
-  ["Drape","How fabric falls and hangs. Heavy drape = flowy; stiff fabric holds a shape."],
+  ["Vintage","Genuinely old (usually 20+ years). Not the same as ‘retro’, which just looks old."],
   ["Thrifting","Buying secondhand from charity shops, markets and resale apps. Cheaper, greener, one-of-a-kind."],
 ];
 
 const MOVEMENTS=[
-  ["skate","🛹","Skate","From 1970s California empty pools to ’90s street. Worn-in, cheap, and totally anti-fashion — which made it fashion."],
-  ["punk","🧷","Punk","Mid-’70s London & NYC. Too broke for trends, punks cut up and pinned together their own. DIY forever."],
-  ["mod","🛵","Mod","1960s Britain — scooters, soul and impossibly sharp tailoring, all on a working budget."],
-  ["hiphop","🎤","Hip-Hop","1980s New York. A whole culture of pride and self-expression that ended up reshaping global style."],
-  ["prep","🎾","Prep","1970s East-coast US. Quiet, clean, no logos — the original ‘quiet luxury.’"],
-  ["workwear","🔧","Workwear","Early-1900s farms and railroads. Built so tough it outlived its jobs and became a style."],
-  ["y2k","🦋","Y2K","Around the year 2000 everyone imagined a shiny future. Now it's back — mostly secondhand."],
-  ["craft","🌿","Craft / Cottage","A modern return to handmade, mended, outdoorsy clothes. Slow fashion at its kindest."],
+  ["avant","🩶","Avant-Garde","Artisanal designers like Rick Owens treat clothing as dark sculpture — drape, texture and shape over logos. Most of it lives in resale and archives, not malls."],
+  ["japanese","🖤","Japanese Avant-Garde","Yohji Yamamoto and Comme des Garçons stunned 1980s Paris with oversized, all-black, imperfect-on-purpose design. They changed fashion forever."],
+  ["future","🪭","Future Fabric","Designers like Issey Miyake turned clothes into technology — engineered pleats and new materials that move and pack like origami."],
+  ["luxstreet","🧊","Luxury Streetwear","Houses like Balenciaga blew streetwear up to runway scale — exaggerated proportions, huge shoes, bold everything."],
+  ["techwear","🛰️","Techwear","Outdoor tech fabrics, straps and zips brought into the city (ACRONYM, ALYX). Every detail has a function — utility as style."],
+  ["street","🧢","Streetwear","Born from skate and hip-hop, today's streetwear is comfort-first and built to mix, remix and pass around."],
+  ["workwear","🔧","Workwear","Early-1900s farm and rail gear, built so tough it outlived its jobs and became a style. Ages beautifully with use."],
+  ["gorpcore","🏔️","Gorpcore","Hiking gear as everyday style — fleeces, shells and trail shoes. Practical, durable, and easy to find secondhand."],
 ];
 
 const THRIFT101=[
@@ -358,19 +365,19 @@ const CARE=[
 ];
 
 const QUESTS=[
-  {id:"q1",ic:"🕰️",t:"Time traveller",d:"Save a look from before you were born.",auto:s=>s.saved.some(id=>{const l=LOOKS.find(x=>x.id===id);return l&&/’[679]/.test(l.era);})},
+  {id:"q1",ic:"🕰️",t:"Time traveller",d:"Save a look rooted before the year 2000.",auto:s=>s.saved.some(id=>{const l=LOOKS.find(x=>x.id===id);return l&&l.heri;})},
   {id:"q2",ic:"🔍",t:"Code-breaker",d:"Decode any look to see what it's made of.",auto:s=>s.decoded.length>0},
   {id:"q3",ic:"💬",t:"Brave question",d:"Ask a grown-up what something is — no courage tax.",auto:s=>s.asked.length>0},
-  {id:"q4",ic:"🎨",t:"Find your colour",d:"Save 3 looks and spot what they have in common.",auto:s=>s.saved.length>=3},
+  {id:"q4",ic:"🎨",t:"Find your palette",d:"Save 3 looks and spot what they have in common.",auto:s=>s.saved.length>=3},
   {id:"q5",ic:"🌟",t:"Know thyself",d:"Take the vibe quiz and name your style.",auto:s=>!!s.vibe},
   {id:"q6",ic:"🛍️",t:"Skip the mall",d:"Learn one new thing in Thrift 101.",auto:s=>s.learnedThrift},
 ];
 
 const VIBES={
-  street:{name:"Street Original",desc:"Bold, worn-in, fearless. You wear comfort like armour and don't care what the mall thinks.",traits:["baggy","graphic","worn-in"],emoji:"🛹"},
-  soft:{name:"Soft Wanderer",desc:"Cosy, earthy, a little storybook. Your style feels like a warm afternoon outdoors.",traits:["cosy","handmade","earthy"],emoji:"🌿"},
-  sharp:{name:"Quiet Sharp",desc:"Clean lines, calm colours, nothing shouting. You let the fit do the talking.",traits:["crisp","tailored","timeless"],emoji:"🎾"},
-  bold:{name:"Future Bold",desc:"Shiny, playful, loud and proud. You treat getting dressed like a celebration.",traits:["bright","shiny","playful"],emoji:"🦋"},
+  avant:{name:"Avant Soul",desc:"Drawn to dark, draped, sculptural design. You see clothing as art — never about the label.",traits:["draped","all-black","sculptural"],emoji:"🩶"},
+  street:{name:"Street Native",desc:"Comfort-first, bold and remixable. You build looks from skate, hip-hop and workwear and make them your own.",traits:["oversized","layered","bold"],emoji:"🧢"},
+  future:{name:"Future Mind",desc:"Into tech fabrics, clean shapes and clothing that does something. Function is your kind of beauty.",traits:["technical","pleated","precise"],emoji:"🛰️"},
+  maker:{name:"The Maker",desc:"You love things built to last — workwear, raw denim, pieces that age with you and tell a story.",traits:["sturdy","honest","lived-in"],emoji:"🔧"},
 };
 
 /* ---------- state ---------- */
@@ -381,10 +388,31 @@ let state=load();
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2300);}
 function esc(s){return(s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
-function whereLabel(w){return{thrift:["🛒","Thrift shop"],secondhand:["📱","Resale app"],make:["✂️","Make / DIY"],closet:["🧺","Family closet"]}[w];}
+function whereLabel(w){return{thrift:["🛒","Thrift shop"],secondhand:["📱","Resale app"],resale:["💎","Designer resale"],make:["✂️","Make / DIY"],closet:["🧺","Family closet"]}[w];}
+
+/* ---------- look art (vector, no internet) ---------- */
+const ART_SIL={l1:"coat",l2:"jacket",l3:"dress",l4:"shoe",l5:"jacket",l6:"tee",l7:"pants",l8:"coat"};
+const GARMENTS={
+  tee:`<path d="M76,68 L60,64 L38,92 L54,112 L74,98 L74,198 L126,198 L126,98 L146,112 L162,92 L140,64 L124,68 C116,84 84,84 76,68 Z"/>`,
+  jacket:`<path d="M78,66 L60,62 L38,96 L55,116 L74,102 L74,200 L126,200 L126,102 L145,116 L162,96 L140,62 L122,66 L104,84 L100,78 L96,84 Z"/><path d="M100,86 L100,200" fill="none"/>`,
+  coat:`<path d="M78,60 L60,56 L40,92 L54,112 L74,98 L72,216 L128,216 L126,98 L146,112 L160,92 L140,56 L122,60 L104,78 L100,72 L96,78 Z"/><path d="M100,80 L100,216" fill="none"/>`,
+  dress:`<path d="M82,64 L68,60 L48,90 L62,106 L78,94 L70,128 L52,210 L148,210 L130,128 L122,94 L138,106 L152,90 L132,60 L118,64 C110,80 90,80 82,64 Z"/><path d="M72,150 L128,150" fill="none"/>`,
+  pants:`<path d="M74,62 L126,62 L130,210 L106,210 L100,122 L94,210 L70,210 Z"/><path d="M100,72 L100,118" fill="none"/>`,
+  shoe:`<path d="M40,150 C40,136 62,128 92,128 L120,128 C146,128 160,144 162,162 L162,174 C162,178 158,180 154,180 L44,180 C40,180 38,176 38,168 Z"/><path d="M40,172 L160,172" fill="none"/>`,
+  cap:`<path d="M58,150 C58,108 142,108 142,150 L142,156 L58,156 Z"/><path d="M142,150 L190,160 L190,170 L142,158 Z"/>`,
+};
+function lookArt(l){
+  if(l.img) return `<img src="${l.img}" alt="${esc(l.name)}">`;
+  const g=GARMENTS[ART_SIL[l.id]||"tee"];
+  const dots=(l.colors||[]).slice(0,3).map((c,i)=>`<circle cx="${30+i*22}" cy="232" r="8" fill="${c}" stroke="#ffffff55" stroke-width="1.5"/>`).join("");
+  return `<svg class="art" viewBox="0 0 200 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs><filter id="sh-${l.id}" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity="0.30"/></filter></defs>
+    <g filter="url(#sh-${l.id})" fill="rgba(255,255,255,0.16)" stroke="rgba(255,255,255,0.72)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${g}</g>
+    ${dots}</svg>`;
+}
 
 /* ---------- discover ---------- */
-const CATS=["For you","Street","Soft","Sharp","Bold","Sturdy"];
+const CATS=["For you","Avant","Street","Future","Workwear","Outdoor"];
 let activeCat="For you";
 function renderFilters(){
   $("#filters").innerHTML=CATS.map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===activeCat}">${c}</button>`).join("");
@@ -393,7 +421,7 @@ function renderFilters(){
 function feedItems(){
   let arr=[...LOOKS];
   if(activeCat==="For you"&&state.vibe){
-    const want={street:"Street",soft:"Soft",sharp:"Sharp",bold:"Bold"}[state.vibe];
+    const want={avant:"Avant",street:"Street",future:"Future",maker:"Workwear"}[state.vibe];
     arr.sort((a,b)=>(b.cat===want)-(a.cat===want));
   }else if(activeCat!=="For you"){arr=arr.filter(l=>l.cat===activeCat);}
   return arr;
@@ -407,7 +435,7 @@ function renderFeed(){
       <div class="pic" style="background:${l.hue}">
         <span class="era">${l.era}</span>
         <button class="savez ${on?'on':''}" data-save="${l.id}">${on?'💜':'🤍'}</button>
-        <span class="emoji">${l.emoji}</span>
+        ${lookArt(l)}
       </div>
       <div class="cap">
         <div class="nm">${esc(l.name)}</div>
@@ -432,7 +460,7 @@ function openLook(id){
   const on=state.saved.includes(id);
   const mv=MOVEMENTS.find(m=>m[0]===l.movement);
   $("#sheetPad").innerHTML=`
-    <div class="hero" style="background:${l.hue}"><span class="era">${l.era}</span><span class="emoji">${l.emoji}</span></div>
+    <div class="hero" style="background:${l.hue}"><span class="era">${l.era}</span>${lookArt(l)}</div>
     <h2 style="margin:0;font-size:24px;font-weight:900">${esc(l.name)}</h2>
     <div class="vibes" style="margin-top:8px">${l.vibes.map(v=>`<span class="vibe" style="background:#ffffff12;border-color:var(--line)">${v}</span>`).join("")}</div>
 
@@ -527,7 +555,7 @@ function renderYou(){
   const sb=$("#savedBox");
   if(!state.saved.length){sb.innerHTML=`<div class="empty"><div class="big">✨</div>No saved looks yet.<br>Tap 🤍 on anything in Discover.</div>`;}
   else{
-    sb.innerHTML=`<div class="grid">${state.saved.map(id=>{const l=LOOKS.find(x=>x.id===id);if(!l)return"";return `<div class="mini" data-id="${id}"><div class="mp" style="background:${l.hue}">${l.emoji}</div><div class="mn">${esc(l.name)}</div></div>`;}).join("")}</div>`;
+    sb.innerHTML=`<div class="grid">${state.saved.map(id=>{const l=LOOKS.find(x=>x.id===id);if(!l)return"";return `<div class="mini" data-id="${id}"><div class="mp" style="background:${l.hue}">${lookArt(l)}</div><div class="mn">${esc(l.name)}</div></div>`;}).join("")}</div>`;
     $$("#savedBox .mini").forEach(m=>m.onclick=()=>openLook(m.dataset.id));
   }
   const ab=$("#askedBox");
@@ -539,13 +567,13 @@ function renderYou(){
 
 /* ---------- quiz ---------- */
 const QUIZ=[
-  {q:"Pick a weekend.",opts:[["🛹","Skatepark & music","street"],["🌿","A long walk outdoors","soft"],["🎾","Tidy room, good book","sharp"],["🎉","A party, somewhere loud","bold"]]},
-  {q:"Your dream find at a thrift shop?",opts:[["👕","A perfect faded tee","street"],["🧶","A hand-knit cardigan","soft"],["🧥","A sharp navy blazer","sharp"],["🦋","Something shiny & wild","bold"]]},
-  {q:"Pick a colour mood.",opts:[["🌑","Washed-out & worn","street"],["🍃","Earthy greens & cream","soft"],["🌊","Navy, white, calm","sharp"],["🌈","Bright & metallic","bold"]]},
-  {q:"What should an outfit do?",opts:[["💪","Let me move & not care","street"],["☁️","Feel cosy & kind","soft"],["✨","Look clean & sharp","sharp"],["🔊","Turn heads","bold"]]},
+  {q:"What would you hunt for in a resale shop?",opts:[["🩶","A long, draped black coat","avant"],["🧢","A perfect oversized hoodie","street"],["🛰️","A shell jacket covered in zips","future"],["🔧","A chore jacket that lasts 20 years","maker"]]},
+  {q:"Pick a colour mood.",opts:[["🖤","All black, every shade","avant"],["🟫","Khaki, cream & washed black","street"],["🟧","Bright tech brights","future"],["🟤","Earthy browns & faded indigo","maker"]]},
+  {q:"What matters most in a fit?",opts:[["🗿","Shape & drape","avant"],["🔁","Comfort & remixing","street"],["⚙️","Function & details","future"],["🛠️","Built to last","maker"]]},
+  {q:"Where would you rather shop?",opts:[["💎","A designer resale archive","avant"],["🛒","A packed thrift store","street"],["🧪","A techwear specialist","future"],["🚜","An old workwear surplus","maker"]]},
 ];
-let qz={i:0,score:{street:0,soft:0,sharp:0,bold:0}};
-function startQuiz(){qz={i:0,score:{street:0,soft:0,sharp:0,bold:0}};renderQuiz();openSheet();}
+let qz={i:0,score:{avant:0,street:0,future:0,maker:0}};
+function startQuiz(){qz={i:0,score:{avant:0,street:0,future:0,maker:0}};renderQuiz();openSheet();}
 function renderQuiz(){
   if(qz.i>=QUIZ.length){
     const best=Object.entries(qz.score).sort((a,b)=>b[1]-a[1])[0][0];

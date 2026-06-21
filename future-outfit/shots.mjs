@@ -37,7 +37,7 @@ async function sheetShot(name) {
 await shot("01-discover");
 
 // 2. Look detail (decode)
-await page.click('.look[data-id="l1"] .pic .emoji');
+await page.click('.look[data-id="l1"] .cap');
 await sheetShot("02-decode");
 
 // 3. Ask a grown-up (from detail)
