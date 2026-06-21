@@ -33,3 +33,4 @@ yarn-error.log*
 # Google Drive OAuth secrets for scripts/download-vpc-photos.mjs
 /scripts/credentials.json
 /scripts/token.json
+node_modules/
