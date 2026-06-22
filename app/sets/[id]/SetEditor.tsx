@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { SetDoc, SetGroup, SetItem, SetResponse } from "@/lib/sets";
+import { DirectorChairIcon } from "@/components/Icons";
 
 type CatalogItem = {
   barcode: string;
@@ -614,7 +615,8 @@ export function SetEditor({
                 className="set-edit__add-item"
                 onClick={() => setPickerFor(g.id)}
               >
-                + Add item
+                <DirectorChairIcon size={18} />
+                <span>+ Add items</span>
               </button>
             </div>
           </section>

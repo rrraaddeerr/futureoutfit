@@ -3713,6 +3713,10 @@ textarea.field__control {
   padding: 12px;
   cursor: pointer;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 .set-edit__add-item:hover { border-color: var(--accent); color: var(--accent); }
 
@@ -3993,6 +3997,18 @@ textarea.field__control {
 .present__group-tape {
   font-size: clamp(20px, 3vw, 28px);
   padding: 0.34em 0.95em 0.28em;
+}
+.present__group-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 700;
+  padding: 6px 10px;
+  border: 1px solid var(--accent);
+  background: rgba(255, 90, 31, 0.06);
+  flex-shrink: 0;
+  margin-right: 4px;
 }
 .present__pick-tag {
   font-family: var(--font-mono);
