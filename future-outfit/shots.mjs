@@ -93,5 +93,30 @@ await sheetShot("10-coinflip");
 await page.evaluate(() => document.getElementById("sheetBg").click());
 await wait(300);
 
+// 10. Build avatar (You tab)
+await page.click('nav.tabs button[data-go="you"]');
+await wait(300);
+await page.click("#makeAv");
+await wait(400);
+await sheetShot("11-avatar-build");
+await page.click("#avSave");
+await wait(400);
+
+// 11. Style help / Fits
+await page.click('nav.tabs button[data-go="fits"]');
+await wait(300);
+await shot("12-fits-ask", true);
+await page.click("#askFit");
+await wait(1500); // let the "putting together" reveal finish
+await sheetShot("13-fit-reveal");
+// save it, then try it on
+await page.click("#sheetPad [data-savefit]");
+await wait(400);
+await page.click('#fitsBox [data-tryon]');
+await wait(500);
+await sheetShot("14-tryon");
+await page.evaluate(() => document.getElementById("sheetBg").click());
+await wait(300);
+
 await browser.close();
 console.log("done");

@@ -177,6 +177,48 @@
   .coin.spin{animation:flip 1.15s cubic-bezier(.2,.7,.2,1)}
   @keyframes flip{0%{transform:rotateX(0)}100%{transform:rotateX(2160deg)}}
 
+  /* style help / fits */
+  .crewpick{display:flex;gap:10px;overflow-x:auto;padding:4px 0 6px;scrollbar-width:none}
+  .crewpick::-webkit-scrollbar{display:none}
+  .crewcard{min-width:128px;border-radius:18px;padding:13px;text-align:center;cursor:pointer;background:var(--panel);border:1px solid var(--line)}
+  .crewcard[aria-pressed="true"]{border-color:#ffffff66;box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 8px 22px #000a}
+  .crewcard .ava{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:26px;margin:0 auto 8px;box-shadow:inset 0 1px 0 #fff7}
+  .crewcard .cn{font-weight:900;font-size:14px}
+  .crewcard .cr{font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.3}
+  .fit{padding:16px;margin-bottom:14px}
+  .fithead{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+  .fithead .ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:23px;box-shadow:inset 0 1px 0 #fff7}
+  .fithead b{font-size:15px}
+  .fithead .sub{font-size:12px;color:var(--ink-soft)}
+  .fitnote{font-size:14px;line-height:1.5;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 12px}
+  .piecelist{display:flex;flex-direction:column;gap:9px}
+  .fpiece{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+  .fpiece .pe{font-size:22px;width:30px;text-align:center;flex:none}
+  .fpiece .pn{font-weight:800;font-size:14px}
+  .fpiece .pw{font-size:11px;color:var(--ink-soft);margin-top:2px}
+  .fit .palette{display:flex;gap:6px;margin:12px 0 4px}
+  .fit .palette i{width:24px;height:24px;border-radius:7px;display:block;box-shadow:inset 0 1px 0 #fff6,0 2px 5px #0007}
+  .fit .btnrow{margin-top:13px}
+
+  /* avatar */
+  .avcard{display:flex;gap:14px;align-items:center;padding:16px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--line);margin-bottom:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
+  .avcard.empty{cursor:pointer}
+  .avstage{width:96px;min-width:96px;height:130px;border-radius:16px;position:relative;overflow:hidden;display:grid;place-items:center;
+    background:radial-gradient(80% 60% at 30% 16%,rgba(255,255,255,.5),transparent 55%),radial-gradient(140% 120% at 50% 12%,#2a3140,#0e1117 86%),#07080b}
+  .avstage svg{width:88%;height:88%}
+  .avinfo{flex:1;min-width:0}
+  .avinfo h3{margin:0 0 4px;font-size:18px}
+  .avinfo p{margin:0;color:var(--ink-soft);font-size:13px;line-height:1.4}
+  .swatchrow{display:flex;gap:9px;flex-wrap:wrap;margin:8px 0 4px}
+  .swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent}
+  .swatch[aria-pressed="true"]{border-color:#fff;box-shadow:0 0 0 2px #000,0 0 0 4px #fff6}
+  .optline{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+  .optline button{background:var(--panel);border:1px solid var(--line);color:var(--ink-soft);border-radius:999px;padding:8px 13px;font-weight:800;font-size:13px;cursor:pointer}
+  .optline button[aria-pressed="true"]{background:var(--grad);color:#15082a;border-color:transparent}
+  .lab{font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin:14px 0 2px}
+  .proto{display:flex;gap:8px;margin-top:6px}
+  .proto button{flex:1;background:var(--panel);border:1px dashed var(--line);color:var(--ink-soft);border-radius:14px;padding:12px;font-weight:800;font-size:13px;cursor:pointer;line-height:1.3}
+
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
   .mini{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel);cursor:pointer}
   .mini .mp{aspect-ratio:1/1.1;display:grid;place-items:center;font-size:46px;position:relative;overflow:hidden}
@@ -237,8 +279,8 @@
 
   /* tabs */
   nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#150f24f2;backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:9px 6px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:space-around;max-width:var(--max);margin:0 auto}
-  nav.tabs button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink-dim);font-size:11px;font-weight:800;cursor:pointer;padding:5px 12px;border-radius:14px}
-  nav.tabs button .ic{font-size:22px;line-height:1}
+  nav.tabs button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--ink-dim);font-size:10px;font-weight:800;cursor:pointer;padding:5px 5px;border-radius:13px}
+  nav.tabs button .ic{font-size:20px;line-height:1}
   nav.tabs button[aria-selected="true"]{color:var(--ink)}
   nav.tabs button[aria-selected="true"] .ic{transform:translateY(-1px)}
 
@@ -284,9 +326,19 @@
     <div id="questList"></div>
   </section>
 
+  <!-- FITS (style help) -->
+  <section class="view" id="view-fits">
+    <div class="viewhead">
+      <h1>Need a <span class="grad-text">fit</span>?</h1>
+      <p>Not sure what to wear? Don't overthink it — ask someone who knows you. Your crew will put a whole outfit together, just for you.</p>
+    </div>
+    <div id="fitsBox"></div>
+  </section>
+
   <!-- YOU -->
   <section class="view" id="view-you">
     <div class="viewhead"><h1>Your <span class="grad-text">vibe</span></h1></div>
+    <div id="avatarBox"></div>
     <div id="vibeBox"></div>
     <div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Saved looks</h1></div>
     <div id="savedBox"></div>
@@ -326,6 +378,7 @@
 <nav class="tabs">
   <button data-go="discover" aria-selected="true"><span class="ic">🪐</span>Discover</button>
   <button data-go="closet"><span class="ic">🧺</span>Closet</button>
+  <button data-go="fits"><span class="ic">✂️</span>Fits</button>
   <button data-go="quests"><span class="ic">🎯</span>Quests</button>
   <button data-go="you"><span class="ic">✨</span>You</button>
   <button data-go="learn"><span class="ic">📚</span>Learn</button>
@@ -446,6 +499,8 @@ const QUESTS=[
   {id:"q6",ic:"🛍️",t:"Skip the mall",d:"Learn one new thing in Thrift 101.",auto:s=>s.learnedThrift},
   {id:"q7",ic:"🧺",t:"Keep it in the family",d:"Claim something from the Family Closet.",auto:s=>s.claimed.length>0},
   {id:"q8",ic:"💛",t:"Say thank you",d:"Take a hand-me-down and thank the person who wore it first.",auto:s=>s.thanks.length>0},
+  {id:"q9",ic:"🙋",t:"Ask for help",d:"Ask your crew to put a fit together for you.",auto:s=>s.fits.length>0},
+  {id:"q10",ic:"👤",t:"Make your avatar",d:"Build a you to try fits on before you wear them.",auto:s=>!!s.avatar},
 ];
 
 const VIBES={
@@ -486,8 +541,24 @@ const CLOSET=[
    offer:"sell",price:4,cause:"tree planting"},
 ];
 
+/* ---- your crew: people who know YOU and make you fits (not history lessons) ----
+   Each helper has a leaning that shapes the outfit they put together for you. */
+const CREW=[
+  {id:"mia",name:"Cousin Mia",rel:"Big cousin, certified drip",emoji:"🧃",cat:"Street",hue:"linear-gradient(135deg,#ff7ac3,#9b6bff)"},
+  {id:"jules",name:"Aunt Jules",rel:"Vintage hunter, knows your size",emoji:"🧶",cat:"Workwear",hue:"linear-gradient(135deg,#ffb25f,#ff7a3c)"},
+  {id:"theo",name:"Uncle Theo",rel:"Techwear nerd, all the gadgets",emoji:"🛰️",cat:"Future",hue:"linear-gradient(135deg,#46d6ff,#9b6bff)"},
+  {id:"sam",name:"Sam",rel:"Your best pal with real taste",emoji:"🛹",cat:"Avant",hue:"linear-gradient(135deg,#bdb2ff,#46d6ff)"},
+];
+const OCCASIONS=["First day at a new school","A birthday party","Cold day — wanna look cool","Family photos","Just want something new"];
+const CREW_NOTE={
+  mia:o=>`Okay, ${o.toLowerCase()} energy — comfy but sharp. Layers you can move in, one piece that pops. Wear it like you own the hallway. 🧃`,
+  jules:o=>`For ${o.toLowerCase()} I pulled the good stuff — built to last and it looks better the more you wear it. I know your size, trust me. 🧶`,
+  theo:o=>`${o}? Go functional. Every piece here does a job — that's the real flex. Weatherproof and ready for anything. 🛰️`,
+  sam:o=>`${o} — let's make it art. Keep it dark, keep it draped, keep it unmistakably you. You don't follow the hallway, it follows you. 🛹`,
+};
+
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 let state=load();
 
@@ -853,6 +924,141 @@ function openCoin(item){
   };
 }
 
+/* ---------- avatar ---------- */
+const SKINS=["#f3d3b5","#e7b98f","#cd966a","#a86b43","#7a4a2b","#5a3620"];
+const HAIRS=["#1c140e","#3a2415","#6b4a2a","#b07a3a","#d9c27a","#8a8f99","#ff7ac3"];
+const HAIRSTYLES=[["short","Short"],["long","Long"],["curly","Curly"],["buzz","Buzz"]];
+const SHAPES=[["rect","Straight"],["pear","Wider hips"],["broad","Wider top"],["round","Round"]];
+const HEIGHTS=[["small","Shorter"],["avg","Average"],["tall","Taller"]];
+function hairFor(style,col){
+  if(style==="long")return `<path d="M37,18 Q37,5 50,5 Q63,5 63,18 L60,18 Q58,11 50,10 Q42,11 40,18 Z" fill="${col}"/><path d="M36,17 L33,50 L40,50 L41,19 Z M64,17 L67,50 L60,50 L59,19 Z" fill="${col}"/>`;
+  if(style==="curly")return `<g fill="${col}"><circle cx="40" cy="12" r="7"/><circle cx="50" cy="7" r="8"/><circle cx="60" cy="12" r="7"/><circle cx="35" cy="18" r="5"/><circle cx="65" cy="18" r="5"/></g>`;
+  if(style==="buzz")return `<path d="M38,19 Q38,8 50,7 Q62,8 62,19 L62,16 Q60,11 50,10 Q40,11 38,16 Z" fill="${col}" opacity=".55"/>`;
+  return `<path d="M37,20 Q37,5 50,5 Q63,5 63,20 L60,20 Q58,11 50,10 Q42,11 40,20 Z" fill="${col}"/>`;
+}
+function avatarSVG(av,outfit){
+  const sk=av.skin||SKINS[1], hr=av.hair||HAIRS[1];
+  const top=(outfit&&outfit[0])||"#c9d3dc", bot=(outfit&&outfit[1])||"#2b3350", shoe=(outfit&&outfit[2])||"#15141a";
+  const P={rect:[30,30],pear:[26,37],broad:[37,26],round:[31,33]}[av.shape]||[30,30];
+  const sh=P[0],hip=P[1];
+  const s={small:.9,avg:1,tall:1.08}[av.height]||1;
+  return `<svg viewBox="0 0 100 168" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <g transform="translate(50,166) scale(${s}) translate(-50,-166)">
+      <line x1="${50-hip*0.42}" y1="92" x2="${50-hip*0.42}" y2="150" stroke="${bot}" stroke-width="13" stroke-linecap="round"/>
+      <line x1="${50+hip*0.42}" y1="92" x2="${50+hip*0.42}" y2="150" stroke="${bot}" stroke-width="13" stroke-linecap="round"/>
+      <ellipse cx="${50-hip*0.42}" cy="156" rx="9" ry="6" fill="${shoe}"/><ellipse cx="${50+hip*0.42}" cy="156" rx="9" ry="6" fill="${shoe}"/>
+      <line x1="${50-sh+2}" y1="44" x2="${50-sh-2}" y2="80" stroke="${top}" stroke-width="9" stroke-linecap="round"/>
+      <line x1="${50+sh-2}" y1="44" x2="${50+sh+2}" y2="80" stroke="${top}" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="${50-sh-2}" cy="83" r="4" fill="${sk}"/><circle cx="${50+sh+2}" cy="83" r="4" fill="${sk}"/>
+      <path d="M${50-sh},40 L${50+sh},40 L${50+hip},94 L${50-hip},94 Z" fill="${top}"/>
+      <path d="M${50-sh},40 L${50+sh},40 L${50+sh*0.5},52 L${50-sh*0.5},52 Z" fill="#ffffff" opacity=".14"/>
+      <rect x="46" y="30" width="8" height="9" rx="3" fill="${sk}"/>
+      <circle cx="50" cy="21" r="12" fill="${sk}"/>
+      <circle cx="45.5" cy="21" r="1.5" fill="#0008"/><circle cx="54.5" cy="21" r="1.5" fill="#0008"/>
+      <path d="M46,26 Q50,28 54,26" stroke="#0006" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      ${hairFor(av.hairStyle,hr)}
+    </g></svg>`;
+}
+function renderAvatar(){
+  const box=$("#avatarBox");
+  if(!state.avatar){
+    box.innerHTML=`<div class="avcard empty" id="makeAv">
+      <div class="avstage">${avatarSVG({shape:"rect",skin:SKINS[1],hair:HAIRS[1],hairStyle:"short",height:"avg"})}</div>
+      <div class="avinfo"><h3>Make a “you” 👤</h3><p>Build an avatar so you can try fits on before you wear them. Tap to start.</p></div></div>`;
+    $("#makeAv").onclick=openAvatarBuilder;
+  }else{
+    const a=state.avatar, shp=(SHAPES.find(x=>x[0]===a.shape)||[])[1], h=(HEIGHTS.find(x=>x[0]===a.height)||[])[1];
+    box.innerHTML=`<div class="avcard">
+      <div class="avstage">${avatarSVG(a)}</div>
+      <div class="avinfo"><h3>This is you ✨</h3><p>${esc(shp||"")} · ${esc(h||"")} · ${state.fits.length?"tap a saved fit's “See it on me”":"ask your crew for a fit to try on"}.</p>
+      <button class="btn alt" id="editAv" style="margin-top:10px;width:auto;padding:9px 16px">Edit avatar</button></div></div>`;
+    $("#editAv").onclick=openAvatarBuilder;
+  }
+}
+let avDraft;
+function openAvatarBuilder(){avDraft=Object.assign({shape:"rect",skin:SKINS[1],hair:HAIRS[1],hairStyle:"short",height:"avg"},state.avatar||{});drawBuilder();openSheet();}
+function drawBuilder(){
+  const a=avDraft;
+  $("#sheetPad").innerHTML=`<div style="text-align:center"><h2 style="margin:2px 0 2px;font-size:22px">Build your avatar</h2>
+    <p style="color:var(--ink-soft);margin:0 0 6px;font-size:13px">Make it look like you. (The full app builds a true-to-you 3D body from photos or a scan — this is the quick version.)</p>
+    <div class="avstage" style="width:120px;height:164px;margin:8px auto">${avatarSVG(a)}</div></div>
+    <div class="lab">Body shape</div><div class="optline" id="bShape">${SHAPES.map(s=>`<button data-v="${s[0]}" aria-pressed="${a.shape===s[0]}">${s[1]}</button>`).join("")}</div>
+    <div class="lab">Height</div><div class="optline" id="bHeight">${HEIGHTS.map(s=>`<button data-v="${s[0]}" aria-pressed="${a.height===s[0]}">${s[1]}</button>`).join("")}</div>
+    <div class="lab">Skin</div><div class="swatchrow" id="bSkin">${SKINS.map(c=>`<span class="swatch" data-v="${c}" style="background:${c}" aria-pressed="${a.skin===c}"></span>`).join("")}</div>
+    <div class="lab">Hair colour</div><div class="swatchrow" id="bHair">${HAIRS.map(c=>`<span class="swatch" data-v="${c}" style="background:${c}" aria-pressed="${a.hair===c}"></span>`).join("")}</div>
+    <div class="lab">Hair style</div><div class="optline" id="bHairStyle">${HAIRSTYLES.map(s=>`<button data-v="${s[0]}" aria-pressed="${a.hairStyle===s[0]}">${s[1]}</button>`).join("")}</div>
+    <div class="lab">Coming in the full app</div>
+    <div class="proto"><button id="protoPhoto">📷 Build from your photos</button><button id="protoScan">🧊 3D body scan</button></div>
+    <button class="btn" id="avSave" style="margin-top:16px">Save my avatar</button>`;
+  const set=(sel,key)=>$$(sel+" [data-v]").forEach(b=>b.onclick=()=>{avDraft[key]=b.dataset.v;drawBuilder();});
+  set("#bShape","shape");set("#bHeight","height");set("#bSkin","skin");set("#bHair","hair");set("#bHairStyle","hairStyle");
+  $("#protoPhoto").onclick=()=>toast("In the full app: snap a few photos and we build a true-to-you avatar 📷");
+  $("#protoScan").onclick=()=>toast("In the full app: a 3D phone scan maps your real measurements 🧊");
+  $("#avSave").onclick=()=>{state.avatar=avDraft;save();refreshQuests();closeSheet();renderAvatar();toast("Avatar saved — now try a fit on it ✨");};
+}
+
+/* ---------- style help / fits ---------- */
+let selOcc=OCCASIONS[0], selCrew="mia";
+function makeFit(crewId,occasion){
+  const c=CREW.find(x=>x.id===crewId);
+  const pool=LOOKS.filter(l=>l.cat===c.cat); const base=pool.length?pool[Math.floor(Math.random()*pool.length)]:LOOKS[Math.floor(Math.random()*LOOKS.length)];
+  const pieces=base.pieces.slice(0,3).map(p=>({emoji:p[0],name:p[1],where:base.where[0]}));
+  const borrow=CLOSET[Math.floor(Math.random()*CLOSET.length)];
+  pieces.push({emoji:"🧺",name:borrow.name,where:"closet"});
+  return {id:"f"+Date.now(),crew:c.id,occ:occasion,note:CREW_NOTE[c.id](occasion),pieces,palette:(base.colors||[]).slice(0,3),when:Date.now()};
+}
+function fitCardHTML(fit,mode){
+  const c=CREW.find(x=>x.id===fit.crew);
+  const btns=mode==="reveal"
+    ? `<button class="btn" data-savefit="${fit.id}">💜 Save this fit</button><button class="btn alt" data-again="1" style="margin-top:10px">🔁 Ask someone else</button>`
+    : `<div class="btnrow"><button class="btn alt" data-tryon="${fit.id}">👤 See it on me</button><button class="btn alt" data-rmfit="${fit.id}">🗑 Remove</button></div>`;
+  return `<div class="card fit">
+    <div class="fithead"><span class="ava" style="background:${c.hue}">${c.emoji}</span>
+      <div><b>${c.name} made you a fit</b><div class="sub">for: ${esc(fit.occ)}</div></div></div>
+    <p class="fitnote">${esc(fit.note)}</p>
+    <div class="piecelist">${fit.pieces.map(p=>{const w=whereLabel(p.where)||["•",""];return `<div class="fpiece"><span class="pe">${p.emoji}</span><div><div class="pn">${esc(p.name)}</div><div class="pw">${w[0]} ${w[1]}</div></div></div>`;}).join("")}</div>
+    <div class="palette">${fit.palette.map(x=>`<i style="background:${x}"></i>`).join("")}</div>
+    ${btns}</div>`;
+}
+function renderFits(){
+  const box=$("#fitsBox");
+  box.innerHTML=`<div class="card" style="padding:16px;margin-bottom:16px">
+    <div class="lab" style="margin-top:0">What's the occasion?</div>
+    <div class="filters" id="occRow">${OCCASIONS.map(o=>`<button class="chip" data-o="${esc(o)}" aria-pressed="${o===selOcc}">${esc(o)}</button>`).join("")}</div>
+    <div class="lab">Who knows you best?</div>
+    <div class="crewpick" id="crewRow">${CREW.map(c=>`<div class="crewcard" data-c="${c.id}" aria-pressed="${c.id===selCrew}"><div class="ava" style="background:${c.hue}">${c.emoji}</div><div class="cn">${c.name}</div><div class="cr">${c.rel}</div></div>`).join("")}</div>
+    <button class="btn" id="askFit" style="margin-top:14px">✂️ Ask for my fit</button></div>
+    ${state.fits.length?`<div class="lab" style="margin:4px 0 8px">Fits made for you</div>`+state.fits.map(f=>fitCardHTML(f,"saved")).join(""):`<div class="empty"><div class="big">✂️</div>No fits yet.<br>Pick an occasion and ask your crew.</div>`}`;
+  $$("#occRow .chip").forEach(b=>b.onclick=()=>{selOcc=b.dataset.o;renderFits();});
+  $$("#crewRow .crewcard").forEach(b=>b.onclick=()=>{selCrew=b.dataset.c;renderFits();});
+  $("#askFit").onclick=()=>openFitReveal(selCrew,selOcc);
+  $$("#fitsBox [data-tryon]").forEach(b=>b.onclick=()=>openTryOn(state.fits.find(f=>f.id===b.dataset.tryon)));
+  $$("#fitsBox [data-rmfit]").forEach(b=>b.onclick=()=>{state.fits=state.fits.filter(f=>f.id!==b.dataset.rmfit);save();renderFits();toast("Removed");});
+}
+function openFitReveal(crewId,occ){
+  const c=CREW.find(x=>x.id===crewId);
+  $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="ava" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;margin:6px auto;background:${c.hue}">${c.emoji}</div><h2 style="margin:4px 0;font-size:22px">${c.name} is on it…</h2><p style="color:var(--ink-soft)">Putting a fit together for ${esc(occ.toLowerCase())}</p></div>`;
+  openSheet();
+  setTimeout(()=>{
+    const fit=makeFit(crewId,occ);
+    $("#sheetPad").innerHTML=fitCardHTML(fit,"reveal");
+    $("#sheetPad [data-savefit]").onclick=()=>{state.fits.unshift(fit);save();refreshQuests();closeSheet();renderFits();toast("Fit saved 💜");};
+    $("#sheetPad [data-again]").onclick=()=>openFitReveal(crewId,occ);
+  },1100);
+}
+function openTryOn(fit){
+  if(!fit)return;
+  if(!state.avatar){toast("Build your avatar first 👤");openAvatarBuilder();return;}
+  const c=CREW.find(x=>x.id===fit.crew);
+  $("#sheetPad").innerHTML=`<div class="claimwrap"><h2 style="margin:2px 0 2px;font-size:22px">${c.name}'s fit, on you</h2>
+    <p style="color:var(--ink-soft);margin:0 0 4px;font-size:13px">for ${esc(fit.occ.toLowerCase())}</p>
+    <div class="avstage" style="width:150px;height:206px;margin:10px auto">${avatarSVG(state.avatar,fit.palette)}</div>
+    <div class="palette" style="justify-content:center;margin:0 0 14px">${fit.palette.map(x=>`<i style="background:${x}"></i>`).join("")}</div>
+    <button class="btn" id="tryClose">Looks good →</button></div>`;
+  openSheet();
+  $("#tryClose").onclick=closeSheet;
+}
+
 /* ---------- sheet & nav ---------- */
 function openSheet(){$("#sheetBg").classList.add("open");requestAnimationFrame(()=>$("#sheet").classList.add("open"));}
 function closeSheet(){$("#sheet").classList.remove("open");$("#sheetBg").classList.remove("open");}
@@ -865,9 +1071,10 @@ function go(v){
   $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.go===v));
   if(v==="discover"){renderFilters();renderFeed();}
   if(v==="quests")renderQuests();
-  if(v==="you")renderYou();
+  if(v==="you"){renderAvatar();renderYou();}
   if(v==="learn")renderLearn();
   if(v==="closet")renderCloset();
+  if(v==="fits")renderFits();
   window.scrollTo({top:0});
 }
 $$("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.go));
