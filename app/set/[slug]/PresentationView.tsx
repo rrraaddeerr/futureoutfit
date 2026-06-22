@@ -215,7 +215,10 @@ export function PresentationView({
                         <div className="present-item__price">${c.priceWeek}/wk</div>
                       ) : null}
                       {it.note ? (
-                        <p className="present-item__note">{it.note}</p>
+                        <p className="present-item__note">
+                          <span className="present-item__note-from">— Rader</span>
+                          {it.note}
+                        </p>
                       ) : null}
                     </div>
                     <div className="present-item__actions">
