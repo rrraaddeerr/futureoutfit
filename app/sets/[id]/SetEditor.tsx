@@ -347,6 +347,36 @@ export function SetEditor({
                 >
                   {linkCopied ? "Copied ✓" : "Copy"}
                 </button>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (doc.unpublished || !presentationUrl) return;
+                    const text = `${doc.intro?.trim() ?? ""}\n\n${presentationUrl}`.trim();
+                    if (
+                      typeof navigator !== "undefined" &&
+                      "share" in navigator
+                    ) {
+                      try {
+                        await navigator.share({
+                          title: doc.name,
+                          text,
+                          url: presentationUrl,
+                        });
+                        return;
+                      } catch {}
+                    }
+                    const subject = encodeURIComponent(
+                      `${doc.name}${doc.client ? ` — for ${doc.client}` : ""}`
+                    );
+                    const body = encodeURIComponent(text);
+                    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                  }}
+                  disabled={doc.unpublished}
+                  className="curate__btn"
+                  title="Open native share / email composer"
+                >
+                  Send
+                </button>
               </div>
               {doc.unpublished ? (
                 <div className="set-edit__share-hint">
@@ -377,6 +407,9 @@ export function SetEditor({
                 }
                 className="set-edit__group-label"
               />
+              <span className="set-edit__group-count">
+                {g.items.length} {g.items.length === 1 ? "item" : "items"}
+              </span>
               <select
                 value={g.pick ?? "any"}
                 onChange={(e) =>
@@ -386,8 +419,8 @@ export function SetEditor({
                 }
                 className="set-edit__group-pick"
               >
-                <option value="any">Open: client picks any combination</option>
-                <option value="one">Pick one</option>
+                <option value="any">Open — any combination</option>
+                <option value="one">Pick one — alternatives</option>
                 <option value="all">All confirmed — no choice</option>
               </select>
               <button
