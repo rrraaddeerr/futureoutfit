@@ -407,6 +407,14 @@ export function CurateBrowser({
 
   return (
     <div className="curate__shell">
+      <div className="comms">
+        <span className="comms__channel">CH 07 — CURATE</span>
+        <span className="comms__sep">/</span>
+        <span>RaderENT inventory ops</span>
+        <span className="comms__sep">/</span>
+        <span className="comms__signal" aria-hidden="true"><i/><i/><i/><i/></span>
+        <span className="comms__over">{counts.keep + counts.star} ON DECK · {counts.cut} CUT</span>
+      </div>
       <header className="curate__bar">
         <div className="curate__bar-meta">
           <span className="curate__title">CURATE</span>

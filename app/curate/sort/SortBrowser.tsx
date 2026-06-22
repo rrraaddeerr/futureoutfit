@@ -195,6 +195,16 @@ export function SortBrowser({
 
   return (
     <div className="sort__shell">
+      <div className="comms">
+        <span className="comms__channel">CH 08 — TRIAGE</span>
+        <span className="comms__sep">/</span>
+        <span>subcategory sort</span>
+        <span className="comms__sep">/</span>
+        <span className="comms__signal" aria-hidden="true"><i/><i/><i/><i/></span>
+        <span className="comms__over">
+          {counts.decided}/{counts.total} CLEARED · {counts.review} ON DECK
+        </span>
+      </div>
       <header className="sort__bar">
         <div className="sort__bar-meta">
           <span className="curate__title">SORT</span>
