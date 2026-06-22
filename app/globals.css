@@ -1143,6 +1143,34 @@ h4 {
 .item {
   padding: 32px 0 64px;
 }
+
+.item__slate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 5px 11px;
+  background: rgba(12, 12, 13, 0.6);
+  border: 1px solid var(--accent);
+  margin: 20px 0 14px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  position: relative;
+}
+.item__slate::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  background: var(--accent);
+}
+.item__slate-id { color: var(--accent); font-weight: 700; }
+.item__slate-sep { color: var(--accent); }
 .breadcrumb {
   font-family: var(--font-mono);
   font-size: 0.76rem;

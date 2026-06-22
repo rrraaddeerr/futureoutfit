@@ -65,6 +65,13 @@ export default async function ItemPage({ params }: Params) {
     <div className="item">
       <JsonLd data={productLd} />
       <div className="wrap">
+        <div className="item__slate">
+          <span>OBJECT ID</span>
+          <span className="item__slate-sep" aria-hidden="true">│</span>
+          <span className="item__slate-id">{item.id.toUpperCase()}</span>
+          <span className="item__slate-sep" aria-hidden="true">│</span>
+          <span>{item.location}</span>
+        </div>
         <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link href="/archive">Archive</Link>
           {" / "}
