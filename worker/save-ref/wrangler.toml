@@ -1,4 +1,9 @@
-name = "save-ref-worker"
+# Deploys to save-ref-v2.<your-subdomain>.workers.dev — a NEW worker, so it
+# runs side-by-side and never touches your existing save-ref-worker or its data.
+# When you're happy and want it to BE the main one, change this back to
+# "save-ref-worker" and redeploy (that replaces the old code; migrate old data
+# first via POST /api/import if you can export it).
+name = "save-ref-v2"
 main = "src/index.js"
 compatibility_date = "2025-05-01"
 
