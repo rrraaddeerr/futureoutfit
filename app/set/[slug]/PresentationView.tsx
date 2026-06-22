@@ -237,6 +237,7 @@ export function PresentationView({
         {resolvedGroups.map((g, gi) => (
           <section className="present__group" key={g.id} id={g.id}>
             <header className="present__group-head">
+              <span className="present__group-num">{String(gi + 1).padStart(2, "0")}</span>
               <h2 className="present__group-h2">
                 <TapeLabel className="present__group-tape" rotate={gi % 2 === 0 ? -2 : 1.5}>
                   {g.label}
