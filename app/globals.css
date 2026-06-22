@@ -3294,6 +3294,16 @@ textarea.field__control {
   letter-spacing: 0.04em;
   padding: 6px 10px;
 }
+.set-edit__group-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+}
 .set-edit__group-note {
   background: var(--panel-2);
   border: 1px solid var(--line);
