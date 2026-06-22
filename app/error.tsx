@@ -18,6 +18,11 @@ export default function Error({
   return (
     <div className="notfound">
       <div className="wrap">
+        <div className="page-head__slate">
+          <span>CH 500 — SYSTEM FAULT</span>
+          <span className="page-head__slate-sep" aria-hidden="true">│</span>
+          <span>RIG DOWN</span>
+        </div>
         <TapeLabel rotate={-3}>System fault</TapeLabel>
         <h1>500</h1>
         <p>
