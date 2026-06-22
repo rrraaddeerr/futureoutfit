@@ -118,5 +118,22 @@ await sheetShot("14-tryon");
 await page.evaluate(() => document.getElementById("sheetBg").click());
 await wait(300);
 
+// 12. Field Report — futuristic questionnaire
+await page.click('nav.tabs button[data-go="you"]');
+await wait(300);
+await page.click("#fieldReport");
+await wait(400);
+// fill a few answers so it looks alive
+await page.evaluate(() => {
+  document.querySelector('#repRad .bolt[data-v="4"]').click();
+  document.querySelector('[data-grp="best"] .hchip:nth-child(2)').click();
+  document.querySelector('[data-grp="techy"] .hchip:nth-child(1)').click();
+  document.querySelector('[data-grp="look"] .hchip:nth-child(2)').click();
+  document.querySelector('[data-grp="next"] .hchip:nth-child(1)').click();
+  document.querySelector('[data-grp="next"] .hchip:nth-child(3)').click();
+  document.querySelector('[data-grp="friends"] .hchip:nth-child(1)').click();
+});
+await sheetShot("15-field-report");
+
 await browser.close();
 console.log("done");

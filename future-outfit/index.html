@@ -293,6 +293,35 @@
   .view{display:none}.view.active{display:block;animation:fade .25s}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
   .floatask{position:fixed;right:16px;bottom:108px;z-index:45;background:var(--grad-cool);color:#06201d;border:none;border-radius:999px;padding:13px 16px;font-weight:900;font-size:14px;box-shadow:var(--shadow);cursor:pointer;display:flex;gap:7px;align-items:center}
+
+  /* ===== Field Report — futuristic HUD console ===== */
+  .hud{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;color:#cfe9f2}
+  .hud-top{border:1px solid #1d3a47;background:linear-gradient(180deg,#08131b,#060c12);border-radius:14px;padding:13px 14px;position:relative;overflow:hidden;box-shadow:inset 0 0 30px #0bd0ff14}
+  .hud-top::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,#7fe8ff09 0 1px,transparent 1px 3px)}
+  .hud-top .sys{display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.22em;color:#5fe6ff;text-transform:uppercase}
+  .hud-top .sys b{margin-left:auto;color:#7dffb0}
+  .hud-led{width:8px;height:8px;border-radius:50%;background:#43ff97;box-shadow:0 0 8px #43ff97;animation:blink 1.3s steps(1) infinite}
+  @keyframes blink{50%{opacity:.25}}
+  .hud-title{font-family:ui-rounded,system-ui,sans-serif;font-weight:900;font-size:25px;letter-spacing:.02em;margin:9px 0 2px;color:#eafcff;text-shadow:0 0 18px #2fd8ff66}
+  .hud-sub{font-size:11px;letter-spacing:.18em;color:#6f98ab;text-transform:uppercase}
+  .hud-q{border:1px solid #173341;background:#0a141cd9;border-radius:13px;padding:12px 13px;margin-top:11px;position:relative;overflow:hidden}
+  .hud-q::before{content:attr(data-n);position:absolute;top:9px;right:12px;font-size:10px;color:#2f5564;letter-spacing:.1em}
+  .hud-q .ql{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#7fe8ff;font-weight:800;display:block;margin-bottom:9px}
+  .hud-q .qx{font-family:ui-rounded,system-ui,sans-serif;font-size:15px;font-weight:800;color:#eafcff;margin-bottom:10px}
+  .bolts{display:flex;gap:8px}
+  .bolt{font-size:26px;line-height:1;cursor:pointer;filter:grayscale(1) brightness(.6);transition:.12s;transform:translateZ(0)}
+  .bolt.on{filter:none;text-shadow:0 0 12px #ffd34d}
+  .hchip{display:inline-block;border:1px solid #244653;background:#0e1923;color:#bcd9e6;border-radius:9px;padding:8px 12px;font-size:12.5px;font-weight:700;font-family:inherit;margin:0 7px 7px 0;cursor:pointer;transition:.12s}
+  .hchip[aria-pressed="true"]{background:linear-gradient(180deg,#1de0ff,#0a9fd6);border-color:#9af3ff;color:#02151c;box-shadow:0 0 0 1px #7fe8ff,0 0 16px #2fd8ff77}
+  .hud textarea{width:100%;min-height:74px;background:#060d13;border:1px solid #244653;border-radius:11px;color:#dff3fb;font-family:inherit;font-size:13px;padding:11px;resize:vertical}
+  .hud textarea::placeholder{color:#3f6373}
+  .hud-id{display:flex;gap:9px;margin-top:11px}
+  .hud-id input{flex:1;min-width:0;background:#060d13;border:1px solid #244653;border-radius:11px;color:#dff3fb;font-family:inherit;font-size:13px;padding:11px}
+  .hud-id input::placeholder{color:#3f6373}
+  .hud-send{width:100%;margin-top:14px;border:none;border-radius:12px;padding:15px;font-family:inherit;font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:13px;color:#02151c;background:linear-gradient(90deg,#43ff97,#1de0ff);cursor:pointer;box-shadow:0 0 22px #1de0ff55}
+  .hud-done{text-align:center;padding:18px 6px}
+  .hud-done .big{font-size:46px}
+  .hud-rep{white-space:pre-wrap;text-align:left;background:#060d13;border:1px solid #244653;border-radius:11px;color:#bfe6f2;font-size:12px;line-height:1.55;padding:12px;margin-top:12px}
 </style>
 </head>
 <body>
@@ -349,6 +378,10 @@
     <button class="teaser" id="goCloset" style="width:100%;text-align:left;cursor:pointer">
       <span class="ti">🧺</span>
       <div><b>The Family Closet</b><div style="color:var(--ink-soft);font-size:13px">The real clothes your family is passing on — claim them free, for a thank-you, or chip in for a good cause. <b style="color:var(--ink)">Open it →</b></div></div>
+    </button>
+    <button class="teaser" id="fieldReport" style="width:100%;text-align:left;cursor:pointer;margin-top:10px">
+      <span class="ti">📡</span>
+      <div><b>Send a Field Report</b><div style="color:var(--ink-soft);font-size:13px">Test pilot? Tell HQ what's rad and what to upgrade next. <b style="color:var(--ink)">Open console →</b></div></div>
     </button>
   </section>
 
@@ -850,6 +883,89 @@ function openAsk(look){
   openSheet();
 }
 $("#floatAsk").onclick=()=>openAsk(null);
+
+/* ---------- field report (techy questionnaire) ---------- */
+const REP_BEST=[["🔩","Metal looks"],["🧺","Family Closet"],["🕺","Dress-up avatar"],["👟","Crew fits"],["🎯","Quests"],["📚","Learn lab"]];
+const REP_LOOK=[["🩶","Avant-garde"],["🛸","Y2K cyber"],["🛰️","Techwear"],["🧢","Streetwear"],["🔧","Workwear"],["🤠","Western"]];
+const REP_NEXT=[["✨","More looks"],["💬","Chat w/ crew"],["📸","Real photos"],["🪙","Earn coins"],["🔁","Trade & swap"],["🎵","Sound FX"],["🕶️","AR try-on"]];
+let rep;
+function openReport(){
+  rep={rad:0,best:null,techy:null,look:null,next:[],friends:null,msg:"",name:"",age:""};
+  const chip=(arr,key)=>arr.map(o=>`<button class="hchip" data-k="${key}" data-v="${o[1]}">${o[0]} ${o[1]}</button>`).join("");
+  $("#sheetPad").innerHTML=`
+   <div class="hud">
+    <div class="hud-top">
+      <div class="sys"><span class="hud-led"></span> Future·Outfit OS &nbsp;v2.0 <b>◖ LINK ONLINE</b></div>
+      <div class="hud-title">FIELD REPORT</div>
+      <div class="hud-sub">Pilot log // tell HQ what to upgrade</div>
+    </div>
+
+    <div class="hud-q" data-n="01"><span class="ql">⚡ Power rating</span><div class="qx">How rad is this, honestly?</div>
+      <div class="bolts" id="repRad">${[1,2,3,4,5].map(i=>`<span class="bolt" data-v="${i}">⚡</span>`).join("")}</div></div>
+
+    <div class="hud-q" data-n="02"><span class="ql">▣ Best module</span><div class="qx">Which part is the coolest?</div>
+      <div data-grp="best">${chip(REP_BEST,"best")}</div></div>
+
+    <div class="hud-q" data-n="03"><span class="ql">◈ Aesthetic scan</span><div class="qx">Does it look techy + futuristic?</div>
+      <div data-grp="techy">${chip([["🛸","Yes — looks future"],["🛰️","Kinda"],["🔧","Make it MORE"]],"techy")}</div></div>
+
+    <div class="hud-q" data-n="04"><span class="ql">★ Top look</span><div class="qx">Favourite style in the catalogue?</div>
+      <div data-grp="look">${chip(REP_LOOK,"look")}</div></div>
+
+    <div class="hud-q" data-n="05"><span class="ql">⊕ Build next</span><div class="qx">What should we add? (pick any)</div>
+      <div data-grp="next" data-multi="1">${chip(REP_NEXT,"next")}</div></div>
+
+    <div class="hud-q" data-n="06"><span class="ql">⇄ Multiplayer</span><div class="qx">Would you use it with friends?</div>
+      <div data-grp="friends">${chip([["✅","Yes!"],["🤔","Maybe"],["🚫","Nah"]],"friends")}</div></div>
+
+    <div class="hud-q" data-n="07"><span class="ql">✎ Message to HQ</span><div class="qx">Anything else? Go wild.</div>
+      <textarea id="repMsg" placeholder="> type here, pilot…"></textarea>
+      <div class="hud-id"><input id="repName" placeholder="callsign (name)"><input id="repAge" placeholder="age" inputmode="numeric" style="max-width:84px"></div></div>
+
+    <button class="hud-send" id="repSend">▸ Transmit report</button>
+   </div>`;
+  // ratings
+  $$("#repRad .bolt").forEach(b=>b.onclick=()=>{rep.rad=+b.dataset.v;$$("#repRad .bolt").forEach(x=>x.classList.toggle("on",+x.dataset.v<=rep.rad));});
+  // chip groups
+  $$('#sheetPad [data-grp]').forEach(grp=>{
+    const multi=grp.dataset.multi, key=grp.dataset.grp;
+    $$('.hchip',grp).forEach(c=>c.onclick=()=>{
+      if(multi){const v=c.dataset.v,i=rep.next.indexOf(v);if(i>=0)rep.next.splice(i,1);else rep.next.push(v);c.setAttribute("aria-pressed",rep.next.includes(v));}
+      else{rep[key]=c.dataset.v;$$('.hchip',grp).forEach(x=>x.setAttribute("aria-pressed",x===c));}
+    });
+  });
+  $("#repSend").onclick=()=>{
+    rep.msg=$("#repMsg").value.trim();rep.name=$("#repName").value.trim();rep.age=$("#repAge").value.trim();
+    if(!rep.rad){toast("Give it a power rating first ⚡");return;}
+    rep.when=Date.now();state.report=rep;save();
+    const summary=reportText(rep);
+    $("#sheetPad").innerHTML=`<div class="hud"><div class="hud-done">
+      <div class="big">📡</div>
+      <div class="hud-title" style="font-size:22px">REPORT TRANSMITTED</div>
+      <div class="hud-sub">Thanks, pilot${rep.name?" "+esc(rep.name):""} — HQ received it</div>
+      <div class="hud-rep" id="repOut">${esc(summary)}</div>
+      <button class="hud-send" id="repCopy" style="margin-top:12px">⧉ Copy report for HQ</button>
+      <button class="btn alt" id="repClose" style="margin-top:10px">Done</button>
+    </div></div>`;
+    $("#repCopy").onclick=async()=>{try{await navigator.clipboard.writeText(summary);toast("Report copied — paste it to your uncle 💌");}catch(e){toast("Select the text & copy it 🙂");}};
+    $("#repClose").onclick=closeSheet;
+  };
+  $$('#sheetPad [data-grp] .hchip').forEach(c=>c.setAttribute("aria-pressed","false"));
+  openSheet();
+}
+function reportText(r){
+  const L=v=>v||"—";
+  return `FUTURE OUTFIT — FIELD REPORT\n`+
+    `Pilot: ${L(r.name)}${r.age?" ("+r.age+")":""}\n`+
+    `Power rating: ${"⚡".repeat(r.rad)} ${r.rad}/5\n`+
+    `Best module: ${L(r.best)}\n`+
+    `Looks techy/futuristic: ${L(r.techy)}\n`+
+    `Top look: ${L(r.look)}\n`+
+    `Build next: ${r.next.length?r.next.join(", "):"—"}\n`+
+    `Use with friends: ${L(r.friends)}\n`+
+    `Message: ${r.msg||"—"}`;
+}
+$("#fieldReport").onclick=openReport;
 
 /* ---------- you ---------- */
 function renderYou(){
