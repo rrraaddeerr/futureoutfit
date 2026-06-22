@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listSets, setsConfigured } from "@/lib/sets";
+import { DirectorChairIcon, TruckIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "Sets",
@@ -53,10 +54,16 @@ export default async function SetsPage() {
           <span className="comms__signal" aria-hidden="true"><i/><i/><i/><i/></span>
           <span className="comms__over">{sets.length === 0 ? "STANDING BY" : `${sets.length} ON DECK`}</span>
         </div>
-        <header className="ops__head">
+        <header className="ops__head sets-head">
+          <div className="sets-head__bg" aria-hidden="true">
+            <TruckIcon size={180} color="rgba(255,90,31,0.08)" />
+          </div>
           <div>
             <div className="ops__kicker">OPERATOR</div>
-            <h1 className="ops__title sharpie">Sets</h1>
+            <h1 className="ops__title sharpie">
+              <DirectorChairIcon size={42} color="var(--accent)" />
+              <span>Sets</span>
+            </h1>
           </div>
           <div className="ops__head-links">
             <Link href="/ops" className="curate__btn">← /ops</Link>
@@ -75,14 +82,15 @@ export default async function SetsPage() {
             <p style={{ marginTop: 10, color: "var(--accent)" }}>{error}</p>
           </div>
         ) : sets.length === 0 ? (
-          <div className="ops__card" style={{ textAlign: "center", padding: "48px 24px" }}>
-            <h3 style={{ marginBottom: 8 }}>No sets yet.</h3>
-            <p style={{ color: "var(--muted)", marginBottom: 20 }}>
-              Build a client proposal by adding items from the archive into
-              groups, then share the public URL.
+          <div className="ops__card sets-empty">
+            <DirectorChairIcon size={68} color="var(--muted)" className="sets-empty__icon" />
+            <h3>No sets yet.</h3>
+            <p>
+              A set is a curated proposal — group some archive items, mark your
+              picks, share the public URL. Client votes; you ship.
             </p>
             <Link href="/sets/new" className="curate__btn curate__btn--accent">
-              Create the first set
+              Build the first set
             </Link>
           </div>
         ) : (

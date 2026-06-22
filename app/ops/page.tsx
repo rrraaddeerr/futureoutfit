@@ -5,6 +5,7 @@ import path from "node:path";
 import { getAllItems } from "@/lib/inventory";
 import { getVPCItems } from "@/lib/vpc-catalog";
 import { OpsClient } from "./OpsClient";
+import { TruckIcon, WalkieIcon } from "@/components/Icons";
 
 export const metadata: Metadata = {
   title: "Operator",
@@ -88,10 +89,16 @@ export default async function OpsPage() {
           <span className="comms__signal" aria-hidden="true"><i/><i/><i/><i/></span>
           <span className="comms__over">COPY · STANDING BY</span>
         </div>
-        <header className="ops__head">
+        <header className="ops__head sets-head">
+          <div className="sets-head__bg" aria-hidden="true">
+            <TruckIcon size={200} color="rgba(255,90,31,0.07)" />
+          </div>
           <div>
             <div className="ops__kicker">OPERATOR</div>
-            <h1 className="ops__title sharpie">Control panel</h1>
+            <h1 className="ops__title sharpie">
+              <WalkieIcon size={36} color="var(--accent)" />
+              <span>Control panel</span>
+            </h1>
           </div>
           <div className="ops__head-links">
             <Link href="/sets" className="curate__btn curate__btn--accent">/sets</Link>
