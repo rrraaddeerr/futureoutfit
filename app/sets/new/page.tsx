@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+export const dynamic = "force-dynamic";
+
 const TEMPLATES: Record<
   string,
   { label: string; groups: Array<{ label: string; pick: "any" | "one" | "all" }> }
