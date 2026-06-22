@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import type { SetDoc, SetGroup, SetItem, SetResponse } from "@/lib/sets";
+import type { SetDoc, SetGroup, SetItem, SetResponse, SetStage } from "@/lib/sets";
+import { SET_STAGES, SET_STAGE_LABELS, deriveStage } from "@/lib/sets";
 import { DirectorChairIcon } from "@/components/Icons";
 
 type CatalogItem = {
@@ -98,6 +99,38 @@ export function SetEditor({
       const next = structuredClone(prev);
       mutate(next);
       return next;
+    });
+  };
+
+  // Auto-advance to 'reviewing' as soon as a response lands and we're still 'sent'.
+  useEffect(() => {
+    const current = deriveStage(doc);
+    if (current === "sent" && responses.length > 0) {
+      updateDoc((d) => {
+        d.stage = "reviewing";
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responses.length]);
+
+  const setStage = (stage: SetStage) => {
+    updateDoc((d) => {
+      d.stage = stage;
+      // Keep the legacy flags in sync so existing UI keeps working.
+      if (stage === "draft") {
+        d.unpublished = true;
+        d.locked = false;
+      } else if (stage === "returned") {
+        d.unpublished = false;
+        d.locked = true;
+      } else {
+        d.unpublished = false;
+        if (stage === "approved" || stage === "production" || stage === "delivered") {
+          d.locked = true;
+        } else {
+          d.locked = false;
+        }
+      }
     });
   };
 
@@ -269,7 +302,7 @@ export function SetEditor({
       <div className="wrap">
         <div className="comms">
           <span className="comms__channel">
-            CH {doc.id.slice(0, 4).toUpperCase()} — {doc.unpublished ? "DRAFT" : doc.locked ? "CLOSED" : "LIVE"}
+            CH {doc.id.slice(0, 4).toUpperCase()} — {SET_STAGE_LABELS[deriveStage(doc)].short}
           </span>
           <span className="comms__sep">/</span>
           <span>{doc.client || "no client yet"}</span>
@@ -280,6 +313,31 @@ export function SetEditor({
               ? `${responses.length} ${responses.length === 1 ? "VOTER" : "VOTERS"} ON CHANNEL`
               : "AWAITING RESPONSES"}
           </span>
+        </div>
+
+        <div className="stage-bar" role="group" aria-label="Production stage">
+          <span className="stage-bar__label">STAGE</span>
+          <ol className="stage-bar__steps">
+            {SET_STAGES.map((s, i) => {
+              const cur = deriveStage(doc);
+              const curIdx = SET_STAGES.indexOf(cur);
+              const isDone = i < curIdx;
+              const isCur = s === cur;
+              return (
+                <li key={s} className={`stage-bar__step ${isCur ? "is-current" : ""} ${isDone ? "is-done" : ""}`}>
+                  <button
+                    type="button"
+                    onClick={() => setStage(s)}
+                    title={SET_STAGE_LABELS[s].long}
+                    className="stage-bar__btn"
+                  >
+                    <span className="stage-bar__num">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="stage-bar__name">{SET_STAGE_LABELS[s].short}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
         </div>
         <header className="set-edit__bar">
           <div className="set-edit__bar-meta">
@@ -312,36 +370,6 @@ export function SetEditor({
             >
               {linkCopied ? "Copied ✓" : "Copy share link"}
             </button>
-            <button
-              type="button"
-              onClick={() =>
-                updateDoc((d) => {
-                  d.unpublished = !d.unpublished;
-                })
-              }
-              className={`curate__btn ${doc.unpublished ? "curate__btn--accent" : ""}`}
-              title={doc.unpublished ? "Make the public URL live" : "Make the public URL hidden"}
-            >
-              {doc.unpublished ? "Publish" : "Unpublish"}
-            </button>
-            {!doc.unpublished ? (
-              <button
-                type="button"
-                onClick={() =>
-                  updateDoc((d) => {
-                    d.locked = !d.locked;
-                  })
-                }
-                className={`curate__btn ${doc.locked ? "curate__btn--accent" : ""}`}
-                title={
-                  doc.locked
-                    ? "Reopen for client responses"
-                    : "Close to new client responses — locks the proposal as final"
-                }
-              >
-                {doc.locked ? "Reopen" : "Close set"}
-              </button>
-            ) : null}
             <Link
               href={`/set/${doc.slug}`}
               target="_blank"

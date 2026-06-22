@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { listSets, setsConfigured } from "@/lib/sets";
+import { listSets, setsConfigured, deriveStage, SET_STAGE_LABELS } from "@/lib/sets";
 import { getAllItems } from "@/lib/inventory";
 import { getVPCItems } from "@/lib/vpc-catalog";
 import { DirectorChairIcon, TruckIcon } from "@/components/Icons";
@@ -135,11 +135,11 @@ export default async function SetsPage() {
             {sets.map((s) => {
               const groupCount = s.groups?.length ?? 0;
               const itemCount = s.groups?.reduce((n, g) => n + g.items.length, 0) ?? 0;
-              const status = s.locked
-                ? { label: "CLOSED", className: "is-closed" }
-                : s.unpublished
-                ? { label: "DRAFT", className: "is-draft" }
-                : { label: "LIVE", className: "is-live" };
+              const stage = deriveStage(s);
+              const status = {
+                label: SET_STAGE_LABELS[stage].short,
+                className: `is-${stage}`,
+              };
               return (
                 <Link
                   key={s.id}
