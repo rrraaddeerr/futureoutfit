@@ -21,11 +21,11 @@
     --pink:#ffc6e6;
     --cyan:#9ff0e0;
     --gold:#ffe6b3;
-    --grad:linear-gradient(115deg,#9ff0e0,#bdb2ff 36%,#ffc6e6 62%,#ffe6b3 82%,#b9e6ff);
-    --grad-cool:linear-gradient(120deg,#9ff0e0,#bdb2ff);
-    /* liquid chrome — polished metal with an iridescent tint */
-    --chrome:linear-gradient(177deg,#f6fafd 0%,#cdd7e0 18%,#8b97a2 38%,#e6edf3 50%,#7c8893 62%,#c9d3dc 80%,#aeb9c4 100%);
-    --chrome-iri:linear-gradient(177deg,#eafff9 0%,#c9d7ff 26%,#9aa6b2 46%,#ffe9f5 54%,#8b97a2 66%,#d7e4ff 84%,#bfeede 100%);
+    --grad:linear-gradient(120deg,#ff7ac3,#9b6bff 52%,#46d6ff);
+    --grad-cool:linear-gradient(120deg,#46d6ff,#9b6bff);
+    /* real chrome — mirror metal: sky-white, dark horizon band, bright ground glare */
+    --chrome:linear-gradient(180deg,#f2f8ff 0%,#bccddd 26%,#3a4754 48%,#202a34 52%,#7e92a4 64%,#eef6ff 82%,#a9bccc 100%);
+    --chrome-iri:linear-gradient(180deg,#f4f9ff 0%,#b7cadd 27%,#34414f 48%,#1d2730 52%,#8294a6 64%,#ecf4ff 82%,#aabdcd 100%);
     --iri-film:conic-gradient(from 210deg at 72% 28%,rgba(159,240,224,.12),rgba(189,178,255,.12),rgba(255,198,230,.12),rgba(255,230,179,.12),rgba(185,230,255,.12),rgba(159,240,224,.12));
     --radius:22px;
     --max:560px;
@@ -35,21 +35,17 @@
   html,body{margin:0;padding:0}
   body{
     font-family:ui-rounded,"Segoe UI",-apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;
-    background:var(--bg);
+    background:#0a0c10;
     color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;
     padding-bottom:96px;min-height:100vh;
   }
-  /* slow, trippy iridescent light pooling behind frosted glass */
-  body::before{content:"";position:fixed;inset:-25%;z-index:-2;
+  /* dark studio backdrop — like a showroom that makes chrome + candy paint pop */
+  body::before{content:"";position:fixed;inset:0;z-index:-2;
     background:
-      radial-gradient(38% 34% at 18% 22%,rgba(159,240,224,.22),transparent 70%),
-      radial-gradient(42% 38% at 82% 18%,rgba(189,178,255,.24),transparent 70%),
-      radial-gradient(48% 42% at 72% 82%,rgba(255,198,230,.20),transparent 70%),
-      radial-gradient(44% 40% at 22% 86%,rgba(185,230,255,.20),transparent 70%);
-    filter:blur(42px) saturate(1.15);
-    animation:drift 28s ease-in-out infinite alternate;}
-  body::after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,#0b0d12cc,#0b0d12ea)}
-  @keyframes drift{0%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}100%{transform:translate3d(0,-5%,0) rotate(9deg) scale(1.08)}}
+      radial-gradient(120% 70% at 50% -12%,#1c232e 0%,#0d1016 50%,#070809 100%),
+      radial-gradient(80% 50% at 50% 116%,#141923 0%,transparent 60%)}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   /* frosted glass — you can see light through every panel */
   .look,.card,.info,.accord,.quest,.vibecard.empty,.me,.chip,.where,.know,.adult,.qopt,.qz-opt,.piece,.mini,.teaser,.sheet,nav.tabs,.safe-note,.filters .chip{
     -webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3)}
@@ -81,14 +77,14 @@
   .look .pic .emoji{font-size:96px;filter:drop-shadow(0 8px 14px #0005)}
   .pic .art,.hero .art,.mp .art{width:82%;height:82%;display:block}
   .pic>img,.hero>img,.mp>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  /* translucent tinted-plastic tile: look colours glow through an iridescent film */
-  .look .pic,.hero,.mini .mp{
+  /* candy-paint tile: deep glossy automotive paint with a clear-coat reflection + metal flake */
+  .look .pic,.hero,.mini .mp{position:relative;overflow:hidden;
     background:
-      radial-gradient(120% 95% at 25% 12%,rgba(255,255,255,.14),transparent 55%),
-      linear-gradient(140deg,color-mix(in srgb,var(--a,#7a8295) 30%,transparent),color-mix(in srgb,var(--b,#7a8295) 24%,transparent)),
-      var(--iri-film),
-      rgba(16,18,26,.55);
-    -webkit-backdrop-filter:blur(10px) saturate(1.25);backdrop-filter:blur(10px) saturate(1.25)}
+      radial-gradient(78% 60% at 30% 16%,rgba(255,255,255,.60),rgba(255,255,255,0) 52%),
+      radial-gradient(150% 120% at 50% 14%,color-mix(in srgb,var(--a,#555) 86%,#fff 14%),color-mix(in srgb,var(--b,#333) 52%,#000 48%) 84%),
+      #07080b}
+  .look .pic::after,.hero::after,.mini .mp::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:screen;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")}
   .look .pic .era{position:absolute;top:12px;left:12px;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800;letter-spacing:.04em}
   .look .pic .savez{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;display:grid;place-items:center;font-size:18px;cursor:pointer}
   .look .pic .savez.on{background:var(--grad);border-color:transparent}
@@ -138,13 +134,48 @@
   .btnrow{display:flex;gap:10px}.btnrow .btn{margin-top:0}
 
   /* you / vibe */
-  .vibecard{border-radius:var(--radius);padding:20px;background:var(--grad);color:#1a0f2e;box-shadow:var(--shadow)}
+  /* candy-paint plaque with clear-coat shine */
+  .vibecard{position:relative;overflow:hidden;border-radius:var(--radius);padding:20px;color:#fff;
+    background:
+      radial-gradient(80% 60% at 26% 10%,rgba(255,255,255,.5),transparent 54%),
+      radial-gradient(150% 130% at 50% 8%,#8a57ff,#2c1568 88%),
+      #150a30}
   .vibecard.empty{background:var(--panel);color:var(--ink);border:1px dashed var(--line);text-align:center}
-  .vibecard .vt{font-size:13px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+  .vibecard .vt{font-size:13px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
   .vibecard .vn{font-size:28px;font-weight:900;margin:4px 0 6px;letter-spacing:-.02em}
-  .vibecard .vd{font-size:14px;font-weight:600}
+  .vibecard .vd{font-size:14px;font-weight:600;opacity:.95}
   .vibecard .traits{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-  .vibecard .traits span{background:#0e0a1c2e;border:1px solid #1a0f2e33;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:800}
+  .vibecard .traits span{background:#ffffff22;border:1px solid #ffffff33;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:800}
+
+  /* family closet */
+  .citem{padding:14px;margin-bottom:14px}
+  .citem.taken{opacity:.62}
+  .crow{display:flex;gap:14px}
+  .citem .mp{width:108px;min-width:108px;height:134px;border-radius:16px}
+  .citem .mp .art{width:90%;height:90%}
+  .cmeta{flex:1;min-width:0}
+  .cname{font-weight:900;font-size:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;line-height:1.2}
+  .cname .sz{font-size:11px;font-weight:800;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+  .lineage{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:8px 0;font-size:12px;font-weight:800;color:var(--ink-soft)}
+  .lineage .ar{opacity:.45}
+  .lineage .you{color:#fff;background:var(--grad);border-radius:999px;padding:1px 9px}
+  .cstory{font-size:13px;color:var(--ink-soft);line-height:1.42}
+  .offerrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .offer{font-size:11px;font-weight:800;border-radius:999px;padding:4px 10px;border:1px solid var(--line)}
+  .offer.free{color:#a7f3c8;background:#0e2a1d;border-color:#1d5a3c}
+  .offer.thanks{color:#ffd6ef;background:#2a0e22;border-color:#5a1d44}
+  .offer.sell{color:#ffe6a6;background:#2a230e;border-color:#5a4a1d}
+  .offer.flip{color:#bcd6ff;background:#0e1a2a;border-color:#1d3a5a}
+  .citem .btn{margin-top:13px}
+  .btn[disabled]{opacity:.5;cursor:default}
+  .btn.win{background:linear-gradient(120deg,#2ecf8f,#46d6ff)}
+  /* coin flip */
+  .claimwrap{text-align:center;padding:6px 2px 2px}
+  .coin{width:120px;height:120px;margin:14px auto;border-radius:50%;background:var(--chrome);
+    box-shadow:inset 0 3px 7px #ffffffcc,inset 0 -10px 16px #00000088,0 12px 26px #000a;
+    display:grid;place-items:center;font-size:46px}
+  .coin.spin{animation:flip 1.15s cubic-bezier(.2,.7,.2,1)}
+  @keyframes flip{0%{transform:rotateX(0)}100%{transform:rotateX(2160deg)}}
 
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
   .mini{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--panel);cursor:pointer}
@@ -260,10 +291,20 @@
     <div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Saved looks</h1></div>
     <div id="savedBox"></div>
     <div id="askedBox"></div>
-    <div class="teaser">
+    <button class="teaser" id="goCloset" style="width:100%;text-align:left;cursor:pointer">
       <span class="ti">🧺</span>
-      <div><b>The Family Closet</b><div style="color:var(--ink-soft);font-size:13px">Soon: the real clothes your family is passing on — claim them, free or for thanks. <i>Coming next.</i></div></div>
+      <div><b>The Family Closet</b><div style="color:var(--ink-soft);font-size:13px">The real clothes your family is passing on — claim them free, for a thank-you, or chip in for a good cause. <b style="color:var(--ink)">Open it →</b></div></div>
+    </button>
+  </section>
+
+  <!-- CLOSET -->
+  <section class="view" id="view-closet">
+    <div class="viewhead">
+      <h1>The Family <span class="grad-text">Closet</span></h1>
+      <p>Real clothes your family is passing down. Take one on — free, for a thank-you, or chip in so half goes to a good cause. When two of you want the same thing, a coin-flip keeps it fair.</p>
     </div>
+    <div id="closetBox"></div>
+    <div class="safe-note" style="margin-top:14px">🤝 Hand-me-downs keep good clothes out of landfill and in the family. Nothing here is bought with real money — the “chip in” is pretend, just to practise giving back.</div>
   </section>
 
   <!-- LEARN -->
@@ -284,6 +325,7 @@
 
 <nav class="tabs">
   <button data-go="discover" aria-selected="true"><span class="ic">🪐</span>Discover</button>
+  <button data-go="closet"><span class="ic">🧺</span>Closet</button>
   <button data-go="quests"><span class="ic">🎯</span>Quests</button>
   <button data-go="you"><span class="ic">✨</span>You</button>
   <button data-go="learn"><span class="ic">📚</span>Learn</button>
@@ -402,6 +444,8 @@ const QUESTS=[
   {id:"q4",ic:"🎨",t:"Find your palette",d:"Save 3 looks and spot what they have in common.",auto:s=>s.saved.length>=3},
   {id:"q5",ic:"🌟",t:"Know thyself",d:"Take the vibe quiz and name your style.",auto:s=>!!s.vibe},
   {id:"q6",ic:"🛍️",t:"Skip the mall",d:"Learn one new thing in Thrift 101.",auto:s=>s.learnedThrift},
+  {id:"q7",ic:"🧺",t:"Keep it in the family",d:"Claim something from the Family Closet.",auto:s=>s.claimed.length>0},
+  {id:"q8",ic:"💛",t:"Say thank you",d:"Take a hand-me-down and thank the person who wore it first.",auto:s=>s.thanks.length>0},
 ];
 
 const VIBES={
@@ -411,8 +455,39 @@ const VIBES={
   maker:{name:"The Maker",desc:"You love things built to last — workwear, raw denim, pieces that age with you and tell a story.",traits:["sturdy","honest","lived-in"],emoji:"🔧"},
 };
 
+/* ---- the Family Closet: real clothes the family is passing down ----
+   Each item has a lineage (who wore it), a size, a story, and a way to take
+   it on: free, pay-with-a-thank-you, or buy (where half goes to a good cause).
+   When two kids want the same thing, a fair coin-flip decides. */
+const CLOSET=[
+  {id:"c1",name:"Papa's Chore Jacket",sil:"jacket",size:"Adult M — roll the cuffs",heri:true,metal:"gold",
+   colors:["#5b3a1d","#2c2a1c","#caa14b"],lineage:["Papa Turner","Dad"],
+   story:"Worn on the farm for twenty years. The left pocket still has a fleck of fence-paint Papa never washed out.",
+   offer:"free"},
+  {id:"c2",name:"Dad's Acid-Wash Denim",sil:"pants",size:"Big on you — belt it",heri:false,metal:"chrome",
+   colors:["#7785ad","#2b3350","#cfd6ff"],lineage:["Dad"],
+   story:"From Dad's skateboarding days. Already broken in to the perfect softness — you can't buy that.",
+   offer:"thanks",giver:"Dad"},
+  {id:"c3",name:"Aunt Rae's Pleated Rescue",sil:"dress",size:"Fits you now",heri:false,metal:"chrome",
+   colors:["#7c3cff","#ff7a3c","#150a30"],lineage:["A charity-shop rack","Aunt Rae"],
+   story:"Rae found this at the very back of a charity shop. It folds up to the size of a sandwich and springs right back.",
+   offer:"sell",price:6,cause:"the kids' clothing bank",contested:true,rival:"cousin Mia"},
+  {id:"c4",name:"The Family Work Boots",sil:"shoe",size:"Half a size big",heri:true,metal:"gold",
+   colors:["#3a2a18","#1c150d","#b9893f"],lineage:["Papa Turner","Dad","Aunt Rae"],
+   story:"Re-soled three times. These boots have walked more miles than most cars — and they're not done yet.",
+   offer:"free",contested:true,rival:"cousin Leo"},
+  {id:"c5",name:"Mum's Techwear Shell",sil:"jacket",size:"Roomy — layer underneath",heri:false,metal:"chrome",
+   colors:["#202327","#0a0b0d","#ff6a00"],lineage:["Mum"],
+   story:"Properly waterproof. Mum cycled through ten winters in it and never once felt a drop.",
+   offer:"thanks",giver:"Mum"},
+  {id:"c6",name:"The Fuzzy Trail Fleece",sil:"coat",size:"Just right",heri:false,metal:"chrome",
+   colors:["#1f5b3a","#ff8a3c","#e8e0cf"],lineage:["Cousin Mia"],
+   story:"Mia grew out of it. Still as soft and warm as a hug on a freezing morning.",
+   offer:"sell",price:4,cause:"tree planting"},
+];
+
 /* ---------- state ---------- */
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign({saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false},s);}catch(e){}return{saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false};}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 let state=load();
 
@@ -432,19 +507,37 @@ const GARMENTS={
   shoe:`<path d="M40,150 C40,136 62,128 92,128 L120,128 C146,128 160,144 162,162 L162,174 C162,178 158,180 154,180 L44,180 C40,180 38,176 38,168 Z"/><path d="M40,172 L160,172" fill="none"/>`,
   cap:`<path d="M58,150 C58,108 142,108 142,150 L142,156 L58,156 Z"/><path d="M142,150 L190,160 L190,170 L142,158 Z"/>`,
 };
+function sparkle(x,y,r,o){return `<path d="M${x},${y-r} C${x},${y-r*0.28} ${x+r*0.28},${y} ${x+r},${y} C${x+r*0.28},${y} ${x},${y+r*0.28} ${x},${y+r} C${x},${y+r*0.28} ${x-r*0.28},${y} ${x-r},${y} C${x-r*0.28},${y} ${x},${y-r*0.28} ${x},${y-r} Z" fill="#ffffff" opacity="${o}"/>`;}
 function lookArt(l){
   if(l.img) return `<img src="${l.img}" alt="${esc(l.name)}">`;
-  const g=GARMENTS[ART_SIL[l.id]||"tee"];
-  const dots=(l.colors||[]).slice(0,3).map((c,i)=>`<circle cx="${30+i*22}" cy="232" r="8" fill="${c}" stroke="#ffffff55" stroke-width="1.5"/>`).join("");
+  return pendantSVG(l.id,l.sil||ART_SIL[l.id],l.colors,l.metal,l.heri);
+}
+function pendantSVG(id,sil,colors,metal,heri){
+  const g=GARMENTS[sil||"tee"];
+  metal=metal||(heri?"gold":"chrome");
+  const stops=metal==="gold"
+    ? `<stop offset="0" stop-color="#fff4cf"/><stop offset=".17" stop-color="#f0cd6f"/><stop offset=".37" stop-color="#c69f3b"/><stop offset=".49" stop-color="#5c4214"/><stop offset=".52" stop-color="#4a360f"/><stop offset=".62" stop-color="#b88f31"/><stop offset=".80" stop-color="#ffe9a6"/><stop offset="1" stop-color="#bf8f2e"/>`
+    : `<stop offset="0" stop-color="#f6fbff"/><stop offset=".17" stop-color="#c6d5e4"/><stop offset=".37" stop-color="#8093a6"/><stop offset=".49" stop-color="#27313d"/><stop offset=".52" stop-color="#1d2630"/><stop offset=".62" stop-color="#74899b"/><stop offset=".80" stop-color="#eef6ff"/><stop offset="1" stop-color="#9cafc0"/>`;
+  const rim=metal==="gold"?"#fff1c8":"#ffffff";
+  // candy beads for the palette
+  const dots=(colors||[]).slice(0,3).map((c,i)=>{const x=30+i*22;return `<circle cx="${x}" cy="233" r="8.5" fill="${c}" stroke="#0006" stroke-width="1"/><circle cx="${x-2.4}" cy="230.4" r="2.5" fill="#ffffffcc"/>`;}).join("");
+  // iced-out sparkles
+  const ice=`<g filter="url(#glow-${id})">${sparkle(138,80,7,1)}${sparkle(66,118,5,.9)}${sparkle(120,196,4.5,.85)}${sparkle(150,150,3.5,.8)}</g>`;
   return `<svg class="art" viewBox="0 0 200 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <defs>
-      <filter id="sh-${l.id}" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#000" flood-opacity="0.30"/></filter>
-      <linearGradient id="iri-${l.id}" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#9ff0e0"/><stop offset="0.35" stop-color="#bdb2ff"/><stop offset="0.62" stop-color="#ffc6e6"/><stop offset="0.82" stop-color="#ffe6b3"/><stop offset="1" stop-color="#b9e6ff"/>
-      </linearGradient>
+      <linearGradient id="met-${id}" x1="0" y1="0" x2="0" y2="1">${stops}</linearGradient>
+      <filter id="sh-${id}" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.55"/></filter>
+      <filter id="blur-${id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+      <filter id="glow-${id}" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <clipPath id="clip-${id}">${g}</clipPath>
     </defs>
-    <g filter="url(#sh-${l.id})" fill="rgba(255,255,255,0.10)" stroke="url(#iri-${l.id})" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">${g}</g>
-    ${dots}</svg>`;
+    <g filter="url(#sh-${id})"><g fill="url(#met-${id})" stroke="${rim}" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" stroke-opacity=".85">${g}</g></g>
+    <g clip-path="url(#clip-${id})">
+      <ellipse cx="74" cy="86" rx="58" ry="40" fill="#ffffff" opacity=".42" filter="url(#blur-${id})"/>
+      <ellipse cx="150" cy="150" rx="24" ry="62" fill="#ffffff" opacity=".15" filter="url(#blur-${id})"/>
+      <rect x="0" y="118" width="200" height="7" fill="#ffffff" opacity=".22" filter="url(#blur-${id})"/>
+    </g>
+    ${ice}${dots}</svg>`;
 }
 
 /* ---------- discover ---------- */
@@ -665,6 +758,101 @@ function renderLearn(){
   $("#acThrift").addEventListener("toggle",e=>{if(e.target.open&&!state.learnedThrift){state.learnedThrift=true;save();refreshQuests();}});
 }
 
+/* ---------- family closet ---------- */
+function giverOf(item){return item.giver||item.lineage[item.lineage.length-1];}
+function lineageHTML(item){
+  const parts=item.lineage.map(n=>`<span>${esc(n)}</span>`);
+  if(state.claimed.includes(item.id))parts.push(`<span class="you">you ✨</span>`);
+  else if(state.lostFlip.includes(item.id))parts.push(`<span>${esc(item.rival)}</span>`);
+  else parts.push(`<span style="opacity:.55">next?</span>`);
+  return `<div class="lineage">${parts.join('<span class="ar">→</span>')}</div>`;
+}
+function offerBadge(item){
+  const o=item.offer==="free"?`<span class="offer free">🎁 Free to a good home</span>`
+    :item.offer==="thanks"?`<span class="offer thanks">💛 Pay with a thank-you</span>`
+    :`<span class="offer sell">🪙 $${item.price} · half to ${esc(item.cause)}</span>`;
+  const f=item.contested?`<span class="offer flip">⚖️ ${esc(item.rival)} wants it too</span>`:"";
+  return o+f;
+}
+function renderCloset(){
+  $("#closetBox").innerHTML=CLOSET.map(item=>{
+    const claimed=state.claimed.includes(item.id), lost=state.lostFlip.includes(item.id), taken=claimed||lost;
+    let btn;
+    if(claimed)btn=`<button class="btn win" disabled>✓ Yours — kept in the family</button>`;
+    else if(lost)btn=`<button class="btn" disabled>${esc(item.rival)} won the flip 🪙</button>`;
+    else if(item.contested)btn=`<button class="btn cool" data-flip="${item.id}">🪙 Flip ${esc(item.rival)} for it</button>`;
+    else btn=`<button class="btn" data-claim="${item.id}">${item.offer==="free"?"Claim it":item.offer==="thanks"?"Claim & say thanks":("Chip in $"+item.price+" & claim")}</button>`;
+    return `<div class="card citem${taken?" taken":""}">
+      <div class="crow">
+        <div class="mp" style="--a:${item.colors[0]};--b:${item.colors[1]||item.colors[0]}">${pendantSVG("cl"+item.id,item.sil,item.colors,item.metal,item.heri)}</div>
+        <div class="cmeta">
+          <div class="cname">${esc(item.name)} <span class="sz">${esc(item.size)}</span></div>
+          ${lineageHTML(item)}
+          <div class="cstory">${esc(item.story)}</div>
+          <div class="offerrow">${offerBadge(item)}</div>
+        </div>
+      </div>
+      ${btn}</div>`;
+  }).join("");
+  $$("#closetBox [data-claim]").forEach(b=>b.onclick=()=>runClaim(CLOSET.find(i=>i.id===b.dataset.claim)));
+  $$("#closetBox [data-flip]").forEach(b=>b.onclick=()=>openCoin(CLOSET.find(i=>i.id===b.dataset.flip)));
+}
+function finalizeClaim(item){if(!state.claimed.includes(item.id))state.claimed.push(item.id);save();refreshQuests();renderCloset();}
+function runClaim(item){if(item.offer==="free"){finalizeClaim(item);toast("It's yours — kept in the family ✨");}else if(item.offer==="thanks")openThanks(item);else openSell(item);}
+function openThanks(item){
+  const who=giverOf(item);
+  $("#sheetPad").innerHTML=`<div class="claimwrap">
+    <div style="font-size:48px">💛</div>
+    <h2 style="margin:6px 0 4px;font-size:23px">Say thank you</h2>
+    <p style="color:var(--ink-soft);max-width:330px;margin:0 auto 14px">“${esc(item.name)}” was ${esc(who)}'s first. Write a quick thank-you and it's yours to keep.</p>
+    <textarea id="thx" rows="3" placeholder="Thanks ${esc(who)}! I'll take good care of it…" style="width:100%;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:12px;font:inherit;font-weight:600;resize:none"></textarea>
+    <button class="btn" id="thxSend" style="margin-top:12px">Send & claim</button></div>`;
+  openSheet();
+  $("#thxSend").onclick=()=>{
+    const note=($("#thx").value||"").trim()||`Thanks ${who}!`;
+    state.thanks.push({item:item.name,to:who,note,when:Date.now()});
+    finalizeClaim(item);closeSheet();toast(`Thank-you sent to ${who} 💛`);
+  };
+}
+function openSell(item){
+  const half=(item.price/2).toFixed(item.price%2?2:0);
+  $("#sheetPad").innerHTML=`<div class="claimwrap">
+    <div style="font-size:48px">🪙</div>
+    <h2 style="margin:6px 0 4px;font-size:23px">Chip in to keep it going</h2>
+    <p style="color:var(--ink-soft);max-width:330px;margin:0 auto 14px">“${esc(item.name)}” is $${item.price}. Half — $${half} — goes to ${esc(item.cause)}. <i>Pretend money, real good habit.</i></p>
+    <button class="btn" id="payBtn">Chip in $${item.price} & claim</button>
+    <button class="btn alt" id="payCancel" style="margin-top:10px">Maybe later</button></div>`;
+  openSheet();
+  $("#payBtn").onclick=()=>{finalizeClaim(item);closeSheet();toast(`$${half} to ${item.cause} 💛`);};
+  $("#payCancel").onclick=closeSheet;
+}
+function openCoin(item){
+  $("#sheetPad").innerHTML=`<div class="claimwrap">
+    <div style="font-size:13px;font-weight:900;letter-spacing:.1em;color:var(--ink-dim);text-transform:uppercase">Fair's fair</div>
+    <h2 style="margin:6px 0 4px;font-size:22px">You and ${esc(item.rival)} both want this</h2>
+    <p style="color:var(--ink-soft);max-width:330px;margin:0 auto 6px">Flip the coin. Heads it's yours, tails it's ${esc(item.rival)}'s. The coin decides — no arguing.</p>
+    <div class="coin" id="coin">🪙</div>
+    <button class="btn cool" id="flipBtn">Flip the coin</button></div>`;
+  openSheet();
+  $("#flipBtn").onclick=()=>{
+    const coin=$("#coin"),btn=$("#flipBtn");btn.disabled=true;btn.textContent="Flipping…";
+    coin.classList.remove("spin");void coin.offsetWidth;coin.classList.add("spin");
+    const win=Math.random()<0.5;
+    setTimeout(()=>{
+      if(win){coin.textContent="😎";
+        $(".claimwrap h2").textContent="Heads — you won the flip!";
+        btn.disabled=false;btn.className="btn win";btn.textContent=item.offer==="free"?"Claim it →":item.offer==="thanks"?"Say thanks & claim →":"Chip in & claim →";
+        btn.onclick=()=>runClaim(item);
+      }else{coin.textContent="😅";
+        $(".claimwrap h2").textContent=`Tails — ${item.rival} got it this time`;
+        if(!state.lostFlip.includes(item.id))state.lostFlip.push(item.id);save();refreshQuests();
+        btn.disabled=false;btn.className="btn alt";btn.textContent="Fair enough →";
+        btn.onclick=()=>{closeSheet();renderCloset();};
+      }
+    },1150);
+  };
+}
+
 /* ---------- sheet & nav ---------- */
 function openSheet(){$("#sheetBg").classList.add("open");requestAnimationFrame(()=>$("#sheet").classList.add("open"));}
 function closeSheet(){$("#sheet").classList.remove("open");$("#sheetBg").classList.remove("open");}
@@ -679,9 +867,11 @@ function go(v){
   if(v==="quests")renderQuests();
   if(v==="you")renderYou();
   if(v==="learn")renderLearn();
+  if(v==="closet")renderCloset();
   window.scrollTo({top:0});
 }
 $$("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.go));
+$("#goCloset").onclick=()=>go("closet");
 
 /* boot */
 renderFilters();renderFeed();refreshQuests();

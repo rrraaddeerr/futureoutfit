@@ -17,6 +17,8 @@ const browser = await puppeteer.launch({
   headless: true,
 });
 const page = await browser.newPage();
+page.on("pageerror", (e) => console.log("‼️ PAGEERROR:", e.message));
+page.on("console", (m) => { if (m.type() === "error") console.log("‼️ CONSOLE:", m.text()); });
 await page.setViewport({ width: 402, height: 874, deviceScaleFactor: 2, isMobile: true });
 await page.goto(url, { waitUntil: "networkidle0" });
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -80,6 +82,16 @@ await page.click('nav.tabs button[data-go="learn"]');
 await wait(300);
 await page.click("#acThrift summary");
 await shot("08-learn", true);
+
+// 8. Family Closet
+await page.click('nav.tabs button[data-go="closet"]');
+await shot("09-closet", true);
+
+// 9. Coin-flip fairness sheet
+await page.click('#closetBox [data-flip]');
+await sheetShot("10-coinflip");
+await page.evaluate(() => document.getElementById("sheetBg").click());
+await wait(300);
 
 await browser.close();
 console.log("done");
