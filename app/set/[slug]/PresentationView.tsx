@@ -254,6 +254,15 @@ export function PresentationView({
           </section>
         ))}
 
+        <button
+          type="button"
+          className="present__print"
+          onClick={() => typeof window !== "undefined" && window.print()}
+          aria-label="Print or save as PDF"
+        >
+          Print / PDF
+        </button>
+
         <section className="present__final">
           <label>
             <span className="present__visitor-k">Anything else?</span>
