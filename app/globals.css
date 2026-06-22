@@ -3442,6 +3442,26 @@ textarea.field__control {
   border-right: 1px solid var(--line-2);
 }
 .sets-list__row:hover { border-color: var(--accent); background: var(--panel-2); transform: translateX(2px); }
+
+.sets-list__thumbs {
+  display: inline-flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.sets-list__thumbs img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+@media (max-width: 720px) {
+  .sets-list__thumbs img:nth-child(3) { display: none; }
+}
+@media (max-width: 560px) {
+  .sets-list__thumbs { display: none; }
+}
+
 .sets-list__main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .sets-list__name { font-size: 16px; font-weight: 700; }
 .sets-list__client { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
