@@ -83,8 +83,11 @@
       radial-gradient(78% 60% at 30% 16%,rgba(255,255,255,.60),rgba(255,255,255,0) 52%),
       radial-gradient(150% 120% at 50% 14%,color-mix(in srgb,var(--a,#555) 86%,#fff 14%),color-mix(in srgb,var(--b,#333) 52%,#000 48%) 84%),
       #07080b}
-  .look .pic::after,.hero::after,.mini .mp::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:screen;
+  .look .pic::after,.hero::after,.mini .mp::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.08;mix-blend-mode:screen;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")}
+  .frame{position:absolute;inset:0;z-index:0;display:block}
+  .pic .art,.hero .art,.mp .art{position:relative;z-index:1}
+  .pic .era,.pic .savez,.cap,.hero .era{z-index:3}
   .look .pic .era{position:absolute;top:12px;left:12px;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800;letter-spacing:.04em}
   .look .pic .savez{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;display:grid;place-items:center;font-size:18px;cursor:pointer}
   .look .pic .savez.on{background:var(--grad);border-color:transparent}
@@ -450,6 +453,78 @@ const LOOKS=[
    era_note:"‘Gorpcore’ turns hiking gear into everyday style — fleeces, shells and trail shoes. It's practical, durable, and tons of it turns up secondhand.",
    colors:["#1f5b3a","#ff8a3c","#e8e0cf"],color_note:"Forest green and a sunset orange — outdoor colours that read as cheerful in the city.",
    where:["thrift","secondhand"],care:"Re-proof shells now and then; brush fleece to keep it fluffy.",movement:"gorpcore"},
+  {id:"l9",name:"Y2K Cyber",emoji:"🛸",img:null,era:"2000s",cat:"Y2K",heri:false,sil:"dress",metal:"chrome",
+   vibes:["metallic","shiny","futuristic"],
+   pieces:[["👖","Low-rise cargos","Sit on the hips, pockets everywhere"],["👕","Shrunken baby tee","Tiny, often shiny or holographic"],["🕶️","Blade shield shades","Wraparound, razor-thin"],["👟","Bulky silver runners","Spaceship energy"]],
+   era_note:"Year-2000 fashion went full sci-fi — shiny metallics, tiny sunglasses and a glossy ‘the future is now’ attitude. It's huge again because it's pure fun.",
+   colors:["#b8c6d6","#7c6cff","#d9d2e8"],color_note:"Cool silvers and a digital violet — like a flip-phone screen glowing in the dark.",
+   where:["thrift","secondhand"],care:"Hand-wash shiny fabrics — hot washes dull the shimmer.",movement:"y2k"},
+  {id:"l10",name:"Raw Selvedge Denim",emoji:"👖",img:null,era:"timeless",cat:"Workwear",heri:true,sil:"pants",metal:"gold",
+   vibes:["raw","fading","forever"],
+   pieces:[["👖","Stiff raw jeans","Dark indigo that fades to YOUR shape"],["👕","Heavy pocket tee","Plain, thick, perfect"],["🧥","Denim trucker jacket","Ages like leather"],["🥾","Leather boots","Re-soleable, better with miles"]],
+   era_note:"Raw denim starts stiff and super-dark, then fades exactly where your body moves — knees, pockets, knuckles. After a year, no two pairs on Earth are the same.",
+   colors:["#1b2a44","#33507a","#c8b88a"],color_note:"Deep indigo that slowly cracks into pale blue — the colour literally records your year.",
+   where:["resale","secondhand","make"],care:"Wash as little as possible — every wash fades the magic.",movement:"denim"},
+  {id:"l11",name:"Punk DIY",emoji:"🧷",img:null,era:"’70s–now",cat:"Street",heri:true,sil:"jacket",metal:"chrome",
+   vibes:["DIY","loud","anti-rules"],
+   pieces:[["🧥","Studded leather jacket","Covered in pins, patches and paint"],["👖","Ripped skinny jeans","Held together with safety pins"],["👕","Cut-up band tee","Re-stitched your way"],["🥾","Scuffed lace-up boots","Beaten on purpose"]],
+   era_note:"Punk started in the 1970s as a giant ‘NO’ to pricey fashion — kids tore up cheap clothes, drew on them and pinned them back together. The whole point is: make it yourself.",
+   colors:["#0c0c0e","#b6121b","#d9d9d9"],color_note:"Black, danger-red and safety-pin silver — a look built to shout.",
+   where:["thrift","make"],care:"No rules. A rip is a feature. Add a patch when you're bored.",movement:"punk"},
+  {id:"l12",name:"Ivy Prep",emoji:"🎓",img:null,era:"1950s–now",cat:"Heritage",heri:true,sil:"jacket",metal:"gold",
+   vibes:["neat","classic","crisp"],
+   pieces:[["🧥","Tweed blazer","Structured shoulders, elbow patches"],["👔","Oxford shirt","Button-down collar, always tidy"],["👖","Pressed chinos","Clean, ankle-length"],["👞","Penny loafers","Slip-on, a coin in the slot"]],
+   era_note:"‘Ivy’ or ‘prep’ style came from 1950s American colleges — tidy, timeless pieces built to survive four years of class. It never really goes out of style.",
+   colors:["#26415e","#9c7b4a","#e8e2d0"],color_note:"Navy, tan and cream — calm, grown-up colours that always look sorted.",
+   where:["thrift","secondhand"],care:"Hang blazers on shaped hangers; brush tweed to keep it crisp.",movement:"prep"},
+  {id:"l13",name:"Dark Romantic",emoji:"🥀",img:null,era:"’80s–now",cat:"Avant",heri:false,sil:"coat",metal:"chrome",
+   vibes:["draped","moody","layered"],
+   pieces:[["🧥","Long flowing coat","Sweeps when you walk"],["👕","Layered ruffled shirt","Soft, a little dramatic"],["👖","Tucked skinny trousers","Lean line into tall boots"],["🥾","Tall buckle boots","Serious, slightly gothic"]],
+   era_note:"Dark-romantic style mixes goth drama with elegant tailoring — flowing black layers that feel like a character from a story. Designers like Ann Demeulemeester made it art.",
+   colors:["#0a0a0c","#2a2230","#6e5a73"],color_note:"Black with a whisper of bruised purple — moody, not scary.",
+   where:["resale","secondhand"],care:"Steam the drape; store flowing pieces on padded hangers.",movement:"goth"},
+  {id:"l14",name:"90s Hip-Hop",emoji:"📼",img:null,era:"1990s",cat:"Street",heri:true,sil:"tee",metal:"gold",
+   vibes:["baggy","bold","fresh"],
+   pieces:[["👕","Oversized jersey","Big, bright, team energy"],["👖","Baggy jeans","Wide leg, sits low"],["🧢","Snapback cap","Flat brim, worn proud"],["👟","Box-fresh hoops sneakers","Laces crisp"]],
+   era_note:"1990s hip-hop turned the street into the runway — baggy fits, bold logos and box-fresh sneakers. It shaped basically all of modern streetwear.",
+   colors:["#1b3a6b","#d6a52b","#e7e7e7"],color_note:"Team-jersey blue, gold and white — loud, proud and impossible to miss.",
+   where:["thrift","secondhand"],care:"Wash bright jerseys inside-out to protect the print.",movement:"hiphop"},
+  {id:"l15",name:"Quiet Minimal",emoji:"🤍",img:null,era:"now",cat:"Future",heri:false,sil:"coat",metal:"chrome",
+   vibes:["clean","calm","precise"],
+   pieces:[["🧥","Unstructured coat","No logos, perfect line"],["👕","Heavy plain tee","Expensive-looking simplicity"],["👖","Straight wool trousers","Falls dead straight"],["👟","Plain leather sneakers","Quiet, spotless"]],
+   era_note:"Minimalism is the art of leaving things out — no logos, no fuss, just perfect cut and quality. Labels like The Row prove ‘plain’ can be the boldest choice.",
+   colors:["#e9e6df","#b8b2a6","#2c2a27"],color_note:"Greige, stone and soft black — colours so calm they let the shapes speak.",
+   where:["resale","secondhand"],care:"Fold knits, steam don't iron — good basics last years.",movement:"minimal"},
+  {id:"l16",name:"Cottage Folk",emoji:"🌾",img:null,era:"timeless",cat:"Outdoor",heri:true,sil:"dress",metal:"gold",
+   vibes:["soft","handmade","cosy"],
+   pieces:[["👗","Gathered smock dress","Loose and comfy"],["🧶","Hand-knit cardigan","Chunky, a bit wonky on purpose"],["👚","Puff-sleeve blouse","Pretty and practical"],["🥾","Leather clogs","Garden-ready"]],
+   era_note:"‘Cottagecore’ folk style dreams of slow country life — handmade knits and natural fabrics that feel like a warm kitchen. Loads of it is thrifted or homemade.",
+   colors:["#7d8c5c","#d9c7a3","#a85a3c"],color_note:"Sage green, oat and clay — colours pulled straight from a garden.",
+   where:["thrift","make"],care:"Hand-wash knits and dry flat so they keep their shape.",movement:"folk"},
+  {id:"l17",name:"Military Surplus",emoji:"🎖️",img:null,era:"timeless",cat:"Workwear",heri:true,sil:"jacket",metal:"gold",
+   vibes:["rugged","practical","earthy"],
+   pieces:[["🧥","Field jacket","Four big pockets, built tough"],["👖","Cargo trousers","Roomy, knee pockets"],["👕","Ribbed tank","Plain and hardy"],["🥾","Combat boots","Near indestructible"]],
+   era_note:"Army-surplus clothing was over-built for the toughest jobs, then sold off cheap. That's why it lasts forever and looks better beaten-up — a thrifter's goldmine.",
+   colors:["#3d4a2e","#6b6045","#1e1f1a"],color_note:"Olive, khaki and near-black — colours designed to vanish into the wild.",
+   where:["thrift","secondhand"],care:"Re-wax cotton jackets now and then; surplus is made to be repaired.",movement:"military"},
+  {id:"l18",name:"90s Grunge",emoji:"🎸",img:null,era:"1990s",cat:"Street",heri:true,sil:"jacket",metal:"chrome",
+   vibes:["layered","worn-in","easy"],
+   pieces:[["🧥","Flannel shirt","Tied at the waist or worn open"],["👕","Faded band tee","The older the better"],["👖","Ripped loose jeans","Comfortable wrecks"],["🥾","Worn-out boots","Scuffed and beloved"]],
+   era_note:"Grunge came out of 1990s Seattle — kids layered cheap, comfy, secondhand clothes and just didn't try too hard. That effortless mess became one of fashion's biggest looks.",
+   colors:["#5a4a3a","#7a2f2f","#2b2b2b"],color_note:"Muddy brown, faded flannel red and washed black — comfy, lived-in colours.",
+   where:["thrift","secondhand"],care:"Don't fix every rip — grunge looks best a little broken.",movement:"grunge"},
+  {id:"l19",name:"Western Frontier",emoji:"🤠",img:null,era:"timeless",cat:"Heritage",heri:true,sil:"jacket",metal:"gold",
+   vibes:["rugged","crafted","storied"],
+   pieces:[["🧥","Denim or suede jacket","Yokes, snaps, maybe fringe"],["👖","Bootcut jeans","Made to sit over boots"],["👔","Pearl-snap shirt","Pops open with a click"],["👢","Tooled leather boots","Stacked heel, built for stirrups"]],
+   era_note:"Western wear was built for real cowboys — tough denim, snap buttons and boots made for stirrups. Every detail had a job before it became a style.",
+   colors:["#6b4a2a","#3a557a","#caa56a"],color_note:"Saddle brown, work-shirt blue and tan leather — colours of dust and big skies.",
+   where:["thrift","secondhand"],care:"Condition leather so it softens instead of cracking.",movement:"western"},
+  {id:"l20",name:"Skate Core",emoji:"🛹",img:null,era:"’90s–now",cat:"Street",heri:false,sil:"tee",metal:"chrome",
+   vibes:["loose","durable","fun"],
+   pieces:[["👕","Boxy skate tee","Room to move, art on the back"],["👖","Loose carpenter pants","Hammer loop, takes a beating"],["🧦","Striped tube socks","Pulled up high"],["👟","Flat skate shoes","Grippy, padded, scuffed"]],
+   era_note:"Skate style is built to survive falls — loose, padded, durable and covered in skate-brand art. Comfort and toughness first, always.",
+   colors:["#2b2b2e","#e0533b","#cfcfca"],color_note:"Asphalt grey, traffic-cone orange and worn white — playground-tough colours.",
+   where:["thrift","secondhand","make"],care:"Reinforce knees and toes — skate clothes are meant to be patched.",movement:"skate"},
 ];
 
 const GLOSSARY=[
@@ -476,6 +551,18 @@ const MOVEMENTS=[
   ["street","🧢","Streetwear","Born from skate and hip-hop, today's streetwear is comfort-first and built to mix, remix and pass around."],
   ["workwear","🔧","Workwear","Early-1900s farm and rail gear, built so tough it outlived its jobs and became a style. Ages beautifully with use."],
   ["gorpcore","🏔️","Gorpcore","Hiking gear as everyday style — fleeces, shells and trail shoes. Practical, durable, and easy to find secondhand."],
+  ["y2k","🛸","Y2K Futurism","Year-2000 style imagined a shiny digital future — metallics, tiny shades and glossy optimism. It's back because it's pure fun."],
+  ["denim","👖","Raw Denim","Stiff, dark jeans that fade to the exact shape of your body. Wear them a year and they become a one-of-a-kind map of your life."],
+  ["punk","🧷","Punk","A 1970s ‘no’ to pricey fashion — tear up cheap clothes, draw on them, pin them back together. The whole movement is do-it-yourself."],
+  ["prep","🎓","Ivy / Prep","Tidy, timeless pieces from 1950s American colleges, built to last for years. Quietly classic and never really out of style."],
+  ["goth","🥀","Dark Romantic","Goth drama meets elegant tailoring — flowing black layers that feel straight out of a story. Designers turned moodiness into art."],
+  ["hiphop","📼","90s Hip-Hop","Streetwear's giant: 1990s hip-hop made baggy fits, bold logos and box-fresh sneakers the coolest thing on earth."],
+  ["minimal","🤍","Minimalism","The art of leaving things out — no logos, no fuss, just perfect cut and quality. Plain done perfectly is its own flex."],
+  ["folk","🌾","Cottage Folk","A dream of slow country life — handmade knits and natural fabrics that feel like a warm kitchen. Often thrifted or homemade."],
+  ["military","🎖️","Military Surplus","Clothing over-built for the army, then sold off cheap. It lasts forever and looks better beaten-up — a thrifter's goldmine."],
+  ["grunge","🎸","Grunge","1990s Seattle kids layered cheap, comfy, secondhand clothes and didn't try too hard. That effortless mess became iconic."],
+  ["western","🤠","Western","Built for real cowboys — tough denim, snap shirts and boots made for stirrups. Every detail had a job before it became a style."],
+  ["skate","🛹","Skate","Built to survive falls: loose, padded, durable and covered in skate-brand art. Comfort and toughness first, always."],
 ];
 
 const THRIFT101=[
@@ -608,11 +695,34 @@ function pendantSVG(id,sil,colors,metal,heri){
       <ellipse cx="150" cy="150" rx="24" ry="62" fill="#ffffff" opacity=".15" filter="url(#blur-${id})"/>
       <rect x="0" y="118" width="200" height="7" fill="#ffffff" opacity=".22" filter="url(#blur-${id})"/>
     </g>
-    ${ice}${dots}</svg>`;
+    ${ice}</svg>`;
+}
+
+/* real device faceplate: brushed sheet-metal panel + clear-plastic window */
+function deviceFrame(id,colors,label){
+  const a=(colors&&colors[0])||"#6a7280", b=(colors&&colors[1])||"#222a34";
+  const sc=(x,y)=>`<circle cx="${x}" cy="${y}" r="3" fill="url(#scr-${id})" stroke="#0007" stroke-width=".5"/><line x1="${x-1.6}" y1="${y-.6}" x2="${x+1.6}" y2="${y+.6}" stroke="#0006" stroke-width=".7"/>`;
+  return `<svg class="frame" viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="plate-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3e9ef"/><stop offset=".49" stop-color="#9ba7b3"/><stop offset=".51" stop-color="#828e9a"/><stop offset="1" stop-color="#c6d0d9"/></linearGradient>
+      <radialGradient id="scr-${id}" cx=".38" cy=".34" r=".85"><stop offset="0" stop-color="#f4f8fb"/><stop offset=".55" stop-color="#a9b3bd"/><stop offset="1" stop-color="#5a6670"/></radialGradient>
+      <linearGradient id="win-${id}" x1="0" y1="0" x2=".25" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>
+      <filter id="brush-${id}"><feTurbulence type="fractalNoise" baseFrequency="0.013 0.8" numOctaves="2" stitchTiles="stitch" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 0"/></filter>
+    </defs>
+    <rect width="100" height="120" fill="url(#plate-${id})"/>
+    <rect width="100" height="120" filter="url(#brush-${id})" opacity=".42"/>
+    <rect width="100" height="2" fill="#ffffff7a"/><rect y="118" width="100" height="2" fill="#0000005a"/>
+    <rect x="14" y="11" width="72" height="86" rx="12" fill="url(#win-${id})"/>
+    <rect x="14" y="11" width="72" height="86" rx="12" fill="none" stroke="#00000066" stroke-width="2"/>
+    <rect x="14.9" y="11.9" width="70.2" height="84.2" rx="11" fill="none" stroke="#ffffff77" stroke-width="1"/>
+    <path d="M20,15 Q50,7 80,15 L80,40 Q50,29 20,40 Z" fill="#ffffff" opacity=".18"/>
+    ${sc(7,44)}${sc(93,44)}${sc(7,80)}${sc(93,80)}
+    <text x="50" y="109" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6.4" font-weight="700" fill="#444c55" letter-spacing=".6">${esc((label||"FUTURE·OUTFIT").toUpperCase())}</text>
+  </svg>`;
 }
 
 /* ---------- discover ---------- */
-const CATS=["For you","Avant","Street","Future","Workwear","Outdoor"];
+const CATS=["For you","Avant","Street","Future","Workwear","Outdoor","Heritage","Y2K"];
 let activeCat="For you";
 function renderFilters(){
   $("#filters").innerHTML=CATS.map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===activeCat}">${c}</button>`).join("");
@@ -633,6 +743,7 @@ function renderFeed(){
     const on=state.saved.includes(l.id);
     return `<article class="look" data-id="${l.id}">
       <div class="pic" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">
+        ${deviceFrame(l.id,l.colors,l.era)}
         <span class="era">${l.era}</span>
         <button class="savez ${on?'on':''}" data-save="${l.id}">${on?'💜':'🤍'}</button>
         ${lookArt(l)}
@@ -660,7 +771,7 @@ function openLook(id){
   const on=state.saved.includes(id);
   const mv=MOVEMENTS.find(m=>m[0]===l.movement);
   $("#sheetPad").innerHTML=`
-    <div class="hero" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}"><span class="era">${l.era}</span>${lookArt(l)}</div>
+    <div class="hero" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">${deviceFrame(l.id+"h",l.colors,l.era)}<span class="era">${l.era}</span>${lookArt(l)}</div>
     <h2 style="margin:0;font-size:24px;font-weight:900">${esc(l.name)}</h2>
     <div class="vibes" style="margin-top:8px">${l.vibes.map(v=>`<span class="vibe" style="background:#ffffff12;border-color:var(--line)">${v}</span>`).join("")}</div>
 
@@ -755,7 +866,7 @@ function renderYou(){
   const sb=$("#savedBox");
   if(!state.saved.length){sb.innerHTML=`<div class="empty"><div class="big">✨</div>No saved looks yet.<br>Tap 🤍 on anything in Discover.</div>`;}
   else{
-    sb.innerHTML=`<div class="grid">${state.saved.map(id=>{const l=LOOKS.find(x=>x.id===id);if(!l)return"";return `<div class="mini" data-id="${id}"><div class="mp" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">${lookArt(l)}</div><div class="mn">${esc(l.name)}</div></div>`;}).join("")}</div>`;
+    sb.innerHTML=`<div class="grid">${state.saved.map(id=>{const l=LOOKS.find(x=>x.id===id);if(!l)return"";return `<div class="mini" data-id="${id}"><div class="mp" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">${deviceFrame(l.id+"m",l.colors,l.era)}${lookArt(l)}</div><div class="mn">${esc(l.name)}</div></div>`;}).join("")}</div>`;
     $$("#savedBox .mini").forEach(m=>m.onclick=()=>openLook(m.dataset.id));
   }
   const ab=$("#askedBox");
