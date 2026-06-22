@@ -83,16 +83,22 @@
     background:
       linear-gradient(rgba(127,232,255,.10) 1px,transparent 1px) 0 0/100% 13px,
       linear-gradient(90deg,rgba(127,232,255,.09) 1px,transparent 1px) 0 0/13px 100%,
-      radial-gradient(120% 85% at 50% 6%,color-mix(in srgb,var(--a,#1de0ff) 30%,transparent),transparent 70%),
-      linear-gradient(160deg,rgba(214,224,232,.92),rgba(150,166,178,.82) 55%,rgba(96,110,122,.85)),
-      #20272d}
+      radial-gradient(120% 85% at 50% 6%,color-mix(in srgb,var(--a,#1de0ff) 38%,transparent),transparent 70%),
+      linear-gradient(160deg,rgba(28,40,52,.85),rgba(9,14,20,.96)),
+      #0a0f15}
   .look .pic::after,.hero::after,.mini .mp::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;opacity:.06;mix-blend-mode:screen;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")}
   .scan{position:absolute;inset:0;z-index:4;display:block;pointer-events:none}
   .scanline{position:absolute;left:0;right:0;top:-20%;height:16%;z-index:4;pointer-events:none;
     background:linear-gradient(rgba(127,232,255,0),rgba(127,232,255,.16),rgba(127,232,255,0));animation:scansweep 3.6s linear infinite}
   @keyframes scansweep{0%{top:-20%}100%{top:104%}}
-  .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+  .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;filter:contrast(1.04) saturate(.92)}
+  /* clear-plastic x-ray overlay sits on top of any real photo */
+  .xray{position:absolute;inset:0;z-index:3;pointer-events:none;
+    background:
+      repeating-linear-gradient(0deg,rgba(127,232,255,.12) 0 1px,transparent 1px 5px),
+      radial-gradient(120% 95% at 50% 0%,rgba(127,232,255,.16),transparent 60%);
+    box-shadow:inset 0 0 46px rgba(0,18,28,.55),inset 0 0 0 2px rgba(127,232,255,.28)}
   .pic .art,.hero .art,.mp .art{position:relative;z-index:1}
   .pic .era,.pic .savez,.cap,.hero .era{z-index:5}
   .look .pic .era{position:absolute;top:12px;left:12px;background:#0008;backdrop-filter:blur(4px);border:1px solid #ffffff2a;border-radius:999px;padding:5px 11px;font-size:11px;font-weight:800;letter-spacing:.04em}
@@ -709,8 +715,15 @@ const GARMENTS={
   cap:`<path d="M58,150 C58,108 142,108 142,150 L142,156 L58,156 Z"/><path d="M142,150 L190,160 L190,170 L142,158 Z"/>`,
 };
 function sparkle(x,y,r,o){return `<path d="M${x},${y-r} C${x},${y-r*0.28} ${x+r*0.28},${y} ${x+r},${y} C${x+r*0.28},${y} ${x},${y+r*0.28} ${x},${y+r} C${x},${y+r*0.28} ${x-r*0.28},${y} ${x-r},${y} C${x-r*0.28},${y} ${x},${y-r*0.28} ${x},${y-r} Z" fill="#ffffff" opacity="${o}"/>`;}
+/* Drop real photos here as  lookId: "https://…image.jpg"  — they render THROUGH
+   the clear-plastic x-ray treatment; the SVG scan is the automatic fallback if
+   a URL is missing or fails to load. */
+const PHOTOS={};
 function lookArt(l){
-  return garmentRender(l.id,l.sil||ART_SIL[l.id],l.colors,l.metal,l.heri);
+  const art=garmentRender(l.id,l.sil||ART_SIL[l.id],l.colors,l.metal,l.heri);
+  const src=l.img||PHOTOS[l.id];
+  if(src) return `<img class="ph" src="${esc(src)}" alt="${esc(l.name)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()"><div class="xray"></div>`+art;
+  return art;
 }
 /* shade a #rrggbb hex toward white (p>0) or black (p<0), p in 0..1 */
 function shade(hex,p){
@@ -721,35 +734,43 @@ function shade(hex,p){
   r=Math.round((t-r)*a+r);g=Math.round((t-g)*a+g);b=Math.round((t-b)*a+b);
   return "#"+((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1);
 }
-/* clean flat-colour garment render — recognisable clothing in the look's own
-   palette on a soft studio card. Fully offline, consistent, never random. */
+/* clear-plastic / x-ray garment render — a translucent, glowing scan of the
+   piece in the look's own tint on the scanner card. Offline, never random. */
 function garmentRender(id,sil,colors,metal,heri){
   sil=sil||"tee";
   const g=GARMENTS[sil]||GARMENTS.tee;
   const ds=[...g.matchAll(/d="([^"]+)"/g)].map(m=>m[1]);
   const body=ds[0],seam=ds[1];
   const cols=(colors&&colors.length?colors:["#8893a0","#525a66"]);
-  const main=cols[0],acc=cols[1]||shade(main,-0.28),third=cols[2]||shade(main,0.34);
-  const lite=shade(main,0.30),mid=shade(main,0.04),dark=shade(main,-0.42),line=shade(main,-0.55);
-  const dots=cols.slice(0,3).map((c,i)=>{const x=92+i*16;return `<circle cx="${x}" cy="238" r="6" fill="${c}" stroke="#0006" stroke-width="1"/><circle cx="${x-1.8}" cy="236" r="1.8" fill="#fff" opacity=".75"/>`;}).join("");
-  const seamLine=seam?`<path d="${seam}" fill="none" stroke="${acc}" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>`:"";
+  const tint=cols[0];
+  const edge="#cdf5ff",glow="#7fe8ff";
+  const dots=cols.slice(0,3).map((c,i)=>{const x=92+i*16;return `<circle cx="${x}" cy="238" r="6" fill="${c}" stroke="#0006" stroke-width="1"/><circle cx="${x-1.8}" cy="236" r="1.8" fill="#fff" opacity=".8"/>`;}).join("");
+  const seamLine=seam?`<path d="${seam}" fill="none" stroke="${edge}" stroke-width="1.4" stroke-linecap="round" opacity=".7" stroke-dasharray="1.5 5"/>`:"";
+  const scan=Array.from({length:16},(_,i)=>`<line x1="0" y1="${14+i*15}" x2="200" y2="${14+i*15}"/>`).join("");
   return `<svg class="art" viewBox="0 0 200 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
     <defs>
-      <linearGradient id="gm-${id}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="${lite}"/><stop offset=".45" stop-color="${mid}"/><stop offset="1" stop-color="${dark}"/>
+      <linearGradient id="px-${id}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity=".42"/>
+        <stop offset=".5" stop-color="${tint}" stop-opacity=".32"/>
+        <stop offset="1" stop-color="${tint}" stop-opacity=".12"/>
       </linearGradient>
-      <filter id="gsh-${id}" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.40"/></filter>
-      <filter id="gb-${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
-      <clipPath id="gc-${id}"><path d="${body}"/></clipPath>
+      <radialGradient id="pg-${id}" cx="36%" cy="26%" r="80%">
+        <stop offset="0" stop-color="#ffffff" stop-opacity=".6"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="pgl-${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="pb-${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+      <clipPath id="pc-${id}"><path d="${body}"/></clipPath>
     </defs>
-    <ellipse cx="100" cy="226" rx="56" ry="10" fill="#000" opacity=".30" filter="url(#gb-${id})"/>
-    <g filter="url(#gsh-${id})"><path d="${body}" fill="url(#gm-${id})" stroke="${line}" stroke-width="2.2" stroke-linejoin="round"/></g>
-    <g clip-path="url(#gc-${id})">
-      <ellipse cx="74" cy="84" rx="50" ry="40" fill="#ffffff" opacity=".22" filter="url(#gb-${id})"/>
-      <ellipse cx="150" cy="180" rx="40" ry="60" fill="${dark}" opacity=".40" filter="url(#gb-${id})"/>
-      <path d="M-10,150 L210,120 L210,150 L-10,178 Z" fill="${acc}" opacity=".16"/>
+    <g filter="url(#pb-${id})" opacity=".55"><path d="${body}" fill="${glow}"/></g>
+    <path d="${body}" fill="url(#px-${id})"/>
+    <g clip-path="url(#pc-${id})">
+      <g stroke="${glow}" stroke-width=".5" opacity=".30">${scan}</g>
+      <path d="${body}" fill="none" stroke="${edge}" stroke-width="1" opacity=".4" transform="translate(7,9)"/>
+      <path d="M-30,46 L78,-16 L120,-16 L12,46 Z" fill="#ffffff" opacity=".22"/>
+      <ellipse cx="72" cy="78" rx="48" ry="38" fill="url(#pg-${id})"/>
     </g>
-    <path d="${body}" fill="none" stroke="${lite}" stroke-width="1.2" stroke-linejoin="round" opacity=".5"/>
+    <g filter="url(#pgl-${id})"><path d="${body}" fill="none" stroke="${edge}" stroke-width="2" stroke-linejoin="round" opacity=".95"/></g>
     ${seamLine}
     ${dots}
   </svg>`;
