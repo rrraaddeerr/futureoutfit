@@ -588,6 +588,49 @@ h4 {
 .hero__tape {
   margin-bottom: 26px;
 }
+
+.hero__slate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  background: rgba(12, 12, 13, 0.6);
+  border: 1px solid var(--accent);
+  margin-bottom: 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  position: relative;
+}
+.hero__slate::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  background: var(--accent);
+  animation: comms-blink 1.6s ease-in-out infinite;
+}
+.hero__slate-tag { color: var(--text); font-weight: 700; }
+.hero__slate-sep { color: var(--accent); }
+.hero__slate-signal {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.hero__slate-signal i { display: block; width: 3px; background: var(--tape); }
+.hero__slate-signal i:nth-child(1) { height: 3px; }
+.hero__slate-signal i:nth-child(2) { height: 6px; }
+.hero__slate-signal i:nth-child(3) { height: 9px; }
+.hero__slate-signal i:nth-child(4) { height: 12px; }
+@media (max-width: 600px) {
+  .hero__slate { font-size: 9px; gap: 6px; padding: 5px 9px; }
+  .hero__slate-signal { display: none; }
+}
 .hero__title {
   font-size: clamp(2.6rem, 8vw, 5.6rem);
   letter-spacing: -0.04em;
@@ -950,6 +993,34 @@ h4 {
 .page-head__tape {
   margin-bottom: 20px;
 }
+
+.page-head__slate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 5px 11px;
+  background: rgba(12, 12, 13, 0.6);
+  border: 1px solid var(--accent);
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-weight: 700;
+  position: relative;
+}
+.page-head__slate::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  background: var(--accent);
+}
+.page-head__slate-sep { color: var(--accent); }
 .page-head h1 {
   font-size: clamp(2.1rem, 6vw, 3.6rem);
 }

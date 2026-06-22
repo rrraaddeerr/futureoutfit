@@ -38,6 +38,14 @@ export default function HomePage() {
         <div className="hero__grid" aria-hidden="true" />
         <TruckMark size={420} className="hero__mark" />
         <div className="wrap hero__inner">
+          <div className="hero__slate">
+            <span className="hero__slate-tag">RENT.CO</span>
+            <span className="hero__slate-sep" aria-hidden="true">│</span>
+            <span className="hero__slate-tag">CH 00 — ARCHIVE</span>
+            <span className="hero__slate-sep" aria-hidden="true">│</span>
+            <span className="hero__slate-signal" aria-hidden="true"><i/><i/><i/><i/></span>
+            <span className="hero__slate-tag">ONLINE</span>
+          </div>
           <TapeLabel className="hero__tape" rotate={-2}>
             Operated by RaderENT // Vancouver
           </TapeLabel>

@@ -13,11 +13,16 @@ export default function RequestPage() {
     <>
       <section className="page-head">
         <div className="wrap">
+          <div className="page-head__slate">
+            <span>CH 06 — RENTAL REQUEST</span>
+            <span className="page-head__slate-sep" aria-hidden="true">│</span>
+            <span>DISPATCH</span>
+          </div>
           <TapeLabel className="page-head__tape" rotate={-2}>
             Rental Request
           </TapeLabel>
           <h1>
-            Request a <span className="hot">rental</span>.
+            Request a <span className="hot marker-underline">rental</span>.
           </h1>
           <p className="page-head__lead">
             Your selected objects, plus the details we need to confirm them.

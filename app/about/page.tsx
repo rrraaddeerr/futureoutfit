@@ -25,11 +25,16 @@ export default function AboutPage() {
     <>
       <section className="page-head">
         <div className="wrap">
+          <div className="page-head__slate">
+            <span>CH 05 — ABOUT</span>
+            <span className="page-head__slate-sep" aria-hidden="true">│</span>
+            <span>OPERATOR LOG</span>
+          </div>
           <TapeLabel className="page-head__tape" rotate={-2}>
             About
           </TapeLabel>
           <h1>
-            Infrastructure for <span className="hot">culture</span>.
+            Infrastructure for <span className="hot marker-underline">culture</span>.
           </h1>
           <p className="page-head__lead">
             rent.co is the public platform. RaderENT is the operator behind it.
