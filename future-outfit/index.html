@@ -201,6 +201,7 @@
   .crewcard .ava{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:26px;margin:0 auto 8px;box-shadow:inset 0 1px 0 #fff7}
   .crewcard .cn{font-weight:900;font-size:14px}
   .crewcard .cr{font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.3}
+  .crewcard .helpbadge{font-size:10px;font-weight:800;color:var(--cyan);margin-top:7px;background:rgba(70,214,255,.12);border:1px solid rgba(70,214,255,.32);border-radius:999px;padding:2px 8px;display:inline-block}
   .fit{padding:16px;margin-bottom:14px}
   .fithead{display:flex;align-items:center;gap:11px;margin-bottom:11px}
   .fithead .ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:23px;box-shadow:inset 0 1px 0 #fff7}
@@ -523,6 +524,8 @@
     <div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Saved looks</h1></div>
     <div id="savedBox"></div>
     <div id="askedBox"></div>
+    <div id="phonedBox"></div>
+    <div id="creditsBox"></div>
     <button class="teaser" id="goCloset" style="width:100%;text-align:left;cursor:pointer">
       <span class="ti">🧺</span>
       <div><b>The Family Closet</b><div style="color:var(--ink-soft);font-size:13px">The real clothes your family is passing on — claim them free, for a thank-you, or chip in for a good cause. <b style="color:var(--ink)">Open it →</b></div></div>
@@ -554,7 +557,7 @@
 
 </main>
 
-<button class="floatask" id="floatAsk">💬 Ask a grown-up</button>
+<button class="floatask" id="floatAsk">💬 Get style help</button>
 
 <div class="sheet-bg" id="sheetBg"></div>
 <div class="sheet" id="sheet"><div class="grab"></div><div class="pad" id="sheetPad"></div></div>
@@ -581,6 +584,28 @@ const ADULTS=[
   {id:"rae",name:"Aunt Rae",rel:"The thrift wizard of the family",hue:"linear-gradient(135deg,#4fe3d0,#8b6cff)"},
   {id:"papa",name:"Papa Turner",rel:"Vintage everything",hue:"linear-gradient(135deg,#ffb25f,#ff5fa2)"},
 ];
+
+/* ---- phone a friend: your stylish pals (peers, not grown-ups) ----
+   Friends help you style fits too. When a pal helps, the PLATFORM thanks
+   them with Supporter Stars ⭐ — a kid never pays another kid. The `helps`
+   number is how many times they've supported pals (social proof, our treat). */
+const FRIENDS=[
+  {id:"sam",name:"Sam",rel:"Best pal, real taste",emoji:"🛹",spec:"avant",helps:34,hue:"linear-gradient(135deg,#bdb2ff,#46d6ff)"},
+  {id:"mia",name:"Cousin Mia",rel:"Certified drip",emoji:"🧃",spec:"street",helps:51,hue:"linear-gradient(135deg,#ff7ac3,#9b6bff)"},
+  {id:"kofi",name:"Kofi",rel:"Sneaker scientist",emoji:"👟",spec:"street",helps:28,hue:"linear-gradient(135deg,#46d6ff,#2ecf8f)"},
+  {id:"lena",name:"Lena",rel:"Thrift-flip wizard",emoji:"🧵",spec:"maker",helps:42,hue:"linear-gradient(135deg,#ffb25f,#ff7a3c)"},
+  {id:"riku",name:"Riku",rel:"Techwear gremlin",emoji:"🛰️",spec:"future",helps:19,hue:"linear-gradient(135deg,#9b6bff,#46d6ff)"},
+];
+const FRIEND_TIP={
+  avant:n=>`for "${n}" go bold & dark — one dramatic layer, let the shape do the talking. 🖤`,
+  street:n=>`"${n}"? keep it comfy + one loud piece. fresh kicks seal it. 👟`,
+  future:n=>`"${n}" → go technical. pockets, zips, something weatherproof. clean lines. 🛰️`,
+  maker:n=>`for "${n}" raid the thrift — sturdy, lived-in, looks better every wear. 🧵`,
+};
+/* Supporter Stars ⭐ — platform-funded thank-yous. Kids never pay kids.
+   We give them away generously to begin with: rewards for supporting the
+   community and sharing the clothing game. */
+const STAR={share:5, helpBack:8, phonedThanks:2, helperGets:5};
 
 /* ---- the catalogue: design-forward, beyond-the-mall looks ----
    Each look has optional `img` (local file path) for real photos later;
@@ -772,6 +797,8 @@ const QUESTS=[
   {id:"q8",ic:"💛",t:"Say thank you",d:"Take a hand-me-down and thank the person who wore it first.",auto:s=>s.thanks.length>0},
   {id:"q9",ic:"🙋",t:"Ask for help",d:"Ask your crew to put a fit together for you.",auto:s=>s.fits.length>0},
   {id:"q10",ic:"👤",t:"Make your avatar",d:"Build a you to try fits on before you wear them.",auto:s=>!!s.avatar},
+  {id:"q11",ic:"🤙",t:"Phone a friend",d:"Get styling help from one of your stylish pals.",auto:s=>s.phoned.length>0},
+  {id:"q12",ic:"⭐",t:"Supporter",d:"Help a pal or share the game and earn Supporter Stars.",auto:s=>(s.credits||0)>0||(s.given||0)>0},
 ];
 
 const VIBES={
@@ -829,7 +856,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 let state=load();
 
@@ -1043,10 +1070,10 @@ function openLook(id){
     ${mv?`<div class="sec"><div class="lab">📚 The story behind it</div><div class="know"><b>${mv[2]}.</b> ${esc(mv[3])}</div></div>`:""}
 
     <button class="btn" id="saveBtn">${on?'💜 Saved to Your Vibe':'🤍 Save to Your Vibe'}</button>
-    <button class="btn cool" id="askBtn" style="margin-top:10px">💬 Ask a grown-up about this</button>
+    <button class="btn cool" id="askBtn" style="margin-top:10px">💬 Get help with this look</button>
   `;
   $("#saveBtn").onclick=()=>{toggleSave(id);openLook(id);};
-  $("#askBtn").onclick=()=>openAsk(l);
+  $("#askBtn").onclick=()=>openHelpChooser(l);
   openSheet();
 }
 
@@ -1088,7 +1115,114 @@ function openAsk(look){
   };
   openSheet();
 }
-$("#floatAsk").onclick=()=>openAsk(null);
+$("#floatAsk").onclick=()=>openHelpChooser(null);
+
+/* ---------- get help: choose grown-up OR friend ---------- */
+function openHelpChooser(look){
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">Get style help 💬</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 14px">Stuck? You don't have to figure it out alone — pick a hand:</p>
+    <button class="adult" id="chooseGrown" style="margin-bottom:10px"><span class="ad" style="background:var(--grad)">🧑</span><div><div class="an">Ask a grown-up</div><div class="ar">Someone you &amp; your family chose</div></div></button>
+    <button class="adult" id="chooseFriend"><span class="ad" style="background:var(--grad-cool)">🤙</span><div><div class="an">Phone a friend</div><div class="ar">Your stylish pals — they earn ⭐ for helping</div></div></button>
+    <div class="safe-note" style="margin-top:14px">🛡️ <div>You only ever reach <b>people you &amp; a grown-up added</b> — never strangers. And <b>nobody pays anybody</b>: helping just earns Supporter Stars, on us.</div></div>`;
+  $("#chooseGrown").onclick=()=>openAsk(look);
+  $("#chooseFriend").onclick=()=>openPhoneFriend(look);
+  openSheet();
+}
+
+/* ---------- phone a friend ---------- */
+let friendPick={f:null,q:null};
+function openPhoneFriend(look){
+  friendPick={f:null,q:null};
+  const qs=look?[
+    `How would you style the “${look.name}” look?`,
+    `Would “${look.name}” suit me?`,
+    `What shoes go with “${look.name}”?`
+  ]:[
+    "What should I wear this weekend?",
+    "How do I make my fit pop?",
+    "Help me thrift-flip something cool"
+  ];
+  const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">Phone a friend 🤙</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">Your pals have taste too. Tag one for a quick style assist.</p>
+    <div class="safe-note">🛡️ <div>Only pals <b>you &amp; a grown-up added</b> — no strangers. And <b>you never pay a pal</b>: helping earns them Supporter Stars ⭐, our treat.</div></div>
+    <div class="lab" style="${lab};margin:8px 0 10px">Which pal?</div>
+    <div class="crewpick" id="friendList">${FRIENDS.map(f=>`<div class="crewcard" data-f="${f.id}" aria-pressed="false"><div class="ava" style="background:${f.hue}">${f.emoji}</div><div class="cn">${esc(f.name)}</div><div class="cr">${esc(f.rel)}</div><div class="helpbadge">⭐ ${f.helps} helps</div></div>`).join("")}</div>
+    <div class="lab" style="${lab};margin:14px 0 8px">What do you need?</div>
+    <div class="qpick" id="fqpick">${qs.map((q,i)=>`<button class="qopt" data-q="${i}">${esc(q)}</button>`).join("")}</div>
+    <textarea id="fqfree" placeholder="…or write your own"></textarea>
+    <button class="btn cool" id="sendPhone" style="margin-top:14px">Phone it in 🤙</button>`;
+  $$("#friendList .crewcard").forEach(b=>b.onclick=()=>{friendPick.f=b.dataset.f;$$("#friendList .crewcard").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $$("#fqpick .qopt").forEach(b=>b.onclick=()=>{friendPick.q=qs[b.dataset.q];$("#fqfree").value="";$$("#fqpick .qopt").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $("#fqfree").oninput=()=>{$$("#fqpick .qopt").forEach(x=>x.setAttribute("aria-pressed","false"));};
+  $("#sendPhone").onclick=()=>{
+    const q=$("#fqfree").value.trim()||friendPick.q;
+    if(!friendPick.f){toast("Pick a pal first 🙂");return;}
+    if(!q){toast("Pick or write what you need 🙂");return;}
+    const f=FRIENDS.find(x=>x.id===friendPick.f);
+    const tip=FRIEND_TIP[f.spec](look?look.name:"that");
+    state.phoned.unshift({to:f.name,emoji:f.emoji,q,tip,star:STAR.helperGets,when:Date.now()});
+    addCredit(STAR.phonedThanks,`Reached out to ${f.name.split(" ")[0]}`); /* you: tiny good-sport star */
+    closeSheet();
+    toast(`${f.name.split(" ")[0]} earned ${STAR.helperGets}⭐ for helping — on us 💛`);
+    if($("#view-you").classList.contains("active"))renderYou();
+  };
+  openSheet();
+}
+
+/* ---------- supporter stars (platform-funded; kids never pay kids) ---------- */
+function addCredit(amt,reason){
+  state.credits=(state.credits||0)+amt;
+  state.creditLog=state.creditLog||[];
+  state.creditLog.unshift({amt,reason,when:Date.now()});
+  save();refreshQuests();
+}
+function shareGame(){
+  const bonus=state.shared?1:STAR.share; /* big first-time thank-you, then a token */
+  state.shared=true;addCredit(bonus,"Shared the clothing game");
+  const data={title:"FUTURE OUTFIT",text:"come play the clothing game with me 🛹",url:location.href};
+  if(navigator.share){navigator.share(data).catch(()=>{});}
+  toast(`Thanks for sharing! +${bonus}⭐ — our treat 🌍`);renderYou();
+}
+function helpAPal(){
+  const pal=FRIENDS[Math.floor(Math.random()*FRIENDS.length)];
+  const needs=["picture day","a birthday","first day back","a cold day out"][Math.floor(Math.random()*4)];
+  const tips=["keep it comfy + one bold piece","go layered, add a pop of colour","clean lines, fresh kicks","thrift something sturdy & lived-in"];
+  $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="ava" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;margin:6px auto;background:${pal.hue}">${pal.emoji}</div>
+    <h2 style="margin:4px 0;font-size:21px">${esc(pal.name)} needs a fit</h2>
+    <p style="color:var(--ink-soft);margin:0 0 12px">for ${needs} — got a tip? You'll earn ⭐ for helping.</p>
+    <div class="qpick">${tips.map((t,i)=>`<button class="qopt" data-t="${i}">${esc(t)}</button>`).join("")}</div></div>`;
+  $$("#sheetPad .qopt").forEach(b=>b.onclick=()=>{
+    addCredit(STAR.helpBack,`Helped ${pal.name.split(" ")[0]} style a fit`);
+    closeSheet();toast(`Legend! +${STAR.helpBack}⭐ for helping ${pal.name.split(" ")[0]} 💛`);renderYou();
+  });
+  openSheet();
+}
+function giveAway(){
+  const bal=state.credits||0;
+  if(bal<=0){toast("Earn a few ⭐ first 🙂");return;}
+  state.given=(state.given||0)+bal;state.credits=0;
+  state.creditLog.unshift({amt:-bal,reason:"Gave stars to the giveaway pool 🌍",when:Date.now()});
+  save();renderYou();toast(`You gave ${bal}⭐ to the giveaway pool — pure legend 🌍`);
+}
+function renderSupporter(){
+  const pb=$("#phonedBox");
+  if(state.phoned&&state.phoned.length){
+    pb.innerHTML=`<div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Pals you phoned</h1></div>`+
+      state.phoned.slice(0,5).map(p=>`<div class="know" style="margin-bottom:8px">${p.emoji||"🤙"} <b>${esc(p.to)}</b> on “${esc(p.q)}”: <span style="color:var(--ink)">${esc(p.tip||"on it!")}</span><div style="color:var(--cyan);font-size:12px;margin-top:4px">⭐ ${p.star||5} sent to ${esc((p.to||"").split(" ")[0])} for helping — our treat</div></div>`).join("");
+  }else pb.innerHTML="";
+  const cb=$("#creditsBox");const bal=state.credits||0,given=state.given||0;
+  cb.innerHTML=`<div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Supporter <span class="grad-text">Stars</span></h1></div>
+    <div class="vibecard" style="background:radial-gradient(80% 60% at 26% 10%,rgba(255,255,255,.5),transparent 54%),radial-gradient(150% 130% at 50% 8%,#2ea7ff,#0a2a68 88%),#08183a">
+      <div class="vt">Your stars</div><div class="vn">⭐ ${bal}</div>
+      <div class="vd">A thank-you from us for supporting the community &amp; sharing the clothing game. Kids never pay kids — these are on the house.${given?` You've given away <b>${given}⭐</b> 🌍`:""}</div></div>
+    <div class="btnrow" style="margin-top:12px"><button class="btn cool" id="shareGame">🔗 Share the game</button><button class="btn alt" id="helpPal">🤝 Help a pal</button></div>
+    <button class="btn alt" id="giveAway" style="margin-top:10px">🎁 Give my stars away</button>
+    ${state.creditLog&&state.creditLog.length?`<div class="lab" style="margin:16px 0 6px">Recent</div>`+state.creditLog.slice(0,6).map(e=>`<div class="know" style="margin-bottom:6px;display:flex;justify-content:space-between;gap:10px"><span>${esc(e.reason)}</span><b style="color:${e.amt<0?'var(--pink)':'var(--cyan)'}">${e.amt<0?'':'+'}${e.amt}⭐</b></div>`).join(""):""}`;
+  $("#shareGame").onclick=shareGame;$("#helpPal").onclick=helpAPal;$("#giveAway").onclick=giveAway;
+}
 
 /* ---------- field report (techy questionnaire) ---------- */
 const REP_BEST=[["🔩","Metal looks"],["🧺","Family Closet"],["🕺","Dress-up avatar"],["👟","Crew fits"],["🎯","Quests"],["📚","Learn lab"]];
@@ -1196,6 +1330,7 @@ function renderYou(){
     ab.innerHTML=`<div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Questions you asked</h1></div>`+
       state.asked.slice(0,5).map(a=>`<div class="know" style="margin-bottom:8px">💬 To <b>${esc(a.to)}</b>: “${esc(a.q)}”</div>`).join("");
   }else ab.innerHTML="";
+  renderSupporter();
 }
 
 /* ---------- quiz ---------- */
