@@ -4245,6 +4245,41 @@ textarea.field__control {
 }
 .present__final .present__visitor-input { font-size: 14px; }
 
+.present__signed {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 0 18px;
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+}
+.present__signed-stamp { flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.45)); }
+.present__signed-meta { display: flex; flex-direction: column; gap: 2px; }
+.present__signed-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.present__signed-name {
+  font-family: var(--marker);
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+.present__signed-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+@media print {
+  .present__signed-name { color: #000; }
+  .present__signed-label, .present__signed-sub { color: #555; }
+}
+
 .present__send {
   margin-top: 18px;
   font-size: 16px !important;

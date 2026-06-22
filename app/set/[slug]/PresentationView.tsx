@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { SetDoc, SetGroup, SetItem } from "@/lib/sets";
 import { TapeLabel } from "@/components/TapeLabel";
+import { BrandStamp } from "@/components/BrandStamp";
 
 type CatalogEntry = {
   title: string;
@@ -345,6 +346,15 @@ export function PresentationView({
         >
           Print / PDF
         </button>
+
+        <aside className="present__signed">
+          <BrandStamp size={86} className="present__signed-stamp" />
+          <div className="present__signed-meta">
+            <div className="present__signed-label">PROPOSAL BY</div>
+            <div className="present__signed-name">RADERENT</div>
+            <div className="present__signed-sub">VANCOUVER HQ · ACCESS ANYWHERE</div>
+          </div>
+        </aside>
 
         <section className="present__final">
           <label>
