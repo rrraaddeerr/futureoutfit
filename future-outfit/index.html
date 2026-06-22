@@ -856,7 +856,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 let state=load();
 
@@ -1132,8 +1132,13 @@ function openHelpChooser(look){
 
 /* ---------- phone a friend ---------- */
 let friendPick={f:null,q:null};
+const SPEC_HUE={avant:"linear-gradient(135deg,#bdb2ff,#46d6ff)",street:"linear-gradient(135deg,#ff7ac3,#9b6bff)",future:"linear-gradient(135deg,#46d6ff,#2ecf8f)",maker:"linear-gradient(135deg,#ffb25f,#ff7a3c)"};
+const SPEC_EMOJI={avant:"🖤",street:"🧢",future:"🛰️",maker:"🧵"};
+/* built-in pals + the ones you've added (a grown-up approved each) */
+function allFriends(){return FRIENDS.concat(state.addedFriends||[]);}
+let lastLook=null;
 function openPhoneFriend(look){
-  friendPick={f:null,q:null};
+  lastLook=look||null; friendPick={f:null,q:null};
   const qs=look?[
     `How would you style the “${look.name}” look?`,
     `Would “${look.name}” suit me?`,
@@ -1144,30 +1149,73 @@ function openPhoneFriend(look){
     "Help me thrift-flip something cool"
   ];
   const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
+  const pals=allFriends();
   $("#sheetPad").innerHTML=`
     <h2 style="margin:0;font-size:23px;font-weight:900">Phone a friend 🤙</h2>
     <p style="color:var(--ink-soft);margin:6px 0 4px">Your pals have taste too. Tag one for a quick style assist.</p>
     <div class="safe-note">🛡️ <div>Only pals <b>you &amp; a grown-up added</b> — no strangers. And <b>you never pay a pal</b>: helping earns them Supporter Stars ⭐, our treat.</div></div>
     <div class="lab" style="${lab};margin:8px 0 10px">Which pal?</div>
-    <div class="crewpick" id="friendList">${FRIENDS.map(f=>`<div class="crewcard" data-f="${f.id}" aria-pressed="false"><div class="ava" style="background:${f.hue}">${f.emoji}</div><div class="cn">${esc(f.name)}</div><div class="cr">${esc(f.rel)}</div><div class="helpbadge">⭐ ${f.helps} helps</div></div>`).join("")}</div>
+    <div class="crewpick" id="friendList">${pals.map(f=>`<div class="crewcard" data-f="${f.id}" aria-pressed="false"><div class="ava" style="background:${f.hue}">${f.emoji}</div><div class="cn">${esc(f.name)}</div><div class="cr">${esc(f.rel)}</div><div class="helpbadge">⭐ ${f.helps} helps</div></div>`).join("")}
+      <div class="crewcard" id="addPalCard" style="display:grid;place-items:center;border-style:dashed"><div class="ava" style="background:var(--panel-2)">➕</div><div class="cn">Add a pal</div><div class="cr">grown-up approves</div></div></div>
     <div class="lab" style="${lab};margin:14px 0 8px">What do you need?</div>
     <div class="qpick" id="fqpick">${qs.map((q,i)=>`<button class="qopt" data-q="${i}">${esc(q)}</button>`).join("")}</div>
     <textarea id="fqfree" placeholder="…or write your own"></textarea>
     <button class="btn cool" id="sendPhone" style="margin-top:14px">Phone it in 🤙</button>`;
-  $$("#friendList .crewcard").forEach(b=>b.onclick=()=>{friendPick.f=b.dataset.f;$$("#friendList .crewcard").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $$("#friendList .crewcard[data-f]").forEach(b=>b.onclick=()=>{friendPick.f=b.dataset.f;$$("#friendList .crewcard").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $("#addPalCard").onclick=openAddFriend;
   $$("#fqpick .qopt").forEach(b=>b.onclick=()=>{friendPick.q=qs[b.dataset.q];$("#fqfree").value="";$$("#fqpick .qopt").forEach(x=>x.setAttribute("aria-pressed",x===b));});
   $("#fqfree").oninput=()=>{$$("#fqpick .qopt").forEach(x=>x.setAttribute("aria-pressed","false"));};
   $("#sendPhone").onclick=()=>{
     const q=$("#fqfree").value.trim()||friendPick.q;
     if(!friendPick.f){toast("Pick a pal first 🙂");return;}
     if(!q){toast("Pick or write what you need 🙂");return;}
-    const f=FRIENDS.find(x=>x.id===friendPick.f);
-    const tip=FRIEND_TIP[f.spec](look?look.name:"that");
+    const f=allFriends().find(x=>x.id===friendPick.f);
+    const tip=(FRIEND_TIP[f.spec]||FRIEND_TIP.street)(look?look.name:"that");
     state.phoned.unshift({to:f.name,emoji:f.emoji,q,tip,star:STAR.helperGets,when:Date.now()});
     addCredit(STAR.phonedThanks,`Reached out to ${f.name.split(" ")[0]}`); /* you: tiny good-sport star */
-    closeSheet();
-    toast(`${f.name.split(" ")[0]} earned ${STAR.helperGets}⭐ for helping — on us 💛`);
     if($("#view-you").classList.contains("active"))renderYou();
+    friendReply(f,q,tip);
+  };
+  openSheet();
+}
+/* a pal "types" then replies with their tip — and the platform thanks them */
+function friendReply(f,q,tip){
+  $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="ava" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;margin:6px auto;background:${f.hue}">${f.emoji}</div><h2 style="margin:4px 0;font-size:21px">${esc(f.name)}</h2><p style="color:var(--ink-soft);margin:0">is typing…</p></div>`;
+  setTimeout(()=>{
+    $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="ava" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;margin:6px auto;background:${f.hue}">${f.emoji}</div>
+      <h2 style="margin:4px 0;font-size:21px">${esc(f.name)} says</h2>
+      <div class="fitnote" style="text-align:left;margin:10px 0">“${esc(tip)}”</div>
+      <div class="know" style="color:var(--cyan)">⭐ ${STAR.helperGets} stars sent to ${esc(f.name.split(" ")[0])} for helping — our treat. You never paid a thing.</div>
+      <button class="btn" id="thankPal" style="margin-top:14px">Say thanks 💛</button></div>`;
+    $("#thankPal").onclick=()=>{closeSheet();toast("Thanks sent 💛");};
+  },1000);
+}
+/* add a real-life pal — a grown-up has to approve (kid-safe by design) */
+function openAddFriend(){
+  let pend={spec:"street",ok:false};
+  const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
+  const specs=[["street","🧢","Streetwear"],["avant","🖤","Avant"],["future","🛰️","Techy"],["maker","🧵","Maker"]];
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">Add a pal ➕</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">Add a friend you know in real life. A grown-up checks first — that's the rule.</p>
+    <div class="safe-note">🛡️ <div>Only add people <b>you know in real life</b>, and a <b>grown-up has to say yes</b>. No strangers, ever.</div></div>
+    <div class="lab" style="${lab};margin:10px 0 6px">Their name or nickname</div>
+    <input id="afName" placeholder="e.g. Jordan" style="width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:13px;font:inherit;color:var(--ink)">
+    <div class="lab" style="${lab};margin:14px 0 6px">Their style</div>
+    <div class="filters" id="afSpec">${specs.map(s=>`<button class="chip" data-s="${s[0]}" aria-pressed="${s[0]==='street'}">${s[1]} ${s[2]}</button>`).join("")}</div>
+    <button class="adult" id="afOk" style="cursor:pointer;margin-top:12px;width:100%" aria-pressed="false"><span class="ad" style="background:var(--grad-cool)">🧑</span><div><div class="an">A grown-up said it's OK</div><div class="ar">Tap to confirm a grown-up approved</div></div></button>
+    <div class="btnrow" style="margin-top:14px"><button class="btn alt" id="afBack">Back</button><button class="btn" id="afAdd">Add pal</button></div>`;
+  $$("#afSpec .chip").forEach(b=>b.onclick=()=>{pend.spec=b.dataset.s;$$("#afSpec .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $("#afOk").onclick=()=>{pend.ok=!pend.ok;$("#afOk").setAttribute("aria-pressed",pend.ok);};
+  $("#afBack").onclick=()=>openPhoneFriend(lastLook);
+  $("#afAdd").onclick=()=>{
+    const name=$("#afName").value.trim();
+    if(!name){toast("Give your pal a name 🙂");return;}
+    if(!pend.ok){toast("A grown-up needs to approve first 🛡️");return;}
+    const pal={id:"uf"+Date.now(),name:name.slice(0,24),rel:"Your pick",emoji:SPEC_EMOJI[pend.spec],spec:pend.spec,helps:0,hue:SPEC_HUE[pend.spec]};
+    state.addedFriends=state.addedFriends||[];state.addedFriends.push(pal);save();refreshQuests();
+    toast(`${pal.name} added 🤝`);
+    openPhoneFriend(lastLook);
   };
   openSheet();
 }
