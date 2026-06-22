@@ -166,6 +166,171 @@ h4 {
   color: #0c0c0d;
 }
 
+/* ============================================================
+   Diamond plate — industrial floor / truck bed texture.
+   Use as background on operator surfaces, channel strips, set ledgers.
+   ============================================================ */
+
+.dp-bg {
+  background-color: #1a1a1c;
+  background-image:
+    /* tiny rivets */
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.10) 0 0.5px, transparent 1.5px),
+    radial-gradient(circle at 75% 75%, rgba(255,255,255,0.10) 0 0.5px, transparent 1.5px),
+    /* the diamonds */
+    linear-gradient(45deg,
+      rgba(255,255,255,0.06) 0,
+      rgba(255,255,255,0.06) 1px,
+      transparent 1px,
+      transparent 12px,
+      rgba(255,255,255,0.06) 12px,
+      rgba(255,255,255,0.06) 13px,
+      transparent 13px,
+      transparent 24px
+    ),
+    linear-gradient(-45deg,
+      rgba(255,255,255,0.06) 0,
+      rgba(255,255,255,0.06) 1px,
+      transparent 1px,
+      transparent 12px,
+      rgba(255,255,255,0.06) 12px,
+      rgba(255,255,255,0.06) 13px,
+      transparent 13px,
+      transparent 24px
+    ),
+    linear-gradient(180deg, #1a1a1c, #141415);
+  background-size: 24px 24px, 24px 24px, 24px 24px, 24px 24px, 100% 100%;
+}
+
+.dp-bg--accent {
+  background-color: #1c1612;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255,90,31,0.12) 0 0.5px, transparent 1.5px),
+    radial-gradient(circle at 75% 75%, rgba(255,90,31,0.12) 0 0.5px, transparent 1.5px),
+    linear-gradient(45deg,
+      rgba(255,90,31,0.06) 0,
+      rgba(255,90,31,0.06) 1px,
+      transparent 1px,
+      transparent 12px,
+      rgba(255,90,31,0.06) 12px,
+      rgba(255,90,31,0.06) 13px,
+      transparent 13px,
+      transparent 24px
+    ),
+    linear-gradient(-45deg,
+      rgba(255,90,31,0.06) 0,
+      rgba(255,90,31,0.06) 1px,
+      transparent 1px,
+      transparent 12px,
+      rgba(255,90,31,0.06) 12px,
+      rgba(255,90,31,0.06) 13px,
+      transparent 13px,
+      transparent 24px
+    ),
+    linear-gradient(180deg, #1c1612, #161210);
+  background-size: 24px 24px, 24px 24px, 24px 24px, 24px 24px, 100% 100%;
+}
+
+/* ============================================================
+   Comms strip — walkie-talkie / production-channel readout.
+   ============================================================ */
+
+.comms {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  border: 1px solid var(--line-2);
+  background:
+    linear-gradient(90deg, rgba(255,90,31,0.08), transparent 30%),
+    #141416;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+  position: relative;
+}
+.comms::before {
+  /* tape strip notch on the left */
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  bottom: -1px;
+  width: 4px;
+  background: var(--accent);
+}
+.comms__channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.comms__channel::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: comms-blink 1.6s ease-in-out infinite;
+}
+@keyframes comms-blink {
+  0%, 60% { opacity: 1; box-shadow: 0 0 6px rgba(255,90,31,0.6); }
+  80%, 100% { opacity: 0.3; box-shadow: 0 0 0 rgba(255,90,31,0); }
+}
+.comms__signal {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+.comms__signal i {
+  display: block;
+  width: 3px;
+  background: var(--tape);
+}
+.comms__signal i:nth-child(1) { height: 4px; }
+.comms__signal i:nth-child(2) { height: 7px; }
+.comms__signal i:nth-child(3) { height: 10px; }
+.comms__signal i:nth-child(4) { height: 14px; }
+.comms__sep { color: var(--line-2); }
+.comms__over { color: var(--tape); font-weight: 700; }
+@media (max-width: 600px) {
+  .comms { gap: 8px; font-size: 10px; padding: 8px 12px; }
+  .comms__signal { display: none; }
+}
+
+/* ============================================================
+   Marker scribble — Sharpie underline / circle accents
+   ============================================================ */
+
+.marker-underline {
+  position: relative;
+  display: inline-block;
+}
+.marker-underline::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -6px;
+  bottom: -6px;
+  height: 10px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 10' fill='none' stroke='%23ff5a1f' stroke-width='2.6' stroke-linecap='round'><path d='M2 6 Q 18 1 36 4 T 70 5 Q 88 7 118 3'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+.sharpie {
+  font-family: var(--marker);
+  letter-spacing: 0.01em;
+}
+
 /* ---------- Buttons ---------- */
 
 .btn {
@@ -3062,18 +3227,36 @@ textarea.field__control {
 
 .sets-list { display: flex; flex-direction: column; gap: 8px; }
 .sets-list__row {
+  position: relative;
   background: var(--panel);
   border: 1px solid var(--line);
-  padding: 16px 18px;
+  padding: 16px 18px 16px 26px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 14px;
   color: var(--text);
   text-decoration: none;
-  transition: border-color 120ms ease, background 120ms ease;
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
 }
-.sets-list__row:hover { border-color: var(--accent); background: var(--panel-2); }
+.sets-list__row::before {
+  /* diamond plate stripe down the left edge — like a road case rivet line */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background-color: #1a1a1c;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.10) 0 0.5px, transparent 1.5px),
+    radial-gradient(circle at 75% 75%, rgba(255,255,255,0.10) 0 0.5px, transparent 1.5px),
+    linear-gradient(45deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 12px, rgba(255,255,255,0.06) 12px 13px, transparent 13px 24px),
+    linear-gradient(-45deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 12px, rgba(255,255,255,0.06) 12px 13px, transparent 13px 24px);
+  background-size: 12px 12px;
+  border-right: 1px solid var(--line-2);
+}
+.sets-list__row:hover { border-color: var(--accent); background: var(--panel-2); transform: translateX(2px); }
 .sets-list__main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .sets-list__name { font-size: 16px; font-weight: 700; }
 .sets-list__client { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
@@ -3664,7 +3847,51 @@ textarea.field__control {
    ============================================================ */
 
 .present { background: var(--bg); color: var(--text); min-height: 100vh; }
-.present__head { padding: 60px 0 36px; border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+.present__head {
+  padding: 50px 0 36px;
+  border-bottom: 1px solid var(--accent);
+  margin-bottom: 36px;
+  position: relative;
+}
+.present__head::after {
+  /* tape strip across the bottom of the slate header */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 18px,
+    transparent 18px 24px
+  );
+}
+.present__slate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 6px 12px;
+  background: rgba(12, 12, 13, 0.6);
+  border: 1px solid var(--accent);
+  margin-bottom: 22px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.present__slate-tag { color: var(--text); font-weight: 700; }
+.present__slate-sep { color: var(--accent); }
+.present__client-prefix {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-right: 8px;
+  vertical-align: 2px;
+}
 .present__head-inner { display: flex; flex-direction: column; gap: 8px; }
 .present__kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--muted); }
 .present__title { font-size: clamp(36px, 6vw, 64px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.04; }
