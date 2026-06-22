@@ -553,8 +553,8 @@
   <!-- CLOSET -->
   <section class="view" id="view-closet">
     <div class="viewhead">
-      <h1>The Family <span class="grad-text">Closet</span></h1>
-      <p>Real clothes your family is passing down. Take one on — free, for a thank-you, or chip in so half goes to a good cause. When two of you want the same thing, a coin-flip keeps it fair.</p>
+      <h1>Your <span class="grad-text">Closet</span></h1>
+      <p>Add the pieces you own, build outfits from them, and pass things on to family or pals. Below, the Family Closet — real hand-me-downs you can take on.</p>
     </div>
     <div id="closetBox"></div>
     <div class="safe-note" style="margin-top:14px">🤝 Hand-me-downs keep good clothes out of landfill and in the family. Nothing here is bought with real money — the “chip in” is pretend, just to practise giving back.</div>
@@ -816,6 +816,8 @@ const QUESTS=[
   {id:"q10",ic:"👤",t:"Make your avatar",d:"Build a you to try fits on before you wear them.",auto:s=>!!s.avatar},
   {id:"q11",ic:"🤙",t:"Phone a friend",d:"Get styling help from one of your stylish pals.",auto:s=>s.phoned.length>0},
   {id:"q12",ic:"⭐",t:"Supporter",d:"Help a pal or share the game and earn Supporter Stars.",auto:s=>(s.credits||0)>0||(s.given||0)>0},
+  {id:"q13",ic:"👚",t:"Start your closet",d:"Add a piece you own to My Closet.",auto:s=>(s.myCloset||[]).length>0},
+  {id:"q14",ic:"🧩",t:"Outfit maker",d:"Build an outfit from your own pieces.",auto:s=>(s.myOutfits||[]).length>0},
 ];
 
 const VIBES={
@@ -873,7 +875,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 let state=load();
 
@@ -1516,8 +1518,29 @@ function offerBadge(item){
   const f=item.contested?`<span class="offer flip">⚖️ ${esc(item.rival)} wants it too</span>`:"";
   return o+f;
 }
+/* ---- My Closet: pieces the kid actually owns ---- */
+const ITEM_TYPES=[["tee","👕","Top"],["jacket","🧥","Jacket"],["coat","🧥","Coat"],["pants","👖","Pants"],["dress","👗","Dress"],["shoe","👟","Shoes"],["cap","🧢","Hat"]];
+const ITEM_COLORS=["#7c3cff","#ff7a3c","#46d6ff","#2ecf8f","#ff5fa2","#ffd34d","#e8e2d0","#222730"];
+const SIL_EMOJI={tee:"👕",jacket:"🧥",coat:"🧥",pants:"👖",dress:"👗",shoe:"👟",cap:"🧢"};
+function silEmoji(s){return SIL_EMOJI[s]||"👕";}
+function myItemMP(it,key){return `<div class="mp" style="--a:${it.color};--b:${shade(it.color,-.3)}">${garmentRender(key+it.id,it.sil,[it.color,shade(it.color,.4)],"chrome",false)}</div>`;}
+
 function renderCloset(){
-  $("#closetBox").innerHTML=CLOSET.map(item=>{
+  const mine=state.myCloset||[], active=mine.filter(i=>!i.passedTo), outfits=state.myOutfits||[], passed=mine.filter(i=>i.passedTo);
+  let h=`<div class="lab" style="margin:2px 0 8px">👚 My closet — pieces you own</div>
+    <button class="btn alt" id="addItem" style="margin-bottom:12px">➕ Add a piece</button>`;
+  h+= active.length
+    ? `<div class="grid">${active.map(it=>`<div class="mini" data-it="${it.id}">${myItemMP(it,"my")}<div class="mn">${esc(it.name)}</div></div>`).join("")}</div>
+       <button class="btn cool" id="buildFit" style="margin-top:12px">🧩 Build an outfit</button>`
+    : `<div class="empty"><div class="big">👚</div>Your closet's empty.<br>Add pieces you actually own to start.</div>`;
+  if(outfits.length){
+    h+=`<div class="lab" style="margin:16px 0 8px">My outfits</div>`+outfits.map(o=>`<div class="card" style="padding:12px 14px;margin-bottom:8px"><b>${esc(o.name)}</b><div class="vibes" style="margin-top:8px">${o.items.map(id=>{const it=mine.find(x=>x.id===id);return it?`<span class="vibe">${silEmoji(it.sil)} ${esc(it.name)}</span>`:"";}).join("")}</div><button class="btn alt" data-rmout="${o.id}" style="margin-top:10px">Remove</button></div>`).join("");
+  }
+  if(passed.length){
+    h+=`<div class="lab" style="margin:16px 0 8px">Passed on 💛</div>`+passed.map(it=>`<div class="know" style="margin-bottom:6px">${silEmoji(it.sil)} ${esc(it.name)} → <b>${esc(it.passedTo)}</b></div>`).join("");
+  }
+  h+=`<div class="lab" style="margin:22px 0 10px">🧺 Family closet — passed down to you</div>`;
+  h+=CLOSET.map(item=>{
     const claimed=state.claimed.includes(item.id), lost=state.lostFlip.includes(item.id), taken=claimed||lost;
     let btn;
     if(claimed)btn=`<button class="btn win" disabled>✓ Yours — kept in the family</button>`;
@@ -1536,8 +1559,82 @@ function renderCloset(){
       </div>
       ${btn}</div>`;
   }).join("");
+  $("#closetBox").innerHTML=h;
+  $("#addItem").onclick=openAddItem;
+  const bf=$("#buildFit");if(bf)bf.onclick=openBuildOutfit;
+  $$("#closetBox .mini[data-it]").forEach(m=>m.onclick=()=>openItemActions((state.myCloset||[]).find(i=>i.id===m.dataset.it)));
+  $$("#closetBox [data-rmout]").forEach(b=>b.onclick=()=>{state.myOutfits=state.myOutfits.filter(o=>o.id!==b.dataset.rmout);save();renderCloset();toast("Removed");});
   $$("#closetBox [data-claim]").forEach(b=>b.onclick=()=>runClaim(CLOSET.find(i=>i.id===b.dataset.claim)));
   $$("#closetBox [data-flip]").forEach(b=>b.onclick=()=>openCoin(CLOSET.find(i=>i.id===b.dataset.flip)));
+}
+/* add a piece you own */
+function openAddItem(){
+  let t="tee",col=ITEM_COLORS[0];
+  const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
+  const draw=()=>{const el=$("#itPrev");if(el)el.innerHTML=garmentRender("prev",t,[col,shade(col,.4)],"chrome",false);};
+  $("#sheetPad").innerHTML=`<h2 style="margin:0;font-size:23px;font-weight:900">Add a piece 👚</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 12px">Tag something you actually own — build real outfits from it.</p>
+    <div class="mp" id="itPrev" style="width:120px;height:150px;margin:0 auto 12px;--a:${col};--b:${shade(col,-.3)};border-radius:16px"></div>
+    <input id="itName" placeholder="e.g. my favourite hoodie" maxlength="40" style="width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:13px;font:inherit;color:var(--ink)">
+    <div class="lab" style="${lab};margin:14px 0 6px">Type</div>
+    <div class="filters" id="itType">${ITEM_TYPES.map(([s,e,l])=>`<button class="chip" data-s="${s}" aria-pressed="${s===t}">${e} ${l}</button>`).join("")}</div>
+    <div class="lab" style="${lab};margin:14px 0 6px">Colour</div>
+    <div class="swatchrow" id="itColor">${ITEM_COLORS.map((c,i)=>`<button class="swatch" data-c="${c}" aria-pressed="${i===0}" style="background:${c}"></button>`).join("")}</div>
+    <button class="btn" id="itAdd" style="margin-top:16px">Add to my closet</button>`;
+  draw();
+  $$("#itType .chip").forEach(b=>b.onclick=()=>{t=b.dataset.s;$$("#itType .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));draw();});
+  $$("#itColor .swatch").forEach(b=>b.onclick=()=>{col=b.dataset.c;$$("#itColor .swatch").forEach(x=>x.setAttribute("aria-pressed",x===b));const mp=$("#itPrev");if(mp){mp.style.setProperty("--a",col);mp.style.setProperty("--b",shade(col,-.3));}draw();});
+  $("#itAdd").onclick=()=>{
+    const name=($("#itName").value||"").trim();
+    if(!name){toast("Name your piece 🙂");return;}
+    (state.myCloset=state.myCloset||[]).unshift({id:"i"+Date.now(),name:name.slice(0,40),sil:t,color:col,when:Date.now()});
+    save();refreshQuests();closeSheet();renderCloset();toast("Added to your closet ✨");
+  };
+  openSheet();
+}
+/* tap a piece: pass it on or remove */
+function openItemActions(item){
+  if(!item)return;
+  $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="mp" style="width:120px;height:150px;margin:6px auto;border-radius:16px;--a:${item.color};--b:${shade(item.color,-.3)}">${garmentRender("pa"+item.id,item.sil,[item.color,shade(item.color,.4)],"chrome",false)}</div>
+    <h2 style="margin:6px 0 2px;font-size:21px">${esc(item.name)}</h2>
+    <p style="color:var(--ink-soft);margin:0 0 6px">${silEmoji(item.sil)} ${esc((ITEM_TYPES.find(x=>x[0]===item.sil)||[,,"Piece"])[2])}</p>
+    <div class="btnrow" style="margin-top:10px"><button class="btn" id="passIt">💛 Pass it on</button><button class="btn alt" id="rmIt">🗑 Remove</button></div></div>`;
+  openSheet();
+  $("#passIt").onclick=()=>openPassItem(item);
+  $("#rmIt").onclick=()=>{state.myCloset=state.myCloset.filter(i=>i.id!==item.id);save();closeSheet();renderCloset();toast("Removed");};
+}
+/* give a piece to family or a pal — earns a Star for giving (on us) */
+function openPassItem(item){
+  const people=ADULTS.map(a=>({id:a.id,name:a.name,emoji:a.name[0],hue:a.hue})).concat(allFriends().map(f=>({id:f.id,name:f.name,emoji:f.emoji,hue:f.hue})));
+  $("#sheetPad").innerHTML=`<h2 style="margin:0;font-size:22px;font-weight:900">Pass “${esc(item.name)}” on 💛</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">Give it to someone who'll love it next. Hand-me-downs keep good clothes going — and giving earns a Star, on us.</p>
+    <div class="safe-note">🛡️ <div>Pretend hand-off inside the app — only people you &amp; a grown-up added. No real shipping, no money.</div></div>
+    <div class="crewpick" id="passList" style="margin-top:10px">${people.map(p=>`<div class="crewcard" data-p="${esc(p.name)}"><div class="ava" style="background:${p.hue}">${esc(p.emoji)}</div><div class="cn">${esc(p.name)}</div></div>`).join("")}</div>`;
+  openSheet();
+  $$("#passList .crewcard").forEach(b=>b.onclick=()=>{
+    const to=b.dataset.p;
+    const it=(state.myCloset||[]).find(i=>i.id===item.id);if(it)it.passedTo=to;
+    addCredit(5,`Passed ${item.name} to ${to.split(" ")[0]}`);
+    closeSheet();renderCloset();toast(`Passed to ${to.split(" ")[0]} 💛 +5⭐ for giving`);
+  });
+}
+/* combine your pieces into a named outfit */
+function openBuildOutfit(){
+  const active=(state.myCloset||[]).filter(i=>!i.passedTo);
+  const sel=new Set();
+  $("#sheetPad").innerHTML=`<h2 style="margin:0;font-size:22px;font-weight:900">Build an outfit 🧩</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 10px">Tap pieces to combine them, then name your outfit.</p>
+    <div class="grid" id="boGrid">${active.map(it=>`<div class="mini" data-it="${it.id}" style="cursor:pointer">${myItemMP(it,"bo")}<div class="mn">${esc(it.name)}</div></div>`).join("")}</div>
+    <input id="boName" placeholder="Name it — e.g. Skate day" maxlength="32" style="width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:13px;font:inherit;color:var(--ink);margin-top:12px">
+    <button class="btn" id="boSave" style="margin-top:12px">Save outfit</button>`;
+  openSheet();
+  $$("#boGrid .mini").forEach(m=>m.onclick=()=>{const id=m.dataset.it;if(sel.has(id)){sel.delete(id);m.style.outline="";}else{sel.add(id);m.style.outline="2px solid var(--cyan)";m.style.outlineOffset="2px";}});
+  $("#boSave").onclick=()=>{
+    if(sel.size<2){toast("Pick at least 2 pieces 🙂");return;}
+    const name=($("#boName").value||"").trim()||"My outfit";
+    (state.myOutfits=state.myOutfits||[]).unshift({id:"o"+Date.now(),name:name.slice(0,32),items:[...sel],when:Date.now()});
+    save();refreshQuests();closeSheet();renderCloset();toast("Outfit saved 🧩");
+  };
 }
 function finalizeClaim(item){if(!state.claimed.includes(item.id))state.claimed.push(item.id);save();refreshQuests();renderCloset();}
 function runClaim(item){if(item.offer==="free"){finalizeClaim(item);toast("It's yours — kept in the family ✨");}else if(item.offer==="thanks")openThanks(item);else openSell(item);}
