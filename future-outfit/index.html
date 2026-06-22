@@ -35,15 +35,17 @@
   html,body{margin:0;padding:0}
   body{
     font-family:ui-rounded,"Segoe UI",-apple-system,system-ui,"Helvetica Neue",Arial,sans-serif;
-    background:#0a0c10;
+    background:#1b2228;
     color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;
     padding-bottom:96px;min-height:100vh;
   }
-  /* dark studio backdrop — like a showroom that makes chrome + candy paint pop */
+  /* backdrop = real clear-plastic technology photo, tinted just enough to read text */
   body::before{content:"";position:fixed;inset:0;z-index:-2;
     background:
-      radial-gradient(120% 70% at 50% -12%,#1c232e 0%,#0d1016 50%,#070809 100%),
-      radial-gradient(80% 50% at 50% 116%,#141923 0%,transparent 60%)}
+      linear-gradient(180deg,rgba(16,22,28,.60),rgba(10,14,18,.80)),
+      linear-gradient(135deg,#2a333b,#11161b),
+      url("https://loremflickr.com/1100/1900/clear,plastic,technology,translucent,gadget?lock=88") center/cover fixed no-repeat;
+    background-blend-mode:normal,normal,normal}
   body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   /* frosted glass — you can see light through every panel */
@@ -77,13 +79,15 @@
   .look .pic .emoji{font-size:96px;filter:drop-shadow(0 8px 14px #0005)}
   .pic .art,.hero .art,.mp .art{width:82%;height:82%;display:block}
   .pic>img,.hero>img,.mp>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  /* scanner screen: dark HUD readout with a faint targeting grid + colour glow */
+  /* scanner screen on translucent plastic: HUD grid over a clear-plastic photo */
   .look .pic,.hero,.mini .mp{position:relative;overflow:hidden;
     background:
-      linear-gradient(rgba(127,232,255,.07) 1px,transparent 1px) 0 0/100% 13px,
-      linear-gradient(90deg,rgba(127,232,255,.06) 1px,transparent 1px) 0 0/13px 100%,
-      radial-gradient(120% 85% at 50% 6%,color-mix(in srgb,var(--a,#1de0ff) 26%,#060c12),#04070b 72%),
-      #04070b}
+      linear-gradient(rgba(127,232,255,.10) 1px,transparent 1px) 0 0/100% 13px,
+      linear-gradient(90deg,rgba(127,232,255,.09) 1px,transparent 1px) 0 0/13px 100%,
+      radial-gradient(120% 85% at 50% 6%,color-mix(in srgb,var(--a,#1de0ff) 30%,transparent),transparent 70%),
+      linear-gradient(150deg,rgba(180,196,205,.30),rgba(40,52,60,.55)),
+      url("https://loremflickr.com/700/900/clear,plastic,technology,translucent?lock=42") center/cover no-repeat,
+      #20272d}
   .look .pic::after,.hero::after,.mini .mp::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;opacity:.06;mix-blend-mode:screen;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")}
   .scan{position:absolute;inset:0;z-index:4;display:block;pointer-events:none}
@@ -564,6 +568,16 @@ const LOOKS=[
    colors:["#2b2b2e","#e0533b","#cfcfca"],color_note:"Asphalt grey, traffic-cone orange and worn white — playground-tough colours.",
    where:["thrift","secondhand","make"],care:"Reinforce knees and toes — skate clothes are meant to be patched.",movement:"skate"},
 ];
+/* Real clothing photos (hardcoded public URLs). Keyword-matched real Flickr
+   photos via loremflickr — load on the live site; fall back to the vector
+   emblem automatically if a photo is unavailable. Tweak any look's `img`
+   directly to pin a specific picture. */
+const PHOTO_KW={l4:"oversized,streetwear,outfit",l8:"hiking,fleece,outdoor",l14:"hiphop,jersey,streetwear"};
+LOOKS.forEach(l=>{
+  if(l.img!=null)return;
+  const kw=PHOTO_KW[l.id]||l.name.toLowerCase().replace(/&/g," ").replace(/[^a-z0-9]+/g,",").replace(/^,+|,+$/g,"");
+  l.img=`https://loremflickr.com/640/820/${encodeURIComponent(kw)},outfit,fashion?lock=${l.id.replace(/\D/g,"")||1}`;
+});
 
 const GLOSSARY=[
   ["Silhouette","The overall shape an outfit makes — boxy, slim, draped. It matters more than any single piece."],
