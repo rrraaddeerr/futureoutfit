@@ -612,7 +612,10 @@ const FRIEND_TIP={
 /* Supporter Stars ⭐ — platform-funded thank-yous. Kids never pay kids.
    We give them away generously to begin with: rewards for supporting the
    community and sharing the clothing game. */
-const STAR={share:5, helpBack:8, phonedThanks:2, helperGets:5};
+const STAR={share:5, helpBack:8, phonedThanks:2, helperGets:5, quest:3};
+/* cosmetic flair you can WEAR — unlock once with Stars, then it's yours.
+   Purely decorative (shows on your profile dot). No money, ever. */
+const FLAIRS=[["🛹","Skater",0],["🌟","Star",10],["🔥","Fire",10],["👑","Crown",20],["🦄","Unicorn",25],["🌈","Rainbow",30],["💎","Gem",45]];
 
 /* ---- the catalogue: design-forward, beyond-the-mall looks ----
    Each look has optional `img` (local file path) for real photos later;
@@ -863,7 +866,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 let state=load();
 
@@ -1277,7 +1280,25 @@ function renderSupporter(){
     <button class="btn alt" id="giveAway" style="margin-top:10px">🎁 Give my stars away</button>
     ${state.creditLog&&state.creditLog.length?`<div class="lab" style="margin:16px 0 6px">Recent</div>`+state.creditLog.slice(0,6).map(e=>`<div class="know" style="margin-bottom:6px;display:flex;justify-content:space-between;gap:10px"><span>${esc(e.reason)}</span><b style="color:${e.amt<0?'var(--pink)':'var(--cyan)'}">${e.amt<0?'':'+'}${e.amt}⭐</b></div>`).join(""):""}`;
   $("#shareGame").onclick=shareGame;$("#helpPal").onclick=helpAPal;$("#giveAway").onclick=giveAway;
+  // Stars Shop — unlock cosmetic flair you can wear (no money, ever)
+  const owned=state.ownedFlairs||["🛹"];
+  cb.insertAdjacentHTML("beforeend",`<div class="lab" style="margin:18px 0 8px">Stars Shop — wear your flair</div>
+    <div class="filters" id="flairRow">${FLAIRS.map(([e,n,c])=>{const own=owned.includes(e),worn=state.flair===e;
+      return `<button class="chip" data-e="${e}" data-c="${c}" aria-pressed="${worn}" style="font-size:18px">${e} <span style="font-size:11px;font-weight:800">${worn?"wearing":own?"wear":(c+"⭐")}</span></button>`;}).join("")}</div>
+    <p class="muted" style="font-size:12px;margin:8px 0 0">Unlock once with Stars, then it's yours to wear forever. Just for fun — never costs real money.</p>`);
+  $$("#flairRow .chip").forEach(b=>b.onclick=()=>{
+    const e=b.dataset.e,cost=+b.dataset.c,own=(state.ownedFlairs||[]).includes(e);
+    if(!own){
+      if((state.credits||0)<cost){toast(`Need ${cost}⭐ — keep helping & sharing 🙂`);return;}
+      state.credits-=cost;(state.ownedFlairs=state.ownedFlairs||[]).push(e);
+      (state.creditLog=state.creditLog||[]).unshift({amt:-cost,reason:`Unlocked ${e} flair`,when:Date.now()});
+      toast(`Unlocked ${e}! Looking good ✨`);
+    }
+    state.flair=e;save();updateMe();renderSupporter();
+  });
 }
+/* reflect chosen flair on the profile dot in the header */
+function updateMe(){const d=$("#meChip .dot");if(d&&state.flair)d.textContent=state.flair;}
 
 /* ---------- field report (techy questionnaire) ---------- */
 const REP_BEST=[["🔩","Metal looks"],["🧺","Family Closet"],["🕺","Dress-up avatar"],["👟","Crew fits"],["🎯","Quests"],["📚","Learn lab"]];
@@ -1420,9 +1441,17 @@ function renderQuiz(){
 
 /* ---------- quests ---------- */
 function refreshQuests(){
-  QUESTS.forEach(q=>{if(q.auto(state)&&!state.quests.includes(q.id)){state.quests.push(q.id);}});
+  let earned=0;
+  QUESTS.forEach(q=>{if(q.auto(state)&&!state.quests.includes(q.id)){
+    state.quests.push(q.id);
+    earned+=STAR.quest;
+    (state.creditLog=state.creditLog||[]).unshift({amt:STAR.quest,reason:"Quest: "+q.t,when:Date.now()});
+  }});
+  if(earned){state.credits=(state.credits||0)+earned;} /* award inline — no addCredit (avoids re-entrancy) */
   save();
+  if(earned)toast(`Quest done! +${earned}⭐`);
   if($("#view-quests").classList.contains("active"))renderQuests();
+  if($("#view-you").classList.contains("active"))renderSupporter();
 }
 function renderQuests(){
   const done=state.quests.length,total=QUESTS.length;
@@ -1715,7 +1744,7 @@ $$("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.go));
 $("#goCloset").onclick=()=>go("closet");
 
 /* boot */
-renderFilters();renderFeed();refreshQuests();
+renderFilters();renderFeed();refreshQuests();updateMe();
 
 /* installable PWA — register the offline service worker (https/localhost only) */
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
