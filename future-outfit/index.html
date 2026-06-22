@@ -1622,16 +1622,23 @@ function drawBuilder(){
 
 /* ---------- style help / fits ---------- */
 let selOcc=OCCASIONS[0], selCrew="mia";
+/* a stylist can be family (CREW) or a peer pal (FRIENDS/addedFriends) */
+const SPEC_CAT={avant:"Avant",street:"Street",future:"Future",maker:"Workwear"};
+function helperById(id){return CREW.find(x=>x.id===id)||allFriends().find(x=>x.id===id);}
+function isPeer(id){return (allFriends()||[]).some(f=>f.id===id);}
+function friendFitNote(c,o){return `${c.name.split(" ")[0]} says — ${(FRIEND_TIP[c.spec]||FRIEND_TIP.street)(o.toLowerCase())}`;}
 function makeFit(crewId,occasion){
-  const c=CREW.find(x=>x.id===crewId);
-  const pool=LOOKS.filter(l=>l.cat===c.cat); const base=pool.length?pool[Math.floor(Math.random()*pool.length)]:LOOKS[Math.floor(Math.random()*LOOKS.length)];
+  const c=helperById(crewId);
+  const cat=c.cat||SPEC_CAT[c.spec]||"Street";
+  const pool=LOOKS.filter(l=>l.cat===cat); const base=pool.length?pool[Math.floor(Math.random()*pool.length)]:LOOKS[Math.floor(Math.random()*LOOKS.length)];
   const pieces=base.pieces.slice(0,3).map(p=>({emoji:p[0],name:p[1],where:base.where[0]}));
   const borrow=CLOSET[Math.floor(Math.random()*CLOSET.length)];
   pieces.push({emoji:"🧺",name:borrow.name,where:"closet"});
-  return {id:"f"+Date.now(),crew:c.id,occ:occasion,note:CREW_NOTE[c.id](occasion),pieces,palette:(base.colors||[]).slice(0,3),when:Date.now()};
+  const note=CREW_NOTE[c.id]?CREW_NOTE[c.id](occasion):friendFitNote(c,occasion);
+  return {id:"f"+Date.now(),crew:c.id,occ:occasion,note,pieces,palette:(base.colors||[]).slice(0,3),peer:isPeer(crewId),when:Date.now()};
 }
 function fitCardHTML(fit,mode){
-  const c=CREW.find(x=>x.id===fit.crew);
+  const c=helperById(fit.crew)||CREW[0];
   const btns=mode==="reveal"
     ? `<button class="btn" data-savefit="${fit.id}">💜 Save this fit</button><button class="btn alt" data-again="1" style="margin-top:10px">🔁 Ask someone else</button>`
     : `<div class="btnrow"><button class="btn alt" data-tryon="${fit.id}">👤 See it on me</button><button class="btn alt" data-rmfit="${fit.id}">🗑 Remove</button></div>`;
@@ -1648,8 +1655,8 @@ function renderFits(){
   box.innerHTML=`<div class="card" style="padding:16px;margin-bottom:16px">
     <div class="lab" style="margin-top:0">What's the occasion?</div>
     <div class="filters" id="occRow">${OCCASIONS.map(o=>`<button class="chip" data-o="${esc(o)}" aria-pressed="${o===selOcc}">${esc(o)}</button>`).join("")}</div>
-    <div class="lab">Who knows you best?</div>
-    <div class="crewpick" id="crewRow">${CREW.map(c=>`<div class="crewcard" data-c="${c.id}" aria-pressed="${c.id===selCrew}"><div class="ava" style="background:${c.hue}">${c.emoji}</div><div class="cn">${c.name}</div><div class="cr">${c.rel}</div></div>`).join("")}</div>
+    <div class="lab">Who knows you best? <span style="color:var(--ink-dim);font-weight:700;text-transform:none;letter-spacing:0">— family or a pal</span></div>
+    <div class="crewpick" id="crewRow">${CREW.concat(allFriends().filter(f=>!CREW.some(c=>c.id===f.id))).map(c=>`<div class="crewcard" data-c="${c.id}" aria-pressed="${c.id===selCrew}"><div class="ava" style="background:${c.hue}">${c.emoji}</div><div class="cn">${esc(c.name)}</div><div class="cr">${esc(c.rel)}</div>${isPeer(c.id)?`<div class="helpbadge">⭐ pal</div>`:""}</div>`).join("")}</div>
     <button class="btn" id="askFit" style="margin-top:14px">✂️ Ask for my fit</button></div>
     ${state.fits.length?`<div class="lab" style="margin:4px 0 8px">Fits made for you</div>`+state.fits.map(f=>fitCardHTML(f,"saved")).join(""):`<div class="empty"><div class="big">✂️</div>No fits yet.<br>Pick an occasion and ask your crew.</div>`}`;
   $$("#occRow .chip").forEach(b=>b.onclick=()=>{selOcc=b.dataset.o;renderFits();});
@@ -1659,21 +1666,25 @@ function renderFits(){
   $$("#fitsBox [data-rmfit]").forEach(b=>b.onclick=()=>{state.fits=state.fits.filter(f=>f.id!==b.dataset.rmfit);save();renderFits();toast("Removed");});
 }
 function openFitReveal(crewId,occ){
-  const c=CREW.find(x=>x.id===crewId);
-  $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="ava" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;margin:6px auto;background:${c.hue}">${c.emoji}</div><h2 style="margin:4px 0;font-size:22px">${c.name} is on it…</h2><p style="color:var(--ink-soft)">Putting a fit together for ${esc(occ.toLowerCase())}</p></div>`;
+  const c=helperById(crewId)||CREW[0];
+  $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="ava" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;margin:6px auto;background:${c.hue}">${c.emoji}</div><h2 style="margin:4px 0;font-size:22px">${esc(c.name)} is on it…</h2><p style="color:var(--ink-soft)">Putting a fit together for ${esc(occ.toLowerCase())}</p></div>`;
   openSheet();
   setTimeout(()=>{
     const fit=makeFit(crewId,occ);
     $("#sheetPad").innerHTML=fitCardHTML(fit,"reveal");
-    $("#sheetPad [data-savefit]").onclick=()=>{state.fits.unshift(fit);save();refreshQuests();closeSheet();renderFits();toast("Fit saved 💜");};
+    $("#sheetPad [data-savefit]").onclick=()=>{
+      state.fits.unshift(fit);save();refreshQuests();closeSheet();renderFits();
+      if(fit.peer){const f=helperById(crewId);addCredit(STAR.phonedThanks,`${f.name.split(" ")[0]} styled you a fit`);toast(`${f.name.split(" ")[0]} earned ${STAR.helperGets}⭐ for styling you — on us 💛`);}
+      else toast("Fit saved 💜");
+    };
     $("#sheetPad [data-again]").onclick=()=>openFitReveal(crewId,occ);
   },1100);
 }
 function openTryOn(fit){
   if(!fit)return;
   if(!state.avatar){toast("Build your avatar first 👤");openAvatarBuilder();return;}
-  const c=CREW.find(x=>x.id===fit.crew);
-  $("#sheetPad").innerHTML=`<div class="claimwrap"><h2 style="margin:2px 0 2px;font-size:22px">${c.name}'s fit, on you</h2>
+  const c=helperById(fit.crew)||CREW[0];
+  $("#sheetPad").innerHTML=`<div class="claimwrap"><h2 style="margin:2px 0 2px;font-size:22px">${esc(c.name)}'s fit, on you</h2>
     <p style="color:var(--ink-soft);margin:0 0 4px;font-size:13px">for ${esc(fit.occ.toLowerCase())}</p>
     <div class="avstage" style="width:150px;height:206px;margin:10px auto">${avatarSVG(state.avatar,fit.palette)}</div>
     <div class="palette" style="justify-content:center;margin:0 0 14px">${fit.palette.map(x=>`<i style="background:${x}"></i>`).join("")}</div>
