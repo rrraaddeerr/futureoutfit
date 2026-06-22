@@ -305,9 +305,28 @@ export function SetEditor({
                 })
               }
               className={`curate__btn ${doc.unpublished ? "curate__btn--accent" : ""}`}
+              title={doc.unpublished ? "Make the public URL live" : "Make the public URL hidden"}
             >
               {doc.unpublished ? "Publish" : "Unpublish"}
             </button>
+            {!doc.unpublished ? (
+              <button
+                type="button"
+                onClick={() =>
+                  updateDoc((d) => {
+                    d.locked = !d.locked;
+                  })
+                }
+                className={`curate__btn ${doc.locked ? "curate__btn--accent" : ""}`}
+                title={
+                  doc.locked
+                    ? "Reopen for client responses"
+                    : "Close to new client responses — locks the proposal as final"
+                }
+              >
+                {doc.locked ? "Reopen" : "Close set"}
+              </button>
+            ) : null}
             <Link
               href={`/set/${doc.slug}`}
               target="_blank"

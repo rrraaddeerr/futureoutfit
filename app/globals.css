@@ -3771,7 +3771,26 @@ textarea.field__control {
 .present-item__title { font-size: 17px; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
 .present-item__meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
 .present-item__price { font-family: var(--font-mono); font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
-.present-item__note { font-size: 13px; color: #c9c9c4; line-height: 1.45; margin-top: 4px; }
+.present-item__note {
+  font-size: 13px;
+  color: #c9c9c4;
+  line-height: 1.45;
+  margin: 8px 0 6px;
+  padding: 8px 10px;
+  background: rgba(255, 90, 31, 0.05);
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+}
+.present-item__note-from {
+  display: block;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
 
 .present-item__actions {
   display: grid;
