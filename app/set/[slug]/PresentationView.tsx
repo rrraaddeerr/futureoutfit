@@ -52,6 +52,7 @@ export function PresentationView({
   const [hydrated, setHydrated] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [savedTick, setSavedTick] = useState(0);
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     setLocal(loadLocal(set.id));
@@ -261,17 +262,60 @@ export function PresentationView({
               placeholder="Notes, sizes, sub-requests — anything I should know."
               className="present__visitor-input"
               rows={4}
+              disabled={set.locked}
             />
           </label>
           {set.locked ? (
             <p className="muted" style={{ marginTop: 12 }}>
               This proposal is closed for new responses.
             </p>
+          ) : sent ? (
+            <div className="present__thanks" role="status" aria-live="polite">
+              <h2>Thanks, {local.name || "friend"}.</h2>
+              <p>
+                Your responses are with Rader. He&apos;ll confirm and follow up.
+                You can come back to this link anytime to revise — your name is
+                remembered.
+              </p>
+              <div className="present__thanks-tally">
+                <b style={{ color: "var(--tape)" }}>{totals.approve}</b> approve ·{" "}
+                <b style={{ color: "var(--muted)" }}>{totals.maybe}</b> maybe ·{" "}
+                <b>{totals.pass}</b> pass
+              </div>
+              <button
+                type="button"
+                className="curate__btn"
+                onClick={() => setSent(false)}
+                style={{ marginTop: 16 }}
+              >
+                Revise responses
+              </button>
+            </div>
           ) : (
-            <p className="muted" style={{ marginTop: 12 }}>
-              Your responses save automatically as you go. Come back anytime
-              with the same link to update them.
-            </p>
+            <>
+              <p className="muted" style={{ marginTop: 12 }}>
+                Auto-saves as you go. When you&apos;re done, hit{" "}
+                <b style={{ color: "var(--accent)" }}>Send to Rader</b> and he&apos;ll
+                see it&apos;s ready to act on.
+              </p>
+              <button
+                type="button"
+                className="curate__btn curate__btn--accent present__send"
+                onClick={() => {
+                  if (!local.name.trim()) {
+                    if (typeof window !== "undefined") {
+                      window.alert("Please add your name first so Rader knows whose responses these are.");
+                    }
+                    return;
+                  }
+                  setSent(true);
+                  if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                disabled={!local.name.trim()}
+              >
+                ✓ Send to Rader
+              </button>
+            </>
           )}
         </section>
       </div>

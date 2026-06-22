@@ -3686,6 +3686,39 @@ textarea.field__control {
 }
 .present__final .present__visitor-input { font-size: 14px; }
 
+.present__send {
+  margin-top: 18px;
+  font-size: 16px !important;
+  padding: 16px 28px !important;
+  letter-spacing: 0.12em !important;
+}
+
+.present__thanks {
+  margin-top: 24px;
+  padding: 32px 24px;
+  background: rgba(95, 131, 56, 0.1);
+  border: 1px solid var(--tape);
+  text-align: center;
+}
+.present__thanks h2 {
+  font-size: clamp(26px, 4vw, 36px);
+  margin-bottom: 12px;
+}
+.present__thanks p {
+  color: #c9c9c4;
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.present__thanks-tally {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  margin-top: 20px;
+  color: var(--text);
+}
+
 /* Group jump nav for long sets */
 .present__nav {
   position: sticky;
