@@ -74,7 +74,13 @@ export default async function AccessPage({
             <BrandStamp size={170} />
           </div>
 
-          <div className="access-screen__meta">SOFT LAUNCH // INVITE ONLY</div>
+          <div className="access-screen__slate">
+            <span>CHECKPOINT</span>
+            <span className="access-screen__slate-sep" aria-hidden="true">│</span>
+            <span>RADERENT</span>
+            <span className="access-screen__slate-sep" aria-hidden="true">│</span>
+            <span>INVITE ONLY</span>
+          </div>
 
           <h1 className="access-screen__title">
             The archive is open<br />for invited guests.
