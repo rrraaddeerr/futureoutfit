@@ -35,6 +35,15 @@ export type SetGroup = {
   items: SetItem[];
 };
 
+export type SetStage =
+  | "draft"
+  | "sent"
+  | "reviewing"
+  | "approved"
+  | "production"
+  | "delivered"
+  | "returned";
+
 export type SetDoc = {
   id: string;
   /** Random short slug used in the public URL — different from id */
@@ -50,9 +59,44 @@ export type SetDoc = {
   unpublished?: boolean;
   /** Stop accepting new responses */
   locked?: boolean;
+  /**
+   * Production lifecycle stage. Optional — if unset, derive from
+   * unpublished/locked for backward compat with older docs.
+   */
+  stage?: SetStage;
   created_at: string;
   updated_at: string;
 };
+
+/** Ordered list of stages, in the order they progress. */
+export const SET_STAGES: SetStage[] = [
+  "draft",
+  "sent",
+  "reviewing",
+  "approved",
+  "production",
+  "delivered",
+  "returned",
+];
+
+/** Human label + slate label for each stage. */
+export const SET_STAGE_LABELS: Record<SetStage, { short: string; long: string }> = {
+  draft: { short: "DRAFT", long: "Draft — not shared" },
+  sent: { short: "SENT", long: "Sent — awaiting response" },
+  reviewing: { short: "REVIEWING", long: "Reviewing — responses coming in" },
+  approved: { short: "APPROVED", long: "Approved — direction locked" },
+  production: { short: "PRODUCTION", long: "In production — being prepared" },
+  delivered: { short: "DELIVERED", long: "Delivered — on set" },
+  returned: { short: "RETURNED", long: "Returned — closed" },
+};
+
+/** Derive a stage from a set if not explicitly set. */
+export function deriveStage(set: SetDoc): SetStage {
+  if (set.stage) return set.stage;
+  if (set.unpublished) return "draft";
+  if (set.locked) return "approved";
+  return "sent";
+}
 
 export type SetResponse = {
   visitor: string;

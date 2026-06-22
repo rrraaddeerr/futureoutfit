@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { listSets, setsConfigured } from "@/lib/sets";
+import { listSets, setsConfigured, deriveStage, SET_STAGE_LABELS } from "@/lib/sets";
 
 export const alt = "rent.co — operator proposal";
 export const size = { width: 1200, height: 630 };
@@ -37,7 +37,7 @@ export default async function SetOpengraphImage({
         client = set.client ?? "";
         groupCount = set.groups?.length ?? 0;
         itemCount = set.groups?.reduce((n, g) => n + g.items.length, 0) ?? 0;
-        status = set.locked ? "CLOSED" : set.unpublished ? "DRAFT" : "OPEN";
+        status = SET_STAGE_LABELS[deriveStage(set)].short;
       }
     } catch {
       // worker unreachable — render generic

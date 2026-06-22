@@ -212,6 +212,99 @@ h4 {
    Comms strip — walkie-talkie / production-channel readout.
    ============================================================ */
 
+.stage-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+  margin-bottom: 18px;
+  padding: 9px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  overflow-x: auto;
+}
+.stage-bar__label {
+  flex-shrink: 0;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.stage-bar__steps {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.stage-bar__step {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+  display: flex;
+}
+.stage-bar__step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 1px;
+  background: var(--muted);
+  opacity: 0.4;
+}
+.stage-bar__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 5px 9px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  text-align: left;
+  transition: background 100ms ease, border-color 100ms ease, color 100ms ease;
+}
+.stage-bar__btn:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+.stage-bar__num {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  opacity: 0.7;
+}
+.stage-bar__name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+.stage-bar__step.is-done .stage-bar__btn {
+  color: var(--tape);
+}
+.stage-bar__step.is-done .stage-bar__btn::after {
+  content: "✓";
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--tape);
+  font-weight: 800;
+}
+.stage-bar__step.is-current .stage-bar__btn {
+  background: rgba(255, 90, 31, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.stage-bar__step.is-current .stage-bar__num { opacity: 1; }
+
 .comms {
   display: flex;
   align-items: center;
@@ -3500,15 +3593,41 @@ textarea.field__control {
   color: var(--muted);
   border: 1px solid var(--line-2);
 }
-.sets-list__status.is-live {
+.sets-list__status.is-sent {
+  background: rgba(95, 131, 56, 0.18);
+  color: var(--tape);
+  border: 1px solid var(--tape);
+}
+.sets-list__status.is-reviewing {
   background: var(--tape);
   color: var(--tape-ink);
+  animation: comms-blink 2.2s ease-in-out infinite;
 }
-.sets-list__status.is-closed {
-  background: rgba(255, 90, 31, 0.12);
+.sets-list__status.is-approved {
+  background: rgba(255, 90, 31, 0.16);
   color: var(--accent);
   border: 1px solid var(--accent);
 }
+.sets-list__status.is-production {
+  background: rgba(255, 90, 31, 0.16);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-style: dashed;
+}
+.sets-list__status.is-delivered {
+  background: rgba(95, 131, 56, 0.18);
+  color: var(--tape);
+  border: 1px solid var(--tape);
+  border-style: dashed;
+}
+.sets-list__status.is-returned {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  border: 1px dashed var(--line-2);
+}
+/* Legacy aliases — kept for old templates / OG */
+.sets-list__status.is-live { background: var(--tape); color: var(--tape-ink); }
+.sets-list__status.is-closed { background: rgba(255, 90, 31, 0.12); color: var(--accent); border: 1px solid var(--accent); }
 .sets-list__date { white-space: nowrap; }
 
 .set-form {
