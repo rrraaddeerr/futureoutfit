@@ -3236,10 +3236,34 @@ textarea.field__control {
   border: 0;
   border-bottom: 1px solid var(--line);
   color: var(--text);
-  font-size: clamp(26px, 4vw, 38px);
+  font-size: clamp(22px, 4vw, 38px);
   font-weight: 800;
   letter-spacing: -0.02em;
   padding: 6px 0;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .set-edit__bar { gap: 8px; }
+  .set-edit__bar-meta, .set-edit__bar-actions { width: 100%; }
+  .set-edit__bar-actions { flex-wrap: wrap; }
+  .set-edit__bar-actions .curate__btn { flex: 1 1 calc(50% - 4px); }
+  .set-edit__share-url { font-size: 11px; padding: 8px 10px; }
+  .set-edit__item {
+    grid-template-columns: 56px 1fr auto;
+    gap: 8px;
+    padding: 6px;
+  }
+  .set-edit__item-thumb { width: 56px; height: 56px; }
+  .set-edit__item-title { font-size: 13px; }
+  .set-edit__item-actions {
+    gap: 4px;
+  }
+  .set-edit__item-actions .curate__btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    min-width: 28px;
+  }
 }
 .set-edit__title:focus { outline: none; border-color: var(--accent); }
 .set-edit__head-row {
