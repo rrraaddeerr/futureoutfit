@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { SetDoc, SetGroup, SetItem } from "@/lib/sets";
+import { TapeLabel } from "@/components/TapeLabel";
 
 type CatalogEntry = {
   title: string;
@@ -233,10 +234,14 @@ export function PresentationView({
           </nav>
         ) : null}
 
-        {resolvedGroups.map((g) => (
+        {resolvedGroups.map((g, gi) => (
           <section className="present__group" key={g.id} id={g.id}>
             <header className="present__group-head">
-              <h2>{g.label}</h2>
+              <h2 className="present__group-h2">
+                <TapeLabel className="present__group-tape" rotate={gi % 2 === 0 ? -2 : 1.5}>
+                  {g.label}
+                </TapeLabel>
+              </h2>
               {g.pick === "one" ? (
                 <span className="present__pick-tag">PICK ONE</span>
               ) : g.pick === "all" ? (
