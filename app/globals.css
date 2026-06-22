@@ -4085,6 +4085,38 @@ textarea.field__control {
 .present__visitor-saved { color: var(--tape); margin-left: 12px; }
 
 .present__group { margin-bottom: 64px; }
+.present__group-break {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 56px 0 32px;
+}
+.present__group-break::before, .present__group-break::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 12px,
+    transparent 12px 18px
+  );
+  opacity: 0.55;
+}
+.present__group-break-roll {
+  margin: 0 14px;
+  padding: 4px 10px;
+  border: 1px solid var(--accent);
+  background: rgba(255, 90, 31, 0.06);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--accent);
+  font-weight: 700;
+}
+@media print {
+  .present__group-break-roll { color: #ff5a1f; border-color: #ff5a1f; background: #fff; }
+}
 .present__group-head {
   display: flex;
   align-items: baseline;
