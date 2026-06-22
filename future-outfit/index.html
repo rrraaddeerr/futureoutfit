@@ -209,6 +209,13 @@
   .crewcard .cn{font-weight:900;font-size:14px}
   .crewcard .cr{font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.3}
   .crewcard .helpbadge{font-size:10px;font-weight:800;color:var(--cyan);margin-top:7px;background:rgba(70,214,255,.12);border:1px solid rgba(70,214,255,.32);border-radius:999px;padding:2px 8px;display:inline-block}
+  .installcard{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:14px 0 2px;-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 10px 26px rgba(0,0,0,.4)}
+  .installcard .ic{font-size:26px}
+  .installcard .t{flex:1;font-size:12.5px;color:var(--ink-soft);line-height:1.35}
+  .installcard .t b{display:block;font-size:14px;color:var(--ink)}
+  .installcard button{border:none;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer}
+  .installcard .go{background:var(--grad-cool);color:#06201d;padding:9px 13px}
+  .installcard .x{background:transparent;color:var(--ink-dim);font-size:18px;padding:4px 8px}
   .fit{padding:16px;margin-bottom:14px}
   .fithead{display:flex;align-items:center;gap:11px;margin-bottom:11px}
   .fithead .ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:23px;box-shadow:inset 0 1px 0 #fff7}
@@ -1757,6 +1764,34 @@ $("#goCloset").onclick=()=>go("closet");
 
 /* boot */
 renderFilters();renderFeed();refreshQuests();updateMe();
+
+/* ---------- install hint (Add to Home Screen) ---------- */
+let deferredInstall=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;maybeInstallHint();});
+function isStandalone(){return matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;}
+function maybeInstallHint(){
+  if(localStorage.getItem("fo_install_dismissed")||isStandalone())return;
+  const sec=$("#view-discover");if(!sec)return;
+  const old=sec.querySelector(".installcard");if(old)old.remove();
+  const iOS=/iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const body=deferredInstall
+    ? `<div class="t"><b>Add Future Outfit to your phone</b>Full-screen &amp; works offline.</div><button class="go" id="instGo">Install</button>`
+    : iOS
+      ? `<div class="t"><b>Add to Home Screen</b>Tap Share ⬆️ then “Add to Home Screen.”</div>`
+      : `<div class="t"><b>Add Future Outfit to your phone</b>Browser menu → “Add to Home screen.”</div>`;
+  const card=document.createElement("div");card.className="installcard";
+  card.innerHTML=`<span class="ic">📲</span>${body}<button class="x" id="instX" aria-label="Dismiss">✕</button>`;
+  const head=sec.querySelector(".viewhead");head?head.after(card):sec.prepend(card);
+  $("#instX").onclick=()=>{localStorage.setItem("fo_install_dismissed","1");card.remove();};
+  const go=$("#instGo");if(go)go.onclick=async()=>{
+    if(!deferredInstall)return;
+    deferredInstall.prompt();
+    const r=await deferredInstall.userChoice.catch(()=>({outcome:"dismissed"}));
+    deferredInstall=null;localStorage.setItem("fo_install_dismissed","1");
+    if(r.outcome==="accepted")card.remove();
+  };
+}
+maybeInstallHint();
 
 /* installable PWA — register the offline service worker (https/localhost only) */
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
