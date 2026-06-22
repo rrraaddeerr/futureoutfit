@@ -1,4 +1,5 @@
 name: Deploy Future Outfit to GitHub Pages
+# Pages enabled with Source = GitHub Actions; deploys future-outfit/ as site root.
 
 on:
   push:
