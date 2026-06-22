@@ -237,6 +237,13 @@ export function PresentationView({
 
         {resolvedGroups.map((g, gi) => (
           <section className="present__group" key={g.id} id={g.id}>
+            {gi > 0 ? (
+              <div className="present__group-break" aria-hidden="true">
+                <span className="present__group-break-roll">
+                  ROLL {String(gi + 1).padStart(2, "0")}
+                </span>
+              </div>
+            ) : null}
             <header className="present__group-head">
               <span className="present__group-num">{String(gi + 1).padStart(2, "0")}</span>
               <h2 className="present__group-h2">
