@@ -80,10 +80,18 @@ export default async function OpsPage() {
   return (
     <div className="ops">
       <div className="wrap">
+        <div className="comms">
+          <span className="comms__channel">CH 00 — OPERATOR</span>
+          <span className="comms__sep">/</span>
+          <span>RaderENT control room</span>
+          <span className="comms__sep">/</span>
+          <span className="comms__signal" aria-hidden="true"><i/><i/><i/><i/></span>
+          <span className="comms__over">COPY · STANDING BY</span>
+        </div>
         <header className="ops__head">
           <div>
             <div className="ops__kicker">OPERATOR</div>
-            <h1 className="ops__title">Control panel</h1>
+            <h1 className="ops__title sharpie">Control panel</h1>
           </div>
           <div className="ops__head-links">
             <Link href="/sets" className="curate__btn curate__btn--accent">/sets</Link>

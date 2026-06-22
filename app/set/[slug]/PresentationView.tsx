@@ -171,11 +171,22 @@ export function PresentationView({
 
   return (
     <div className="present">
-      <header className="present__head">
+      <header className="present__head dp-bg">
         <div className="present__head-inner wrap">
-          <div className="present__kicker">rent.co // operator preview</div>
+          <div className="present__slate">
+            <span className="present__slate-tag">RENT.CO // OPERATOR PROPOSAL</span>
+            <span className="present__slate-sep" aria-hidden="true">│</span>
+            <span className="present__slate-tag">CHANNEL {set.id.slice(0, 4).toUpperCase()}</span>
+            <span className="present__slate-sep" aria-hidden="true">│</span>
+            <span className="present__slate-tag">{set.locked ? "CLOSED" : "OPEN"}</span>
+          </div>
           <h1 className="present__title">{set.name}</h1>
-          {set.client ? <div className="present__client">for {set.client}</div> : null}
+          {set.client ? (
+            <div className="present__client">
+              <span className="present__client-prefix">FOR ↘</span>
+              {set.client}
+            </div>
+          ) : null}
           {set.intro ? <p className="present__intro">{set.intro}</p> : null}
         </div>
       </header>

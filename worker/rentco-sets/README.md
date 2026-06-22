@@ -40,6 +40,22 @@ that URL — it goes in rent.co's env vars as `RENTCO_SETS_URL`, alongside
 
 ## Iterate
 
+## Notifications (optional)
+
+Get pinged when a client responds — Slack, Discord, Zapier, or any
+generic webhook URL works:
+
+```bash
+npx wrangler secret put NOTIFY_WEBHOOK
+# paste your webhook URL when prompted
+npx wrangler deploy
+```
+
+The worker POSTs both `{text}` (Slack) and `{content}` (Discord) shapes
+so most receivers Just Work. Disable by deleting the secret.
+
+## Iterate
+
 `npm run dev` runs the worker locally with hot reload. Test with:
 
 ```bash

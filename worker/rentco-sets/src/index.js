@@ -55,7 +55,7 @@ async function listSets(env) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
@@ -147,9 +147,46 @@ export default {
           updated_at: new Date().toISOString(),
         };
         const existingIdx = responses.findIndex((r) => r.visitor === visitor);
+        const isFirstFromThisVisitor = existingIdx < 0;
         if (existingIdx >= 0) responses[existingIdx] = entry;
         else responses.push(entry);
         await env.SETS_KV.put(`responses:${id}`, JSON.stringify(responses));
+
+        // Best-effort webhook notification (Slack/Discord/Zapier/any URL).
+        // Configured by `wrangler secret put NOTIFY_WEBHOOK` and pinged for
+        // the first response from a visitor + every save with a fresh note.
+        // Operator opts in by setting the secret; absent = silent.
+        if (env.NOTIFY_WEBHOOK) {
+          try {
+            const approve = Object.values(entry.decisions).filter((v) => v === "approve").length;
+            const maybe = Object.values(entry.decisions).filter((v) => v === "maybe").length;
+            const pass = Object.values(entry.decisions).filter((v) => v === "pass").length;
+            const summary =
+              `${isFirstFromThisVisitor ? "🆕 " : "🔁 "}` +
+              `*${entry.name}* on *${set.name}*` +
+              (set.client ? ` (for ${set.client})` : "") +
+              ` — ${approve}✓ ${maybe}◐ ${pass}✗` +
+              (entry.note ? `\n> ${entry.note.slice(0, 280)}` : "");
+            // Try Slack-shape first ({text}). Discord also accepts ?wait=true
+            // POST with {content}. Send both shapes and let the receiver use
+            // whichever it understands. (Worker fetch is fire-and-forget.)
+            const payload = { text: summary, content: summary };
+            ctx?.waitUntil?.(
+              fetch(env.NOTIFY_WEBHOOK, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              }).catch(() => {})
+            ) ?? fetch(env.NOTIFY_WEBHOOK, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            }).catch(() => {});
+          } catch {
+            // notification failures must never break the response API
+          }
+        }
+
         return json({ ok: true, visitor });
       }
 

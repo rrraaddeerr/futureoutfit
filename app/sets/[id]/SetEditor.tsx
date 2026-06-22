@@ -266,6 +266,20 @@ export function SetEditor({
   return (
     <div className="set-edit">
       <div className="wrap">
+        <div className="comms">
+          <span className="comms__channel">
+            CH {doc.id.slice(0, 4).toUpperCase()} — {doc.unpublished ? "DRAFT" : doc.locked ? "CLOSED" : "LIVE"}
+          </span>
+          <span className="comms__sep">/</span>
+          <span>{doc.client || "no client yet"}</span>
+          <span className="comms__sep">/</span>
+          <span className="comms__signal" aria-hidden="true"><i/><i/><i/><i/></span>
+          <span className="comms__over">
+            {responses.length > 0
+              ? `${responses.length} ${responses.length === 1 ? "VOTER" : "VOTERS"} ON CHANNEL`
+              : "AWAITING RESPONSES"}
+          </span>
+        </div>
         <header className="set-edit__bar">
           <div className="set-edit__bar-meta">
             <Link href="/sets" className="curate__btn">← Sets</Link>

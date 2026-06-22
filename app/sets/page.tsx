@@ -45,10 +45,18 @@ export default async function SetsPage() {
   return (
     <div className="ops">
       <div className="wrap">
+        <div className="comms">
+          <span className="comms__channel">CH 01 — SETS</span>
+          <span className="comms__sep">/</span>
+          <span>RaderENT operator console</span>
+          <span className="comms__sep">/</span>
+          <span className="comms__signal" aria-hidden="true"><i/><i/><i/><i/></span>
+          <span className="comms__over">{sets.length === 0 ? "STANDING BY" : `${sets.length} ON DECK`}</span>
+        </div>
         <header className="ops__head">
           <div>
             <div className="ops__kicker">OPERATOR</div>
-            <h1 className="ops__title">Sets</h1>
+            <h1 className="ops__title sharpie">Sets</h1>
           </div>
           <div className="ops__head-links">
             <Link href="/ops" className="curate__btn">← /ops</Link>
