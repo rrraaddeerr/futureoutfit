@@ -1282,6 +1282,18 @@ function renderSupporter(){
   $("#shareGame").onclick=shareGame;$("#helpPal").onclick=helpAPal;$("#giveAway").onclick=giveAway;
   // Stars Shop — unlock cosmetic flair you can wear (no money, ever)
   const owned=state.ownedFlairs||["🛹"];
+  // Supporter wall — celebrate the pals (and you) spreading the most good
+  const kidHelps=(state.creditLog||[]).filter(e=>/^Helped|^Shared/.test(e.reason)).length;
+  const wall=allFriends().map(f=>({name:f.name,emoji:f.emoji,hue:f.hue,helps:f.helps,you:false}))
+    .concat([{name:"You",emoji:state.flair||"🛹",hue:"linear-gradient(135deg,#46d6ff,#9b6bff)",helps:kidHelps,you:true}])
+    .sort((a,b)=>b.helps-a.helps).slice(0,7);
+  cb.insertAdjacentHTML("beforeend",`<div class="lab" style="margin:18px 0 8px">Supporter wall 🏆</div>
+    <p class="muted" style="font-size:12px;margin:0 0 10px">The pals spreading the most good. Helping is on us — nobody pays anybody.</p>`+
+    wall.map((w,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 11px;margin-bottom:7px;border-radius:12px;background:var(--panel);border:1px solid var(--line)${w.you?';box-shadow:inset 0 0 0 1.5px rgba(127,232,255,.45)':''}">
+      <span style="width:26px;text-align:center;font-weight:900;font-size:14px">${["🥇","🥈","🥉"][i]||("#"+(i+1))}</span>
+      <span style="width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;background:${w.hue};box-shadow:inset 0 1px 0 #fff7">${w.emoji}</span>
+      <span style="flex:1;font-weight:800;font-size:14px">${esc(w.name)}${w.you?' <span style="color:var(--cyan);font-size:11px">(you)</span>':''}</span>
+      <span style="color:var(--cyan);font-weight:800;font-size:13px">⭐ ${w.helps}</span></div>`).join(""));
   cb.insertAdjacentHTML("beforeend",`<div class="lab" style="margin:18px 0 8px">Stars Shop — wear your flair</div>
     <div class="filters" id="flairRow">${FLAIRS.map(([e,n,c])=>{const own=owned.includes(e),worn=state.flair===e;
       return `<button class="chip" data-e="${e}" data-c="${c}" aria-pressed="${worn}" style="font-size:18px">${e} <span style="font-size:11px;font-weight:800">${worn?"wearing":own?"wear":(c+"⭐")}</span></button>`;}).join("")}</div>
