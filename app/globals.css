@@ -3675,3 +3675,82 @@ textarea.field__control {
   padding: 32px 0 80px;
 }
 .present__final .present__visitor-input { font-size: 14px; }
+
+/* Group jump nav for long sets */
+.present__nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+  background: rgba(12, 12, 13, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+.present__nav a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 6px 10px;
+  border: 1px solid var(--line-2);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.present__nav a:hover { color: var(--accent); border-color: var(--accent); }
+.present__nav-count {
+  color: var(--accent);
+  margin-left: 4px;
+}
+
+/* Mobile presentation polish */
+@media (max-width: 600px) {
+  .present__head { padding: 36px 0 22px; margin-bottom: 18px; }
+  .present__visitor {
+    margin-bottom: 22px;
+    padding: 12px 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .present__visitor-tally { font-size: 11px; }
+  .present__group { margin-bottom: 42px; }
+  .present__items { grid-template-columns: 1fr; gap: 22px; }
+  .present-item__media { aspect-ratio: 5 / 4; }
+  .present-item__title { font-size: 18px; }
+  .present-item__actions {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .present-item__btn {
+    font-size: 13px;
+    padding: 16px 4px;
+    letter-spacing: 0.08em;
+  }
+  .present__nav { gap: 4px; padding: 8px 0; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .present__nav a { font-size: 10px; padding: 5px 8px; }
+}
+
+/* Visual flow: decision affordance */
+.present-item__hint {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-align: center;
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.02);
+}
+.present-item__hint--decided {
+  background: rgba(95, 131, 56, 0.12);
+  color: var(--tape);
+}
+.present-item__hint--pass {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+}
