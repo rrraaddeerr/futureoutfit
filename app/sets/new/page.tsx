@@ -8,21 +8,72 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+const TEMPLATES: Record<
+  string,
+  { label: string; groups: Array<{ label: string; pick: "any" | "one" | "all" }> }
+> = {
+  blank: { label: "Blank", groups: [] },
+  lounge: {
+    label: "Lounge",
+    groups: [
+      { label: "Lounge seating", pick: "one" },
+      { label: "Side tables", pick: "one" },
+      { label: "Lighting", pick: "one" },
+      { label: "Rugs / soft", pick: "one" },
+    ],
+  },
+  dinner: {
+    label: "Dinner",
+    groups: [
+      { label: "Dining chairs", pick: "one" },
+      { label: "Tables", pick: "one" },
+      { label: "Glassware & flatware", pick: "all" },
+      { label: "Lighting", pick: "one" },
+    ],
+  },
+  film: {
+    label: "Film set",
+    groups: [
+      { label: "Hero seating", pick: "one" },
+      { label: "Background seating", pick: "any" },
+      { label: "Practical lighting", pick: "any" },
+      { label: "Dressing", pick: "any" },
+    ],
+  },
+  bar: {
+    label: "Bar",
+    groups: [
+      { label: "Stools", pick: "one" },
+      { label: "Back-bar dressing", pick: "any" },
+      { label: "Glassware", pick: "all" },
+      { label: "Lighting", pick: "one" },
+    ],
+  },
+};
+
 async function createSet(formData: FormData) {
   "use server";
   const name = (formData.get("name") as string)?.trim() || "Untitled set";
   const client = (formData.get("client") as string)?.trim() || "";
   const intro = (formData.get("intro") as string)?.trim() || "";
+  const templateKey = (formData.get("template") as string) || "blank";
+  const template = TEMPLATES[templateKey] ?? TEMPLATES.blank;
   const id = newSetId();
   const slug = newSlug();
   const now = new Date().toISOString();
+  const groups = template.groups.map((g, i) => ({
+    id: `g_${Date.now()}_${i}_${Math.random().toString(36).slice(2, 6)}`,
+    label: g.label,
+    pick: g.pick,
+    items: [],
+  }));
   await putSet({
     id,
     slug,
     name,
     client,
     intro,
-    groups: [],
+    groups,
     unpublished: true,
     created_at: now,
     updated_at: now,
@@ -89,6 +140,35 @@ export default function NewSetPage() {
               className="set-form__input"
             />
           </label>
+
+          <fieldset className="set-form__templates">
+            <legend className="set-form__label" style={{ marginBottom: 8 }}>
+              Starter template
+            </legend>
+            <div className="set-form__template-grid">
+              {Object.entries(TEMPLATES).map(([key, tpl], i) => (
+                <label key={key} className="set-form__template">
+                  <input
+                    type="radio"
+                    name="template"
+                    value={key}
+                    defaultChecked={i === 0}
+                  />
+                  <div className="set-form__template-card">
+                    <div className="set-form__template-name">{tpl.label}</div>
+                    <div className="set-form__template-meta">
+                      {tpl.groups.length === 0
+                        ? "Start from scratch"
+                        : `${tpl.groups.length} groups: ${tpl.groups
+                            .map((g) => g.label)
+                            .join(", ")}`}
+                    </div>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
           <button
             type="submit"
             className="curate__btn curate__btn--accent"
