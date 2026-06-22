@@ -36,6 +36,8 @@ export function SetEditor({
   const [save, setSave] = useState<SaveState>({ kind: "idle" });
   const [pickerFor, setPickerFor] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [pickerSelected, setPickerSelected] = useState<Set<string>>(new Set());
+  const [pickerCategory, setPickerCategory] = useState<string>("");
 
   // Auto-save 800 ms after the last change.
   useEffect(() => {
@@ -132,16 +134,55 @@ export function SetEditor({
       [g.items[i], g.items[j]] = [g.items[j], g.items[i]];
     });
 
+  const catalogCategories = useMemo(() => {
+    const set = new Set<string>();
+    for (const c of catalog) if (c.subcategory) set.add(c.subcategory);
+    return [...set].sort();
+  }, [catalog]);
+
   const filteredCatalog = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return catalog.slice(0, 60);
-    return catalog
-      .filter((c) => {
-        const blob = `${c.title} ${c.subcategory} ${c.barcode}`.toLowerCase();
-        return blob.includes(q);
-      })
-      .slice(0, 120);
-  }, [search, catalog]);
+    const filtered = catalog.filter((c) => {
+      if (pickerCategory && c.subcategory !== pickerCategory) return false;
+      if (!q) return true;
+      const blob = `${c.title} ${c.subcategory} ${c.barcode}`.toLowerCase();
+      return blob.includes(q);
+    });
+    return filtered.slice(0, 200);
+  }, [search, catalog, pickerCategory]);
+
+  const togglePickerSelection = (barcode: string) => {
+    setPickerSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(barcode)) next.delete(barcode);
+      else next.add(barcode);
+      return next;
+    });
+  };
+
+  const commitPickerSelection = () => {
+    if (!pickerFor || pickerSelected.size === 0) return;
+    const byBarcode = new Map<string, CatalogItem>();
+    for (const c of catalog) byBarcode.set(c.barcode, c);
+    updateGroup(pickerFor, (g) => {
+      for (const bc of pickerSelected) {
+        if (g.items.find((i) => i.barcode === bc)) continue;
+        const c = byBarcode.get(bc);
+        if (c) g.items.push({ barcode: bc });
+      }
+    });
+    setPickerSelected(new Set());
+    setPickerFor(null);
+    setSearch("");
+    setPickerCategory("");
+  };
+
+  const closePicker = () => {
+    setPickerFor(null);
+    setPickerSelected(new Set());
+    setSearch("");
+    setPickerCategory("");
+  };
 
   const byBarcode = useMemo(() => {
     const m = new Map<string, CatalogItem>();
@@ -465,40 +506,57 @@ export function SetEditor({
       </div>
 
       {pickerFor ? (
-        <div className="set-picker" onClick={() => setPickerFor(null)}>
+        <div className="set-picker" onClick={closePicker}>
           <div className="set-picker__panel" onClick={(e) => e.stopPropagation()}>
             <header className="set-picker__head">
               <input
                 type="search"
                 autoFocus
-                placeholder="Search archive — title, category, barcode…"
+                placeholder="Search title, category, barcode…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="set-picker__search"
               />
+              <select
+                value={pickerCategory}
+                onChange={(e) => setPickerCategory(e.target.value)}
+                className="set-picker__cat"
+                aria-label="Filter by category"
+              >
+                <option value="">All categories</option>
+                {catalogCategories.map((c) => (
+                  <option value={c} key={c}>{c}</option>
+                ))}
+              </select>
               <button
                 type="button"
-                onClick={() => setPickerFor(null)}
+                onClick={closePicker}
                 className="curate__btn"
               >
                 Close
               </button>
             </header>
+            <div className="set-picker__hint">
+              Tap tiles to select. Hit{" "}
+              <b>Add selected</b> when done — adds them all to the group.
+            </div>
             <div className="set-picker__grid">
-              {filteredCatalog.map((c) => (
+              {filteredCatalog.map((c) => {
+                const on = pickerSelected.has(c.barcode);
+                return (
                 <button
                   key={c.barcode}
                   type="button"
-                  className="set-picker__tile"
-                  onClick={() => {
-                    addItem(pickerFor, c);
-                  }}
+                  className={`set-picker__tile ${on ? "is-on" : ""}`}
+                  onClick={() => togglePickerSelection(c.barcode)}
+                  aria-pressed={on}
                 >
                   <div className="set-picker__tile-img">
                     {c.thumb ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={c.thumb} alt="" />
                     ) : null}
+                    {on ? <span className="set-picker__tile-check">✓</span> : null}
                   </div>
                   <div className="set-picker__tile-name">{c.title}</div>
                   <div className="set-picker__tile-meta">
@@ -506,11 +564,35 @@ export function SetEditor({
                     {c.priceWeek != null ? ` · $${c.priceWeek}/wk` : ""}
                   </div>
                 </button>
-              ))}
+                );
+              })}
               {filteredCatalog.length === 0 ? (
                 <div className="muted">No matches.</div>
               ) : null}
             </div>
+            <footer className="set-picker__foot">
+              <span className="set-picker__count">
+                {pickerSelected.size > 0
+                  ? `${pickerSelected.size} selected`
+                  : "Tap tiles to select"}
+              </span>
+              <button
+                type="button"
+                onClick={() => setPickerSelected(new Set())}
+                disabled={pickerSelected.size === 0}
+                className="curate__btn"
+              >
+                Clear
+              </button>
+              <button
+                type="button"
+                onClick={commitPickerSelection}
+                disabled={pickerSelected.size === 0}
+                className="curate__btn curate__btn--accent"
+              >
+                Add selected ({pickerSelected.size})
+              </button>
+            </footer>
           </div>
         </div>
       ) : null}
