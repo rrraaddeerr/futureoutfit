@@ -10,8 +10,8 @@ it under a new name first, try it, then point your bookmark at it when happy.
 ## What's new vs. the original drop page
 
 - **A gallery (`/browse`)** — actually *see* everything you saved: thumbnails,
-  category filter chips, full-text search, delete, export. (The original only let
-  you drop, never look.)
+  category filter chips, full-text search, **edit (re-tag / re-categorize)**,
+  delete, export. (The original only let you drop, never look.)
 - **Recent strip on `/drop`** — instant visual confirmation each save landed.
 - **Richer auto-categorization** — image / video / audio / post / article / code /
   shop / document / note / link, by content-type, file extension, and a domain
@@ -31,6 +31,7 @@ it under a new name first, try it, then point your bookmark at it when happy.
 | POST | `/save` | token | save a link/note (JSON) or file (raw bytes) |
 | GET | `/api/list?q=&cat=&cursor=&limit=` | token | list / search / filter |
 | GET | `/api/ref/:id` | token | fetch one ref |
+| PATCH | `/api/ref/:id` | token | edit a ref's `category` / `tags` / `title` |
 | DELETE | `/api/ref/:id` | token | delete a ref (+ its blob) |
 | GET | `/api/export` | token | NDJSON of all refs |
 | POST | `/api/import` | token | bulk insert (array of refs) |

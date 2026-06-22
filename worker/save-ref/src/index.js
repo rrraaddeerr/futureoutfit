@@ -34,7 +34,7 @@ import { BROWSE_HTML } from "./pages/browse.js";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, X-Auth-Token",
   "Access-Control-Max-Age": "86400",
 };
@@ -68,6 +68,14 @@ const createdAtFromId = (id) => {
   const rev = parseInt(id.split("-")[0], 10);
   return Number.isFinite(rev) ? new Date(TS_MAX - rev).toISOString() : null;
 };
+
+// Accept tags as an array or a comma/space-separated string; dedupe + cap.
+function normalizeTags(input) {
+  let arr = [];
+  if (Array.isArray(input)) arr = input;
+  else if (typeof input === "string") arr = input.split(/[,\n]/);
+  return [...new Set(arr.map((t) => String(t).trim().toLowerCase()).filter(Boolean))].slice(0, 30);
+}
 
 async function putBlob(env, bytes, contentType) {
   const key = crypto.randomUUID().replace(/-/g, "");
@@ -150,6 +158,23 @@ export default {
         if (request.method === "GET") {
           const ref = await env.REFS_KV.get(`ref:${id}`, "json");
           return ref ? json({ ok: true, ref }) : json({ ok: false, error: "Not found" }, 404);
+        }
+        if (request.method === "PATCH") {
+          const ref = await env.REFS_KV.get(`ref:${id}`, "json");
+          if (!ref) return json({ ok: false, error: "Not found" }, 404);
+          const body = await request.json().catch(() => null);
+          if (!body || typeof body !== "object") return json({ ok: false, error: "Invalid body" }, 400);
+          if (body.category !== undefined) {
+            const c = String(body.category).trim().toLowerCase();
+            if (!ALL_CATEGORIES.includes(c)) {
+              return json({ ok: false, error: `Unknown category. Use one of: ${ALL_CATEGORIES.join(", ")}` }, 400);
+            }
+            ref.category = c;
+          }
+          if (body.tags !== undefined) ref.tags = normalizeTags(body.tags);
+          if (body.title !== undefined) ref.title = String(body.title).slice(0, 300);
+          await env.REFS_KV.put(`ref:${id}`, JSON.stringify(ref));
+          return json({ ok: true, ref });
         }
         if (request.method === "DELETE") {
           const ref = await env.REFS_KV.get(`ref:${id}`, "json");

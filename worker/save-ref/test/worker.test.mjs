@@ -122,6 +122,28 @@ const run = async () => {
   r = await call("/api/ref/" + urlId, { headers: TOK });
   eq("get ref 200", r.status, 200);
 
+  // PATCH: edit category + tags
+  r = await call("/api/ref/" + urlId, {
+    method: "PATCH",
+    headers: { ...TOK, "Content-Type": "application/json" },
+    body: JSON.stringify({ category: "article", tags: "Inspo, Reference, inspo" }),
+  });
+  d = await r.json();
+  eq("patch 200", r.status, 200);
+  eq("patch changed category", d.ref.category, "article");
+  eq("patch normalized+deduped tags", d.ref.tags.join(","), "inspo,reference");
+  // reject unknown category
+  r = await call("/api/ref/" + urlId, {
+    method: "PATCH",
+    headers: { ...TOK, "Content-Type": "application/json" },
+    body: JSON.stringify({ category: "bogus" }),
+  });
+  eq("patch rejects bad category", r.status, 400);
+  // edit reflected in search
+  r = await call("/api/list?q=reference", { headers: TOK });
+  d = await r.json();
+  eq("search finds new tag", d.refs.length, 1);
+
   // delete
   r = await call("/api/ref/" + imgId, { method: "DELETE", headers: TOK });
   eq("delete 200", r.status, 200);

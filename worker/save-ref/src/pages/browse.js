@@ -28,8 +28,16 @@ export const BROWSE_HTML = /* html */ `<!doctype html>
   .meta .h{color:var(--soft);font-size:12px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .badge{position:absolute;left:8px;top:8px;background:#000b;border:1px solid var(--line);border-radius:999px;font-size:10px;padding:3px 8px;text-transform:uppercase;letter-spacing:.05em}
   .del{position:absolute;right:8px;top:8px;background:#000b;border:1px solid var(--line);color:#fff;border-radius:8px;padding:3px 8px;font-size:12px;opacity:0;transition:.15s}
-  .card:hover .del{opacity:1}
+  .edit{position:absolute;right:40px;top:8px;background:#000b;border:1px solid var(--line);color:#fff;border-radius:8px;padding:3px 8px;font-size:12px;opacity:0;transition:.15s}
+  .card:hover .del,.card:hover .edit{opacity:1}
   .del:hover{background:var(--bad);border-color:var(--bad)}
+  .edit:hover{background:var(--blue);border-color:var(--blue)}
+  .editor{padding:10px 12px;border-top:1px solid var(--line);background:#0b0e14}
+  .editor label{display:block;font-size:11px;color:var(--soft);margin:6px 0 3px}
+  .editor select,.editor input{width:100%;background:#11151d;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:7px 9px;font:inherit;font-size:13px}
+  .editor .erow{display:flex;gap:8px;margin-top:10px}
+  .editor button{flex:1;padding:7px}
+  .editor .save{background:var(--blue);color:#fff;border-color:var(--blue)}
   .muted{color:var(--soft)}
   .empty{text-align:center;color:var(--soft);padding:60px 0}
   .hide{display:none}
@@ -73,12 +81,30 @@ function card(ref){
   const el=document.createElement("div");el.className="card";el.id="r-"+ref.id;
   const href=ref.url||"#";
   const inner=ref.image?'<img loading="lazy" src="'+ref.image+'">':'<span class="ph">'+icon(ref.category)+'</span>';
+  const opts=CATS.filter(Boolean).map(c=>'<option value="'+c+'"'+(c===ref.category?' selected':'')+'>'+c+'</option>').join("");
   el.innerHTML=
     '<span class="badge">'+ref.category+'</span>'+
+    '<button class="edit" title="Edit">✎</button>'+
     '<button class="del" title="Delete">✕</button>'+
     '<a class="thumb" href="'+href+'" target="_blank">'+inner+'</a>'+
     '<div class="meta"><div class="t">'+esc(ref.title||ref.text||ref.host||ref.url||"Untitled")+'</div>'+
-    '<div class="h">'+esc(ref.host||"")+(ref.createdAt?' · '+new Date(ref.createdAt).toLocaleDateString():'')+'</div></div>';
+    '<div class="h">'+esc(ref.host||"")+(ref.createdAt?' · '+new Date(ref.createdAt).toLocaleDateString():'')+'</div></div>'+
+    '<div class="editor hide">'+
+      '<label>Category</label><select class="ecat">'+opts+'</select>'+
+      '<label>Tags (comma-separated)</label><input class="etags" value="'+esc((ref.tags||[]).join(", "))+'">'+
+      '<div class="erow"><button class="cancel">Cancel</button><button class="save">Save</button></div>'+
+    '</div>';
+  const editor=el.querySelector(".editor");
+  el.querySelector(".edit").onclick=()=>editor.classList.toggle("hide");
+  el.querySelector(".cancel").onclick=()=>editor.classList.add("hide");
+  el.querySelector(".save").onclick=async()=>{
+    const category=el.querySelector(".ecat").value;
+    const tags=el.querySelector(".etags").value;
+    const r=await fetch("/api/ref/"+encodeURIComponent(ref.id),{method:"PATCH",headers:{"X-Auth-Token":token,"Content-Type":"application/json"},body:JSON.stringify({category,tags})});
+    const d=await r.json();
+    if(r.ok&&d.ok){ref.category=d.ref.category;ref.tags=d.ref.tags;el.querySelector(".badge").textContent=d.ref.category;editor.classList.add("hide");}
+    else{alert("Save failed: "+(d.error||r.status));}
+  };
   el.querySelector(".del").onclick=async()=>{
     if(!confirm("Delete this ref?"))return;
     await fetch("/api/ref/"+encodeURIComponent(ref.id),{method:"DELETE",headers:{"X-Auth-Token":token}});
