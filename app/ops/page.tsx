@@ -6,6 +6,7 @@ import { getAllItems } from "@/lib/inventory";
 import { getVPCItems } from "@/lib/vpc-catalog";
 import { OpsClient } from "./OpsClient";
 import { TruckIcon, WalkieIcon } from "@/components/Icons";
+import { listSets, setsConfigured } from "@/lib/sets";
 
 export const metadata: Metadata = {
   title: "Operator",
@@ -67,6 +68,33 @@ export default async function OpsPage() {
   const thumbsCovered = vpc.filter((i) => i.thumb).length;
   const featured = inventory.filter((i) => i.tags?.includes("Featured")).length;
 
+  // Sets stats (best-effort; sets storage might not be configured yet)
+  let setsTotal = 0;
+  let setsLive = 0;
+  let setsDraft = 0;
+  let setsClosed = 0;
+  let setsItemsInPlay = 0;
+  let setsLatest: { name: string; client?: string; updated_at: string } | null = null;
+  if (setsConfigured()) {
+    try {
+      const allSets = await listSets();
+      setsTotal = allSets.length;
+      for (const s of allSets) {
+        if (s.locked) setsClosed++;
+        else if (s.unpublished) setsDraft++;
+        else {
+          setsLive++;
+          for (const g of s.groups ?? []) setsItemsInPlay += g.items?.length ?? 0;
+        }
+      }
+      if (allSets[0]) {
+        setsLatest = { name: allSets[0].name, client: allSets[0].client, updated_at: allSets[0].updated_at };
+      }
+    } catch {
+      // Worker might be unreachable — render zeros, ops still loads
+    }
+  }
+
   const inquiryDestinations = {
     notion: !!(process.env.NOTION_TOKEN && process.env.NOTION_DATABASE_ID),
     webhook: !!process.env.INQUIRY_WEBHOOK_URL,
@@ -127,6 +155,24 @@ export default async function OpsPage() {
               <Row k="Thumbs available" v={`${thumbsCovered} / ${vpc.length}`} />
               <Row k="Re-export needed" v="yes (10-cap)" hot />
             </div>
+          </section>
+
+          <section className="ops__card">
+            <div className="ops__card-title">SETS</div>
+            <div className="ops__stat-big">{setsTotal}</div>
+            <div className="ops__stat-meta">proposals on file</div>
+            <div className="ops__rows">
+              <Row k="Live" v={setsLive} hot={setsLive > 0} />
+              <Row k="Draft" v={setsDraft} />
+              <Row k="Closed" v={setsClosed} />
+              <Row k="Items in play" v={setsItemsInPlay} />
+            </div>
+            {setsLatest ? (
+              <div className="ops__hint" style={{ marginTop: 14 }}>
+                Latest: <b style={{ color: "var(--text)" }}>{setsLatest.name}</b>
+                {setsLatest.client ? ` · ${setsLatest.client}` : ""}
+              </div>
+            ) : null}
           </section>
 
           <section className="ops__card">
