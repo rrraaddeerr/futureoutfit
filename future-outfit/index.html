@@ -406,8 +406,69 @@
   /* the coin already uses --chrome; give it a live spin-glint + halo */
   .coin{box-shadow:inset 0 2px 3px rgba(255,255,255,.8),inset 0 -8px 14px rgba(0,0,0,.45),0 0 30px rgba(180,205,230,.4),0 12px 30px rgba(0,0,0,.5)}
 
+  /* ============================================================
+     CLEAR-PLASTIC X-RAY CHROME · v2
+     Photoreal gloss + crazy-clear photos under a see-through,
+     chrome-rimmed plastic case. Appended last so it refines the
+     layers above. Mobile-first, GPU-light.
+     ============================================================ */
+  :root{
+    --env:linear-gradient(125deg,#fbfdff 0%,#cdd9e6 13%,#7c8c9e 30%,#222c36 47%,#0f151b 52%,#5c6f81 66%,#d6e2ee 82%,#9fb2c4 100%);
+    --holo-edge:conic-gradient(from 210deg,#6ffcd6,#9fb0ff,#ff9fe0,#ffe39f,#9fe0ff,#6ffcd6);
+  }
+  /* thicker, clearer "poured plastic" on every glass panel */
+  .look,.card,.info,.accord,.quest,.vibecard.empty,.me,.chip,.where,.know,.adult,.qopt,.qz-opt,.piece,.mini,.teaser,.sheet,nav.tabs,.safe-note,.filters .chip{
+    -webkit-backdrop-filter:blur(17px) saturate(1.45);backdrop-filter:blur(17px) saturate(1.45)}
+
+  /* CRAZY-CLEAR photos — crisp the real image, drop the cyan haze */
+  .ph{filter:contrast(1.09) saturate(1.07) brightness(1.02)}
+
+  /* the x-ray layer reborn: a clear glossy case + bright chrome rim,
+     so the photo reads sharp instead of being veiled in scanlines */
+  .xray{opacity:1;mix-blend-mode:normal;
+    background:linear-gradient(180deg,rgba(255,255,255,.36),rgba(255,255,255,0) 18%,rgba(255,255,255,0) 82%,rgba(255,255,255,.07));
+    box-shadow:
+      inset 0 1.5px 0 rgba(255,255,255,.62),
+      inset 0 0 0 1.5px rgba(212,231,255,.34),
+      inset 0 -46px 64px rgba(0,8,16,.34)}
+
+  /* a slow specular glare wipes across the clear plastic — wet, alive */
+  .look .pic::before,.hero::before{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+    background:linear-gradient(116deg,transparent 40%,rgba(255,255,255,.20) 50%,transparent 60%);
+    background-size:250% 100%;background-position:140% 0;
+    animation:caseSheen 7.5s ease-in-out infinite}
+  @keyframes caseSheen{0%,66%{background-position:140% 0}100%{background-position:-55% 0}}
+
+  /* CARDS — deeper float + a holographic hairline that shows on touch */
+  .look,.mini,.vibecard,.card{position:relative}
+  .look{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 0 0 1px rgba(255,255,255,.06),0 16px 40px rgba(0,0,0,.55)}
+  .look:active{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),0 0 0 1.5px rgba(159,176,255,.5),0 22px 52px rgba(0,0,0,.6),0 0 40px rgba(120,255,225,.18)}
+
+  /* HERO — mirror-chrome frame around the featured look */
+  .hero{border:none;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 0 0 1.5px rgba(220,235,255,.4),0 20px 54px rgba(0,0,0,.58)}
+
+  /* COIN — live rotating chrome glint over the mirror metal */
+  .coin{position:relative;overflow:hidden}
+  .coin::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;mix-blend-mode:screen;opacity:.6;
+    background:conic-gradient(from 0deg,transparent,rgba(255,255,255,.55) 8%,transparent 26%,transparent 60%,rgba(255,255,255,.4) 70%,transparent 88%);
+    animation:coinGlint 6s linear infinite}
+  @keyframes coinGlint{to{transform:rotate(360deg)}}
+
+  /* VIBECARD — candy clear-coat with a sweeping highlight */
+  .vibecard{overflow:hidden}
+  .vibecard::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:linear-gradient(116deg,transparent 42%,rgba(255,255,255,.24) 50%,transparent 58%);
+    background-size:240% 100%;background-position:130% 0;animation:caseSheen 8.5s ease-in-out infinite}
+  .vibecard>*{position:relative;z-index:2}
+
+  /* the "me" pill + dot get the env-map mirror */
+  .me{background:var(--env);background-size:100% 240%;background-position:0 18%;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 5px 16px rgba(0,0,0,.45)}
+  .me span:not(.dot){color:#0c1117;font-weight:900;text-shadow:0 1px 0 rgba(255,255,255,.4)}
+
   @media (prefers-reduced-motion:reduce){
-    .brand .fo,.btn::before{animation:none}
+    .brand .fo,.btn::before,.look .pic::before,.hero::before,.vibecard::after,.coin::after{animation:none}
   }
 </style>
 </head>
