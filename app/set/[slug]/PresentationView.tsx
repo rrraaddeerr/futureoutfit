@@ -53,6 +53,58 @@ export function PresentationView({
   const [submitting, setSubmitting] = useState(false);
   const [savedTick, setSavedTick] = useState(0);
   const [sent, setSent] = useState(false);
+  const [lightbox, setLightbox] = useState<{
+    src: string;
+    title: string;
+    index: number;
+    group: string;
+  } | null>(null);
+
+  // Flat list of all visible items (for lightbox navigation across groups)
+  const allItems = useMemo(() => {
+    const out: { src: string; title: string; group: string }[] = [];
+    for (const g of resolvedGroups) {
+      for (const it of g.items) {
+        const src = it.catalog?.thumb;
+        if (!src) continue;
+        out.push({ src, title: it.title ?? it.catalog?.title ?? "", group: g.label });
+      }
+    }
+    return out;
+  }, [resolvedGroups]);
+
+  const openLightbox = (src: string, title: string, groupLabel: string) => {
+    const index = allItems.findIndex((x) => x.src === src);
+    setLightbox({ src, title, index: Math.max(0, index), group: groupLabel });
+  };
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      else if (e.key === "ArrowRight") {
+        setLightbox((prev) => {
+          if (!prev) return prev;
+          const next = (prev.index + 1) % allItems.length;
+          const nx = allItems[next];
+          return { src: nx.src, title: nx.title, index: next, group: nx.group };
+        });
+      } else if (e.key === "ArrowLeft") {
+        setLightbox((prev) => {
+          if (!prev) return prev;
+          const next = (prev.index - 1 + allItems.length) % allItems.length;
+          const nx = allItems[next];
+          return { src: nx.src, title: nx.title, index: next, group: nx.group };
+        });
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [lightbox, allItems]);
 
   useEffect(() => {
     setLocal(loadLocal(set.id));
@@ -193,7 +245,20 @@ export function PresentationView({
                     key={it.barcode}
                     className={`present-item ${d ? `present-item--${d}` : ""}`}
                   >
-                    <div className="present-item__media">
+                    <button
+                      type="button"
+                      className="present-item__media"
+                      onClick={() =>
+                        c?.thumb &&
+                        openLightbox(
+                          c.thumb,
+                          it.title ?? c?.title ?? "",
+                          g.label
+                        )
+                      }
+                      disabled={!c?.thumb}
+                      aria-label={`Open full-size photo of ${it.title ?? c?.title ?? "item"}`}
+                    >
                       {c?.thumb ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={c.thumb} alt={it.title ?? c?.title ?? ""} />
@@ -203,7 +268,8 @@ export function PresentationView({
                       {it.operatorPick ? (
                         <span className="present-item__pick">★ operator pick</span>
                       ) : null}
-                    </div>
+                      <span className="present-item__zoom" aria-hidden="true">⤢</span>
+                    </button>
                     <div className="present-item__body">
                       <h3 className="present-item__title">
                         {it.title ?? c?.title ?? "Untitled"}
@@ -331,6 +397,68 @@ export function PresentationView({
           )}
         </section>
       </div>
+
+      {lightbox ? (
+        <div
+          className="present__lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Full-size photo of ${lightbox.title}`}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setLightbox(null);
+          }}
+        >
+          <button
+            type="button"
+            className="present__lightbox-close"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+          >
+            Close ✕
+          </button>
+
+          {allItems.length > 1 ? (
+            <button
+              type="button"
+              className="present__lightbox-nav present__lightbox-nav--prev"
+              onClick={() => {
+                const next = (lightbox.index - 1 + allItems.length) % allItems.length;
+                const nx = allItems[next];
+                setLightbox({ src: nx.src, title: nx.title, index: next, group: nx.group });
+              }}
+              aria-label="Previous image"
+            >
+              ‹
+            </button>
+          ) : null}
+
+          <figure className="present__lightbox-figure" onClick={() => setLightbox(null)}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={lightbox.src} alt={lightbox.title} />
+            <figcaption>
+              <div className="present__lightbox-title">{lightbox.title}</div>
+              <div className="present__lightbox-meta">
+                {lightbox.group} · {lightbox.index + 1} / {allItems.length}
+              </div>
+            </figcaption>
+          </figure>
+
+          {allItems.length > 1 ? (
+            <button
+              type="button"
+              className="present__lightbox-nav present__lightbox-nav--next"
+              onClick={() => {
+                const next = (lightbox.index + 1) % allItems.length;
+                const nx = allItems[next];
+                setLightbox({ src: nx.src, title: nx.title, index: next, group: nx.group });
+              }}
+              aria-label="Next image"
+            >
+              ›
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
