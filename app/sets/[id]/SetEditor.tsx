@@ -32,12 +32,36 @@ export function SetEditor({
   catalog: CatalogItem[];
 }) {
   const [doc, setDoc] = useState<SetDoc>(initialSet);
-  const [responses] = useState<SetResponse[]>(initialResponses);
+  const [responses, setResponses] = useState<SetResponse[]>(initialResponses);
+  const [lastPolled, setLastPolled] = useState<number>(Date.now());
   const [save, setSave] = useState<SaveState>({ kind: "idle" });
   const [pickerFor, setPickerFor] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [pickerSelected, setPickerSelected] = useState<Set<string>>(new Set());
   const [pickerCategory, setPickerCategory] = useState<string>("");
+
+  // Poll for new responses every 12s — so if a client is voting live,
+  // the operator sees responses arrive without manually refreshing.
+  useEffect(() => {
+    if (doc.unpublished) return;
+    const fetchResponses = async () => {
+      try {
+        const res = await fetch(`/api/sets/${encodeURIComponent(doc.id)}`, {
+          cache: "no-store",
+        });
+        if (!res.ok) return;
+        const json = await res.json();
+        if (Array.isArray(json.responses)) {
+          setResponses(json.responses);
+          setLastPolled(Date.now());
+        }
+      } catch {
+        // ignore network blips; next tick will retry
+      }
+    };
+    const interval = setInterval(fetchResponses, 12_000);
+    return () => clearInterval(interval);
+  }, [doc.id, doc.unpublished]);
 
   // Auto-save 800 ms after the last change.
   useEffect(() => {
@@ -571,22 +595,48 @@ export function SetEditor({
           + Add group
         </button>
 
-        {responses.length > 0 ? (
-          <section className="set-edit__responses">
+        <section className="set-edit__responses">
+          <header className="set-edit__responses-head">
             <h2>Responses ({responses.length})</h2>
-            {responses.map((r) => (
-              <div className="set-edit__response" key={r.visitor}>
-                <div className="set-edit__response-head">
-                  <b>{r.name}</b>
-                  <span className="muted">
-                    {new Date(r.updated_at).toLocaleString()}
-                  </span>
+            {!doc.unpublished ? (
+              <span className="set-edit__responses-live">
+                live · refreshed {Math.round((Date.now() - lastPolled) / 1000)}s ago
+              </span>
+            ) : null}
+          </header>
+          {responses.length === 0 ? (
+            <div className="set-edit__responses-empty">
+              {doc.unpublished
+                ? "Publish the set to start collecting responses."
+                : "No responses yet. Share the link and they'll appear here as people vote."}
+            </div>
+          ) : (
+            responses.map((r) => {
+              let approve = 0, maybe = 0, pass = 0;
+              for (const v of Object.values(r.decisions ?? {})) {
+                if (v === "approve") approve++;
+                else if (v === "maybe") maybe++;
+                else if (v === "pass") pass++;
+              }
+              return (
+                <div className="set-edit__response" key={r.visitor}>
+                  <div className="set-edit__response-head">
+                    <b>{r.name}</b>
+                    <span className="set-edit__response-tally">
+                      <span style={{ color: "var(--tape)" }}>{approve} ✓</span>
+                      {" "}<span style={{ color: "var(--muted)" }}>{maybe} ◐</span>
+                      {" "}<span>{pass} ✗</span>
+                    </span>
+                    <span className="muted">
+                      {new Date(r.updated_at).toLocaleString()}
+                    </span>
+                  </div>
+                  {r.note ? <p className="set-edit__response-note">{r.note}</p> : null}
                 </div>
-                {r.note ? <p className="set-edit__response-note">{r.note}</p> : null}
-              </div>
-            ))}
-          </section>
-        ) : null}
+              );
+            })
+          )}
+        </section>
       </div>
 
       {pickerFor ? (

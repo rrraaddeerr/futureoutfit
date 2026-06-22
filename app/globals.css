@@ -3446,7 +3446,33 @@ textarea.field__control {
   padding-top: 20px;
   border-top: 1px solid var(--line);
 }
-.set-edit__responses h2 { margin-bottom: 12px; }
+.set-edit__responses h2 { margin: 0; }
+.set-edit__responses-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.set-edit__responses-live {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--tape);
+}
+.set-edit__responses-empty {
+  padding: 32px 20px;
+  border: 1px dashed var(--line);
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+.set-edit__response-tally {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
 .set-edit__response {
   background: var(--panel);
   border: 1px solid var(--line);
