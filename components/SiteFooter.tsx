@@ -37,8 +37,11 @@ export function SiteFooter() {
       </div>
 
       <div className="site-footer__base">
-        <span>rent.co // archive online</span>
-        <span>&copy; {new Date().getFullYear()} RaderENT</span>
+        <span className="site-footer__base-channel" aria-hidden="true">
+          <span className="site-footer__base-dot" />
+          rent.co · channel online · all systems clear
+        </span>
+        <span>&copy; {new Date().getFullYear()} RaderENT · Vancouver HQ · access anywhere</span>
       </div>
     </footer>
   );
