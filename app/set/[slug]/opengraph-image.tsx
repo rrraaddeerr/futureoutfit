@@ -65,18 +65,16 @@ export default async function SetOpengraphImage({
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 14,
-            padding: "8px 14px",
+            padding: "10px 16px",
             border: "1px solid #ff5a1f",
             alignSelf: "flex-start",
+            fontSize: 19,
+            fontWeight: 800,
+            letterSpacing: 4,
+            color: "#ededea",
           }}
         >
-          <div style={{ width: 6, height: 22, background: "#ff5a1f" }} />
-          <div style={{ fontSize: 19, fontWeight: 800, letterSpacing: 4, color: "#ededea" }}>RENT.CO</div>
-          <div style={{ fontSize: 19, letterSpacing: 4, color: "#ff5a1f" }}>│</div>
-          <div style={{ fontSize: 19, fontWeight: 800, letterSpacing: 4, color: "#ededea" }}>OPERATOR PROPOSAL</div>
-          <div style={{ fontSize: 19, letterSpacing: 4, color: "#ff5a1f" }}>│</div>
-          <div style={{ fontSize: 19, fontWeight: 800, letterSpacing: 4, color: status === "OPEN" ? "#5f8338" : "#ff5a1f" }}>{status}</div>
+          {`RENT.CO  //  OPERATOR PROPOSAL  //  ${status}`}
         </div>
 
         <img
@@ -90,6 +88,7 @@ export default async function SetOpengraphImage({
           {client ? (
             <div
               style={{
+                display: "flex",
                 fontSize: 22,
                 fontWeight: 800,
                 letterSpacing: 4,
@@ -98,11 +97,12 @@ export default async function SetOpengraphImage({
                 marginBottom: 14,
               }}
             >
-              FOR ↘ {client.toUpperCase()}
+              {`FOR ${client.toUpperCase()}`}
             </div>
           ) : null}
           <div
             style={{
+              display: "flex",
               fontSize: 76,
               fontWeight: 800,
               letterSpacing: -3,
@@ -114,27 +114,21 @@ export default async function SetOpengraphImage({
           </div>
           <div
             style={{
+              display: "flex",
               fontSize: 24,
               fontWeight: 400,
               color: "#c9c9c4",
               marginTop: 26,
-              display: "flex",
-              alignItems: "center",
-              gap: 18,
             }}
           >
-            <span>{groupCount} groups</span>
-            <span style={{ color: "#3c3c40" }}>·</span>
-            <span>{itemCount} objects</span>
-            <span style={{ color: "#3c3c40" }}>·</span>
-            <span>Open for review</span>
+            {`${groupCount} groups · ${itemCount} objects · Open for review`}
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <img src={truckUri} width={44} height={44} />
-          <div style={{ fontSize: 28, fontWeight: 800 }}>rent.co</div>
-          <div style={{ fontSize: 16, letterSpacing: 3, color: "#9a9a92", marginLeft: 12 }}>
+          <div style={{ display: "flex", fontSize: 28, fontWeight: 800 }}>rent.co</div>
+          <div style={{ display: "flex", fontSize: 16, letterSpacing: 3, color: "#9a9a92", marginLeft: 12 }}>
             OPERATED BY RADERENT · VANCOUVER HQ
           </div>
         </div>
