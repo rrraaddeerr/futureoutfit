@@ -106,6 +106,55 @@ links still unfurl with the brand teaser.
   ("The archive is open for invited guests"). Used when `/i/<code>` or
   `/access` links unfurl in iMessage/Slack/Twitter.
 
+## Sets (client proposals)
+
+Operator-built proposals you send to clients/directors. They open a
+public URL, vote on items (Approve / Maybe / Pass), and you watch
+responses come in live.
+
+- **Operator pages** (gated): `/sets`, `/sets/new`, `/sets/<id>`
+- **Public presentation:** `/set/<slug>` — no login, slug is the auth
+- **Storage:** Cloudflare Worker at `worker/rentco-sets/` (KV-backed)
+- **Vercel env vars required:**
+  - `RENTCO_SETS_URL` — `https://rentco-sets.raderturner.workers.dev`
+  - `RENTCO_SETS_TOKEN` — the same hex you set as worker secret
+    `OPERATOR_TOKEN`
+  - `NEXT_PUBLIC_RENTCO_SETS_URL` — same URL, exposed to the browser so
+    the public `/set/<slug>` page can POST responses
+- **Worker setup:** see `worker/rentco-sets/README.md`. Quick re-deploy:
+  ```bash
+  cd ~/Documents/rentco/worker/rentco-sets
+  npx wrangler deploy
+  ```
+- **Worker secret rotation:** pipe the value to avoid clipboard mangling:
+  ```bash
+  echo -n "<token>" | npx wrangler secret put OPERATOR_TOKEN
+  ```
+
+### Operator workflow
+
+1. `/sets/new` — pick a starter template (Blank, Lounge, Dinner, Film
+   set, Bar). Templates pre-populate group labels + pick rules.
+2. `/sets/<id>` — add items per group via multi-select picker (search,
+   filter by VPC subcategory, select N tiles, "Add selected"). Mark
+   your favorites with ★ pick, add operator notes per item.
+3. Group pick rules: **Open** (any combination), **Pick one**
+   (alternatives), **All confirmed** (no choice — the spec).
+4. Click **Publish** in the top bar to make the public URL live.
+5. **Copy share link** or **Send** (Web Share / mailto with subject +
+   body pre-filled) to text the client.
+6. Responses appear on `/sets/<id>` and refresh every 12 seconds while
+   the editor is open. Per-response tally shows approve/maybe/pass counts.
+
+### Client experience at `/set/<slug>`
+
+- Editorial layout, big photos, name field at top, group jump nav with
+  per-section progress (0/3, 0/2, etc).
+- Three taps per item: ✓ Approve · ◐ Maybe · ✗ Pass.
+- Auto-saves to KV every 900 ms keyed by visitor name.
+- "Send to Rader" final button shows a thank-you panel with their tally
+  summary. Revise button lets them go back.
+
 ## Curation workflow
 
 End-to-end flow from VPC catalog to live archive:
