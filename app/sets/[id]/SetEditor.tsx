@@ -284,13 +284,13 @@ export function SetEditor({
         <header className="set-edit__bar">
           <div className="set-edit__bar-meta">
             <Link href="/sets" className="curate__btn">← Sets</Link>
-            <span className="set-edit__save">
+            <span className={`set-edit__save set-edit__save--${save.kind}`}>
               {save.kind === "saving"
-                ? "saving…"
+                ? "◐ TRANSMITTING…"
                 : save.kind === "saved"
-                ? "saved ✓"
+                ? "● TRANSMISSION CLEAR"
                 : save.kind === "error"
-                ? `save failed: ${save.message}`
+                ? `✗ FAILED: ${save.message}`
                 : ""}
             </span>
           </div>
@@ -455,6 +455,7 @@ export function SetEditor({
         {doc.groups.map((g, gi) => (
           <section key={g.id} className="set-edit__group">
             <header className="set-edit__group-head">
+              <span className="set-edit__group-num">GRP {String(gi + 1).padStart(2, "0")}</span>
               <input
                 type="text"
                 value={g.label}

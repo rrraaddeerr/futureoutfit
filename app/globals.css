@@ -3450,10 +3450,16 @@ textarea.field__control {
 .set-edit__bar-meta { display: flex; gap: 14px; align-items: center; }
 .set-edit__save {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  letter-spacing: 0.16em;
   color: var(--muted);
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
 }
+.set-edit__save--saved { color: var(--tape); border-color: var(--tape); }
+.set-edit__save--saving { color: var(--accent); border-color: var(--accent); }
+.set-edit__save--error { color: var(--accent); border-color: var(--accent); background: rgba(255,90,31,0.08); }
 .set-edit__bar-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
 .set-edit__head {
@@ -3627,6 +3633,17 @@ textarea.field__control {
   padding: 6px 10px;
   border: 1px solid var(--line);
   background: var(--panel-2);
+}
+.set-edit__group-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 700;
+  padding: 6px 10px;
+  border: 1px solid var(--accent);
+  background: rgba(255, 90, 31, 0.06);
+  flex-shrink: 0;
 }
 .set-edit__group-note {
   background: var(--panel-2);
