@@ -82,12 +82,20 @@ export default async function SetsPage() {
             {sets.map((s) => {
               const groupCount = s.groups?.length ?? 0;
               const itemCount = s.groups?.reduce((n, g) => n + g.items.length, 0) ?? 0;
+              const status = s.locked
+                ? { label: "CLOSED", className: "is-closed" }
+                : s.unpublished
+                ? { label: "DRAFT", className: "is-draft" }
+                : { label: "LIVE", className: "is-live" };
               return (
                 <Link
                   key={s.id}
                   href={`/sets/${encodeURIComponent(s.id)}`}
                   className="sets-list__row"
                 >
+                  <span className={`sets-list__status ${status.className}`}>
+                    {status.label}
+                  </span>
                   <div className="sets-list__main">
                     <div className="sets-list__name">{s.name || "Untitled set"}</div>
                     {s.client ? (
@@ -99,12 +107,6 @@ export default async function SetsPage() {
                       {groupCount} {groupCount === 1 ? "group" : "groups"} ·{" "}
                       {itemCount} {itemCount === 1 ? "item" : "items"}
                     </span>
-                    {s.unpublished ? (
-                      <span className="sets-list__tag">DRAFT</span>
-                    ) : null}
-                    {s.locked ? (
-                      <span className="sets-list__tag">LOCKED</span>
-                    ) : null}
                     <span className="sets-list__date">
                       {new Date(s.updated_at).toLocaleString()}
                     </span>
