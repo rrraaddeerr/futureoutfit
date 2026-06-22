@@ -151,8 +151,26 @@ export function PresentationView({
           </div>
         </section>
 
+        {resolvedGroups.length > 1 ? (
+          <nav className="present__nav" aria-label="Jump to section">
+            {resolvedGroups.map((g) => {
+              const decided = g.items.filter(
+                (it) => local.decisions[`${g.id}:${it.barcode}`]
+              ).length;
+              return (
+                <a key={g.id} href={`#${g.id}`}>
+                  {g.label}
+                  <span className="present__nav-count">
+                    {decided}/{g.items.length}
+                  </span>
+                </a>
+              );
+            })}
+          </nav>
+        ) : null}
+
         {resolvedGroups.map((g) => (
-          <section className="present__group" key={g.id}>
+          <section className="present__group" key={g.id} id={g.id}>
             <header className="present__group-head">
               <h2>{g.label}</h2>
               {g.pick === "one" ? (
