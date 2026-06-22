@@ -44,7 +44,8 @@ export default function HomePage() {
           <h1 className="hero__title">
             Rent the archive.
             <br />
-            Source the <span className="hot">impossible</span>.
+            Source the{" "}
+            <span className="hot marker-underline">impossible</span>.
           </h1>
           <p className="hero__lead">
             Rental, sourcing, and infrastructure for culture — the archive and
