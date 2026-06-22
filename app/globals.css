@@ -786,6 +786,25 @@ h4 {
   color: var(--accent);
   letter-spacing: 0.1em;
 }
+.cta-card__channel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.22em;
+  display: block;
+  margin-top: 2px;
+}
+.cta-card__icon {
+  display: inline-flex;
+  margin: 10px 0 6px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+}
 .cta-card__label {
   font-size: 1.3rem;
   font-weight: 800;
