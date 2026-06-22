@@ -1,5 +1,6 @@
 name: Deploy Future Outfit to GitHub Pages
 # Pages enabled with Source = GitHub Actions; deploys future-outfit/ as site root.
+# Default branch is main, so the github-pages environment allows these deploys.
 
 on:
   push:
