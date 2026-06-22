@@ -3125,6 +3125,49 @@ textarea.field__control {
 }
 .set-form__input:focus { border-color: var(--accent); outline: none; }
 
+.set-form__templates { border: 0; padding: 0; margin: 8px 0; }
+.set-form__template-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.set-form__template { cursor: pointer; }
+.set-form__template input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.set-form__template-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 12px 14px;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+.set-form__template input:checked + .set-form__template-card {
+  border-color: var(--accent);
+  background: rgba(255, 90, 31, 0.06);
+}
+.set-form__template input:focus-visible + .set-form__template-card {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.set-form__template-name {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.set-form__template-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .set-form__template-grid { grid-template-columns: 1fr; }
+}
+
 /* ============================================================
    /sets/[id] — operator editor
    ============================================================ */
