@@ -76,3 +76,32 @@ and anything else aesthetic. Just say the word.
 - Wire the new Big Brain's `/api/export` into a vibe profile for future-outfit.
 - Hunt the broader archive for techwear/western so l7 & l19 get real matches.
 - Add an "edit tags/category" action to the gallery.
+
+---
+
+# 🌙 Shift 2 (continued autonomous work)
+
+All merged to `main` + deployed live; each verified with Playwright/Chromium at
+a 402×874 phone viewport (no JS errors). Live: https://rrraaddeerr.github.io/Rader1
+
+- **PR #15 — Aesthetic v2:** clear-plastic x-ray chrome; photos now read
+  crazy-clear under a glossy chrome-rimmed case; live glare sweep, mirror-chrome
+  hero, rotating coin glint, env-map "me" pill.
+- **PR #16 — Phone a Friend + Supporter Stars:** peer stylists alongside
+  grown-ups; platform-funded ⭐ for helping/sharing; **kids never pay kids**;
+  Share / Help a pal / Give-stars-away; 2 new quests.
+- **PR #17 — Add-a-pal + reply reveal:** grown-up-approved custom pals
+  (persisted); a pal "types" then replies with a tip + the on-us star message.
+- **PR #18 — Installable PWA:** manifest + offline service worker + brand icons.
+  **Add to Home Screen works**, and the app runs offline after first load.
+- **PR #19 — Friends build full fits:** pals appear in the Fits stylist picker
+  and earn Stars when they style you (family adults don't).
+
+### Gallery (Big Brain) edit — PR #11 still open
+The gallery re-tag/re-categorize feature is on PR #11 (CI green) awaiting your
+`wrangler deploy` whenever you're at a laptop.
+
+### Credits note
+You said to stop if credits run out and resume ~4:41 when they re-up. Every
+feature is its own merged PR, so a cutoff loses nothing — work just continues
+from a clean `main` when the session resumes.
