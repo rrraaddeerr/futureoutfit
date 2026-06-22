@@ -3232,6 +3232,47 @@ textarea.field__control {
    /sets — operator
    ============================================================ */
 
+.sets-head {
+  position: relative;
+  overflow: hidden;
+}
+.sets-head__bg {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.sets-head__bg svg { display: block; }
+.sets-head > div { position: relative; z-index: 1; }
+.ops__title.sharpie {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sets-empty {
+  text-align: center;
+  padding: 56px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.sets-empty__icon {
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+.sets-empty h3 { margin: 0; font-size: 22px; }
+.sets-empty p {
+  color: var(--muted);
+  margin: 0 auto 18px;
+  max-width: 400px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .sets-list { display: flex; flex-direction: column; gap: 8px; }
 .sets-list__row {
   position: relative;
