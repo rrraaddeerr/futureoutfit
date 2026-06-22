@@ -193,12 +193,34 @@ export function SetEditor({
   const presentationUrl =
     typeof window !== "undefined" ? `${window.location.origin}/set/${doc.slug}` : "";
 
+  const [linkCopied, setLinkCopied] = useState(false);
   const copyLink = async () => {
     if (!presentationUrl) return;
     try {
       await navigator.clipboard.writeText(presentationUrl);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
     } catch {
       window.prompt("Copy this URL:", presentationUrl);
+    }
+  };
+
+  const duplicateSet = async () => {
+    if (typeof window !== "undefined" && !window.confirm("Create a copy of this set?")) return;
+    try {
+      const res = await fetch(`/api/sets/duplicate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ from: doc.id }),
+      });
+      const json = await res.json();
+      if (json.ok && json.id) {
+        window.location.href = `/sets/${json.id}`;
+      } else {
+        window.alert(`Couldn't duplicate: ${json.error ?? res.status}`);
+      }
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : String(err));
     }
   };
 
@@ -236,12 +258,20 @@ export function SetEditor({
           <div className="set-edit__bar-actions">
             <button
               type="button"
-              onClick={copyLink}
+              onClick={duplicateSet}
               className="curate__btn"
+              title="Create a copy of this set as a starting point"
+            >
+              Duplicate
+            </button>
+            <button
+              type="button"
+              onClick={copyLink}
+              className={`curate__btn ${linkCopied ? "curate__btn--accent" : ""}`}
               disabled={doc.unpublished}
               title={doc.unpublished ? "Publish first" : "Copy public URL"}
             >
-              Copy share link
+              {linkCopied ? "Copied ✓" : "Copy share link"}
             </button>
             <button
               type="button"
@@ -289,9 +319,6 @@ export function SetEditor({
               }
               className="set-edit__client"
             />
-            {presentationUrl ? (
-              <code className="set-edit__url">{presentationUrl}</code>
-            ) : null}
           </div>
           <textarea
             value={doc.intro ?? ""}
@@ -304,6 +331,30 @@ export function SetEditor({
             className="set-edit__intro"
             rows={3}
           />
+
+          {presentationUrl ? (
+            <div className={`set-edit__share ${doc.unpublished ? "is-unpublished" : ""}`}>
+              <div className="set-edit__share-label">
+                {doc.unpublished ? "DRAFT — UNPUBLISHED" : "PUBLIC URL"}
+              </div>
+              <div className="set-edit__share-row">
+                <code className="set-edit__share-url">{presentationUrl}</code>
+                <button
+                  type="button"
+                  onClick={copyLink}
+                  disabled={doc.unpublished}
+                  className={`curate__btn ${linkCopied ? "curate__btn--accent" : ""}`}
+                >
+                  {linkCopied ? "Copied ✓" : "Copy"}
+                </button>
+              </div>
+              {doc.unpublished ? (
+                <div className="set-edit__share-hint">
+                  Click <b>Publish</b> in the top bar to make this URL live for clients.
+                </div>
+              ) : null}
+            </div>
+          ) : null}
         </section>
 
         {doc.groups.length === 0 ? (

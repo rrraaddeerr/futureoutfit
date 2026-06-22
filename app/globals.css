@@ -3211,6 +3211,49 @@ textarea.field__control {
   resize: vertical;
 }
 
+.set-edit__share {
+  margin-top: 14px;
+  background: rgba(95, 131, 56, 0.08);
+  border: 1px solid var(--tape);
+  padding: 12px 14px;
+}
+.set-edit__share.is-unpublished {
+  background: var(--panel-2);
+  border-color: var(--line-2);
+}
+.set-edit__share-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--tape);
+  margin-bottom: 8px;
+}
+.set-edit__share.is-unpublished .set-edit__share-label { color: var(--muted); }
+.set-edit__share-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.set-edit__share-url {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text);
+  letter-spacing: 0;
+  word-break: break-all;
+  min-width: 240px;
+}
+.set-edit__share-hint {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.set-edit__share-hint b { color: var(--accent); }
+
 .set-edit__empty {
   text-align: center;
   padding: 40px 20px;
