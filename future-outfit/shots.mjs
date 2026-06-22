@@ -21,7 +21,14 @@ page.on("pageerror", (e) => console.log("‼️ PAGEERROR:", e.message));
 page.on("console", (m) => { if (m.type() === "error") console.log("‼️ CONSOLE:", m.text()); });
 await page.setViewport({ width: 402, height: 874, deviceScaleFactor: 2, isMobile: true });
 await page.goto(url, { waitUntil: "networkidle0" });
+// fresh slate every run — otherwise persisted state.vibe/saved fits hide first-run UI
+await page.evaluate(() => localStorage.clear());
+await page.reload({ waitUntil: "networkidle0" });
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+const clk = async (sel) => {
+  await page.waitForSelector(sel, { visible: true, timeout: 15000 });
+  await page.click(sel);
+};
 
 async function shot(name, full = false) {
   await wait(450);
@@ -43,17 +50,23 @@ await page.click('.look[data-id="l1"] .cap');
 await sheetShot("02-decode");
 
 // 3. Ask a grown-up (from detail)
-await page.click("#askBtn");
+await clk("#askBtn");
 await sheetShot("03-ask-grownup");
 
 // close sheet
-await page.evaluate(() => document.getElementById("sheetBg").click());
-await wait(500);
+const closeSheet = async () => {
+  await page.evaluate(() => document.getElementById("sheetBg").click());
+  await page.waitForFunction(
+    () => !document.getElementById("sheetBg").classList.contains("open"),
+    { timeout: 8000 }
+  ).catch(() => {});
+  await wait(450);
+};
+await closeSheet();
 
 // 4. Vibe quiz (You tab -> take quiz)
-await page.click('nav.tabs button[data-go="you"]');
-await page.waitForSelector("#takeQuiz", { visible: true, timeout: 8000 });
-await page.click("#takeQuiz");
+await clk('nav.tabs button[data-go="you"]');
+await clk("#takeQuiz");
 await sheetShot("04-vibe-quiz");
 
 // answer the quiz to reach result
@@ -62,7 +75,7 @@ for (let i = 0; i < 4; i++) {
   await wait(250);
 }
 await sheetShot("05-vibe-result");
-await page.click("#qzDone");
+await clk("#qzDone");
 await wait(400);
 
 // 5. Save a few looks then show You board
@@ -90,38 +103,38 @@ await shot("09-closet", true);
 // 9. Coin-flip fairness sheet
 await page.click('#closetBox [data-flip]');
 await sheetShot("10-coinflip");
-await page.evaluate(() => document.getElementById("sheetBg").click());
-await wait(300);
+await closeSheet();
 
 // 10. Build avatar (You tab)
 await page.click('nav.tabs button[data-go="you"]');
 await wait(300);
-await page.click("#makeAv");
+await clk("#makeAv");
 await wait(400);
 await sheetShot("11-avatar-build");
-await page.click("#avSave");
+await clk("#avSave");
 await wait(400);
+await closeSheet();
 
 // 11. Style help / Fits
-await page.click('nav.tabs button[data-go="fits"]');
+await clk('nav.tabs button[data-go="fits"]');
+await page.waitForSelector("#fitsBox #askFit", { visible: true, timeout: 15000 });
 await wait(300);
 await shot("12-fits-ask", true);
-await page.click("#askFit");
+await clk("#askFit");
 await wait(1500); // let the "putting together" reveal finish
 await sheetShot("13-fit-reveal");
 // save it, then try it on
 await page.click("#sheetPad [data-savefit]");
 await wait(400);
-await page.click('#fitsBox [data-tryon]');
+await clk('#fitsBox [data-tryon]');
 await wait(500);
 await sheetShot("14-tryon");
-await page.evaluate(() => document.getElementById("sheetBg").click());
-await wait(300);
+await closeSheet();
 
 // 12. Field Report — futuristic questionnaire
 await page.click('nav.tabs button[data-go="you"]');
 await wait(300);
-await page.click("#fieldReport");
+await clk("#fieldReport");
 await wait(400);
 // fill a few answers so it looks alive
 await page.evaluate(() => {
