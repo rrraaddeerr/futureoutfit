@@ -9,6 +9,7 @@ const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@r-ent.co";
 export function SiteFooter() {
   const pathname = usePathname();
   if (pathname === "/access") return null;
+  if (pathname === "/planner" || pathname.startsWith("/planner/")) return null;
 
   return (
     <footer className="site-footer">

@@ -12,6 +12,7 @@ export function WelcomeFlash() {
 
   useEffect(() => {
     if (pathname === "/access") return;
+    if (pathname === "/planner" || pathname.startsWith("/planner/")) return;
     if (typeof window === "undefined") return;
     if (sessionStorage.getItem(FLAG)) return;
     const m = document.cookie.match(/(?:^|;\s*)rentco_guest=([^;]+)/);

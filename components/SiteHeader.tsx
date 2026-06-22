@@ -39,6 +39,7 @@ export function SiteHeader() {
     pathname === href || pathname.startsWith(href + "/");
 
   if (pathname === "/access") return null;
+  if (pathname === "/planner" || pathname.startsWith("/planner/")) return null;
 
   return (
     <header className="site-header">

@@ -2,6 +2,42 @@
 
 Living snapshot of the project. Update when major things change.
 
+## /planner — Future Planner (Amani's tool)
+
+A self-contained personal app at `/planner`. Separate from rent.co — its own
+light theme, own nav, hidden from the rent.co SiteHeader/SiteFooter. Robots
+no-indexed. Data lives in `localStorage` (`futureplanner-v1`), never the cloud.
+
+- **Owner:** Amani (configurable in Settings)
+- **Stack:** Same Next.js app, Zustand + persist (like `lib/cart.ts`)
+- **AI:** Optional. Off by default. When toggled on in Settings, Ideas Lab can
+  hit `/planner/api/generate` (server route → Anthropic). Set
+  `ANTHROPIC_API_KEY` in `.env.local` to enable. Without it, the offline remixer
+  still works.
+- **Sections:**
+  - `Today` — daily affirmation + spark generator + quick win + nav tiles
+  - `Me` — 12 buckets she fills (interests, loves, morals, skills, dreams, past
+    work, past hustles, things that bug her, people she admires, curiosities,
+    environments, signatures)
+  - `Paths` — library of curated work-shapes with yes/maybe/no reactions; the
+    hybrid creative+talent agency is the featured path; plus `/planner/paths/jobs`
+    with 40+ real orgs (SOCAN, agencies, festivals, fashion houses) linking to
+    their careers pages
+  - `Ideas Lab` — offline remixer + optional AI, saved ideas with status
+    (spark / exploring / committed / archived)
+  - `Believe` — daily affirmation, wins log, doubt-reframer, visualization,
+    gratitude, date-locked letters to future self
+  - `Settings` — owner name, AI toggle + connection test, export/import JSON,
+    full reset
+- **Files:**
+  - `app/planner/` — all routes
+  - `lib/planner/` — store, types, data (buckets/paths), engine (offline ideas
+    + reframes), ai client, orgs (real careers links)
+  - `components/planner/Shell.tsx`, `Hydrated.tsx`
+  - `app/planner/planner.css` — chill cream/terracotta theme (no impact on
+    rent.co's industrial CSS)
+
+
 ## What this is
 
 **rent.co** is a phase-1 inquiry-based rental, sourcing, and archive platform
