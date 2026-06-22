@@ -29,7 +29,7 @@ async function shot(name, full = false) {
   console.log("✓", name);
 }
 async function sheetShot(name) {
-  await wait(500);
+  await wait(700);
   const el = await page.$("#sheet");
   await el.screenshot({ path: join(outdir, name + ".png") });
   console.log("✓", name);
