@@ -13,11 +13,16 @@ export default function ConsultPage() {
     <>
       <section className="page-head">
         <div className="wrap">
+          <div className="page-head__slate">
+            <span>CH 03 — CONSULT</span>
+            <span className="page-head__slate-sep" aria-hidden="true">│</span>
+            <span>DIRECT LINE</span>
+          </div>
           <TapeLabel className="page-head__tape" rotate={-2}>
             Consult
           </TapeLabel>
           <h1>
-            Direct access to <span className="hot">Rader</span>.
+            Direct access to <span className="hot marker-underline">Rader</span>.
           </h1>
           <p className="page-head__lead">
             Not every build fits a catalogue. A consult is a direct line for

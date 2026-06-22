@@ -18,12 +18,19 @@ export default function ArchivePage() {
     <>
       <section className="page-head">
         <div className="wrap">
+          <div className="page-head__slate">
+            <span>CH 02 — ARCHIVE</span>
+            <span className="page-head__slate-sep" aria-hidden="true">│</span>
+            <span>LIVE</span>
+            <span className="page-head__slate-sep" aria-hidden="true">│</span>
+            <span>{items.length} OBJECTS</span>
+          </div>
           <TapeLabel className="page-head__tape" rotate={-2}>
             The Archive
           </TapeLabel>
           <h1>
             {items.length} objects.<br />
-            <span className="hot">Search by function or by world.</span>
+            <span className="hot marker-underline">Search by function or by world.</span>
           </h1>
           <p className="page-head__lead">
             A curated, manually verified subset of the inventory. Availability is

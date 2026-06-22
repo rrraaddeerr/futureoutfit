@@ -13,11 +13,16 @@ export default function SourcePage() {
     <>
       <section className="page-head">
         <div className="wrap">
+          <div className="page-head__slate">
+            <span>CH 04 — SOURCE</span>
+            <span className="page-head__slate-sep" aria-hidden="true">│</span>
+            <span>NETWORK ONLINE</span>
+          </div>
           <TapeLabel className="page-head__tape" rotate={-2}>
             Source
           </TapeLabel>
           <h1>
-            Send the <span className="hot">impossible</span> request.
+            Send the <span className="hot marker-underline">impossible</span> request.
           </h1>
           <p className="page-head__lead">
             The archive is a curated subset — it will never hold everything. If
