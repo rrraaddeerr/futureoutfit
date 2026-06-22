@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { listSets, setsConfigured } from "@/lib/sets";
 import { DirectorChairIcon, TruckIcon } from "@/components/Icons";
+import { GenerateSampleButton } from "./SetsActions";
 
 export const metadata: Metadata = {
   title: "Sets",
@@ -67,6 +68,7 @@ export default async function SetsPage() {
           </div>
           <div className="ops__head-links">
             <Link href="/ops" className="curate__btn">← /ops</Link>
+            <GenerateSampleButton small />
             <Link
               href="/sets/new"
               className="curate__btn curate__btn--accent"
@@ -89,9 +91,17 @@ export default async function SetsPage() {
               A set is a curated proposal — group some archive items, mark your
               picks, share the public URL. Client votes; you ship.
             </p>
-            <Link href="/sets/new" className="curate__btn curate__btn--accent">
-              Build the first set
-            </Link>
+            <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+              <Link href="/sets/new" className="curate__btn curate__btn--accent">
+                Build the first set
+              </Link>
+              <GenerateSampleButton small />
+            </div>
+            <p className="muted" style={{ marginTop: 14, fontSize: 12 }}>
+              Or click <b>Generate sample</b> to spawn a fully-loaded demo set in
+              one tap — useful for showing someone the flow before you have a
+              real proposal.
+            </p>
           </div>
         ) : (
           <div className="sets-list">
