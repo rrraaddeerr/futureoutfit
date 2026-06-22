@@ -39,13 +39,12 @@
     color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased;
     padding-bottom:96px;min-height:100vh;
   }
-  /* backdrop = real clear-plastic technology photo, tinted just enough to read text */
+  /* backdrop = deep studio gradient (no external images, never random) */
   body::before{content:"";position:fixed;inset:0;z-index:-2;
     background:
-      linear-gradient(180deg,rgba(16,22,28,.60),rgba(10,14,18,.80)),
-      linear-gradient(135deg,#2a333b,#11161b),
-      url("https://loremflickr.com/1100/1900/clear,plastic,technology,translucent,gadget?lock=88") center/cover fixed no-repeat;
-    background-blend-mode:normal,normal,normal}
+      radial-gradient(120% 80% at 50% -10%,rgba(60,80,96,.55),transparent 60%),
+      linear-gradient(180deg,rgba(16,22,28,.60),rgba(10,14,18,.86)),
+      linear-gradient(135deg,#2a333b,#11161b)}
   body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;mix-blend-mode:overlay;pointer-events:none;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   /* frosted glass — you can see light through every panel */
@@ -85,8 +84,7 @@
       linear-gradient(rgba(127,232,255,.10) 1px,transparent 1px) 0 0/100% 13px,
       linear-gradient(90deg,rgba(127,232,255,.09) 1px,transparent 1px) 0 0/13px 100%,
       radial-gradient(120% 85% at 50% 6%,color-mix(in srgb,var(--a,#1de0ff) 30%,transparent),transparent 70%),
-      linear-gradient(150deg,rgba(180,196,205,.30),rgba(40,52,60,.55)),
-      url("https://loremflickr.com/700/900/clear,plastic,technology,translucent?lock=42") center/cover no-repeat,
+      linear-gradient(160deg,rgba(214,224,232,.92),rgba(150,166,178,.82) 55%,rgba(96,110,122,.85)),
       #20272d}
   .look .pic::after,.hero::after,.mini .mp::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;opacity:.06;mix-blend-mode:screen;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")}
@@ -568,16 +566,9 @@ const LOOKS=[
    colors:["#2b2b2e","#e0533b","#cfcfca"],color_note:"Asphalt grey, traffic-cone orange and worn white — playground-tough colours.",
    where:["thrift","secondhand","make"],care:"Reinforce knees and toes — skate clothes are meant to be patched.",movement:"skate"},
 ];
-/* Real clothing photos (hardcoded public URLs). Keyword-matched real Flickr
-   photos via loremflickr — load on the live site; fall back to the vector
-   emblem automatically if a photo is unavailable. Tweak any look's `img`
-   directly to pin a specific picture. */
-const PHOTO_KW={l4:"oversized,streetwear,outfit",l8:"hiking,fleece,outdoor",l14:"hiphop,jersey,streetwear"};
-LOOKS.forEach(l=>{
-  if(l.img!=null)return;
-  const kw=PHOTO_KW[l.id]||l.name.toLowerCase().replace(/&/g," ").replace(/[^a-z0-9]+/g,",").replace(/^,+|,+$/g,"");
-  l.img=`https://loremflickr.com/640/820/${encodeURIComponent(kw)},outfit,fashion?lock=${l.id.replace(/\D/g,"")||1}`;
-});
+/* No external photos. Every look is drawn locally as a clean flat-colour
+   garment render (see garmentRender) using the look's own palette — crisp,
+   consistent, instant, and never random. */
 
 const GLOSSARY=[
   ["Silhouette","The overall shape an outfit makes — boxy, slim, draped. It matters more than any single piece."],
@@ -719,10 +710,49 @@ const GARMENTS={
 };
 function sparkle(x,y,r,o){return `<path d="M${x},${y-r} C${x},${y-r*0.28} ${x+r*0.28},${y} ${x+r},${y} C${x+r*0.28},${y} ${x},${y+r*0.28} ${x},${y+r} C${x},${y+r*0.28} ${x-r*0.28},${y} ${x-r},${y} C${x-r*0.28},${y} ${x},${y-r*0.28} ${x},${y-r} Z" fill="#ffffff" opacity="${o}"/>`;}
 function lookArt(l){
-  const art=pendantSVG(l.id,l.sil||ART_SIL[l.id],l.colors,l.metal,l.heri);
-  // real clothing photo fills the scanner screen; vector stays behind as fallback
-  if(l.img) return `<img class="ph" src="${esc(l.img)}" alt="${esc(l.name)}" loading="lazy" onerror="this.remove()">`+art;
-  return art;
+  return garmentRender(l.id,l.sil||ART_SIL[l.id],l.colors,l.metal,l.heri);
+}
+/* shade a #rrggbb hex toward white (p>0) or black (p<0), p in 0..1 */
+function shade(hex,p){
+  hex=(hex||"#808890").replace("#","");
+  if(hex.length===3)hex=hex.split("").map(c=>c+c).join("");
+  let r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+  const t=p<0?0:255,a=Math.min(1,Math.abs(p));
+  r=Math.round((t-r)*a+r);g=Math.round((t-g)*a+g);b=Math.round((t-b)*a+b);
+  return "#"+((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1);
+}
+/* clean flat-colour garment render — recognisable clothing in the look's own
+   palette on a soft studio card. Fully offline, consistent, never random. */
+function garmentRender(id,sil,colors,metal,heri){
+  sil=sil||"tee";
+  const g=GARMENTS[sil]||GARMENTS.tee;
+  const ds=[...g.matchAll(/d="([^"]+)"/g)].map(m=>m[1]);
+  const body=ds[0],seam=ds[1];
+  const cols=(colors&&colors.length?colors:["#8893a0","#525a66"]);
+  const main=cols[0],acc=cols[1]||shade(main,-0.28),third=cols[2]||shade(main,0.34);
+  const lite=shade(main,0.30),mid=shade(main,0.04),dark=shade(main,-0.42),line=shade(main,-0.55);
+  const dots=cols.slice(0,3).map((c,i)=>{const x=92+i*16;return `<circle cx="${x}" cy="238" r="6" fill="${c}" stroke="#0006" stroke-width="1"/><circle cx="${x-1.8}" cy="236" r="1.8" fill="#fff" opacity=".75"/>`;}).join("");
+  const seamLine=seam?`<path d="${seam}" fill="none" stroke="${acc}" stroke-width="2.4" stroke-linecap="round" opacity=".85"/>`:"";
+  return `<svg class="art" viewBox="0 0 200 250" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs>
+      <linearGradient id="gm-${id}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${lite}"/><stop offset=".45" stop-color="${mid}"/><stop offset="1" stop-color="${dark}"/>
+      </linearGradient>
+      <filter id="gsh-${id}" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.40"/></filter>
+      <filter id="gb-${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+      <clipPath id="gc-${id}"><path d="${body}"/></clipPath>
+    </defs>
+    <ellipse cx="100" cy="226" rx="56" ry="10" fill="#000" opacity=".30" filter="url(#gb-${id})"/>
+    <g filter="url(#gsh-${id})"><path d="${body}" fill="url(#gm-${id})" stroke="${line}" stroke-width="2.2" stroke-linejoin="round"/></g>
+    <g clip-path="url(#gc-${id})">
+      <ellipse cx="74" cy="84" rx="50" ry="40" fill="#ffffff" opacity=".22" filter="url(#gb-${id})"/>
+      <ellipse cx="150" cy="180" rx="40" ry="60" fill="${dark}" opacity=".40" filter="url(#gb-${id})"/>
+      <path d="M-10,150 L210,120 L210,150 L-10,178 Z" fill="${acc}" opacity=".16"/>
+    </g>
+    <path d="${body}" fill="none" stroke="${lite}" stroke-width="1.2" stroke-linejoin="round" opacity=".5"/>
+    ${seamLine}
+    ${dots}
+  </svg>`;
 }
 function pendantSVG(id,sil,colors,metal,heri){
   const g=GARMENTS[sil||"tee"];
@@ -1102,7 +1132,7 @@ function renderCloset(){
     else btn=`<button class="btn" data-claim="${item.id}">${item.offer==="free"?"Claim it":item.offer==="thanks"?"Claim & say thanks":("Chip in $"+item.price+" & claim")}</button>`;
     return `<div class="card citem${taken?" taken":""}">
       <div class="crow">
-        <div class="mp" style="--a:${item.colors[0]};--b:${item.colors[1]||item.colors[0]}">${pendantSVG("cl"+item.id,item.sil,item.colors,item.metal,item.heri)}</div>
+        <div class="mp" style="--a:${item.colors[0]};--b:${item.colors[1]||item.colors[0]}">${garmentRender("cl"+item.id,item.sil,item.colors,item.metal,item.heri)}</div>
         <div class="cmeta">
           <div class="cname">${esc(item.name)} <span class="sz">${esc(item.size)}</span></div>
           ${lineageHTML(item)}
