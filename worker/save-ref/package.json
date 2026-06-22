@@ -1,0 +1,15 @@
+{
+  "name": "save-ref-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Big Brain — drop-anything reference inbox (Cloudflare Worker).",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node test/categorize.test.mjs && node test/worker.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^3.114.17"
+  }
+}

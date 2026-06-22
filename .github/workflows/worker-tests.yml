@@ -1,0 +1,25 @@
+name: save-ref worker tests
+
+on:
+  push:
+    paths:
+      - "worker/save-ref/**"
+      - ".github/workflows/worker-tests.yml"
+  pull_request:
+    paths:
+      - "worker/save-ref/**"
+      - ".github/workflows/worker-tests.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worker/save-ref
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run tests (no install needed — pure node, no deps)
+        run: npm test
