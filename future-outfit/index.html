@@ -485,6 +485,79 @@
   @media (prefers-reduced-motion:reduce){
     .brand .fo,.btn::before,.look .pic::before,.hero::before,.vibecard::after,.coin::after{animation:none}
   }
+
+  /* ============================================================
+     WARM NEON · LIQUID CHROME · Y3K  — appended last, overrides the
+     cool blue/violet theme with fire + molten metal.
+     ============================================================ */
+  :root{
+    --bg:#0a0706; --bg-2:#100a08;
+    --ink:#fdeee7; --ink-soft:#e0c2b2; --ink-dim:#a07f70;
+    /* hot neon accents */
+    --violet:#ff3d9a;  /* hot magenta */
+    --pink:#ff8a4c;    /* ember */
+    --cyan:#ffc24a;    /* molten gold (used for stars/highlights) */
+    --gold:#ffd84a;
+    /* fire gradient + molten-gold alt */
+    --grad:linear-gradient(120deg,#ff1f6b 0%,#ff6a00 50%,#ffd400 100%);
+    --grad-cool:linear-gradient(120deg,#ffd400,#ff5a1f);
+    --iri-film:conic-gradient(from 210deg at 72% 28%,rgba(255,210,74,.12),rgba(255,90,154,.12),rgba(255,106,0,.12),rgba(255,60,120,.12),rgba(255,180,60,.12),rgba(255,210,74,.12));
+    --holo-edge:conic-gradient(from 210deg,#ff2d6b,#ff6a00,#ffd400,#ff3d9a,#ff8a3d,#ff2d6b);
+    --glow-violet:0 0 0 1px rgba(255,90,150,.5),0 8px 26px rgba(255,80,20,.5);
+    --glow-cyan:0 0 22px rgba(255,150,40,.6);
+    --shadow:0 10px 34px rgba(20,4,0,.6);
+  }
+  /* warm ember backdrop */
+  body{background:#140b08}
+  body::before{background:
+    radial-gradient(120% 80% at 50% -8%,rgba(255,110,40,.40),transparent 60%),
+    radial-gradient(90% 60% at 90% 12%,rgba(255,40,110,.22),transparent 55%),
+    linear-gradient(180deg,rgba(30,14,8,.55),rgba(12,7,5,.9)),
+    linear-gradient(135deg,#3a221a,#140b08)}
+  /* scanner card → molten base + amber HUD grid */
+  .look .pic,.hero,.mini .mp{background:
+    linear-gradient(rgba(255,150,60,.10) 1px,transparent 1px) 0 0/100% 13px,
+    linear-gradient(90deg,rgba(255,150,60,.09) 1px,transparent 1px) 0 0/13px 100%,
+    radial-gradient(120% 85% at 50% 6%,color-mix(in srgb,var(--a,#ff7a18) 40%,transparent),transparent 70%),
+    linear-gradient(160deg,rgba(52,28,16,.85),rgba(18,9,6,.96)),#120906}
+  .scanline{background:linear-gradient(rgba(255,150,60,0),rgba(255,150,60,.18),rgba(255,150,60,0))}
+  /* clear plastic case → warm chrome rim */
+  .xray{background:linear-gradient(180deg,rgba(255,244,232,.36),rgba(255,244,232,0) 18%,rgba(255,244,232,0) 82%,rgba(255,230,200,.07));
+    box-shadow:inset 0 1.5px 0 rgba(255,250,242,.62),inset 0 0 0 1.5px rgba(255,214,170,.34),inset 0 -46px 64px rgba(20,6,0,.36)}
+  /* vibe card → molten plaque */
+  .vibecard{background:
+    radial-gradient(80% 60% at 26% 10%,rgba(255,255,255,.5),transparent 54%),
+    radial-gradient(150% 130% at 50% 8%,#ff5a1f,#5a1505 88%),#2a0a04}
+  /* dark text on bright buttons → warm near-black */
+  .btn,.chip[aria-pressed="true"],.optline button[aria-pressed="true"]{color:#2a0a02}
+  .quest .q-ic,.floatask{color:#3a1400}
+  .me span:not(.dot){color:#2a0a02}
+  .me .dot{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 14px rgba(255,90,30,.7)}
+  /* bottom nav glow → ember */
+  nav.tabs button[aria-selected="true"]::before{background:radial-gradient(60% 80% at 50% 40%,rgba(255,120,30,.5),transparent 75%)}
+  nav.tabs button[aria-selected="true"] .ic{filter:drop-shadow(0 0 9px rgba(255,120,30,.95)) drop-shadow(0 0 3px rgba(255,60,120,.7))}
+  /* Field Report HUD → warm console */
+  .hud{color:#ffe6cf}
+  .hud-top{border-color:#5a2a14;background:linear-gradient(180deg,#1b0c06,#120804);box-shadow:inset 0 0 30px rgba(255,120,30,.10)}
+  .hud-top .sys{color:#ffb14a}
+  .hud-top .sys b{color:#ff7a3d}
+  .hud-led{background:#ffb14a;box-shadow:0 0 8px #ffb14a}
+  .hud-title{color:#fff3ea;text-shadow:0 0 18px rgba(255,140,40,.5)}
+  .hud-q{border-color:#4a230f;background:#160b06d9}
+  .hud-q .ql{color:#ffb14a}
+  .hchip{border-color:#5a2e16;background:#1c0f08;color:#ffd9bf}
+  .hchip[aria-pressed="true"]{background:linear-gradient(180deg,#ffb14a,#ff6a00);border-color:#ffd9a0;color:#2a0a02;box-shadow:0 0 0 1px #ffb14a,0 0 16px rgba(255,120,30,.6)}
+  .hud-send{background:linear-gradient(90deg,#ffd400,#ff5a1f);color:#2a0a02;box-shadow:0 0 22px rgba(255,120,30,.55)}
+  .hud textarea,.hud-id input{background:#140a06;border-color:#4a230f;color:#ffe6cf}
+  .safe-note{background:#ff6a0014;border-color:#ff6a0040;color:#ffce9e}
+  /* warm the button + card glows (were violet/cyan) */
+  .btn{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -10px 22px rgba(60,10,0,.2),0 10px 26px rgba(255,90,20,.45)}
+  .btn.cool{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -10px 22px rgba(60,10,0,.2),0 10px 26px rgba(255,150,30,.5)}
+  .btn.win{box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 26px rgba(255,180,40,.5)}
+  .chip[aria-pressed="true"]{box-shadow:var(--glow-violet);transform:translateY(-1px)}
+  .look:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(255,150,60,.35),0 18px 44px rgba(0,0,0,.55),0 0 34px rgba(255,120,30,.22)}
+  .look:active{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),0 0 0 1.5px rgba(255,150,60,.5),0 22px 52px rgba(0,0,0,.6),0 0 40px rgba(255,120,30,.2)}
+  .look .pic .savez.on{box-shadow:0 0 16px rgba(255,120,40,.8),inset 0 1px 0 rgba(255,255,255,.5)}
 </style>
 </head>
 <body>
@@ -988,16 +1061,16 @@ function pendantSVG(id,sil,colors,metal,heri){
 function deviceFrame(id,colors,label){
   const code=((label||"FO").toString().toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6))||"SCAN";
   return `<svg class="scan" viewBox="0 0 100 130" preserveAspectRatio="none" aria-hidden="true">
-    <rect x="2.5" y="2.5" width="95" height="125" fill="none" stroke="#7fe8ff" stroke-width=".5" opacity=".22"/>
-    <g stroke="#7fe8ff" stroke-width="1.1" fill="none" opacity=".9" stroke-linecap="round">
+    <rect x="2.5" y="2.5" width="95" height="125" fill="none" stroke="#ff9a3d" stroke-width=".5" opacity=".22"/>
+    <g stroke="#ff9a3d" stroke-width="1.1" fill="none" opacity=".9" stroke-linecap="round">
       <path d="M4,17 L4,4 L17,4"/><path d="M96,17 L96,4 L83,4"/><path d="M4,113 L4,126 L17,126"/><path d="M96,113 L96,126 L83,126"/>
     </g>
-    <g stroke="#7fe8ff" stroke-width=".55" opacity=".45">
+    <g stroke="#ff9a3d" stroke-width=".55" opacity=".45">
       <line x1="2.5" y1="44" x2="6.5" y2="44"/><line x1="2.5" y1="65" x2="8" y2="65"/><line x1="2.5" y1="86" x2="6.5" y2="86"/>
       <line x1="97.5" y1="44" x2="93.5" y2="44"/><line x1="97.5" y1="65" x2="92" y2="65"/><line x1="97.5" y1="86" x2="93.5" y2="86"/>
     </g>
-    <g stroke="#7fe8ff" stroke-width=".5" opacity=".55"><line x1="50" y1="60" x2="50" y2="70"/><line x1="45" y1="65" x2="55" y2="65"/></g>
-    <g font-family="ui-monospace,monospace" fill="#9af3ff">
+    <g stroke="#ff9a3d" stroke-width=".5" opacity=".55"><line x1="50" y1="60" x2="50" y2="70"/><line x1="45" y1="65" x2="55" y2="65"/></g>
+    <g font-family="ui-monospace,monospace" fill="#ffc78a">
       <text x="6" y="11.4" font-size="4.4" letter-spacing=".3" opacity=".95">FO·${code}</text>
       <text x="94" y="11.4" font-size="4.4" text-anchor="end" letter-spacing=".4" fill="#ff5f7a" opacity=".9">● REC</text>
       <text x="6" y="123.4" font-size="3.8" opacity=".7">SCAN ▮▮▮▮ 100%</text>
