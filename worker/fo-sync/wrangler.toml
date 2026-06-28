@@ -1,0 +1,10 @@
+# Deploys to fo-sync.<your-subdomain>.workers.dev
+name = "fo-sync"
+main = "src/index.js"
+compatibility_date = "2025-05-01"
+
+# Holds each profile's saved app state. Create it once, then paste the id:
+#   npx wrangler kv namespace create fo-sync-kv
+[[kv_namespaces]]
+binding = "FO_KV"
+id = "REPLACE_WITH_KV_ID"
