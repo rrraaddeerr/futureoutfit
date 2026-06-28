@@ -558,6 +558,32 @@
   .look:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(255,150,60,.35),0 18px 44px rgba(0,0,0,.55),0 0 34px rgba(255,120,30,.22)}
   .look:active{box-shadow:inset 0 1.5px 0 rgba(255,255,255,.7),0 0 0 1.5px rgba(255,150,60,.5),0 22px 52px rgba(0,0,0,.6),0 0 40px rgba(255,120,30,.2)}
   .look .pic .savez.on{box-shadow:0 0 16px rgba(255,120,40,.8),inset 0 1px 0 rgba(255,255,255,.5)}
+
+  /* ============================================================
+     Y3K METAL · DIAMOND PLATE — embossed tread + brushed chrome
+     ============================================================ */
+  /* full-screen embossed diamond-plate over the ember backdrop */
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;mix-blend-mode:soft-light;
+    background-image:
+      linear-gradient(135deg,transparent 22px,rgba(255,236,208,.55) 22px,rgba(255,236,208,.55) 23px,rgba(28,10,4,.6) 23px,rgba(28,10,4,.6) 25px,transparent 25px,transparent 67px,rgba(255,236,208,.55) 67px,rgba(255,236,208,.55) 68px,rgba(28,10,4,.6) 68px,rgba(28,10,4,.6) 70px,transparent 70px),
+      linear-gradient(225deg,transparent 22px,rgba(255,236,208,.55) 22px,rgba(255,236,208,.55) 23px,rgba(28,10,4,.6) 23px,rgba(28,10,4,.6) 25px,transparent 25px,transparent 67px,rgba(255,236,208,.55) 67px,rgba(255,236,208,.55) 68px,rgba(28,10,4,.6) 68px,rgba(28,10,4,.6) 70px,transparent 70px);
+    background-size:64px 128px;background-position:0 0,0 64px}
+  /* bottom nav = solid diamond-plate metal panel */
+  nav.tabs{background:
+      linear-gradient(135deg,transparent 22px,rgba(255,236,208,.12) 22px,rgba(255,236,208,.12) 23px,rgba(0,0,0,.28) 23px,rgba(0,0,0,.28) 25px,transparent 25px,transparent 67px,rgba(255,236,208,.12) 67px,rgba(255,236,208,.12) 68px,rgba(0,0,0,.28) 68px,rgba(0,0,0,.28) 70px,transparent 70px) 0 0/64px 128px,
+      linear-gradient(225deg,transparent 22px,rgba(255,236,208,.12) 22px,rgba(255,236,208,.12) 23px,rgba(0,0,0,.28) 23px,rgba(0,0,0,.28) 25px,transparent 25px,transparent 67px,rgba(255,236,208,.12) 67px,rgba(255,236,208,.12) 68px,rgba(0,0,0,.28) 68px,rgba(0,0,0,.28) 70px,transparent 70px) 0 64px/64px 128px,
+      linear-gradient(180deg,#33231a,#180e09)}
+  /* header = brushed warm chrome strip */
+  header.app{background:
+      repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
+      linear-gradient(180deg,rgba(40,26,18,.92),rgba(20,12,8,.7))}
+  /* cards get a faint brushed-metal sheen on top */
+  .look,.card,.vibecard,.sheet,.fit,.citem{position:relative}
+  .card::before,.look::before,.vibecard::before,.sheet::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;opacity:.5;
+    background:repeating-linear-gradient(115deg,rgba(255,240,220,.035) 0 2px,transparent 2px 5px)}
+  .card>*,.vibecard>*{position:relative;z-index:1}
+  /* the me pill + coin read as polished steel (warm chrome) */
+  .me{background:linear-gradient(180deg,#f6efe6 0%,#cdbcae 16%,#7a6a5e 40%,#2b2018 52%,#6b5a4e 66%,#efe6db 86%,#b6a698 100%);background-size:100% 240%;background-position:0 16%}
 </style>
 </head>
 <body>
