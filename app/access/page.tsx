@@ -75,27 +75,29 @@ export default async function AccessPage({
           </div>
 
           <div className="access-screen__slate">
-            <span>CHECKPOINT</span>
+            <span>COMING SOON</span>
             <span className="access-screen__slate-sep" aria-hidden="true">│</span>
             <span>RADERENT</span>
             <span className="access-screen__slate-sep" aria-hidden="true">│</span>
-            <span>INVITE ONLY</span>
+            <span>EARLY ACCESS</span>
           </div>
 
           <h1 className="access-screen__title">
-            The archive is open<br />for invited guests.
+            Rent the archive.<br />Opening soon.
           </h1>
 
           <p className="access-screen__copy">
-            rent.co is in operator preview. Enter the code you were sent and
-            step inside.
+            rent.co is the archive and logistics layer for the people who build
+            culture physically — and it&apos;s almost ready. If you got an invite
+            code from us, you&apos;re early. Thank you for that. Punch it in and
+            look around.
           </p>
 
           <AccessForm from={dest} initialCode={initialCode} />
 
           <p className="access-screen__footnote">
-            No code?{" "}
-            <a href={`mailto:${CONTACT_EMAIL}?subject=Invite%20to%20rent.co`}>
+            No code yet?{" "}
+            <a href={`mailto:${CONTACT_EMAIL}?subject=Early%20access%20to%20rent.co`}>
               ask for one
             </a>{" "}
             — every invite is hand-issued.
