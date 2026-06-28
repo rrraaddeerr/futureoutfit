@@ -1,0 +1,102 @@
+/**
+ * Future Outfit — cloud save Worker (kid-safe accounts)
+ *
+ * No emails, no passwords, no personal data. An "account" is just an
+ * unguessable friendly code (e.g. "brave-otter-42") that acts as both the
+ * read and write key for that profile's saved state. Lose the code = lose
+ * access (by design — nothing sensitive is stored, just style prefs).
+ *
+ * Endpoints
+ *   GET  /health        -> { ok }
+ *   POST /profile       -> { ok, code }            create a new profile
+ *   GET  /state/:code   -> { ok, updatedAt, data } read saved state
+ *   PUT  /state/:code   -> { ok, updatedAt }       save state (must exist)
+ *
+ * Storage (bound KV namespace FO_KV)
+ *   prof:<code> -> { createdAt, updatedAt, data }   (data = the app's state)
+ */
+
+const CORS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Max-Age": "86400",
+};
+const json = (body, status = 200) =>
+  new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...CORS } });
+
+const MAX_BYTES = 256 * 1024; // generous cap on a profile's saved state
+
+// kid-friendly, unambiguous words (no lookalikes / nothing iffy)
+const WORDS = [
+  "brave","calm","cosmic","clever","bright","bold","comet","coral","dapper","drip",
+  "echo","ember","fizzy","fresh","glow","gold","happy","hyper","jazzy","keen",
+  "lucky","lunar","mellow","mint","neon","nova","orbit","pixel","plush","prism",
+  "quartz","rad","rapid","river","royal","sage","solar","sonic","spark","sunny",
+  "swift","tidal","turbo","vivid","wavy","wild","zen","zippy","otter","fox",
+  "lynx","puma","raven","robin","koala","panda","tiger","wolf","whale","gecko",
+];
+
+function pick(arr) { return arr[Math.floor((crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32) * arr.length)]; }
+function newCode() {
+  const n = (crypto.getRandomValues(new Uint32Array(1))[0] % 90) + 10; // 10..99
+  return `${pick(WORDS)}-${pick(WORDS)}-${n}`;
+}
+
+export default {
+  async fetch(request, env) {
+    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
+    const url = new URL(request.url);
+    const path = url.pathname.replace(/\/+$/, "") || "/";
+
+    try {
+      if (path === "/health") return json({ ok: true });
+      if (!env.FO_KV) return json({ ok: false, error: "Worker missing FO_KV binding" }, 500);
+
+      // POST /profile — mint a fresh, unused code
+      if (path === "/profile" && request.method === "POST") {
+        let code;
+        for (let i = 0; i < 6; i++) {
+          code = newCode();
+          if (!(await env.FO_KV.get(`prof:${code}`))) break;
+        }
+        const now = new Date().toISOString();
+        await env.FO_KV.put(`prof:${code}`, JSON.stringify({ createdAt: now, updatedAt: now, data: {} }));
+        return json({ ok: true, code, updatedAt: now });
+      }
+
+      // /state/:code
+      if (path.startsWith("/state/")) {
+        const code = decodeURIComponent(path.slice("/state/".length)).trim().toLowerCase();
+        if (!/^[a-z]+-[a-z]+-\d{2}$/.test(code)) return json({ ok: false, error: "Bad code" }, 400);
+
+        if (request.method === "GET") {
+          const rec = await env.FO_KV.get(`prof:${code}`, "json");
+          if (!rec) return json({ ok: false, error: "Not found" }, 404);
+          return json({ ok: true, updatedAt: rec.updatedAt, data: rec.data || {} });
+        }
+
+        if (request.method === "PUT") {
+          const existing = await env.FO_KV.get(`prof:${code}`, "json");
+          if (!existing) return json({ ok: false, error: "Unknown code — create a profile first" }, 404);
+          const body = await request.json().catch(() => null);
+          if (!body || typeof body !== "object" || typeof body.data !== "object")
+            return json({ ok: false, error: "Invalid body" }, 400);
+          const blob = JSON.stringify(body.data);
+          if (blob.length > MAX_BYTES) return json({ ok: false, error: "Too big" }, 413);
+          const now = new Date().toISOString();
+          await env.FO_KV.put(`prof:${code}`, JSON.stringify({
+            createdAt: existing.createdAt || now,
+            updatedAt: now,
+            data: body.data,
+          }));
+          return json({ ok: true, updatedAt: now });
+        }
+      }
+
+      return json({ ok: false, error: "Not found", path }, 404);
+    } catch (err) {
+      return json({ ok: false, error: String(err?.message ?? err) }, 500);
+    }
+  },
+};
