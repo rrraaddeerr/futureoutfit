@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listSets, setsConfigured, deriveStage, SET_STAGE_LABELS } from "@/lib/sets";
-import { getAllItems } from "@/lib/inventory";
-import { getVPCItems } from "@/lib/vpc-catalog";
+import { buildThumbLookup, previewThumbs } from "@/lib/set-thumbs";
 import { DirectorChairIcon, TruckIcon } from "@/components/Icons";
 import { GenerateSampleButton } from "./SetsActions";
 
@@ -47,29 +46,7 @@ export default async function SetsPage() {
   }
 
   // Build a barcode → thumb lookup once so we can show set previews
-  const thumbByBarcode = new Map<string, string>();
-  for (const it of getAllItems()) {
-    const bc = it.id.replace(/^vpc-/, "");
-    if (it.images[0]) thumbByBarcode.set(bc, it.images[0]);
-  }
-  for (const it of getVPCItems()) {
-    if (thumbByBarcode.has(it.barcode)) continue;
-    const t = it.thumb ?? it.photo;
-    if (t) thumbByBarcode.set(it.barcode, t);
-  }
-  function previewThumbs(set: Awaited<ReturnType<typeof listSets>>[number]) {
-    const out: string[] = [];
-    for (const g of set.groups ?? []) {
-      for (const it of g.items ?? []) {
-        const t = thumbByBarcode.get(it.barcode);
-        if (t && !out.includes(t)) {
-          out.push(t);
-          if (out.length >= 3) return out;
-        }
-      }
-    }
-    return out;
-  }
+  const thumbByBarcode = buildThumbLookup();
 
   return (
     <div className="ops">
@@ -95,6 +72,9 @@ export default async function SetsPage() {
           </div>
           <div className="ops__head-links">
             <Link href="/ops" className="curate__btn">← /ops</Link>
+            {sets.length > 0 ? (
+              <Link href="/sets/pipeline" className="curate__btn">⌗ Board</Link>
+            ) : null}
             <GenerateSampleButton small />
             <Link
               href="/sets/new"
@@ -156,7 +136,7 @@ export default async function SetsPage() {
                     ) : null}
                   </div>
                   <div className="sets-list__thumbs" aria-hidden="true">
-                    {previewThumbs(s).map((t, i) => (
+                    {previewThumbs(s, thumbByBarcode).map((t, i) => (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img key={t + i} src={t} alt="" loading="lazy" />
                     ))}

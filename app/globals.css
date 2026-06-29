@@ -212,6 +212,128 @@ h4 {
    Comms strip — walkie-talkie / production-channel readout.
    ============================================================ */
 
+/* ---------- Sets pipeline board ---------- */
+.pipeline {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(220px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x proximity;
+}
+.pipeline__col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  scroll-snap-align: start;
+}
+.pipeline__col-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+}
+.pipeline__col-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+.pipeline__col-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  min-width: 22px;
+  text-align: center;
+  padding: 1px 6px;
+}
+/* Stage-tinted column heads, matching the list chips */
+.pipeline__col--sent .pipeline__col-name,
+.pipeline__col--reviewing .pipeline__col-name,
+.pipeline__col--delivered .pipeline__col-name { color: var(--tape); }
+.pipeline__col--approved .pipeline__col-name,
+.pipeline__col--production .pipeline__col-name { color: var(--accent); }
+.pipeline__col--reviewing .pipeline__col-head {
+  border-bottom-color: var(--tape);
+}
+.pipeline__col--approved .pipeline__col-head,
+.pipeline__col--production .pipeline__col-head {
+  border-bottom-color: var(--accent);
+}
+.pipeline__col-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  min-height: 60px;
+  flex: 1;
+}
+.pipeline__empty {
+  color: var(--line-2);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  padding: 8px 0;
+  user-select: none;
+}
+.pipeline__card {
+  display: block;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 100ms ease, transform 100ms ease;
+}
+.pipeline__card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.pipeline__card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pipeline__card-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+  min-width: 0;
+}
+.pipeline__card-thumbs {
+  display: inline-flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.pipeline__card-thumbs img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+}
+.pipeline__card-client {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.pipeline__card-meta {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
 .stage-bar {
   display: flex;
   align-items: center;
