@@ -67,6 +67,29 @@ const run = async () => {
   const b = (await (await call("/profile", { method: "POST" })).json()).code;
   ok("two profiles differ", a !== b);
 
+  // ---- friends / messaging ----
+  // a sends an "ask" to b's inbox
+  r = await call("/msg/" + b, { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ from: a, fromName: "Mia", kind: "ask", text: "How do I style this?", lookName: "Avant Drape" }) });
+  d = await r.json();
+  eq("send msg ok", r.status, 200);
+  const mid = d.id; ok("msg has id", !!mid);
+  // b reads inbox
+  r = await call("/inbox/" + b); d = await r.json();
+  eq("inbox has 1", d.messages.length, 1);
+  eq("inbox from a", d.messages[0].from, a);
+  eq("inbox name", d.messages[0].fromName, "Mia");
+  // b acks/removes it
+  r = await call("/inbox/" + b, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ remove: [mid] }) });
+  d = await r.json();
+  eq("inbox cleared", d.messages.length, 0);
+  // send to unknown code -> 404
+  r = await call("/msg/no-such-00", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ from: a, text: "hi" }) });
+  eq("msg unknown 404", r.status, 404);
+  // bad sender -> 400
+  r = await call("/msg/" + b, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ from: "nope", text: "hi" }) });
+  eq("msg bad sender 400", r.status, 400);
+
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
 };

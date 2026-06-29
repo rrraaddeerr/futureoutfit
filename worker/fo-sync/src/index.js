@@ -94,6 +94,51 @@ export default {
         }
       }
 
+      // ---- friends / messaging ----
+      const isCode = (c) => /^[a-z]+-[a-z]+-\d{2}$/.test(c);
+
+      // POST /msg/:code — deliver a style ask/reply into a pal's inbox
+      if (path.startsWith("/msg/") && request.method === "POST") {
+        const to = decodeURIComponent(path.slice("/msg/".length)).trim().toLowerCase();
+        if (!isCode(to)) return json({ ok: false, error: "Bad code" }, 400);
+        if (!(await env.FO_KV.get(`prof:${to}`))) return json({ ok: false, error: "No pal with that code" }, 404);
+        const body = await request.json().catch(() => null);
+        if (!body || !isCode(String(body.from || "").toLowerCase()))
+          return json({ ok: false, error: "Invalid sender" }, 400);
+        const kind = body.kind === "reply" ? "reply" : "ask";
+        const msg = {
+          id: crypto.randomUUID().slice(0, 12),
+          from: String(body.from).toLowerCase(),
+          fromName: String(body.fromName || "A pal").slice(0, 40),
+          kind,
+          text: String(body.text || "").slice(0, 500),
+          lookName: String(body.lookName || "").slice(0, 120),
+          ts: new Date().toISOString(),
+        };
+        const inbox = (await env.FO_KV.get(`inbox:${to}`, "json")) || [];
+        inbox.unshift(msg);
+        await env.FO_KV.put(`inbox:${to}`, JSON.stringify(inbox.slice(0, 100)));
+        return json({ ok: true, id: msg.id });
+      }
+
+      // /inbox/:code — GET to read, POST {remove:[ids]} to ack/delete
+      if (path.startsWith("/inbox/")) {
+        const code = decodeURIComponent(path.slice("/inbox/".length)).trim().toLowerCase();
+        if (!isCode(code)) return json({ ok: false, error: "Bad code" }, 400);
+        if (request.method === "GET") {
+          const inbox = (await env.FO_KV.get(`inbox:${code}`, "json")) || [];
+          return json({ ok: true, messages: inbox });
+        }
+        if (request.method === "POST") {
+          const body = await request.json().catch(() => null);
+          const remove = new Set(Array.isArray(body?.remove) ? body.remove : []);
+          const inbox = (await env.FO_KV.get(`inbox:${code}`, "json")) || [];
+          const kept = inbox.filter((m) => !remove.has(m.id));
+          await env.FO_KV.put(`inbox:${code}`, JSON.stringify(kept));
+          return json({ ok: true, messages: kept });
+        }
+      }
+
       return json({ ok: false, error: "Not found", path }, 404);
     } catch (err) {
       return json({ ok: false, error: String(err?.message ?? err) }, 500);
