@@ -584,6 +584,17 @@
   .card>*,.vibecard>*{position:relative;z-index:1}
   /* the me pill + coin read as polished steel (warm chrome) */
   .me{background:linear-gradient(180deg,#f6efe6 0%,#cdbcae 16%,#7a6a5e 40%,#2b2018 52%,#6b5a4e 66%,#efe6db 86%,#b6a698 100%);background-size:100% 240%;background-position:0 16%}
+
+  /* ===== DYNAMIC JUICE — scan-in, floating empties, confetti, hearts ===== */
+  @keyframes scanIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+  .feed .look{animation:scanIn .5s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .empty .big,.vibecard.empty>div:first-child{display:inline-block;animation:floaty 2.8s ease-in-out infinite}
+  .confetti-pc{position:fixed;width:9px;height:14px;z-index:90;pointer-events:none;border-radius:2px;will-change:transform,opacity}
+  .heart-fp{position:fixed;z-index:90;pointer-events:none;font-size:22px;will-change:transform,opacity}
+  @keyframes popN{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
+  .pop{animation:popN .45s ease}
+  @media (prefers-reduced-motion:reduce){.feed .look,.empty .big,.vibecard.empty>div:first-child{animation:none}}
 </style>
 </head>
 <body>
@@ -982,6 +993,17 @@ let state=load();
 
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2300);}
+/* ---- dynamic juice ---- */
+const JUICE=["#ff1f6b","#ff6a00","#ffd400","#ff3d9a","#ff8a3d","#ffe6c0"];
+const reduce=()=>matchMedia("(prefers-reduced-motion:reduce)").matches;
+function confettiBurst(x,y,n=26){ if(reduce())return; x=(x==null?innerWidth/2:x); y=(y==null?innerHeight*0.3:y);
+  for(let i=0;i<n;i++){const d=document.createElement("div");d.className="confetti-pc";d.style.background=JUICE[i%JUICE.length];d.style.left=x+"px";d.style.top=y+"px";document.body.appendChild(d);
+    const a=Math.random()*6.28,dist=60+Math.random()*120,dx=Math.cos(a)*dist,dy=Math.sin(a)*dist-(60+Math.random()*80),rot=Math.random()*720-360;
+    d.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${dx}px,${dy+240}px) rotate(${rot}deg)`,opacity:0}],{duration:900+Math.random()*500,easing:"cubic-bezier(.2,.7,.3,1)"}).onfinish=()=>d.remove();}}
+function heartSpray(x,y){ if(reduce())return;
+  for(let i=0;i<6;i++){const h=document.createElement("div");h.className="heart-fp";h.textContent="💜";h.style.left=x+"px";h.style.top=y+"px";document.body.appendChild(h);
+    const dx=Math.random()*60-30,dy=-(50+Math.random()*70);
+    h.animate([{transform:"translate(-50%,-50%) scale(.6)",opacity:1},{transform:`translate(calc(-50% + ${dx}px),${dy}px) scale(1.2)`,opacity:0}],{duration:800+Math.random()*400,easing:"ease-out"}).onfinish=()=>h.remove();}}
 function esc(s){return(s||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));}
 function whereLabel(w){return{thrift:["🛒","Thrift shop"],secondhand:["📱","Resale app"],resale:["💎","Designer resale"],make:["✂️","Make / DIY"],closet:["🧺","Family closet"]}[w];}
 
@@ -1125,9 +1147,9 @@ function feedItems(){
 function renderFeed(){
   const f=$("#feed");const arr=feedItems();
   if(!arr.length){f.innerHTML=`<div class="empty"><div class="big">🪐</div>Nothing in this style yet.</div>`;return;}
-  f.innerHTML=arr.map(l=>{
+  f.innerHTML=arr.map((l,i)=>{
     const on=state.saved.includes(l.id);
-    return `<article class="look" data-id="${l.id}">
+    return `<article class="look" data-id="${l.id}" style="animation-delay:${Math.min(i,8)*55}ms">
       <div class="pic" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">
         ${deviceFrame(l.id,l.colors,l.era)}
         <span class="era">${l.era}</span>
@@ -1141,7 +1163,7 @@ function renderFeed(){
       </div>
     </article>`;}).join("");
   $$("#feed .look").forEach(a=>a.onclick=e=>{if(e.target.dataset.save)return;openLook(a.dataset.id);});
-  $$("#feed .savez").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleSave(b.dataset.save);});
+  $$("#feed .savez").forEach(b=>b.onclick=e=>{e.stopPropagation();const was=state.saved.includes(b.dataset.save);toggleSave(b.dataset.save);if(!was)heartSpray(e.clientX,e.clientY);});
 }
 function toggleSave(id){
   const i=state.saved.indexOf(id);
@@ -1438,7 +1460,7 @@ function renderSupporter(){
       if((state.credits||0)<cost){toast(`Need ${cost}⭐ — keep helping & sharing 🙂`);return;}
       state.credits-=cost;(state.ownedFlairs=state.ownedFlairs||[]).push(e);
       (state.creditLog=state.creditLog||[]).unshift({amt:-cost,reason:`Unlocked ${e} flair`,when:Date.now()});
-      toast(`Unlocked ${e}! Looking good ✨`);
+      confettiBurst();toast(`Unlocked ${e}! Looking good ✨`);
     }
     state.flair=e;save();updateMe();renderSupporter();
   });
@@ -1596,7 +1618,7 @@ function refreshQuests(){
   }});
   if(earned){state.credits=(state.credits||0)+earned;} /* award inline — no addCredit (avoids re-entrancy) */
   save();
-  if(earned)toast(`Quest done! +${earned}⭐`);
+  if(earned){confettiBurst();toast(`Quest done! +${earned}⭐`);}
   if($("#view-quests").classList.contains("active"))renderQuests();
   if($("#view-you").classList.contains("active"))renderSupporter();
 }
