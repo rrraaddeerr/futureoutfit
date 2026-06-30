@@ -1642,9 +1642,11 @@ function renderFamilyBox(){
 function famRow(p,kind){
   const ic=kind==="adult"?esc((p.name||"?")[0]):(p.emoji||"🙂");
   const xbtn='flex:none;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-size:14px;cursor:pointer;color:var(--ink)';
+  const z=zoneOf(p.region);
+  const loc=`<button data-loc="${p.id}" title="Set where they live" style="margin-top:4px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:11px;cursor:pointer;color:var(--ink-soft)">${z.flag} ${z.id==="home"?"near me":esc(z.name)} ✎</button>`;
   return `<div class="famrow" data-kind="${kind}" style="display:flex;align-items:center;gap:10px;padding:8px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:var(--panel)">
     <span style="width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:16px;font-weight:900;color:#0a0a0a;background:${p.hue};flex:none">${ic}</span>
-    <div style="flex:1;min-width:0"><div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name)}</div><div style="color:var(--ink-soft);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.rel||"")}</div></div>
+    <div style="flex:1;min-width:0"><div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name)}</div><div style="color:var(--ink-soft);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.rel||"")}</div>${loc}</div>
     <button data-ren="${p.id}" title="Rename" style="${xbtn}">✏️</button>
     <button data-rm="${p.id}" title="Remove" style="${xbtn}">✕</button></div>`;
 }
@@ -1664,6 +1666,7 @@ function openFamily(){
     <button class="btn" id="faDone" style="margin-top:16px">Done</button>`;
   $$("#sheetPad .famrow [data-ren]").forEach(b=>b.onclick=()=>renamePerson(b.dataset.ren,b.closest(".famrow").dataset.kind));
   $$("#sheetPad .famrow [data-rm]").forEach(b=>b.onclick=()=>removePerson(b.dataset.rm,b.closest(".famrow").dataset.kind));
+  $$("#sheetPad .famrow [data-loc]").forEach(b=>b.onclick=()=>openSetRegion(b.dataset.loc,b.closest(".famrow").dataset.kind));
   $("#faAddAdult").onclick=openAddAdult;
   $("#faAddCrew").onclick=openAddCrew;
   $("#faAddPal").onclick=()=>{lastLook=null;openAddFriend();};
@@ -1693,13 +1696,17 @@ function openAddAdult(){
     <input id="gaName" maxlength="24" placeholder="e.g. Auntie Renee" style="${ist}">
     <div class="lab" style="${lab};margin:14px 0 6px">What are they great at? <span style="text-transform:none;letter-spacing:0;color:var(--ink-dim);font-weight:700">— optional</span></div>
     <input id="gaRel" maxlength="40" placeholder="e.g. Colour genius" style="${ist}">
+    <div class="lab" style="${lab};margin:14px 0 6px">Where do they live? <span style="text-transform:none;letter-spacing:0;color:var(--ink-dim);font-weight:700">— for posting hand-me-downs</span></div>
+    <div class="filters" id="gaRegion">${SHIP_ZONES.map(z=>`<button class="chip" data-z="${z.id}" aria-pressed="${z.id==='home'}">${z.flag} ${esc(z.name)}</button>`).join("")}</div>
     <div class="btnrow" style="margin-top:16px"><button class="btn alt" id="gaBack">Back</button><button class="btn" id="gaAdd">Add</button></div>`;
+  let gaRegion="home";
+  $$("#gaRegion .chip").forEach(b=>b.onclick=()=>{gaRegion=b.dataset.z;$$("#gaRegion .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));});
   $("#gaBack").onclick=openFamily;
   $("#gaAdd").onclick=()=>{
     const name=($("#gaName").value||"").trim();
     if(!name){toast("Give them a name 🙂");return;}
     state.adults=state.adults||[];
-    state.adults.push({id:"ua"+Date.now(),name:name.slice(0,24),rel:($("#gaRel").value||"").trim().slice(0,40)||"Someone who's got you",hue:pickHue(state.adults.length)});
+    state.adults.push({id:"ua"+Date.now(),name:name.slice(0,24),rel:($("#gaRel").value||"").trim().slice(0,40)||"Someone who's got you",hue:pickHue(state.adults.length),region:gaRegion});
     save();openFamily();toast(`${name} added 🧑`);
   };
   openSheet();
@@ -1716,16 +1723,67 @@ function openAddCrew(){
     <input id="cwName" maxlength="24" placeholder="e.g. Cousin Ben" style="${ist}">
     <div class="lab" style="${lab};margin:14px 0 6px">Their style <span style="text-transform:none;letter-spacing:0;color:var(--ink-dim);font-weight:700">— shapes the fits they make you</span></div>
     <div class="filters" id="cwSpec">${specs.map(s=>`<button class="chip" data-s="${s[0]}" aria-pressed="${s[0]==='street'}">${s[1]} ${s[2]}</button>`).join("")}</div>
+    <div class="lab" style="${lab};margin:14px 0 6px">Where do they live? <span style="text-transform:none;letter-spacing:0;color:var(--ink-dim);font-weight:700">— for posting hand-me-downs</span></div>
+    <div class="filters" id="cwRegion">${SHIP_ZONES.map(z=>`<button class="chip" data-z="${z.id}" aria-pressed="${z.id==='home'}">${z.flag} ${esc(z.name)}</button>`).join("")}</div>
     <div class="btnrow" style="margin-top:16px"><button class="btn alt" id="cwBack">Back</button><button class="btn" id="cwAdd">Add</button></div>`;
+  let cwRegion="home";
   $$("#cwSpec .chip").forEach(b=>b.onclick=()=>{spec=b.dataset.s;$$("#cwSpec .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $$("#cwRegion .chip").forEach(b=>b.onclick=()=>{cwRegion=b.dataset.z;$$("#cwRegion .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));});
   $("#cwBack").onclick=openFamily;
   $("#cwAdd").onclick=()=>{
     const name=($("#cwName").value||"").trim();
     if(!name){toast("Give them a name 🙂");return;}
     state.crew=state.crew||[];
-    state.crew.push({id:"uc"+Date.now(),name:name.slice(0,24),rel:"Knows your style",emoji:SPEC_EMOJI[spec],spec,cat:SPEC_CAT[spec],hue:SPEC_HUE[spec]});
+    state.crew.push({id:"uc"+Date.now(),name:name.slice(0,24),rel:"Knows your style",emoji:SPEC_EMOJI[spec],spec,cat:SPEC_CAT[spec],hue:SPEC_HUE[spec],region:cwRegion});
     save();openFamily();toast(`${name} added 🧃`);
   };
+  openSheet();
+}
+
+/* ---------- shipping for hand-me-downs (baked in, works offline) ----------
+   Real clothes need to physically travel to/from family abroad. We bake rough
+   parcel estimates right into the app — NO live API, NO internet lookup — so a
+   grown-up can see roughly what posting a hand-me-down costs before they send it.
+   Estimates are approximate CAD for a small clothing parcel sent from your home
+   country; a grown-up always confirms the real price and ALWAYS handles the
+   money. Kids never pay — passing clothes on is free and kind. */
+const SHIP_ZONES=[
+  {id:"home",name:"Near me",flag:"🏠",base:[0,0],days:"hand to hand"},
+  {id:"ca",name:"Canada",flag:"🇨🇦",base:[12,18],days:"2–5 days"},
+  {id:"us",name:"USA",flag:"🇺🇸",base:[18,28],days:"4–8 days"},
+  {id:"uk",name:"UK / Ireland",flag:"🇬🇧",base:[28,42],days:"6–12 days"},
+  {id:"eu",name:"Europe",flag:"🇪🇺",base:[30,46],days:"7–14 days"},
+  {id:"au",name:"Australia / NZ",flag:"🇦🇺",base:[33,50],days:"8–16 days"},
+  {id:"asia",name:"Asia",flag:"🌏",base:[30,48],days:"8–16 days"},
+  {id:"latam",name:"Latin America",flag:"🌎",base:[30,50],days:"9–18 days"},
+  {id:"africa",name:"Africa",flag:"🌍",base:[34,56],days:"10–20 days"},
+  {id:"other",name:"Somewhere else",flag:"✈️",base:[35,58],days:"10–20 days"},
+];
+function zoneOf(id){return SHIP_ZONES.find(z=>z.id===id)||SHIP_ZONES[0];}
+/* size: "one" = a piece or two (light) · "bundle" = an outfit / a few pieces */
+function shipEstimate(regionId,size){
+  const z=zoneOf(regionId||"home");
+  const m=size==="bundle"?1.6:1;
+  const lo=Math.round(z.base[0]*m), hi=Math.round(z.base[1]*m);
+  const local=z.id==="home"||hi===0;
+  return {zone:z,lo,hi,local,label:local?"No postage — hand it over 🤝":`≈ $${lo}–${hi} CAD by post · ${z.days}`};
+}
+/* one flat roster across grown-ups, crew & pals — used when passing clothes on */
+function everyone(){
+  return getAdults().map(a=>({id:a.id,kind:"adult",name:a.name,emoji:(a.name||"?")[0],hue:a.hue,region:a.region}))
+    .concat(getCrew().map(c=>({id:c.id,kind:"crew",name:c.name,emoji:c.emoji,hue:c.hue,region:c.region})))
+    .concat(allFriends().map(f=>({id:f.id,kind:"pal",name:f.name,emoji:f.emoji,hue:f.hue,region:f.region})));
+}
+/* tell the app where a family member lives, so we can estimate posting to them */
+function openSetRegion(id,kind){
+  const arr=familyArr(kind)||[];const p=arr.find(x=>x.id===id);if(!p)return;
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">Where is ${esc(p.name)}? 🌍</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">So we can guess what it costs to post hand-me-downs to them. A grown-up always sends it — <b>you never pay</b>.</p>
+    <div class="filters" id="rgPick" style="margin-top:10px">${SHIP_ZONES.map(z=>`<button class="chip" data-z="${z.id}" aria-pressed="${(p.region||'home')===z.id}">${z.flag} ${esc(z.name)}</button>`).join("")}</div>
+    <div class="btnrow" style="margin-top:16px"><button class="btn" id="rgBack">Done</button></div>`;
+  $$("#rgPick .chip").forEach(b=>b.onclick=()=>{p.region=b.dataset.z;save();const z=zoneOf(p.region);$$("#rgPick .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));toast(`${p.name.split(" ")[0]} is in ${z.name} ${z.flag}`);});
+  $("#rgBack").onclick=openFamily;
   openSheet();
 }
 
@@ -2034,7 +2092,7 @@ function renderCloset(){
     h+=`<div class="lab" style="margin:16px 0 8px">My outfits</div>`+outfits.map(o=>`<div class="card" style="padding:12px 14px;margin-bottom:8px"><b>${esc(o.name)}</b><div class="vibes" style="margin-top:8px">${o.items.map(id=>{const it=mine.find(x=>x.id===id);return it?`<span class="vibe">${silEmoji(it.sil)} ${esc(it.name)}</span>`:"";}).join("")}</div><button class="btn alt" data-rmout="${o.id}" style="margin-top:10px">Remove</button></div>`).join("");
   }
   if(passed.length){
-    h+=`<div class="lab" style="margin:16px 0 8px">Passed on 💛</div>`+passed.map(it=>`<div class="know" style="margin-bottom:6px">${silEmoji(it.sil)} ${esc(it.name)} → <b>${esc(it.passedTo)}</b></div>`).join("");
+    h+=`<div class="lab" style="margin:16px 0 8px">Passed on 💛</div>`+passed.map(it=>{const z=zoneOf(it.passRegion);const local=!it.passRegion||it.passRegion==="home";return `<div class="know" style="margin-bottom:6px">${silEmoji(it.sil)} ${esc(it.name)} → <b>${esc(it.passedTo)}</b> ${z.flag}${local?"":` <span style="color:var(--ink-soft)">· ${esc(it.passShip||"a grown-up posts it")}</span>`}</div>`;}).join("");
   }
   h+=`<div class="lab" style="margin:22px 0 10px">🧺 Family closet — passed down to you</div>`;
   h+=CLOSET.map(item=>{
@@ -2126,20 +2184,47 @@ function openItemActions(item){
   $("#passIt").onclick=()=>openPassItem(item);
   $("#rmIt").onclick=()=>{state.myCloset=state.myCloset.filter(i=>i.id!==item.id);save();closeSheet();renderCloset();toast("Removed");};
 }
-/* give a piece to family or a pal — earns a Star for giving (on us) */
+/* give a piece to family or a pal — a real hand-me-down. If they're far away we
+   show roughly what posting it costs (baked in, no internet) so a grown-up can
+   send it. The grown-up handles the money; the kid never pays. Giving earns a Star. */
 function openPassItem(item){
-  const people=getAdults().map(a=>({id:a.id,name:a.name,emoji:a.name[0],hue:a.hue})).concat(allFriends().map(f=>({id:f.id,name:f.name,emoji:f.emoji,hue:f.hue})));
+  const people=everyone();
+  let pick=null,size="one";
+  const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
   $("#sheetPad").innerHTML=`<h2 style="margin:0;font-size:22px;font-weight:900">Pass “${esc(item.name)}” on 💛</h2>
-    <p style="color:var(--ink-soft);margin:6px 0 4px">Give it to someone who'll love it next. Hand-me-downs keep good clothes going — and giving earns a Star, on us.</p>
-    <div class="safe-note">🛡️ <div>Pretend hand-off inside the app — only people you &amp; a grown-up added. No real shipping, no money.</div></div>
-    <div class="crewpick" id="passList" style="margin-top:10px">${people.map(p=>`<div class="crewcard" data-p="${esc(p.name)}"><div class="ava" style="background:${p.hue}">${esc(p.emoji)}</div><div class="cn">${esc(p.name)}</div></div>`).join("")}</div>`;
+    <p style="color:var(--ink-soft);margin:6px 0 4px">Send it to someone who'll love it next. Hand-me-downs keep good clothes going — and giving earns a Star, on us.</p>
+    <div class="safe-note">🛡️ <div>A real hand-me-down: a grown-up posts it (or hands it over). <b>You never pay</b> — and only people you &amp; a grown-up added.</div></div>
+    <div class="lab" style="${lab};margin:12px 0 8px">Who's it for?</div>
+    <div class="crewpick" id="passList">${people.map(p=>{const z=zoneOf(p.region);return `<div class="crewcard" data-p="${p.id}" aria-pressed="false"><div class="ava" style="background:${p.hue}">${esc(p.emoji)}</div><div class="cn">${esc(p.name)}</div><div class="cr">${z.flag} ${z.id==="home"?"near me":esc(z.name)}</div></div>`;}).join("")}</div>
+    <div id="passShipWrap" style="display:none">
+      <div class="lab" style="${lab};margin:16px 0 8px">How much are you sending?</div>
+      <div class="filters" id="passSize"><button class="chip" data-s="one" aria-pressed="true">👕 Just this piece</button><button class="chip" data-s="bundle">📦 A little bundle</button></div>
+      <div class="know" id="passEst" style="margin-top:12px"></div>
+    </div>
+    <button class="btn" id="passGo" style="margin-top:16px;display:none">💛 Pass it on</button>`;
   openSheet();
+  const drawEst=()=>{
+    if(!pick)return;
+    const est=shipEstimate(pick.region,size);
+    $("#passEst").innerHTML=est.local
+      ? `🤝 <b>${esc(pick.name.split(" ")[0])} is near you</b> — no postage needed, just hand it over.`
+      : `📦 To <b>${esc(pick.name.split(" ")[0])}</b> in ${est.zone.flag} ${esc(est.zone.name)}: <b style="color:var(--ink)">${est.label.replace("≈ ","≈")}</b><br><span style="color:var(--ink-soft);font-size:12px">A rough guess — a grown-up books the post and pays. You never do. 💛</span>`;
+  };
   $$("#passList .crewcard").forEach(b=>b.onclick=()=>{
-    const to=b.dataset.p;
-    const it=(state.myCloset||[]).find(i=>i.id===item.id);if(it)it.passedTo=to;
-    addCredit(5,`Passed ${item.name} to ${to.split(" ")[0]}`);
-    closeSheet();renderCloset();toast(`Passed to ${to.split(" ")[0]} 💛 +5⭐ for giving`);
+    pick=people.find(p=>p.id===b.dataset.p);
+    $$("#passList .crewcard").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    $("#passShipWrap").style.display="block";$("#passGo").style.display="block";drawEst();
   });
+  $$("#passSize .chip").forEach(b=>b.onclick=()=>{size=b.dataset.s;$$("#passSize .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));drawEst();});
+  $("#passGo").onclick=()=>{
+    if(!pick){toast("Pick who it's for 🙂");return;}
+    const est=shipEstimate(pick.region,size);
+    const it=(state.myCloset||[]).find(i=>i.id===item.id);
+    if(it){it.passedTo=pick.name;it.passRegion=pick.region||"home";it.passSize=size;it.passShip=est.label;it.passedWhen=Date.now();}
+    addCredit(5,`Passed ${item.name} to ${pick.name.split(" ")[0]}`);
+    closeSheet();renderCloset();
+    toast(est.local?`Passed to ${pick.name.split(" ")[0]} 💛 +5⭐`:`Passed to ${pick.name.split(" ")[0]} ${est.zone.flag} — a grown-up will post it 💛 +5⭐`);
+  };
 }
 /* combine your pieces into a named outfit */
 function openBuildOutfit(){
