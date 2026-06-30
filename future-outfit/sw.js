@@ -1,7 +1,7 @@
 /* Future Outfit service worker — offline-capable app shell.
    Relative URLs so it works under a project-page base path (/Rader1/).
    Bump CACHE to ship an update. */
-const CACHE = "fo-v1";
+const CACHE = "fo-v3";
 const SHELL = [
   "./",
   "./index.html",
