@@ -612,6 +612,63 @@
     .deskhint{display:block;position:fixed;right:max(32px,calc(50% - 700px));top:50%;transform:translateY(-50%);width:230px;z-index:6;text-align:right;color:var(--ink-soft);font-size:14px;line-height:1.5}
     .deskhint b{color:var(--ink)}
   }
+
+  /* ============================================================
+     SKIN ENGINE — the whole theme driven by editable variables.
+     Defaults below = the "Molten Chrome" skin (matches current look).
+     applySkin() overrides these on :root at runtime.
+     ============================================================ */
+  :root{
+    --c1:#ff1f6b; --c2:#ff6a00; --c3:#ffd400;
+    --accent:#ff9a3d;
+    --bg1:#3a221a; --bg2:#140b08;
+    --glow:#ff6e28; --glow2:#ff286e;
+    --plate:255,236,208;
+    --btnink:#2a0a02;
+  }
+  :root{
+    --grad:linear-gradient(120deg,var(--c1),var(--c2) 50%,var(--c3));
+    --grad-cool:linear-gradient(120deg,var(--c3),var(--c2));
+    --cyan:var(--accent);
+  }
+  body{background:var(--bg2)}
+  body::before{background:
+    radial-gradient(120% 80% at 50% -8%,color-mix(in srgb,var(--glow) 42%,transparent),transparent 60%),
+    radial-gradient(90% 60% at 90% 12%,color-mix(in srgb,var(--glow2) 26%,transparent),transparent 55%),
+    linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,.86)),
+    linear-gradient(135deg,var(--bg1),var(--bg2))}
+  body::after{
+    background-image:
+      linear-gradient(135deg,transparent 22px,rgba(var(--plate),.5) 22px,rgba(var(--plate),.5) 23px,rgba(0,0,0,.5) 23px,rgba(0,0,0,.5) 25px,transparent 25px,transparent 67px,rgba(var(--plate),.5) 67px,rgba(var(--plate),.5) 68px,rgba(0,0,0,.5) 68px,rgba(0,0,0,.5) 70px,transparent 70px),
+      linear-gradient(225deg,transparent 22px,rgba(var(--plate),.5) 22px,rgba(var(--plate),.5) 23px,rgba(0,0,0,.5) 23px,rgba(0,0,0,.5) 25px,transparent 25px,transparent 67px,rgba(var(--plate),.5) 67px,rgba(var(--plate),.5) 68px,rgba(0,0,0,.5) 68px,rgba(0,0,0,.5) 70px,transparent 70px)}
+  .look .pic,.hero,.mini .mp{background:
+    linear-gradient(color-mix(in srgb,var(--accent) 16%,transparent) 1px,transparent 1px) 0 0/100% 13px,
+    linear-gradient(90deg,color-mix(in srgb,var(--accent) 14%,transparent) 1px,transparent 1px) 0 0/13px 100%,
+    radial-gradient(120% 85% at 50% 6%,color-mix(in srgb,var(--a,var(--accent)) 40%,transparent),transparent 70%),
+    linear-gradient(160deg,rgba(0,0,0,.6),rgba(0,0,0,.92)),var(--bg2)}
+  .scanline{background:linear-gradient(transparent,color-mix(in srgb,var(--accent) 60%,transparent),transparent)}
+  .scan path,.scan line,.scan rect{stroke:var(--accent)!important}
+  .scan text{fill:color-mix(in srgb,var(--accent) 88%,#fff)!important}
+  nav.tabs button[aria-selected="true"]::before{background:radial-gradient(60% 80% at 50% 40%,color-mix(in srgb,var(--accent) 55%,transparent),transparent 75%)}
+  nav.tabs button[aria-selected="true"] .ic{filter:drop-shadow(0 0 9px color-mix(in srgb,var(--accent) 90%,transparent))}
+  nav.tabs{background:
+    linear-gradient(135deg,transparent 22px,rgba(var(--plate),.12) 22px,rgba(var(--plate),.12) 23px,rgba(0,0,0,.28) 23px,rgba(0,0,0,.28) 25px,transparent 25px,transparent 67px,rgba(var(--plate),.12) 67px,rgba(var(--plate),.12) 68px,rgba(0,0,0,.28) 68px,rgba(0,0,0,.28) 70px,transparent 70px) 0 0/64px 128px,
+    linear-gradient(225deg,transparent 22px,rgba(var(--plate),.12) 22px,rgba(var(--plate),.12) 23px,rgba(0,0,0,.28) 23px,rgba(0,0,0,.28) 25px,transparent 25px,transparent 67px,rgba(var(--plate),.12) 67px,rgba(var(--plate),.12) 68px,rgba(0,0,0,.28) 68px,rgba(0,0,0,.28) 70px,transparent 70px) 0 64px/64px 128px,
+    linear-gradient(180deg,color-mix(in srgb,var(--bg1) 70%,#000),var(--bg2))}
+  .me .dot{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 14px color-mix(in srgb,var(--accent) 70%,transparent)}
+  .vibecard{background:
+    radial-gradient(80% 60% at 26% 10%,rgba(255,255,255,.5),transparent 54%),
+    radial-gradient(150% 130% at 50% 8%,var(--c2),color-mix(in srgb,var(--c2) 25%,#000) 88%),#1a0a06}
+  .btn,.chip[aria-pressed="true"],.optline button[aria-pressed="true"]{color:var(--btnink)}
+  .btn{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 10px 26px color-mix(in srgb,var(--c2) 45%,transparent)}
+  .skinbtn{background:var(--panel);border:1px solid var(--line);border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+  .skinrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .skincard{border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;position:relative;overflow:hidden;text-align:left;background:var(--panel)}
+  .skincard[aria-pressed="true"]{box-shadow:0 0 0 2px var(--accent)}
+  .skincard .sw{height:34px;border-radius:9px;margin-bottom:8px}
+  .skincard .nm{font-weight:800;font-size:13px}
+  .skinedit label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;color:var(--ink-soft);margin:9px 0}
+  .skinedit input[type=color]{width:48px;height:30px;border:1px solid var(--line);border-radius:8px;background:none;cursor:pointer;padding:0}
 </style>
 </head>
 <body>
@@ -636,7 +693,10 @@
       <div class="fo">FUTURE&nbsp;OUTFIT</div>
       <div class="by">by <b>TTHHAANNKKSS</b></div>
     </div>
-    <div class="me" id="meChip"><span class="dot">🛹</span><span>Franky</span></div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="skinbtn" id="skinBtn" aria-label="Skins" title="Skins">🎨</button>
+      <div class="me" id="meChip"><span class="dot">🛹</span><span>Franky</span></div>
+    </div>
   </div>
 </header>
 
@@ -1018,7 +1078,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[],skin:"molten",customSkins:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
 function save(){state.updatedAt=Date.now();localStorage.setItem(KEY,JSON.stringify(state));cloudPushSoon();}
 let state=load();
 
@@ -2059,7 +2119,7 @@ async function cloudPull(){
   return false;
 }
 function adoptCloud(data){ localStorage.setItem(KEY,JSON.stringify(data)); state=load(); softReload(); }
-function softReload(){ try{updateMe();renderFilters();renderFeed();refreshQuests();const v=document.querySelector(".view.active");if(v&&v.id==="view-you")renderYou();if(v&&v.id==="view-closet")renderCloset();if(v&&v.id==="view-fits")renderFits();}catch(e){} }
+function softReload(){ try{applySkin(resolveSkin(state.skin));updateMe();renderFilters();renderFeed();refreshQuests();const v=document.querySelector(".view.active");if(v&&v.id==="view-you")renderYou();if(v&&v.id==="view-closet")renderCloset();if(v&&v.id==="view-fits")renderFits();}catch(e){} }
 async function cloudCreate(){
   toast("Setting up cloud save…");
   try{
@@ -2144,7 +2204,55 @@ async function ackMsg(id){
   try{const r=await fetch(`${SYNC_URL}/inbox/${myCode()}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({remove:[id]})});const d=await r.json();if(d&&d.ok){inboxCache=d.messages||[];renderMail();}}catch(e){}
 }
 
+/* ---------- skins (editable, Winamp-style) ---------- */
+const SKIN_KEYS={c1:"--c1",c2:"--c2",c3:"--c3",accent:"--accent",bg1:"--bg1",bg2:"--bg2",glow:"--glow",glow2:"--glow2",ink:"--ink",ink2:"--ink-soft",inkDim:"--ink-dim",btnink:"--btnink"};
+const THEMES={
+  molten:{name:"Molten Chrome",c1:"#ff1f6b",c2:"#ff6a00",c3:"#ffd400",accent:"#ff9a3d",bg1:"#3a221a",bg2:"#140b08",glow:"#ff6e28",glow2:"#ff286e",ink:"#fdeee7",ink2:"#e0c2b2",inkDim:"#a07f70",btnink:"#2a0a02",plate:"#ffecd0"},
+  cosmic:{name:"Cosmic",c1:"#ff7ac3",c2:"#9b6bff",c3:"#46d6ff",accent:"#46d6ff",bg1:"#2a333b",bg2:"#0b0d12",glow:"#3c5060",glow2:"#7b52ff",ink:"#eef1f7",ink2:"#b3bacb",inkDim:"#7a8295",btnink:"#15082a",plate:"#c8dcff"},
+  mint:{name:"Acid Mint",c1:"#2ee6a0",c2:"#46d6ff",c3:"#c6ff5a",accent:"#2ee6a0",bg1:"#10302a",bg2:"#06120f",glow:"#19c98f",glow2:"#46d6ff",ink:"#eafff7",ink2:"#aee5d4",inkDim:"#6f9a8c",btnink:"#04201a",plate:"#c8ffe6"},
+  vapor:{name:"Vapor",c1:"#ff8ad1",c2:"#b58cff",c3:"#8af0ff",accent:"#ff8ad1",bg1:"#2a2140",bg2:"#120a1f",glow:"#b06bff",glow2:"#ff7ac3",ink:"#fdeefb",ink2:"#d8c2e6",inkDim:"#9a85ad",btnink:"#2a0a2a",plate:"#ffe1fa"},
+  steel:{name:"Mono Steel",c1:"#d7e2ee",c2:"#8fa0b2",c3:"#ffffff",accent:"#cdd9e6",bg1:"#2a2f36",bg2:"#0e1115",glow:"#5c6f81",glow2:"#8fa0b2",ink:"#f2f6fb",ink2:"#b9c3cf",inkDim:"#7f8c99",btnink:"#0e1115",plate:"#e6eef7"},
+};
+function hexToRgb(h){h=(h||"").replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h,16);return `${(n>>16)&255}, ${(n>>8)&255}, ${n&255}`;}
+function applySkin(s){if(!s)return;const r=document.documentElement.style;for(const k in SKIN_KEYS){if(s[k])r.setProperty(SKIN_KEYS[k],s[k]);}if(s.plate)r.setProperty("--plate",hexToRgb(s.plate));}
+function resolveSkin(id){return THEMES[id]||(state.customSkins||[]).find(x=>x.id===id)||THEMES.molten;}
+function swatchCSS(s){return `linear-gradient(120deg,${s.c1},${s.c2} 50%,${s.c3})`;}
+function setSkin(id){state.skin=id;save();applySkin(resolveSkin(id));openSkins();}
+function openSkins(){
+  const cur=state.skin;
+  const presetCards=Object.entries(THEMES).map(([id,s])=>`<button class="skincard" data-skin="${id}" aria-pressed="${id===cur}"><div class="sw" style="background:${swatchCSS(s)}"></div><div class="nm">${esc(s.name)}</div></button>`).join("");
+  const customCards=(state.customSkins||[]).map(s=>`<button class="skincard" data-skin="${s.id}" aria-pressed="${s.id===cur}"><div class="sw" style="background:${swatchCSS(s)}"></div><div class="nm">${esc(s.name||"My skin")} <span data-delskin="${s.id}" style="color:var(--ink-dim);float:right">✕</span></div></button>`).join("");
+  $("#sheetPad").innerHTML=`<h2 style="margin:0 0 4px;font-size:23px;font-weight:900">Skins 🎨</h2>
+    <p style="color:var(--ink-soft);margin:0 0 12px">Tap a skin to wear it. Or make your own.</p>
+    <div class="skinrow">${presetCards}</div>
+    ${customCards?`<div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:14px 0 8px">Your skins</div><div class="skinrow">${customCards}</div>`:""}
+    <button class="btn" id="skinEdit" style="margin-top:14px">✏️ Customize this skin</button>`;
+  $$("#sheetPad [data-skin]").forEach(b=>b.onclick=e=>{if(e.target.dataset.delskin)return;setSkin(b.dataset.skin);});
+  $$("#sheetPad [data-delskin]").forEach(x=>x.onclick=e=>{e.stopPropagation();const id=x.dataset.delskin;state.customSkins=(state.customSkins||[]).filter(s=>s.id!==id);if(state.skin===id)setSkin("molten");else{save();openSkins();}});
+  $("#skinEdit").onclick=openSkinEditor;
+  openSheet();
+}
+function openSkinEditor(){
+  const base=Object.assign({},resolveSkin(state.skin)); const work=Object.assign({name:"My skin"},base);
+  const FIELDS=[["bg2","Background"],["bg1","Backdrop tint"],["glow","Glow"],["glow2","Glow 2"],["accent","Accent / scan"],["c1","Gradient 1"],["c2","Gradient 2"],["c3","Gradient 3"],["ink","Text"],["ink2","Soft text"],["btnink","Button text"],["plate","Metal sheen"]];
+  $("#sheetPad").innerHTML=`<h2 style="margin:0 0 10px;font-size:23px;font-weight:900">Make a skin ✏️</h2>
+    <input id="skName" placeholder="Name your skin" value="${esc(work.name)}" style="width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:12px;font:inherit;color:var(--ink);margin-bottom:8px">
+    <div class="skinedit">${FIELDS.map(([k,l])=>`<label>${l}<input type="color" data-k="${k}" value="${work[k]||'#888888'}"></label>`).join("")}</div>
+    <div class="btnrow" style="margin-top:12px"><button class="btn alt" id="skCancel">Cancel</button><button class="btn" id="skSave">Save skin</button></div>`;
+  $$("#sheetPad input[type=color]").forEach(inp=>inp.oninput=()=>{work[inp.dataset.k]=inp.value;applySkin(work);});
+  $("#skCancel").onclick=()=>{applySkin(resolveSkin(state.skin));openSkins();};
+  $("#skSave").onclick=()=>{
+    work.name=($("#skName").value||"My skin").slice(0,24);work.inkDim=work.ink2;
+    const id="cs"+Date.now();const skin=Object.assign({id},work);
+    state.customSkins=state.customSkins||[];state.customSkins.push(skin);state.skin=id;save();
+    applySkin(skin);openSkins();toast("Skin saved 🎨");
+  };
+  openSheet();
+}
+$("#skinBtn").onclick=openSkins;
+
 /* boot */
+applySkin(resolveSkin(state.skin));
 renderFilters();renderFeed();refreshQuests();updateMe();
 if(myCode()){cloudPull();pullInbox();}
 
