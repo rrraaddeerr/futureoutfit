@@ -1076,6 +1076,48 @@ const CARE=[
   ["✂️","A rip isn't the end. A visible mend is its own kind of cool."],
 ];
 
+/* ---- measure yourself: how to find your real numbers (in cm) ---- */
+const MEASURES=[
+  {k:"height",ic:"📏",name:"Height",how:"Stand tall against a wall, no shoes, heels touching. Mark the top of your head, then measure from the floor up."},
+  {k:"chest", ic:"👕",name:"Chest", how:"Wrap the tape around the widest part of your chest, under your arms. Keep it level and breathe normally."},
+  {k:"waist", ic:"🩲",name:"Waist", how:"Bend to one side — the crease that appears is your natural waist. Wrap the tape there, comfy not tight."},
+  {k:"hips",  ic:"🩳",name:"Hips",  how:"Feet together. Wrap the tape around the widest part of your hips and bum, keeping it level."},
+  {k:"inseam",ic:"🦵",name:"Inseam (leg)",how:"From the very top inside of your leg straight down to your ankle bone. (Or just measure trousers that already fit.)"},
+  {k:"foot",  ic:"👟",name:"Foot length",how:"Stand on a sheet of paper, mark behind your heel and past your longest toe, then measure the gap. Do both feet — use the bigger one."},
+];
+/* rough kids' clothing sizes by height (cm). Always varies by brand — try it on. */
+const SIZE_CHART=[
+  {sz:"XS",lo:110,hi:122,age:"5–7y",intl:"size 6"},
+  {sz:"S", lo:122,hi:134,age:"7–9y",intl:"size 8"},
+  {sz:"M", lo:134,hi:146,age:"9–11y",intl:"size 10–12"},
+  {sz:"L", lo:146,hi:158,age:"11–13y",intl:"size 14"},
+  {sz:"XL",lo:158,hi:170,age:"13–15y",intl:"size 16"},
+];
+/* rough shoe sizes by foot length (cm) — youth sizes, varies by brand */
+const SHOE_CHART=[
+  {cm:18.5,us:"1Y",eu:"33"},{cm:19.5,us:"2Y",eu:"34"},{cm:20.5,us:"3Y",eu:"35"},
+  {cm:21.5,us:"4Y",eu:"36"},{cm:22.5,us:"5Y",eu:"37"},{cm:23.5,us:"6Y",eu:"38"},{cm:24.5,us:"7Y",eu:"39–40"},
+];
+/* laundry-care symbols drawn as the real shapes — learning the actual language */
+const L_TUB='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9 L6 6.5 H18 L21 9 V16 a3 3 0 0 1-3 3 H6 a3 3 0 0 1-3-3 Z"/><path d="M4 10.5 q2 1.4 4 0 t4 0 4 0 4 0"/></svg>';
+const L_HAND='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9 L6 6.5 H18 L21 9 V16 a3 3 0 0 1-3 3 H6 a3 3 0 0 1-3-3 Z"/><path d="M8 13.5 q4 3 8 0"/><path d="M12 9.5 v4"/></svg>';
+const L_NOWASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9 L6 6.5 H18 L21 9 V16 a3 3 0 0 1-3 3 H6 a3 3 0 0 1-3-3 Z"/><path d="M5 6 L19 19" stroke-width="1.8"/></svg>';
+const L_TRI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4 L21 19 H3 Z"/><path d="M6 7 L18 17" stroke-width="1.6"/></svg>';
+const L_DRY='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="5" width="16" height="14" rx="1.5"/><circle cx="12" cy="12" r="4"/></svg>';
+const L_LINE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M7 8 q5 4 10 0"/></svg>';
+const L_IRON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16 L6 10 H18 a2 2 0 0 1 2 2 v4 Z"/><path d="M4 18 H20"/></svg>';
+const L_CIRC='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/></svg>';
+const LAUNDRY=[
+  [L_TUB,"Wash tub","Machine wash is OK. A number (like 30) or dots tell you how hot the water should be — lower = gentler."],
+  [L_HAND,"Hand wash","Wash this one by hand in cool water. No machine — be gentle."],
+  [L_NOWASH,"Do not wash","Don't put it in water at all. A cross through a symbol always means 'don't'."],
+  [L_TRI,"Triangle","Bleach info. An empty triangle = bleach OK; a crossed-out triangle = no bleach (most of your clothes)."],
+  [L_DRY,"Square + circle","The tumble dryer. Dots = heat level. Crossed out = hang it up instead, don't tumble dry."],
+  [L_LINE,"Square + curve","Drying shape. A curve inside means line-dry / hang to dry — gentle and free."],
+  [L_IRON,"Iron","Ironing. Dots = how hot (1 cool, 3 hot). Crossed out = don't iron it."],
+  [L_CIRC,"Circle","Take it to a dry cleaner — a grown-up job, not a home wash."],
+];
+
 const QUESTS=[
   {id:"q1",ic:"🕰️",t:"Time traveller",d:"Save a look rooted before the year 2000.",auto:s=>s.saved.some(id=>{const l=LOOKS.find(x=>x.id===id);return l&&l.heri;})},
   {id:"q2",ic:"🔍",t:"Code-breaker",d:"Decode any look to see what it's made of.",auto:s=>s.decoded.length>0},
@@ -1091,6 +1133,7 @@ const QUESTS=[
   {id:"q12",ic:"⭐",t:"Supporter",d:"Help a pal or share the game and earn Supporter Stars.",auto:s=>(s.credits||0)>0||(s.given||0)>0},
   {id:"q13",ic:"👚",t:"Start your closet",d:"Add a piece you own to My Closet.",auto:s=>(s.myCloset||[]).length>0},
   {id:"q14",ic:"🧩",t:"Outfit maker",d:"Build an outfit from your own pieces.",auto:s=>(s.myOutfits||[]).length>0},
+  {id:"q15",ic:"📏",t:"Know your size",d:"Measure yourself and save your numbers in Learn.",auto:s=>!!(s.measurements&&Object.keys(s.measurements).length)},
 ];
 
 const VIBES={
@@ -1148,7 +1191,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[],cards:[],skin:"chrome",skinPicked:false,customSkins:[],boards:[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}]};const defBoards=()=>[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}];try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m=Object.assign(d,s);if(!Array.isArray(m.boards)||!m.boards.length)m.boards=defBoards();if(!Array.isArray(m.cards))m.cards=[];if(!m.skinPicked&&(m.skin==="molten"||!m.skin))m.skin="chrome";return m;}}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[],cards:[],measurements:{},skin:"chrome",skinPicked:false,customSkins:[],boards:[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}]};const defBoards=()=>[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}];try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m=Object.assign(d,s);if(!Array.isArray(m.boards)||!m.boards.length)m.boards=defBoards();if(!Array.isArray(m.cards))m.cards=[];if(!m.skinPicked&&(m.skin==="molten"||!m.skin))m.skin="chrome";return m;}}catch(e){}return d;}
 function save(){state.updatedAt=Date.now();localStorage.setItem(KEY,JSON.stringify(state));cloudPushSoon();}
 let state=load();
 
@@ -2039,18 +2082,103 @@ function renderQuests(){
 }
 
 /* ---------- learn ---------- */
+function sizeFromHeight(h){let r=SIZE_CHART.find(x=>h>=x.lo&&h<x.hi);if(!r)r=h<SIZE_CHART[0].lo?SIZE_CHART[0]:SIZE_CHART[SIZE_CHART.length-1];return r;}
+function shoeFromFoot(cm){return SHOE_CHART.reduce((best,r)=>Math.abs(r.cm-cm)<Math.abs(best.cm-cm)?r:best,SHOE_CHART[0]);}
+function ensureLearnCSS(){
+  if(document.getElementById("learnCSS"))return;
+  const st=document.createElement("style");st.id="learnCSS";st.textContent=`
+.measgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.meas{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;color:var(--ink-soft)}
+.meas input{width:62px;text-align:center;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:7px;font:inherit;color:var(--ink)}
+.sizetab{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:4px}
+.sizetab th{text-align:left;color:var(--ink-dim);font-size:11px;text-transform:uppercase;letter-spacing:.08em;padding:6px 8px;border-bottom:1px solid var(--line)}
+.sizetab td{padding:8px;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+.sizetab tr.hit td{background:var(--panel);color:var(--ink);font-weight:700}
+.lsyms{display:grid;gap:10px}
+.lsym{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--ink-soft)}
+.lsg{flex:none;width:34px;height:34px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:9px;display:grid;place-items:center}
+.lsg svg{width:24px;height:24px}
+#printRoot{display:none}
+@media print{body>*{display:none!important}#printRoot{display:block!important}@page{margin:8mm}}`;
+  document.head.appendChild(st);
+}
 function renderLearn(){
+  ensureLearnCSS();
+  const m=state.measurements||{};
+  const num=v=>{const n=parseFloat(v);return isFinite(n)&&n>0?n:null;};
+  const sizeRow=m.height?sizeFromHeight(m.height):null;
+  const shoeRow=m.foot?shoeFromFoot(m.foot):null;
   $("#learnBox").innerHTML=`
+    <details class="accord"><summary>📏 Measure yourself <span class="ar">›</span></summary>
+      <div class="body">
+        <p style="margin:0 0 10px">Knowing your real numbers means clothes fit <b>you</b> — online, secondhand, or hand-me-downs from family. Use a soft tape, or print our paper one. Measure in <b>centimetres (cm)</b>.</p>
+        ${MEASURES.map(x=>`<div class="tip"><span class="te">${x.ic}</span><span><b style="color:var(--ink)">${esc(x.name)}.</b> ${esc(x.how)}</span></div>`).join("")}
+        <button class="btn cool" id="printTape" style="margin:14px 0 4px">📏 Print a paper tape measure</button>
+        <div class="lab" style="margin:16px 0 8px">Save your numbers (cm)</div>
+        <div class="measgrid">${MEASURES.map(x=>`<label class="meas"><span>${x.ic} ${esc(x.name.split(" ")[0])}</span><input id="m_${x.k}" type="number" inputmode="decimal" min="0" max="250" value="${m[x.k]!=null?m[x.k]:""}" placeholder="–"></label>`).join("")}</div>
+        <button class="btn" id="saveMeas" style="margin-top:12px">💾 Save my numbers</button>
+        ${sizeRow?`<div class="know" style="margin-top:12px">📐 You measured <b>${esc(""+m.height)} cm</b> tall → you're around a <b style="color:var(--ink)">${sizeRow.sz}</b> (${sizeRow.intl}, ${sizeRow.age}).${shoeRow?` Foot ${esc(""+m.foot)} cm → about a <b style="color:var(--ink)">${shoeRow.us}</b> (EU ${shoeRow.eu}).`:""}</div>`:""}
+        <div class="safe-note" style="margin-top:12px">🛡️ <div>Just numbers, saved on your device. No name, no photo — nobody else ever sees them.</div></div>
+      </div></details>
+    <details class="accord"><summary>📐 Size charts <span class="ar">›</span></summary>
+      <div class="body">
+        <p style="margin:0 0 10px">A rough guide — every brand is a little different, so always try it on when you can.</p>
+        <div class="lab" style="margin:2px 0 8px">Clothes — by height</div>
+        <table class="sizetab"><tr><th>Size</th><th>Height</th><th>Age</th><th>Also called</th></tr>
+        ${SIZE_CHART.map(r=>`<tr class="${sizeRow&&sizeRow.sz===r.sz?'hit':''}"><td><b>${r.sz}</b></td><td>${r.lo}–${r.hi} cm</td><td>${r.age}</td><td>${r.intl}</td></tr>`).join("")}</table>
+        <div class="lab" style="margin:14px 0 8px">Shoes — by foot length</div>
+        <table class="sizetab"><tr><th>Foot</th><th>US</th><th>EU</th></tr>
+        ${SHOE_CHART.map(r=>`<tr class="${shoeRow&&shoeRow.us===r.us?'hit':''}"><td>${r.cm} cm</td><td>${r.us}</td><td>${r.eu}</td></tr>`).join("")}</table>
+      </div></details>
+    <details class="accord"><summary>🧼 Laundry symbols <span class="ar">›</span></summary>
+      <div class="body">
+        <p style="margin:0 0 10px">Those tiny tags speak a language. Here's how to read it — and a cross through <i>any</i> symbol always means “don't”.</p>
+        <div class="lsyms">${LAUNDRY.map(l=>`<div class="lsym"><span class="lsg">${l[0]}</span><div><b style="color:var(--ink)">${esc(l[1])}</b><br>${esc(l[2])}</div></div>`).join("")}</div>
+      </div></details>
     <details class="accord" id="acThrift"><summary>🛍️ Thrift 101 <span class="ar">›</span></summary>
       <div class="body">${THRIFT101.map(t=>`<p><b style="color:var(--ink)">${esc(t[0])}</b><br>${esc(t[1])}</p>`).join("")}</div></details>
     <details class="accord"><summary>🗣️ Style words <span class="ar">›</span></summary>
       <div class="body"><div class="gloss">${GLOSSARY.map(g=>`<div class="g"><span class="gt">${esc(g[0])}</span> — ${esc(g[1])}</div>`).join("")}</div></div></details>
     <details class="accord"><summary>🎬 Where looks come from <span class="ar">›</span></summary>
-      <div class="body">${MOVEMENTS.map(m=>`<div class="movement"><span class="me2">${m[1]}</span><div><b style="color:var(--ink)">${esc(m[2])}</b><br>${esc(m[3])}</div></div>`).join("")}</div></details>
+      <div class="body">${MOVEMENTS.map(mv=>`<div class="movement"><span class="me2">${mv[1]}</span><div><b style="color:var(--ink)">${esc(mv[2])}</b><br>${esc(mv[3])}</div></div>`).join("")}</div></details>
     <details class="accord"><summary>🧵 Care & repair <span class="ar">›</span></summary>
       <div class="body">${CARE.map(c=>`<div class="tip"><span class="te">${c[0]}</span><span>${esc(c[1])}</span></div>`).join("")}</div></details>
     <div class="safe-note" style="margin-top:16px">💛 <div>Knowing this stuff means you never have to feel small for not knowing. That's the whole point.</div></div>`;
   $("#acThrift").addEventListener("toggle",e=>{if(e.target.open&&!state.learnedThrift){state.learnedThrift=true;save();refreshQuests();}});
+  $("#printTape").onclick=printTapeMeasure;
+  $("#saveMeas").onclick=()=>{
+    const mm={};MEASURES.forEach(x=>{const n=num($("#m_"+x.k).value);if(n!=null)mm[x.k]=Math.round(n*10)/10;});
+    state.measurements=mm;save();refreshQuests();renderLearn();
+    toast(Object.keys(mm).length?"Saved your size 📏":"Pop in at least one number 🙂");
+  };
+}
+/* a real, to-scale paper tape measure you print, cut and tape together (IKEA-style).
+   Uses physical mm/cm CSS units so it prints true-to-life at 100%. */
+function tapeStrip(start,len){
+  let t="";
+  for(let i=0;i<=len;i++){
+    const cm=start+i, big=cm%10===0, mid=cm%5===0, h=big?9:mid?6:3.5;
+    t+=`<span style="position:absolute;left:${i*10}mm;bottom:0;width:.35mm;height:${h}mm;background:#000"></span>`;
+    if(big)t+=`<span style="position:absolute;left:${i*10}mm;bottom:10mm;transform:translateX(-50%);font:700 3mm sans-serif;color:#000">${cm}</span>`;
+  }
+  return `<div style="position:relative;width:${len*10}mm;height:15mm;margin:0 0 7mm;border-bottom:.35mm solid #000;break-inside:avoid">${t}</div>`;
+}
+function printTapeMeasure(){
+  ensureLearnCSS();
+  let root=document.getElementById("printRoot");
+  if(!root){root=document.createElement("div");root.id="printRoot";document.body.appendChild(root);}
+  const strips=[];for(let s=0;s<160;s+=16)strips.push(tapeStrip(s,16));
+  root.innerHTML=`<div style="padding:6mm;color:#000;background:#fff;font-family:sans-serif">
+    <h1 style="font:800 6mm sans-serif;margin:0 0 2mm">FUTURE OUTFIT — paper tape measure 📏</h1>
+    <p style="font:4mm/1.35 sans-serif;margin:0 0 5mm">Print at <b>100%</b> (turn OFF “fit to page”). Cut out each strip, then tape them end to end lining up the numbers — that makes one long <b>160 cm</b> tape.</p>
+    <div style="position:relative;width:100mm;height:13mm;margin:0 0 1mm;border:.4mm solid #000;break-inside:avoid">
+      <span style="position:absolute;left:0;bottom:0;width:.4mm;height:7mm;background:#000"></span>
+      <span style="position:absolute;left:100mm;bottom:0;width:.4mm;height:7mm;background:#000;transform:translateX(-100%)"></span>
+      <span style="position:absolute;left:50mm;bottom:8mm;transform:translateX(-50%);font:700 3.2mm sans-serif">✓ this line should measure exactly 10 cm</span>
+    </div>
+    <p style="font:3.2mm sans-serif;margin:0 0 6mm;color:#444">If the check line isn't 10 cm, set your printer scale to 100% and print again.</p>
+    ${strips.join("")}</div>`;
+  setTimeout(()=>{window.print();toast("Sent to print 📏 — choose 100% scale");},60);
 }
 
 /* ---------- family closet ---------- */
