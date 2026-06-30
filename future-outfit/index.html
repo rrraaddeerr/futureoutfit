@@ -772,6 +772,20 @@
     <div id="learnBox"></div>
   </section>
 
+  <!-- BOARD (Pinterest-style) -->
+  <section class="view" id="view-board">
+    <div class="viewhead">
+      <h1>Your <span class="grad-text">boards</span></h1>
+      <p>Pin the looks you love. Tap a board's name to rename it. Tap any pin to open it.</p>
+    </div>
+    <div id="boardBox"></div>
+  </section>
+
+  <!-- LOOK PAGE (its own page, Back button works) -->
+  <section class="view" id="view-look">
+    <div id="lookPage"></div>
+  </section>
+
 </main>
 
 <button class="floatask" id="floatAsk">💬 Get style help</button>
@@ -781,6 +795,7 @@
 
 <nav class="tabs">
   <button data-go="discover" aria-selected="true"><span class="ic">🪐</span>Discover</button>
+  <button data-go="board"><span class="ic">📌</span>Board</button>
   <button data-go="closet"><span class="ic">🧺</span>Closet</button>
   <button data-go="fits"><span class="ic">✂️</span>Fits</button>
   <button data-go="quests"><span class="ic">🎯</span>Quests</button>
@@ -789,6 +804,27 @@
 </nav>
 
 <div class="toast" id="toast"></div>
+
+<style>
+  /* ---- look page + boards ---- */
+  .backbar{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);
+    color:var(--ink);font:inherit;font-weight:800;font-size:14px;border-radius:13px;padding:10px 15px;cursor:pointer;margin:2px 0 14px}
+  .backbar:active{transform:translateY(1px)}
+  #view-look .hero{margin-bottom:14px}
+  .board{margin:0 0 22px}
+  .bname{width:100%;background:transparent;border:none;border-bottom:2px solid var(--line);
+    color:var(--ink);font:inherit;font-weight:900;font-size:20px;letter-spacing:-.01em;padding:4px 2px 8px;border-radius:0}
+  .bname:focus{outline:none;border-bottom-color:var(--accent)}
+  .bcount{color:var(--ink-dim);font-size:12px;font-weight:800;margin:4px 0 10px}
+  .bgrid{column-count:2;column-gap:10px}
+  @media (min-width:720px){ .bgrid{column-count:3} }
+  .pin{display:block;width:100%;break-inside:avoid;margin:0 0 10px;padding:0;text-align:left;cursor:pointer;
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;color:var(--ink)}
+  .pin:active{transform:scale(.985)}
+  .pin .pic{border-radius:16px 16px 0 0;overflow:hidden}
+  .pin-cap{padding:8px 10px;font-weight:800;font-size:12.5px;line-height:1.25}
+  .bempty{color:var(--ink-soft);font-size:14px;border:1px dashed var(--line);border-radius:14px;padding:16px;text-align:center}
+</style>
 
 <script>
 /* =========================================================
@@ -1078,7 +1114,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[],skin:"molten",customSkins:[]};try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return Object.assign(d,s);}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[],skin:"molten",customSkins:[],boards:[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}]};const defBoards=()=>[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}];try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m=Object.assign(d,s);if(!Array.isArray(m.boards)||!m.boards.length)m.boards=defBoards();return m;}}catch(e){}return d;}
 function save(){state.updatedAt=Date.now();localStorage.setItem(KEY,JSON.stringify(state));cloudPushSoon();}
 let state=load();
 
@@ -1253,7 +1289,7 @@ function renderFeed(){
         <div class="peek">🔍 Tap to decode it & learn where to find it</div>
       </div>
     </article>`;}).join("");
-  $$("#feed .look").forEach(a=>a.onclick=e=>{if(e.target.dataset.save)return;openLook(a.dataset.id);});
+  $$("#feed .look").forEach(a=>a.onclick=e=>{if(e.target.dataset.save)return;goLook(a.dataset.id);});
   $$("#feed .savez").forEach(b=>b.onclick=e=>{e.stopPropagation();const was=state.saved.includes(b.dataset.save);toggleSave(b.dataset.save);if(!was)heartSpray(e.clientX,e.clientY);});
 }
 function toggleSave(id){
@@ -1264,16 +1300,9 @@ function toggleSave(id){
 }
 
 /* ---------- look detail ---------- */
-function openLook(id){
-  const l=LOOKS.find(x=>x.id===id);if(!l)return;
-  if(!state.decoded.includes(id)){state.decoded.push(id);save();refreshQuests();}
-  const on=state.saved.includes(id);
+function lookSections(l){
   const mv=MOVEMENTS.find(m=>m[0]===l.movement);
-  $("#sheetPad").innerHTML=`
-    <div class="hero" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">${deviceFrame(l.id+"h",l.colors,l.era)}<span class="era">${l.era}</span>${lookArt(l)}</div>
-    <h2 style="margin:0;font-size:24px;font-weight:900">${esc(l.name)}</h2>
-    <div class="vibes" style="margin-top:8px">${l.vibes.map(v=>`<span class="vibe" style="background:#ffffff12;border-color:var(--line)">${v}</span>`).join("")}</div>
-
+  return `
     <div class="sec">
       <div class="lab">🔍 Decode the look</div>
       ${l.pieces.map(p=>`<div class="piece"><span class="pemoji">${p[0]}</span><div><div class="pn">${esc(p[1])}</div><div class="pd">${esc(p[2])}</div></div></div>`).join("")}
@@ -1300,14 +1329,82 @@ function openLook(id){
       <div class="know">${esc(l.care)}</div>
     </div>
 
-    ${mv?`<div class="sec"><div class="lab">📚 The story behind it</div><div class="know"><b>${mv[2]}.</b> ${esc(mv[3])}</div></div>`:""}
+    ${mv?`<div class="sec"><div class="lab">📚 The story behind it</div><div class="know"><b>${mv[2]}.</b> ${esc(mv[3])}</div></div>`:""}`;
+}
 
-    <button class="btn" id="saveBtn">${on?'💜 Saved to Your Vibe':'🤍 Save to Your Vibe'}</button>
-    <button class="btn cool" id="askBtn" style="margin-top:10px">💬 Get help with this look</button>
+// Navigate to a look's own page (real URL → Back button works, shareable).
+function goLook(id){ location.hash="#look/"+id; }
+function openLook(id){ goLook(id); } // legacy callers now open the page
+
+function pinnedBoards(id){ return (state.boards||[]).filter(b=>(b.pins||[]).includes(id)); }
+function pinBtnLabel(id){ const n=pinnedBoards(id).length; return n?`📌 On ${n} board${n>1?'s':''} · edit pins`:'📌 Pin to a board'; }
+
+function renderLookPage(id){
+  const l=LOOKS.find(x=>x.id===id);
+  if(!l){ go("discover"); return; }
+  if(!state.decoded.includes(id)){state.decoded.push(id);save();refreshQuests();}
+  showView("view-look");
+  $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected","false"));
+  $("#lookPage").innerHTML=`
+    <button class="backbar" id="lookBack">← Back to Discover</button>
+    <div class="hero" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">${deviceFrame(l.id+"h",l.colors,l.era)}<span class="era">${l.era}</span>${lookArt(l)}</div>
+    <h2 style="margin:0;font-size:24px;font-weight:900">${esc(l.name)}</h2>
+    <div class="vibes" style="margin-top:8px">${l.vibes.map(v=>`<span class="vibe" style="background:#ffffff12;border-color:var(--line)">${v}</span>`).join("")}</div>
+    ${lookSections(l)}
+    <button class="btn" id="pinBtn">${pinBtnLabel(id)}</button>
+    <button class="btn cool" id="fitBtn" style="margin-top:10px">🧍 Build a fit with this</button>
+    <button class="btn alt" id="askBtn" style="margin-top:10px">💬 Get help with this look</button>
   `;
-  $("#saveBtn").onclick=()=>{toggleSave(id);openLook(id);};
+  $("#lookBack").onclick=()=>go("discover"); // deterministic; phone Back button still walks history via hashchange
+  $("#pinBtn").onclick=()=>openPin(id);
+  $("#fitBtn").onclick=()=>buildFit(id);
   $("#askBtn").onclick=()=>openHelpChooser(l);
-  openSheet();
+  window.scrollTo({top:0});
+}
+
+// Pick which board(s) to pin a look to.
+function openPin(id){
+  const l=LOOKS.find(x=>x.id===id); if(!l)return;
+  $("#sheetPad").innerHTML=`<h2 style="margin:0 0 4px;font-size:22px;font-weight:900">📌 Pin “${esc(l.name)}”</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 12px">Tap a board to pin it there. Tap again to unpin.</p>
+    <div id="pinBoards"></div>
+    <button class="btn alt" id="pinSeeBoards" style="margin-top:4px">📌 See my boards</button>`;
+  const draw=()=>{
+    $("#pinBoards").innerHTML=(state.boards||[]).map(b=>{const on=(b.pins||[]).includes(id);return `<button class="btn ${on?'':'alt'}" data-b="${b.id}" style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px"><span>${esc(b.name)}</span><span>${on?'📌 Pinned':'＋ Pin'}</span></button>`;}).join("");
+    $$("#pinBoards [data-b]").forEach(btn=>btn.onclick=()=>{
+      const b=(state.boards||[]).find(x=>x.id===btn.dataset.b); if(!b)return;
+      b.pins=b.pins||[]; const i=b.pins.indexOf(id);
+      if(i>=0){ b.pins.splice(i,1); toast("Unpinned"); }
+      else{ b.pins.unshift(id); toast(`Pinned to ${b.name} 📌`); confettiBurst(); }
+      save(); refreshQuests(); draw();
+      const pb=$("#pinBtn"); if(pb) pb.textContent=pinBtnLabel(id);
+    });
+  };
+  draw(); openSheet();
+  $("#pinSeeBoards").onclick=()=>{ closeSheet(); go("board"); };
+}
+
+function buildFit(id){
+  const l=LOOKS.find(x=>x.id===id); if(!l)return;
+  closeSheet();
+  openAvatarBuilder();
+  toast(`Styling a fit around “${l.name}” — design your avatar ✨`);
+}
+
+// The Board tab (Pinterest-style): 3 nameable boards, each a grid of pins.
+function renderBoard(){
+  const box=$("#boardBox"); if(!box)return;
+  box.innerHTML=(state.boards||[]).map(b=>{
+    const pins=(b.pins||[]).map(pid=>LOOKS.find(x=>x.id===pid)).filter(Boolean);
+    const grid=pins.length
+      ? `<div class="bgrid">${pins.map(l=>`<button class="pin" data-look="${l.id}"><div class="pic" style="--a:${l.colors[0]};--b:${l.colors[1]||l.colors[0]}">${deviceFrame("bp"+l.id,l.colors,l.era)}${lookArt(l)}</div><div class="pin-cap">${esc(l.name)}</div></button>`).join("")}</div>`
+      : `<div class="bempty">No pins yet — open a look in <b>Discover</b> and tap <b>📌 Pin</b>.</div>`;
+    return `<div class="board"><input class="bname" data-b="${b.id}" value="${esc(b.name)}" maxlength="24" aria-label="Board name"><div class="bcount">${pins.length} pin${pins.length===1?'':'s'}</div>${grid}</div>`;
+  }).join("");
+  $$("#boardBox .bname").forEach(inp=>{
+    inp.onchange=()=>{const b=(state.boards||[]).find(x=>x.id===inp.dataset.b); if(b){ b.name=(inp.value||"").trim().slice(0,24)||"My board"; inp.value=b.name; save(); } };
+  });
+  $$("#boardBox .pin").forEach(p=>p.onclick=()=>goLook(p.dataset.look));
 }
 
 /* ---------- ask a grown-up ---------- */
@@ -2083,11 +2180,12 @@ function closeSheet(){$("#sheet").classList.remove("open");$("#sheetBg").classLi
 $("#sheetBg").onclick=closeSheet;
 $("#meChip").onclick=()=>toast("Demo: you're Franky 🛹 — a kid-safe view");
 
-function go(v){
-  $$(".view").forEach(x=>x.classList.remove("active"));
-  $("#view-"+v).classList.add("active");
+function showView(viewId){ $$(".view").forEach(x=>x.classList.remove("active")); const v=$("#"+viewId); if(v)v.classList.add("active"); }
+function showTab(v){
+  showView("view-"+v);
   $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.go===v));
   if(v==="discover"){renderFilters();renderFeed();}
+  if(v==="board")renderBoard();
   if(v==="quests")renderQuests();
   if(v==="you"){renderAvatar();renderYou();}
   if(v==="learn")renderLearn();
@@ -2095,6 +2193,15 @@ function go(v){
   if(v==="fits")renderFits();
   window.scrollTo({top:0});
 }
+const TABS=["discover","board","closet","fits","quests","you","learn"];
+// Hash router: #<tab> for tabs, #look/<id> for a look's own page.
+function route(){
+  const h=(location.hash||"").replace(/^#\/?/,"");
+  if(h.indexOf("look/")===0){ renderLookPage(decodeURIComponent(h.slice(5))); return; }
+  showTab(TABS.includes(h)?h:"discover");
+}
+function go(v){ const want="#"+v; if(location.hash===want) route(); else location.hash=want; }
+window.addEventListener("hashchange",route);
 $$("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.go));
 $("#goCloset").onclick=()=>go("closet");
 
@@ -2282,6 +2389,7 @@ $("#skinBtn").onclick=openSkins;
 /* boot */
 applySkin(resolveSkin(state.skin));
 renderFilters();renderFeed();refreshQuests();updateMe();
+route();  // honor any incoming #look/<id> or #<tab> link (else defaults to Discover)
 if(myCode()){cloudPull();pullInbox();}
 
 /* ---------- first-run welcome (kid-friendly tone-setter) ---------- */
