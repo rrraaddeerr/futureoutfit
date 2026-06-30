@@ -716,6 +716,7 @@
       <p>Looks from every era and corner — not just the mall. Tap any one to find out exactly what it is.</p>
     </div>
     <div class="filters" id="filters"></div>
+    <button class="btn cool" id="quickCloset" style="margin:10px 0 -2px;padding:13px">📸 Add my clothes to my closet</button>
     <div class="feed" id="feed"></div>
   </section>
 
@@ -840,9 +841,14 @@
 ========================================================= */
 const KEY="fo_kid_v1";
 const ADULTS=[
-  {id:"dad",name:"Dad (Rader)",rel:"Your dad",hue:"linear-gradient(135deg,#8b6cff,#ff5fa2)"},
-  {id:"rae",name:"Aunt Rae",rel:"The thrift wizard of the family",hue:"linear-gradient(135deg,#4fe3d0,#8b6cff)"},
-  {id:"papa",name:"Papa Turner",rel:"Vintage everything",hue:"linear-gradient(135deg,#ffb25f,#ff5fa2)"},
+  {id:"rader",name:"Dad (Rader)",rel:"Started this whole thing for you",hue:"linear-gradient(135deg,#7af0ff,#ff5ee0)"},
+  {id:"mia",name:"Auntie Mia",rel:"Certified drip — never misses",hue:"linear-gradient(135deg,#ff7ac3,#9b6bff)"},
+  {id:"renee",name:"Auntie Renee",rel:"Gentle eye, always right",hue:"linear-gradient(135deg,#b9c6ff,#7af0ff)"},
+  {id:"vero",name:"Auntie Vero",rel:"Colour genius",hue:"linear-gradient(135deg,#ff9e5e,#ff5e7e)"},
+  {id:"zac",name:"Uncle Zac",rel:"Vintage everything",hue:"linear-gradient(135deg,#ffb25f,#ff7a3c)"},
+  {id:"jay",name:"Uncle Jay",rel:"Clean lines, quiet luxury",hue:"linear-gradient(135deg,#cdd9e6,#8fa0b2)"},
+  {id:"matt",name:"Uncle Matt",rel:"Will find it secondhand",hue:"linear-gradient(135deg,#2ee6a0,#46d6ff)"},
+  {id:"will",name:"Uncle Will",rel:"Streetwear historian",hue:"linear-gradient(135deg,#9b6bff,#46d6ff)"},
 ];
 
 /* ---- phone a friend: your stylish pals (peers, not grown-ups) ----
@@ -850,11 +856,11 @@ const ADULTS=[
    them with Supporter Stars ⭐ — a kid never pays another kid. The `helps`
    number is how many times they've supported pals (social proof, our treat). */
 const FRIENDS=[
-  {id:"sam",name:"Sam",rel:"Best pal, real taste",emoji:"🛹",spec:"avant",helps:34,hue:"linear-gradient(135deg,#bdb2ff,#46d6ff)"},
-  {id:"mia",name:"Cousin Mia",rel:"Certified drip",emoji:"🧃",spec:"street",helps:51,hue:"linear-gradient(135deg,#ff7ac3,#9b6bff)"},
-  {id:"kofi",name:"Kofi",rel:"Sneaker scientist",emoji:"👟",spec:"street",helps:28,hue:"linear-gradient(135deg,#46d6ff,#2ecf8f)"},
-  {id:"lena",name:"Lena",rel:"Thrift-flip wizard",emoji:"🧵",spec:"maker",helps:42,hue:"linear-gradient(135deg,#ffb25f,#ff7a3c)"},
-  {id:"riku",name:"Riku",rel:"Techwear gremlin",emoji:"🛰️",spec:"future",helps:19,hue:"linear-gradient(135deg,#9b6bff,#46d6ff)"},
+  {id:"ben",name:"Ben",rel:"Sneaker freak, knows every drop",emoji:"👟",spec:"street",helps:47,hue:"linear-gradient(135deg,#46d6ff,#2ecf8f)"},
+  {id:"andre",name:"Andre",rel:"Techwear gremlin",emoji:"🛰️",spec:"future",helps:33,hue:"linear-gradient(135deg,#9b6bff,#46d6ff)"},
+  {id:"tosh",name:"Tosh",rel:"Art kid, all black everything",emoji:"🖤",spec:"avant",helps:29,hue:"linear-gradient(135deg,#bdb2ff,#7a8295)"},
+  {id:"annalisa",name:"Annalisa",rel:"Thrift-flip queen",emoji:"🧵",spec:"maker",helps:58,hue:"linear-gradient(135deg,#ffb25f,#ff7a3c)"},
+  {id:"benny",name:"Benny",rel:"Drip scientist",emoji:"🧃",spec:"street",helps:41,hue:"linear-gradient(135deg,#ff7ac3,#9b6bff)"},
 ];
 const FRIEND_TIP={
   avant:n=>`for "${n}" go bold & dark — one dramatic layer, let the shape do the talking. 🖤`,
@@ -1107,17 +1113,17 @@ const CLOSET=[
 /* ---- your crew: people who know YOU and make you fits (not history lessons) ----
    Each helper has a leaning that shapes the outfit they put together for you. */
 const CREW=[
-  {id:"mia",name:"Cousin Mia",rel:"Big cousin, certified drip",emoji:"🧃",cat:"Street",hue:"linear-gradient(135deg,#ff7ac3,#9b6bff)"},
-  {id:"jules",name:"Aunt Jules",rel:"Vintage hunter, knows your size",emoji:"🧶",cat:"Workwear",hue:"linear-gradient(135deg,#ffb25f,#ff7a3c)"},
-  {id:"theo",name:"Uncle Theo",rel:"Techwear nerd, all the gadgets",emoji:"🛰️",cat:"Future",hue:"linear-gradient(135deg,#46d6ff,#9b6bff)"},
-  {id:"sam",name:"Sam",rel:"Your best pal with real taste",emoji:"🛹",cat:"Avant",hue:"linear-gradient(135deg,#bdb2ff,#46d6ff)"},
+  {id:"mia",name:"Auntie Mia",rel:"Certified drip, knows your size",emoji:"🧃",cat:"Street",hue:"linear-gradient(135deg,#ff7ac3,#9b6bff)"},
+  {id:"zac",name:"Uncle Zac",rel:"Vintage hunter, built to last",emoji:"🧶",cat:"Workwear",hue:"linear-gradient(135deg,#ffb25f,#ff7a3c)"},
+  {id:"andre",name:"Cousin Andre",rel:"Techwear nerd, all the gadgets",emoji:"🛰️",cat:"Future",hue:"linear-gradient(135deg,#46d6ff,#9b6bff)"},
+  {id:"tosh",name:"Cousin Tosh",rel:"Art kid with real taste",emoji:"🖤",cat:"Avant",hue:"linear-gradient(135deg,#bdb2ff,#7a8295)"},
 ];
 const OCCASIONS=["First day at a new school","A birthday party","Cold day — wanna look cool","Family photos","Just want something new"];
 const CREW_NOTE={
   mia:o=>`Okay, ${o.toLowerCase()} energy — comfy but sharp. Layers you can move in, one piece that pops. Wear it like you own the hallway. 🧃`,
-  jules:o=>`For ${o.toLowerCase()} I pulled the good stuff — built to last and it looks better the more you wear it. I know your size, trust me. 🧶`,
-  theo:o=>`${o}? Go functional. Every piece here does a job — that's the real flex. Weatherproof and ready for anything. 🛰️`,
-  sam:o=>`${o} — let's make it art. Keep it dark, keep it draped, keep it unmistakably you. You don't follow the hallway, it follows you. 🛹`,
+  zac:o=>`For ${o.toLowerCase()} I pulled the good stuff — built to last and it looks better the more you wear it. I know your size, trust me. 🧶`,
+  andre:o=>`${o}? Go functional. Every piece here does a job — that's the real flex. Weatherproof and ready for anything. 🛰️`,
+  tosh:o=>`${o} — let's make it art. Keep it dark, keep it draped, keep it unmistakably you. You don't follow the hallway, it follows you. 🖤`,
 };
 
 /* ---------- state ---------- */
@@ -1866,16 +1872,20 @@ const ITEM_TYPES=[["tee","👕","Top"],["jacket","🧥","Jacket"],["coat","🧥"
 const ITEM_COLORS=["#7c3cff","#ff7a3c","#46d6ff","#2ecf8f","#ff5fa2","#ffd34d","#e8e2d0","#222730"];
 const SIL_EMOJI={tee:"👕",jacket:"🧥",coat:"🧥",pants:"👖",dress:"👗",shoe:"👟",cap:"🧢"};
 function silEmoji(s){return SIL_EMOJI[s]||"👕";}
-function myItemMP(it,key){return `<div class="mp" style="--a:${it.color};--b:${shade(it.color,-.3)}">${garmentRender(key+it.id,it.sil,[it.color,shade(it.color,.4)],"chrome",false)}</div>`;}
+function myItemMP(it,key){
+  if(it.photo)return `<div class="mp" style="position:relative;overflow:hidden;--a:#222;--b:#111"><img src="${it.photo}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div>`;
+  return `<div class="mp" style="--a:${it.color};--b:${shade(it.color,-.3)}">${garmentRender(key+it.id,it.sil,[it.color,shade(it.color,.4)],"chrome",false)}</div>`;
+}
 
 function renderCloset(){
   const mine=state.myCloset||[], active=mine.filter(i=>!i.passedTo), outfits=state.myOutfits||[], passed=mine.filter(i=>i.passedTo);
   let h=`<div class="lab" style="margin:2px 0 8px">👚 My closet — pieces you own</div>
-    <button class="btn alt" id="addItem" style="margin-bottom:12px">➕ Add a piece</button>`;
+    <button class="btn" id="addItem" style="margin-bottom:12px">📸 Add my clothes</button>`;
   h+= active.length
     ? `<div class="grid">${active.map(it=>`<div class="mini" data-it="${it.id}">${myItemMP(it,"my")}<div class="mn">${esc(it.name)}</div></div>`).join("")}</div>
        <button class="btn cool" id="buildFit" style="margin-top:12px">🧩 Build an outfit</button>`
-    : `<div class="empty"><div class="big">👚</div>Your closet's empty.<br>Add pieces you actually own to start.</div>`;
+    : `<button class="btn cool" id="addItemEmpty" style="margin-bottom:10px">📸 Snap my first piece</button>
+       <div class="empty"><div class="big">👚</div>Your closet's empty.<br>Snap photos of the clothes you actually own to start.</div>`;
   if(outfits.length){
     h+=`<div class="lab" style="margin:16px 0 8px">My outfits</div>`+outfits.map(o=>`<div class="card" style="padding:12px 14px;margin-bottom:8px"><b>${esc(o.name)}</b><div class="vibes" style="margin-top:8px">${o.items.map(id=>{const it=mine.find(x=>x.id===id);return it?`<span class="vibe">${silEmoji(it.sil)} ${esc(it.name)}</span>`:"";}).join("")}</div><button class="btn alt" data-rmout="${o.id}" style="margin-top:10px">Remove</button></div>`).join("");
   }
@@ -1904,33 +1914,59 @@ function renderCloset(){
   }).join("");
   $("#closetBox").innerHTML=h;
   $("#addItem").onclick=openAddItem;
+  const ae=$("#addItemEmpty");if(ae)ae.onclick=openAddItem;
   const bf=$("#buildFit");if(bf)bf.onclick=openBuildOutfit;
   $$("#closetBox .mini[data-it]").forEach(m=>m.onclick=()=>openItemActions((state.myCloset||[]).find(i=>i.id===m.dataset.it)));
   $$("#closetBox [data-rmout]").forEach(b=>b.onclick=()=>{state.myOutfits=state.myOutfits.filter(o=>o.id!==b.dataset.rmout);save();renderCloset();toast("Removed");});
   $$("#closetBox [data-claim]").forEach(b=>b.onclick=()=>runClaim(CLOSET.find(i=>i.id===b.dataset.claim)));
   $$("#closetBox [data-flip]").forEach(b=>b.onclick=()=>openCoin(CLOSET.find(i=>i.id===b.dataset.flip)));
 }
-/* add a piece you own */
+/* shrink a chosen photo to a small thumbnail so closet pics stay tiny
+   (keeps localStorage + cloud save lean). Returns a JPEG data URL. */
+function shrinkImage(file,max,cb){
+  if(!file){cb(null);return;}
+  const img=new Image(), url=URL.createObjectURL(file);
+  img.onload=()=>{
+    let w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+    const s=Math.min(1, max/Math.max(w,h||1));
+    w=Math.max(1,Math.round(w*s)); h=Math.max(1,Math.round(h*s));
+    const c=document.createElement("canvas"); c.width=w; c.height=h;
+    c.getContext("2d").drawImage(img,0,0,w,h);
+    URL.revokeObjectURL(url);
+    try{ cb(c.toDataURL("image/jpeg",0.62)); }catch(e){ cb(null); }
+  };
+  img.onerror=()=>{ URL.revokeObjectURL(url); cb(null); };
+  img.src=url;
+}
+/* add a piece you own — snap a real photo, or tag it by type */
 function openAddItem(){
-  let t="tee",col=ITEM_COLORS[0];
+  let t="tee",col=ITEM_COLORS[0],photo=null;
   const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
-  const draw=()=>{const el=$("#itPrev");if(el)el.innerHTML=garmentRender("prev",t,[col,shade(col,.4)],"chrome",false);};
-  $("#sheetPad").innerHTML=`<h2 style="margin:0;font-size:23px;font-weight:900">Add a piece 👚</h2>
-    <p style="color:var(--ink-soft);margin:6px 0 12px">Tag something you actually own — build real outfits from it.</p>
-    <div class="mp" id="itPrev" style="width:120px;height:150px;margin:0 auto 12px;--a:${col};--b:${shade(col,-.3)};border-radius:16px"></div>
+  const draw=()=>{const el=$("#itPrev");if(!el)return;
+    el.innerHTML=photo
+      ? `<img src="${photo}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`
+      : garmentRender("prev",t,[col,shade(col,.4)],"chrome",false);
+    el.style.setProperty("--a",col); el.style.setProperty("--b",shade(col,-.3));};
+  $("#sheetPad").innerHTML=`<h2 style="margin:0;font-size:23px;font-weight:900">Add my clothes 📸</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 12px">Snap a photo of something you own — or just tag it by type.</p>
+    <div class="mp" id="itPrev" style="width:148px;height:184px;margin:0 auto 12px;position:relative;overflow:hidden;border-radius:16px;--a:${col};--b:${shade(col,-.3)}"></div>
+    <input type="file" id="itFile" accept="image/*" style="display:none">
+    <button class="btn" id="itPhoto" style="margin-bottom:10px">📸 Take / choose a photo</button>
     <input id="itName" placeholder="e.g. my favourite hoodie" maxlength="40" style="width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:13px;font:inherit;color:var(--ink)">
     <div class="lab" style="${lab};margin:14px 0 6px">Type</div>
     <div class="filters" id="itType">${ITEM_TYPES.map(([s,e,l])=>`<button class="chip" data-s="${s}" aria-pressed="${s===t}">${e} ${l}</button>`).join("")}</div>
-    <div class="lab" style="${lab};margin:14px 0 6px">Colour</div>
+    <div class="lab" style="${lab};margin:14px 0 6px">Colour <span style="text-transform:none;letter-spacing:0;font-weight:600">(used only if no photo)</span></div>
     <div class="swatchrow" id="itColor">${ITEM_COLORS.map((c,i)=>`<button class="swatch" data-c="${c}" aria-pressed="${i===0}" style="background:${c}"></button>`).join("")}</div>
     <button class="btn" id="itAdd" style="margin-top:16px">Add to my closet</button>`;
   draw();
+  $("#itPhoto").onclick=()=>$("#itFile").click();
+  $("#itFile").onchange=e=>{const f=e.target.files&&e.target.files[0];if(!f)return;toast("Adding photo…");shrinkImage(f,420,d=>{if(d){photo=d;$("#itPhoto").textContent="📸 Change photo";draw();}else toast("Couldn't read that photo 🙂");});};
   $$("#itType .chip").forEach(b=>b.onclick=()=>{t=b.dataset.s;$$("#itType .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));draw();});
-  $$("#itColor .swatch").forEach(b=>b.onclick=()=>{col=b.dataset.c;$$("#itColor .swatch").forEach(x=>x.setAttribute("aria-pressed",x===b));const mp=$("#itPrev");if(mp){mp.style.setProperty("--a",col);mp.style.setProperty("--b",shade(col,-.3));}draw();});
+  $$("#itColor .swatch").forEach(b=>b.onclick=()=>{col=b.dataset.c;$$("#itColor .swatch").forEach(x=>x.setAttribute("aria-pressed",x===b));draw();});
   $("#itAdd").onclick=()=>{
     const name=($("#itName").value||"").trim();
     if(!name){toast("Name your piece 🙂");return;}
-    (state.myCloset=state.myCloset||[]).unshift({id:"i"+Date.now(),name:name.slice(0,40),sil:t,color:col,when:Date.now()});
+    (state.myCloset=state.myCloset||[]).unshift({id:"i"+Date.now(),name:name.slice(0,40),sil:t,color:col,photo:photo||null,when:Date.now()});
     save();refreshQuests();closeSheet();renderCloset();toast("Added to your closet ✨");
   };
   openSheet();
@@ -2112,7 +2148,7 @@ function drawBuilder(){
 let selOcc=OCCASIONS[0], selCrew="mia";
 /* a stylist can be family (CREW) or a peer pal (FRIENDS/addedFriends) */
 const SPEC_CAT={avant:"Avant",street:"Street",future:"Future",maker:"Workwear"};
-function helperById(id){return CREW.find(x=>x.id===id)||allFriends().find(x=>x.id===id);}
+function helperById(id){return CREW.find(x=>x.id===id)||allFriends().find(x=>x.id===id)||CREW[0];}
 function isPeer(id){return (allFriends()||[]).some(f=>f.id===id);}
 function friendFitNote(c,o){return `${c.name.split(" ")[0]} says — ${(FRIEND_TIP[c.spec]||FRIEND_TIP.street)(o.toLowerCase())}`;}
 function makeFit(crewId,occasion){
@@ -2211,6 +2247,7 @@ function go(v){ const want="#"+v; if(location.hash===want) route(); else locatio
 window.addEventListener("hashchange",route);
 $$("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.go));
 $("#goCloset").onclick=()=>go("closet");
+{const qc=$("#quickCloset");if(qc)qc.onclick=()=>{go("closet");openAddItem();};}
 
 /* ---------- cloud save (accounts via a friendly code) ---------- */
 const SYNC_URL="https://fo-sync.raderturner.workers.dev";
@@ -2321,7 +2358,7 @@ async function ackMsg(id){
 /* ---------- skins (editable, Winamp-style) ---------- */
 const SKIN_KEYS={c1:"--c1",c2:"--c2",c3:"--c3",accent:"--accent",bg1:"--bg1",bg2:"--bg2",glow:"--glow",glow2:"--glow2",ink:"--ink",ink2:"--ink-soft",inkDim:"--ink-dim",btnink:"--btnink"};
 const THEMES={
-  chrome:{name:"Liquid Chrome",c1:"#7af0ff",c2:"#b9c6ff",c3:"#ff5ee0",accent:"#5ce0ff",bg1:"#141a30",bg2:"#06070f",glow:"#2ea8ff",glow2:"#ff3df0",ink:"#eef3ff",ink2:"#bcc7e6",inkDim:"#7884a8",btnink:"#06101f",plate:"#d8e6ff"},
+  chrome:{name:"Chrome",c1:"#eef4fb",c2:"#5d6b7c",c3:"#cfdae7",accent:"#b7c4d4",bg1:"#1b2230",bg2:"#080a10",glow:"#8295a8",glow2:"#aab8c8",ink:"#f2f6fb",ink2:"#bcc6d2",inkDim:"#7f8c99",btnink:"#0c1118",plate:"#dfe8f2"},
   molten:{name:"Molten Core",c1:"#ff1f6b",c2:"#ff7a00",c3:"#ffe000",accent:"#ff8a1f",bg1:"#2a1208",bg2:"#0c0502",glow:"#ff5a00",glow2:"#ff1f6b",ink:"#fff0e6",ink2:"#e6c4b0",inkDim:"#a07f70",btnink:"#2a0a02",plate:"#ffe0c0"},
   plasma:{name:"Plasma",c1:"#c04bff",c2:"#ff3da6",c3:"#38e8ff",accent:"#c878ff",bg1:"#1b0e36",bg2:"#080414",glow:"#7a2eff",glow2:"#ff2eb0",ink:"#f4eaff",ink2:"#cdb8e6",inkDim:"#8f7aad",btnink:"#12062a",plate:"#e6ccff"},
   acid:{name:"Acid Rain",c1:"#aaff00",c2:"#00ff9c",c3:"#00e5ff",accent:"#7dff2a",bg1:"#0c1a0e",bg2:"#030806",glow:"#3aff7a",glow2:"#00e5ff",ink:"#ecffe6",ink2:"#aee0bc",inkDim:"#6f9a82",btnink:"#04150a",plate:"#c8ffd6"},
