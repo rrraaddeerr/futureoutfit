@@ -1,7 +1,7 @@
 /* Future Outfit service worker — offline-capable app shell.
-   Relative URLs so it works under a project-page base path (/Rader1/).
+   Relative URLs so it works under a project-page base path.
    Bump CACHE to ship an update. */
-const CACHE = "fo-v3";
+const CACHE = "fo-v4";
 const SHELL = [
   "./",
   "./index.html",
@@ -19,11 +19,19 @@ self.addEventListener("install", (e) => {
 });
 
 self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys()
-      .then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    const stale = keys.filter((k) => k !== CACHE);
+    await Promise.all(stale.map((k) => caches.delete(k)));
+    await self.clients.claim();
+    // If we just cleared an older cache, this is an UPDATE (not a first install):
+    // refresh any open pages so nobody sits on a stale build. The reloaded page
+    // is served fresh from the network by the fetch handler below.
+    if (stale.length) {
+      const wins = await self.clients.matchAll({ type: "window" });
+      for (const w of wins) { try { w.navigate(w.url); } catch (_) {} }
+    }
+  })());
 });
 
 self.addEventListener("fetch", (e) => {
