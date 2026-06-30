@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0b0d12" />
+<meta name="theme-color" content="#06070f" />
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="apple-touch-icon" href="icons/apple-touch-180.png" />
 <link rel="icon" type="image/png" href="icons/icon-192.png" />
@@ -578,7 +578,7 @@
       repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px),
       linear-gradient(180deg,rgba(40,26,18,.92),rgba(20,12,8,.7))}
   /* cards get a faint brushed-metal sheen on top */
-  .look,.card,.vibecard,.sheet,.fit,.citem{position:relative}
+  .look,.card,.vibecard,.fit,.citem{position:relative}
   .card::before,.look::before,.vibecard::before,.sheet::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;opacity:.5;
     background:repeating-linear-gradient(115deg,rgba(255,240,220,.035) 0 2px,transparent 2px 5px)}
   .card>*,.vibecard>*{position:relative;z-index:1}
@@ -602,6 +602,9 @@
     header.app,nav.tabs{left:50%;transform:translateX(-50%);width:452px;max-width:452px}
     nav.tabs{border-radius:0 0 30px 30px}
     .wrap{max-width:452px}
+    /* keep the bottom sheet + its dim inside the phone frame, not sprawling */
+    .sheet{max-width:452px;border-radius:26px 26px 30px 30px}
+    .sheet-bg{left:50%;transform:translateX(-50%);width:478px}
     .floatask{right:calc(50% - 226px + 12px)}
     .deskframe{display:block;position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:478px;z-index:38;pointer-events:none;border:2px solid rgba(255,236,208,.16);border-radius:36px;box-shadow:0 50px 130px rgba(0,0,0,.6)}
     .deskpitch{display:block;position:fixed;left:max(32px,calc(50% - 720px));top:50%;transform:translateY(-50%);width:300px;z-index:6}
@@ -665,8 +668,12 @@
   .skinrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .skincard{border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;position:relative;overflow:hidden;text-align:left;background:var(--panel)}
   .skincard[aria-pressed="true"]{box-shadow:0 0 0 2px var(--accent)}
-  .skincard .sw{height:34px;border-radius:9px;margin-bottom:8px}
+  .skincard .sw{height:48px;border-radius:12px;margin-bottom:9px;position:relative;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 0 0 1px rgba(255,255,255,.14),0 5px 14px rgba(0,0,0,.45)}
+  .skincard .sw::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:linear-gradient(157deg,rgba(255,255,255,.45),transparent 46%)}
   .skincard .nm{font-weight:800;font-size:13px}
+  .skincard:active{transform:scale(.98)}
   .skinedit label{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:700;color:var(--ink-soft);margin:9px 0}
   .skinedit input[type=color]{width:48px;height:30px;border:1px solid var(--line);border-radius:8px;background:none;cursor:pointer;padding:0}
 </style>
@@ -682,7 +689,7 @@
     <li>⭐ Earn Supporter Stars (kids never pay kids)</li>
     <li>🛡️ Safe: only people a grown-up approved</li>
   </ul>
-  <div class="dp-url">rrraaddeerr.github.io/Rader1</div>
+  <div class="dp-url">rrraaddeerr.github.io/futureoutfit</div>
 </aside>
 <div class="deskframe" aria-hidden="true"></div>
 <aside class="deskhint" aria-hidden="true"><b>Best on your phone 📱</b><br>Tap "Add to Home Screen" for the full app — or try it right here.</aside>
@@ -1114,7 +1121,7 @@ const CREW_NOTE={
 };
 
 /* ---------- state ---------- */
-function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[],skin:"molten",customSkins:[],boards:[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}]};const defBoards=()=>[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}];try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m=Object.assign(d,s);if(!Array.isArray(m.boards)||!m.boards.length)m.boards=defBoards();return m;}}catch(e){}return d;}
+function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learnedThrift:false,claimed:[],lostFlip:[],thanks:[],fits:[],avatar:null,phoned:[],credits:0,creditLog:[],given:0,shared:false,addedFriends:[],flair:"🛹",ownedFlairs:["🛹"],myCloset:[],myOutfits:[],skin:"chrome",skinPicked:false,customSkins:[],boards:[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}]};const defBoards=()=>[{id:"b1",name:"My Picks",pins:[]},{id:"b2",name:"Dream Fits",pins:[]},{id:"b3",name:"Icons",pins:[]}];try{const s=JSON.parse(localStorage.getItem(KEY));if(s){const m=Object.assign(d,s);if(!Array.isArray(m.boards)||!m.boards.length)m.boards=defBoards();if(!m.skinPicked&&(m.skin==="molten"||!m.skin))m.skin="chrome";return m;}}catch(e){}return d;}
 function save(){state.updatedAt=Date.now();localStorage.setItem(KEY,JSON.stringify(state));cloudPushSoon();}
 let state=load();
 
@@ -2314,25 +2321,26 @@ async function ackMsg(id){
 /* ---------- skins (editable, Winamp-style) ---------- */
 const SKIN_KEYS={c1:"--c1",c2:"--c2",c3:"--c3",accent:"--accent",bg1:"--bg1",bg2:"--bg2",glow:"--glow",glow2:"--glow2",ink:"--ink",ink2:"--ink-soft",inkDim:"--ink-dim",btnink:"--btnink"};
 const THEMES={
-  molten:{name:"Molten Chrome",c1:"#ff1f6b",c2:"#ff6a00",c3:"#ffd400",accent:"#ff9a3d",bg1:"#3a221a",bg2:"#140b08",glow:"#ff6e28",glow2:"#ff286e",ink:"#fdeee7",ink2:"#e0c2b2",inkDim:"#a07f70",btnink:"#2a0a02",plate:"#ffecd0"},
-  cosmic:{name:"Cosmic",c1:"#ff7ac3",c2:"#9b6bff",c3:"#46d6ff",accent:"#46d6ff",bg1:"#2a333b",bg2:"#0b0d12",glow:"#3c5060",glow2:"#7b52ff",ink:"#eef1f7",ink2:"#b3bacb",inkDim:"#7a8295",btnink:"#15082a",plate:"#c8dcff"},
-  mint:{name:"Acid Mint",c1:"#2ee6a0",c2:"#46d6ff",c3:"#c6ff5a",accent:"#2ee6a0",bg1:"#10302a",bg2:"#06120f",glow:"#19c98f",glow2:"#46d6ff",ink:"#eafff7",ink2:"#aee5d4",inkDim:"#6f9a8c",btnink:"#04201a",plate:"#c8ffe6"},
-  vapor:{name:"Vapor",c1:"#ff8ad1",c2:"#b58cff",c3:"#8af0ff",accent:"#ff8ad1",bg1:"#2a2140",bg2:"#120a1f",glow:"#b06bff",glow2:"#ff7ac3",ink:"#fdeefb",ink2:"#d8c2e6",inkDim:"#9a85ad",btnink:"#2a0a2a",plate:"#ffe1fa"},
-  steel:{name:"Mono Steel",c1:"#d7e2ee",c2:"#8fa0b2",c3:"#ffffff",accent:"#cdd9e6",bg1:"#2a2f36",bg2:"#0e1115",glow:"#5c6f81",glow2:"#8fa0b2",ink:"#f2f6fb",ink2:"#b9c3cf",inkDim:"#7f8c99",btnink:"#0e1115",plate:"#e6eef7"},
-  sunset:{name:"Sunset",c1:"#ff5e7e",c2:"#ff9e5e",c3:"#ffd36e",accent:"#ff7e5e",bg1:"#3a2030",bg2:"#160a14",glow:"#ff5e7e",glow2:"#7e4eff",ink:"#fdeef0",ink2:"#e3c2cc",inkDim:"#a07e88",btnink:"#2a0a14",plate:"#ffd9e0"},
-  matrix:{name:"Matrix",c1:"#00ff66",c2:"#00cc66",c3:"#88ff00",accent:"#00ff88",bg1:"#04150c",bg2:"#020a05",glow:"#00ff66",glow2:"#00cc44",ink:"#d6ffe6",ink2:"#88cc9e",inkDim:"#5e8a6e",btnink:"#021208",plate:"#88ffb0"},
-  bubblegum:{name:"Bubblegum",c1:"#ff7ac3",c2:"#ff9ed8",c3:"#ffd6ee",accent:"#ff7ac3",bg1:"#3a2030",bg2:"#1a0e16",glow:"#ff7ac3",glow2:"#b58cff",ink:"#fff0fa",ink2:"#e8c6dd",inkDim:"#ad889e",btnink:"#2a0a20",plate:"#ffd9f2"},
-  ocean:{name:"Ocean",c1:"#2ec5ff",c2:"#2e8bff",c3:"#46ffe0",accent:"#2ec5ff",bg1:"#0e2436",bg2:"#060f1a",glow:"#2e8bff",glow2:"#2ec5ff",ink:"#e6f5ff",ink2:"#a6c6dd",inkDim:"#6f8aa0",btnink:"#04141f",plate:"#c8e6ff"},
-  ultraviolet:{name:"Ultraviolet",c1:"#b14cff",c2:"#7a2eff",c3:"#ff4cf0",accent:"#c14cff",bg1:"#241040",bg2:"#100620",glow:"#7a2eff",glow2:"#ff4cf0",ink:"#f3eafe",ink2:"#cdb8e6",inkDim:"#8f7aad",btnink:"#1a0630",plate:"#e0c8ff"},
-  mango:{name:"Mango",c1:"#ff8a2e",c2:"#ffb12e",c3:"#ffe14c",accent:"#ff9a2e",bg1:"#3a2810",bg2:"#160f04",glow:"#ff8a2e",glow2:"#ff5e2e",ink:"#fff4e6",ink2:"#e6cfa6",inkDim:"#a08e6f",btnink:"#2a1404",plate:"#ffe6c0"},
-  noir:{name:"Noir",c1:"#e0e0e0",c2:"#9a9a9a",c3:"#ffffff",accent:"#d0d0d0",bg1:"#1a1a1a",bg2:"#070707",glow:"#5a5a5a",glow2:"#8a8a8a",ink:"#f4f4f4",ink2:"#b4b4b4",inkDim:"#7a7a7a",btnink:"#0a0a0a",plate:"#e6e6e6"},
+  chrome:{name:"Liquid Chrome",c1:"#7af0ff",c2:"#b9c6ff",c3:"#ff5ee0",accent:"#5ce0ff",bg1:"#141a30",bg2:"#06070f",glow:"#2ea8ff",glow2:"#ff3df0",ink:"#eef3ff",ink2:"#bcc7e6",inkDim:"#7884a8",btnink:"#06101f",plate:"#d8e6ff"},
+  molten:{name:"Molten Core",c1:"#ff1f6b",c2:"#ff7a00",c3:"#ffe000",accent:"#ff8a1f",bg1:"#2a1208",bg2:"#0c0502",glow:"#ff5a00",glow2:"#ff1f6b",ink:"#fff0e6",ink2:"#e6c4b0",inkDim:"#a07f70",btnink:"#2a0a02",plate:"#ffe0c0"},
+  plasma:{name:"Plasma",c1:"#c04bff",c2:"#ff3da6",c3:"#38e8ff",accent:"#c878ff",bg1:"#1b0e36",bg2:"#080414",glow:"#7a2eff",glow2:"#ff2eb0",ink:"#f4eaff",ink2:"#cdb8e6",inkDim:"#8f7aad",btnink:"#12062a",plate:"#e6ccff"},
+  acid:{name:"Acid Rain",c1:"#aaff00",c2:"#00ff9c",c3:"#00e5ff",accent:"#7dff2a",bg1:"#0c1a0e",bg2:"#030806",glow:"#3aff7a",glow2:"#00e5ff",ink:"#ecffe6",ink2:"#aee0bc",inkDim:"#6f9a82",btnink:"#04150a",plate:"#c8ffd6"},
+  vapor:{name:"Vaporwave",c1:"#ff6ad5",c2:"#a06aff",c3:"#6affe8",accent:"#ff6ad5",bg1:"#231640",bg2:"#0e0820",glow:"#a06aff",glow2:"#ff6ad5",ink:"#fdeefb",ink2:"#d8c2e6",inkDim:"#9a85ad",btnink:"#1c0628",plate:"#ffd9fa"},
+  steel:{name:"Gunmetal",c1:"#cdd9e6",c2:"#7e93a8",c3:"#ffffff",accent:"#9fd0ff",bg1:"#181d27",bg2:"#070a0e",glow:"#4a6f99",glow2:"#8fa0b2",ink:"#f2f6fb",ink2:"#b9c3cf",inkDim:"#7f8c99",btnink:"#0a0e15",plate:"#e6eef7"},
+  inferno:{name:"Inferno",c1:"#ff2a2a",c2:"#ff6a00",c3:"#ffc400",accent:"#ff4a1a",bg1:"#2a0a06",bg2:"#0a0301",glow:"#ff3a00",glow2:"#ff0a4a",ink:"#ffeae2",ink2:"#e6b8aa",inkDim:"#a07a6e",btnink:"#2a0602",plate:"#ffd0b8"},
+  toxic:{name:"Toxic Slime",c1:"#b6ff1a",c2:"#5aff5a",c3:"#eaff00",accent:"#9aff1a",bg1:"#13200a",bg2:"#050c03",glow:"#6aff2a",glow2:"#c4ff00",ink:"#f0ffe2",ink2:"#c2e6a6",inkDim:"#8a9a6f",btnink:"#0e2006",plate:"#e2ffb0"},
+  ocean:{name:"Deep Web",c1:"#2ec5ff",c2:"#4a6aff",c3:"#46ffe0",accent:"#2ec5ff",bg1:"#0a1830",bg2:"#04081a",glow:"#2e6aff",glow2:"#2ec5ff",ink:"#e6f2ff",ink2:"#a6c2dd",inkDim:"#6f86a0",btnink:"#04101f",plate:"#c8e0ff"},
+  ultraviolet:{name:"Ultraviolet",c1:"#b14cff",c2:"#7a2eff",c3:"#ff4cf0",accent:"#c14cff",bg1:"#1f103a",bg2:"#0b0620",glow:"#7a2eff",glow2:"#ff4cf0",ink:"#f3eafe",ink2:"#cdb8e6",inkDim:"#8f7aad",btnink:"#14062a",plate:"#e0c8ff"},
+  gold:{name:"24K",c1:"#ffd84a",c2:"#ffaa1a",c3:"#fff2cc",accent:"#ffcc4a",bg1:"#241a08",bg2:"#0a0703",glow:"#ffaa1a",glow2:"#ff7a00",ink:"#fff6e2",ink2:"#e6d2a6",inkDim:"#a0906f",btnink:"#221604",plate:"#ffe6b0"},
+  noir:{name:"Noir",c1:"#f0f0f0",c2:"#8a8a8a",c3:"#ffffff",accent:"#d0d0d0",bg1:"#161616",bg2:"#040404",glow:"#5a5a5a",glow2:"#9a9a9a",ink:"#f6f6f6",ink2:"#b4b4b4",inkDim:"#7a7a7a",btnink:"#080808",plate:"#e6e6e6"},
 };
 function hexToRgb(h){h=(h||"").replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h,16);return `${(n>>16)&255}, ${(n>>8)&255}, ${n&255}`;}
 let liveSkin=null;
 function applySkin(s){if(!s)return;liveSkin=s;const r=document.documentElement.style;for(const k in SKIN_KEYS){if(s[k])r.setProperty(SKIN_KEYS[k],s[k]);}if(s.plate)r.setProperty("--plate",hexToRgb(s.plate));}
-function resolveSkin(id){return THEMES[id]||(state.customSkins||[]).find(x=>x.id===id)||THEMES.molten;}
-function swatchCSS(s){return `linear-gradient(120deg,${s.c1},${s.c2} 50%,${s.c3})`;}
-function setSkin(id){state.skin=id;save();applySkin(resolveSkin(id));openSkins();}
+function resolveSkin(id){return THEMES[id]||(state.customSkins||[]).find(x=>x.id===id)||THEMES.chrome;}
+// gnarly preview: an iridescent chrome chip — conic holo wheel + specular highlight, on the skin's own dark base
+function swatchCSS(s){return `radial-gradient(70% 55% at 28% 22%,rgba(255,255,255,.85),transparent 42%),conic-gradient(from 215deg,${s.c1},${s.c2},${s.c3},${s.accent},${s.glow2||s.c1},${s.c1})`;}
+function setSkin(id){state.skin=id;state.skinPicked=true;save();applySkin(resolveSkin(id));openSkins();}
 function hslToHex(h,s,l){s/=100;l/=100;const a=s*Math.min(l,1-l),k=n=>(n+h/30)%12,f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1)),t=x=>Math.round(255*x).toString(16).padStart(2,"0");return `#${t(f(0))}${t(f(8))}${t(f(4))}`;}
 function randomSkin(){const h=Math.floor(Math.random()*360);return {name:"Surprise",c1:hslToHex(h,90,62),c2:hslToHex((h+35)%360,88,56),c3:hslToHex((h+70)%360,92,62),accent:hslToHex(h,95,60),bg1:hslToHex(h,30,14),bg2:hslToHex(h,35,6),glow:hslToHex(h,90,55),glow2:hslToHex((h+50)%360,90,55),ink:hslToHex(h,30,96),ink2:hslToHex(h,20,80),inkDim:hslToHex(h,15,62),btnink:hslToHex(h,60,9),plate:hslToHex(h,40,88)};}
 const SKIN_FIELDS=["name","c1","c2","c3","accent","bg1","bg2","glow","glow2","ink","ink2","inkDim","btnink","plate"];
@@ -2344,14 +2352,14 @@ function openSkins(){
   const customCards=(state.customSkins||[]).map(s=>`<button class="skincard" data-skin="${s.id}" aria-pressed="${s.id===cur}"><div class="sw" style="background:${swatchCSS(s)}"></div><div class="nm">${esc(s.name||"My skin")} <span data-delskin="${s.id}" style="color:var(--ink-dim);float:right">✕</span></div></button>`).join("");
   $("#sheetPad").innerHTML=`<h2 style="margin:0 0 4px;font-size:23px;font-weight:900">Skin Museum 🎨</h2>
     <p style="color:var(--ink-soft);margin:0 0 12px">Tap a skin to wear it. Roll the dice, make your own, or share a code.</p>
-    <div style="max-height:42vh;overflow:auto;margin:0 -2px;padding:0 2px">
+    <div style="max-height:54vh;overflow:auto;-webkit-overflow-scrolling:touch;margin:0 -2px;padding:0 2px 2px">
       <div class="skinrow">${presetCards}</div>
       ${customCards?`<div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:14px 0 8px">Your skins</div><div class="skinrow">${customCards}</div>`:""}
     </div>
     <div class="btnrow" style="margin-top:14px"><button class="btn" id="skinRandom">🎲 Surprise me</button><button class="btn alt" id="skinEdit">✏️ Make / save</button></div>
     <div class="btnrow" style="margin-top:10px"><button class="btn alt" id="skinShare">📤 Share code</button><button class="btn alt" id="skinImport">📥 Import code</button></div>`;
   $$("#sheetPad [data-skin]").forEach(b=>b.onclick=e=>{if(e.target.dataset.delskin)return;setSkin(b.dataset.skin);});
-  $$("#sheetPad [data-delskin]").forEach(x=>x.onclick=e=>{e.stopPropagation();const id=x.dataset.delskin;state.customSkins=(state.customSkins||[]).filter(s=>s.id!==id);if(state.skin===id)setSkin("molten");else{save();openSkins();}});
+  $$("#sheetPad [data-delskin]").forEach(x=>x.onclick=e=>{e.stopPropagation();const id=x.dataset.delskin;state.customSkins=(state.customSkins||[]).filter(s=>s.id!==id);if(state.skin===id)setSkin("chrome");else{save();openSkins();}});
   $("#skinEdit").onclick=openSkinEditor;
   $("#skinRandom").onclick=()=>{applySkin(randomSkin());toast("🎲 Surprise! Tap Make/save to keep it");};
   $("#skinShare").onclick=()=>{const code=skinToCode(liveSkin||resolveSkin(state.skin));if(navigator.clipboard)navigator.clipboard.writeText(code);toast("Skin code copied 📤 — paste it to a friend");};
