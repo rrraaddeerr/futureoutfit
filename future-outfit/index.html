@@ -2212,28 +2212,56 @@ const THEMES={
   mint:{name:"Acid Mint",c1:"#2ee6a0",c2:"#46d6ff",c3:"#c6ff5a",accent:"#2ee6a0",bg1:"#10302a",bg2:"#06120f",glow:"#19c98f",glow2:"#46d6ff",ink:"#eafff7",ink2:"#aee5d4",inkDim:"#6f9a8c",btnink:"#04201a",plate:"#c8ffe6"},
   vapor:{name:"Vapor",c1:"#ff8ad1",c2:"#b58cff",c3:"#8af0ff",accent:"#ff8ad1",bg1:"#2a2140",bg2:"#120a1f",glow:"#b06bff",glow2:"#ff7ac3",ink:"#fdeefb",ink2:"#d8c2e6",inkDim:"#9a85ad",btnink:"#2a0a2a",plate:"#ffe1fa"},
   steel:{name:"Mono Steel",c1:"#d7e2ee",c2:"#8fa0b2",c3:"#ffffff",accent:"#cdd9e6",bg1:"#2a2f36",bg2:"#0e1115",glow:"#5c6f81",glow2:"#8fa0b2",ink:"#f2f6fb",ink2:"#b9c3cf",inkDim:"#7f8c99",btnink:"#0e1115",plate:"#e6eef7"},
+  sunset:{name:"Sunset",c1:"#ff5e7e",c2:"#ff9e5e",c3:"#ffd36e",accent:"#ff7e5e",bg1:"#3a2030",bg2:"#160a14",glow:"#ff5e7e",glow2:"#7e4eff",ink:"#fdeef0",ink2:"#e3c2cc",inkDim:"#a07e88",btnink:"#2a0a14",plate:"#ffd9e0"},
+  matrix:{name:"Matrix",c1:"#00ff66",c2:"#00cc66",c3:"#88ff00",accent:"#00ff88",bg1:"#04150c",bg2:"#020a05",glow:"#00ff66",glow2:"#00cc44",ink:"#d6ffe6",ink2:"#88cc9e",inkDim:"#5e8a6e",btnink:"#021208",plate:"#88ffb0"},
+  bubblegum:{name:"Bubblegum",c1:"#ff7ac3",c2:"#ff9ed8",c3:"#ffd6ee",accent:"#ff7ac3",bg1:"#3a2030",bg2:"#1a0e16",glow:"#ff7ac3",glow2:"#b58cff",ink:"#fff0fa",ink2:"#e8c6dd",inkDim:"#ad889e",btnink:"#2a0a20",plate:"#ffd9f2"},
+  ocean:{name:"Ocean",c1:"#2ec5ff",c2:"#2e8bff",c3:"#46ffe0",accent:"#2ec5ff",bg1:"#0e2436",bg2:"#060f1a",glow:"#2e8bff",glow2:"#2ec5ff",ink:"#e6f5ff",ink2:"#a6c6dd",inkDim:"#6f8aa0",btnink:"#04141f",plate:"#c8e6ff"},
+  ultraviolet:{name:"Ultraviolet",c1:"#b14cff",c2:"#7a2eff",c3:"#ff4cf0",accent:"#c14cff",bg1:"#241040",bg2:"#100620",glow:"#7a2eff",glow2:"#ff4cf0",ink:"#f3eafe",ink2:"#cdb8e6",inkDim:"#8f7aad",btnink:"#1a0630",plate:"#e0c8ff"},
+  mango:{name:"Mango",c1:"#ff8a2e",c2:"#ffb12e",c3:"#ffe14c",accent:"#ff9a2e",bg1:"#3a2810",bg2:"#160f04",glow:"#ff8a2e",glow2:"#ff5e2e",ink:"#fff4e6",ink2:"#e6cfa6",inkDim:"#a08e6f",btnink:"#2a1404",plate:"#ffe6c0"},
+  noir:{name:"Noir",c1:"#e0e0e0",c2:"#9a9a9a",c3:"#ffffff",accent:"#d0d0d0",bg1:"#1a1a1a",bg2:"#070707",glow:"#5a5a5a",glow2:"#8a8a8a",ink:"#f4f4f4",ink2:"#b4b4b4",inkDim:"#7a7a7a",btnink:"#0a0a0a",plate:"#e6e6e6"},
 };
 function hexToRgb(h){h=(h||"").replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h,16);return `${(n>>16)&255}, ${(n>>8)&255}, ${n&255}`;}
-function applySkin(s){if(!s)return;const r=document.documentElement.style;for(const k in SKIN_KEYS){if(s[k])r.setProperty(SKIN_KEYS[k],s[k]);}if(s.plate)r.setProperty("--plate",hexToRgb(s.plate));}
+let liveSkin=null;
+function applySkin(s){if(!s)return;liveSkin=s;const r=document.documentElement.style;for(const k in SKIN_KEYS){if(s[k])r.setProperty(SKIN_KEYS[k],s[k]);}if(s.plate)r.setProperty("--plate",hexToRgb(s.plate));}
 function resolveSkin(id){return THEMES[id]||(state.customSkins||[]).find(x=>x.id===id)||THEMES.molten;}
 function swatchCSS(s){return `linear-gradient(120deg,${s.c1},${s.c2} 50%,${s.c3})`;}
 function setSkin(id){state.skin=id;save();applySkin(resolveSkin(id));openSkins();}
+function hslToHex(h,s,l){s/=100;l/=100;const a=s*Math.min(l,1-l),k=n=>(n+h/30)%12,f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1)),t=x=>Math.round(255*x).toString(16).padStart(2,"0");return `#${t(f(0))}${t(f(8))}${t(f(4))}`;}
+function randomSkin(){const h=Math.floor(Math.random()*360);return {name:"Surprise",c1:hslToHex(h,90,62),c2:hslToHex((h+35)%360,88,56),c3:hslToHex((h+70)%360,92,62),accent:hslToHex(h,95,60),bg1:hslToHex(h,30,14),bg2:hslToHex(h,35,6),glow:hslToHex(h,90,55),glow2:hslToHex((h+50)%360,90,55),ink:hslToHex(h,30,96),ink2:hslToHex(h,20,80),inkDim:hslToHex(h,15,62),btnink:hslToHex(h,60,9),plate:hslToHex(h,40,88)};}
+const SKIN_FIELDS=["name","c1","c2","c3","accent","bg1","bg2","glow","glow2","ink","ink2","inkDim","btnink","plate"];
+function skinToCode(s){const o={};SKIN_FIELDS.forEach(k=>o[k]=s[k]);return btoa(unescape(encodeURIComponent(JSON.stringify(o))));}
+function codeToSkin(code){try{const o=JSON.parse(decodeURIComponent(escape(atob((code||"").trim()))));return(o&&o.c1&&o.accent)?o:null;}catch(e){return null;}}
 function openSkins(){
   const cur=state.skin;
   const presetCards=Object.entries(THEMES).map(([id,s])=>`<button class="skincard" data-skin="${id}" aria-pressed="${id===cur}"><div class="sw" style="background:${swatchCSS(s)}"></div><div class="nm">${esc(s.name)}</div></button>`).join("");
   const customCards=(state.customSkins||[]).map(s=>`<button class="skincard" data-skin="${s.id}" aria-pressed="${s.id===cur}"><div class="sw" style="background:${swatchCSS(s)}"></div><div class="nm">${esc(s.name||"My skin")} <span data-delskin="${s.id}" style="color:var(--ink-dim);float:right">✕</span></div></button>`).join("");
-  $("#sheetPad").innerHTML=`<h2 style="margin:0 0 4px;font-size:23px;font-weight:900">Skins 🎨</h2>
-    <p style="color:var(--ink-soft);margin:0 0 12px">Tap a skin to wear it. Or make your own.</p>
-    <div class="skinrow">${presetCards}</div>
-    ${customCards?`<div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:14px 0 8px">Your skins</div><div class="skinrow">${customCards}</div>`:""}
-    <button class="btn" id="skinEdit" style="margin-top:14px">✏️ Customize this skin</button>`;
+  $("#sheetPad").innerHTML=`<h2 style="margin:0 0 4px;font-size:23px;font-weight:900">Skin Museum 🎨</h2>
+    <p style="color:var(--ink-soft);margin:0 0 12px">Tap a skin to wear it. Roll the dice, make your own, or share a code.</p>
+    <div style="max-height:42vh;overflow:auto;margin:0 -2px;padding:0 2px">
+      <div class="skinrow">${presetCards}</div>
+      ${customCards?`<div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:14px 0 8px">Your skins</div><div class="skinrow">${customCards}</div>`:""}
+    </div>
+    <div class="btnrow" style="margin-top:14px"><button class="btn" id="skinRandom">🎲 Surprise me</button><button class="btn alt" id="skinEdit">✏️ Make / save</button></div>
+    <div class="btnrow" style="margin-top:10px"><button class="btn alt" id="skinShare">📤 Share code</button><button class="btn alt" id="skinImport">📥 Import code</button></div>`;
   $$("#sheetPad [data-skin]").forEach(b=>b.onclick=e=>{if(e.target.dataset.delskin)return;setSkin(b.dataset.skin);});
   $$("#sheetPad [data-delskin]").forEach(x=>x.onclick=e=>{e.stopPropagation();const id=x.dataset.delskin;state.customSkins=(state.customSkins||[]).filter(s=>s.id!==id);if(state.skin===id)setSkin("molten");else{save();openSkins();}});
   $("#skinEdit").onclick=openSkinEditor;
+  $("#skinRandom").onclick=()=>{applySkin(randomSkin());toast("🎲 Surprise! Tap Make/save to keep it");};
+  $("#skinShare").onclick=()=>{const code=skinToCode(liveSkin||resolveSkin(state.skin));if(navigator.clipboard)navigator.clipboard.writeText(code);toast("Skin code copied 📤 — paste it to a friend");};
+  $("#skinImport").onclick=openSkinImport;
+  openSheet();
+}
+function openSkinImport(){
+  $("#sheetPad").innerHTML=`<h2 style="margin:0 0 8px;font-size:22px;font-weight:900">Import a skin 📥</h2>
+    <p style="color:var(--ink-soft);margin:0 0 10px">Paste a skin code a friend shared.</p>
+    <textarea id="skCode" rows="4" placeholder="paste code here…" style="width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:12px;font:inherit;color:var(--ink)"></textarea>
+    <div class="btnrow" style="margin-top:12px"><button class="btn alt" id="skImpBack">Back</button><button class="btn" id="skImpGo">Wear it</button></div>`;
+  $("#skImpBack").onclick=openSkins;
+  $("#skImpGo").onclick=()=>{const s=codeToSkin($("#skCode").value);if(!s){toast("Hmm, that code didn't work 🙂");return;}const id="cs"+Date.now();const skin=Object.assign({id},s,{inkDim:s.inkDim||s.ink2});state.customSkins=state.customSkins||[];state.customSkins.push(skin);state.skin=id;save();applySkin(skin);openSkins();toast("Skin imported 🎨");};
   openSheet();
 }
 function openSkinEditor(){
-  const base=Object.assign({},resolveSkin(state.skin)); const work=Object.assign({name:"My skin"},base);
+  const base=Object.assign({},liveSkin||resolveSkin(state.skin)); const work=Object.assign({name:"My skin"},base);
   const FIELDS=[["bg2","Background"],["bg1","Backdrop tint"],["glow","Glow"],["glow2","Glow 2"],["accent","Accent / scan"],["c1","Gradient 1"],["c2","Gradient 2"],["c3","Gradient 3"],["ink","Text"],["ink2","Soft text"],["btnink","Button text"],["plate","Metal sheen"]];
   $("#sheetPad").innerHTML=`<h2 style="margin:0 0 10px;font-size:23px;font-weight:900">Make a skin ✏️</h2>
     <input id="skName" placeholder="Name your skin" value="${esc(work.name)}" style="width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:12px;font:inherit;color:var(--ink);margin-bottom:8px">
