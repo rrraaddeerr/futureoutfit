@@ -749,6 +749,7 @@
     <div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Saved looks</h1></div>
     <div id="savedBox"></div>
     <div id="askedBox"></div>
+    <div id="familyBox"></div>
     <div id="phonedBox"></div>
     <div id="creditsBox"></div>
     <button class="teaser" id="goCloset" style="width:100%;text-align:left;cursor:pointer">
@@ -1151,6 +1152,19 @@ function load(){const d={saved:[],decoded:[],asked:[],quests:[],vibe:null,learne
 function save(){state.updatedAt=Date.now();localStorage.setItem(KEY,JSON.stringify(state));cloudPushSoon();}
 let state=load();
 
+/* ---- family roster (editable) ----
+   The grown-ups, cousins/crew and pals all live in state so any family can make
+   it their own — add, rename, remove. Defaults above are just the first seed;
+   once seeded they're yours to edit. addedFriends (old key) folds in on migrate. */
+function seedFamily(){
+  if(!Array.isArray(state.adults))state.adults=ADULTS.map(a=>({...a}));
+  if(!Array.isArray(state.crew))state.crew=CREW.map(c=>({...c}));
+  if(!Array.isArray(state.friends))state.friends=FRIENDS.map(f=>({...f})).concat(state.addedFriends||[]);
+}
+seedFamily();
+function getAdults(){return state.adults||[];}
+function getCrew(){return state.crew||[];}
+
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let toastT;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),2300);}
 /* ---- dynamic juice ---- */
@@ -1462,7 +1476,7 @@ function openAsk(look){
     <p style="color:var(--ink-soft);margin:6px 0 4px">No working up the courage to ask a stranger. Ask someone who's got you.</p>
     <div class="safe-note">🛡️ <div>You only ever talk to grown-ups <b>you and your family chose</b>. No strangers, ever.</div></div>
     <div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:8px 0 10px">Who do you want to ask?</div>
-    <div id="adultList">${ADULTS.map(a=>`<button class="adult" data-a="${a.id}"><span class="ad" style="background:${a.hue}">${a.name[0]}</span><div><div class="an">${esc(a.name)}</div><div class="ar">${esc(a.rel)}</div></div></button>`).join("")}</div>
+    <div id="adultList">${getAdults().length?getAdults().map(a=>`<button class="adult" data-a="${a.id}"><span class="ad" style="background:${a.hue}">${a.name[0]}</span><div><div class="an">${esc(a.name)}</div><div class="ar">${esc(a.rel)}</div></div></button>`).join(""):`<div class="empty" style="padding:14px"><div class="big">🧑</div>No grown-ups yet.<br>Add one in <b>You → My family</b>.</div>`}</div>
     <div class="lab" style="font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:14px 0 8px">What do you want to know?</div>
     <div class="qpick" id="qpick">${qs.map((q,i)=>`<button class="qopt" data-q="${i}">${esc(q)}</button>`).join("")}</div>
     <textarea id="qfree" placeholder="…or write your own question"></textarea>
@@ -1475,7 +1489,7 @@ function openAsk(look){
     const q=$("#qfree").value.trim()||askPick.q;
     if(!askPick.adult){toast("Pick who to ask first 🙂");return;}
     if(!q){toast("Pick or write a question 🙂");return;}
-    const who=ADULTS.find(a=>a.id===askPick.adult);
+    const who=getAdults().find(a=>a.id===askPick.adult);
     state.asked.unshift({to:who.name,q,when:Date.now()});save();refreshQuests();
     toast(who.name.split(" ")[0]+" will get back to you 💛");closeSheet();
     if($("#view-you").classList.contains("active"))renderYou();
@@ -1502,7 +1516,7 @@ let friendPick={f:null,q:null};
 const SPEC_HUE={avant:"linear-gradient(135deg,#bdb2ff,#46d6ff)",street:"linear-gradient(135deg,#ff7ac3,#9b6bff)",future:"linear-gradient(135deg,#46d6ff,#2ecf8f)",maker:"linear-gradient(135deg,#ffb25f,#ff7a3c)"};
 const SPEC_EMOJI={avant:"🖤",street:"🧢",future:"🛰️",maker:"🧵"};
 /* built-in pals + the ones you've added (a grown-up approved each) */
-function allFriends(){return FRIENDS.concat(state.addedFriends||[]);}
+function allFriends(){return state.friends||[];}
 let lastLook=null;
 function openPhoneFriend(look){
   lastLook=look||null; friendPick={f:null,q:null};
@@ -1604,9 +1618,113 @@ function openAddFriend(){
     if(codeRaw && !/^[a-z]+-[a-z]+-\d{2}$/.test(codeRaw)){toast("That code looks off — leave blank or fix it 🙂");return;}
     const pal={id:"uf"+Date.now(),name:name.slice(0,24),rel:codeRaw?"Connected pal":"Your pick",emoji:SPEC_EMOJI[pend.spec],spec:pend.spec,helps:0,hue:SPEC_HUE[pend.spec]};
     if(codeRaw)pal.code=codeRaw;
-    state.addedFriends=state.addedFriends||[];state.addedFriends.push(pal);save();refreshQuests();
+    state.friends=state.friends||[];state.friends.push(pal);save();refreshQuests();
     toast(`${pal.name} added 🤝`);
     openPhoneFriend(lastLook);
+  };
+  openSheet();
+}
+
+/* ---------- my family & pals: editable roster (grown-ups, crew, pals) ----------
+   Every family is different — these lists live in state so any kid can make them
+   real. Add, rename or remove anyone. Still kid-safe: only people you & a grown-up
+   chose, never strangers, never money. */
+const FAM_HUES=["linear-gradient(135deg,#7af0ff,#ff5ee0)","linear-gradient(135deg,#ff7ac3,#9b6bff)","linear-gradient(135deg,#b9c6ff,#7af0ff)","linear-gradient(135deg,#ff9e5e,#ff5e7e)","linear-gradient(135deg,#2ee6a0,#46d6ff)","linear-gradient(135deg,#9b6bff,#46d6ff)"];
+function pickHue(i){return FAM_HUES[((i||0)%FAM_HUES.length+FAM_HUES.length)%FAM_HUES.length];}
+function renderFamilyBox(){
+  const box=$("#familyBox"); if(!box)return;
+  const n=getAdults().length+getCrew().length+allFriends().length;
+  box.innerHTML=`<button class="teaser" id="goFamily" style="width:100%;text-align:left;cursor:pointer;margin-top:10px">
+    <span class="ti">👪</span>
+    <div><b>My family &amp; pals</b><div style="color:var(--ink-soft);font-size:13px">${n} ${n===1?"person":"people"} you can ask, phone or get fits from — add, rename or remove anyone. <b style="color:var(--ink)">Open →</b></div></div></button>`;
+  $("#goFamily").onclick=openFamily;
+}
+function famRow(p,kind){
+  const ic=kind==="adult"?esc((p.name||"?")[0]):(p.emoji||"🙂");
+  const xbtn='flex:none;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:7px 9px;font-size:14px;cursor:pointer;color:var(--ink)';
+  return `<div class="famrow" data-kind="${kind}" style="display:flex;align-items:center;gap:10px;padding:8px;border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:var(--panel)">
+    <span style="width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:16px;font-weight:900;color:#0a0a0a;background:${p.hue};flex:none">${ic}</span>
+    <div style="flex:1;min-width:0"><div style="font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.name)}</div><div style="color:var(--ink-soft);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(p.rel||"")}</div></div>
+    <button data-ren="${p.id}" title="Rename" style="${xbtn}">✏️</button>
+    <button data-rm="${p.id}" title="Remove" style="${xbtn}">✕</button></div>`;
+}
+function openFamily(){
+  const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900;margin:16px 0 8px';
+  const sec=(title,sub,list,kind,addId,addLabel)=>`
+    <div class="lab" style="${lab}">${title} <span style="text-transform:none;letter-spacing:0;color:var(--ink-dim);font-weight:700">${sub}</span></div>
+    ${list.length?list.map(p=>famRow(p,kind)).join(""):`<div class="muted" style="font-size:13px;padding:2px 2px 8px">None yet.</div>`}
+    <button class="btn alt" id="${addId}">${addLabel}</button>`;
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">My family &amp; pals 👪</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">Make it yours — add the real people in your life, or take any out.</p>
+    <div class="safe-note">🛡️ <div>Only people <b>you &amp; a grown-up chose</b>. No strangers, ever — and nobody ever pays anybody.</div></div>
+    ${sec("Grown-ups","— for “Ask a grown-up”",getAdults(),"adult","faAddAdult","➕ Add a grown-up")}
+    ${sec("Cousins &amp; crew","— they style fits for you",getCrew(),"crew","faAddCrew","➕ Add a cousin or crew")}
+    ${sec("Pals","— phone them for style help",allFriends(),"pal","faAddPal","➕ Add a pal")}
+    <button class="btn" id="faDone" style="margin-top:16px">Done</button>`;
+  $$("#sheetPad .famrow [data-ren]").forEach(b=>b.onclick=()=>renamePerson(b.dataset.ren,b.closest(".famrow").dataset.kind));
+  $$("#sheetPad .famrow [data-rm]").forEach(b=>b.onclick=()=>removePerson(b.dataset.rm,b.closest(".famrow").dataset.kind));
+  $("#faAddAdult").onclick=openAddAdult;
+  $("#faAddCrew").onclick=openAddCrew;
+  $("#faAddPal").onclick=()=>{lastLook=null;openAddFriend();};
+  $("#faDone").onclick=()=>{closeSheet();if($("#view-you").classList.contains("active"))renderYou();};
+  openSheet();
+}
+function familyArr(kind){return kind==="adult"?state.adults:kind==="crew"?state.crew:state.friends;}
+function familyKey(kind){return kind==="adult"?"adults":kind==="crew"?"crew":"friends";}
+function renamePerson(id,kind){
+  const arr=familyArr(kind)||[];const p=arr.find(x=>x.id===id);if(!p)return;
+  const v=(prompt("New name",p.name)||"").trim();
+  if(!v)return;
+  p.name=v.slice(0,24);save();openFamily();toast("Renamed ✏️");
+}
+function removePerson(id,kind){
+  const arr=familyArr(kind)||[];const p=arr.find(x=>x.id===id);if(!p)return;
+  if(!confirm(`Remove ${p.name}?`))return;
+  state[familyKey(kind)]=arr.filter(x=>x.id!==id);save();refreshQuests();openFamily();toast("Removed");
+}
+function openAddAdult(){
+  const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
+  const ist='width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:13px;font:inherit;color:var(--ink)';
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">Add a grown-up 🧑</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">A trusted grown-up you can ask about style. No strangers.</p>
+    <div class="lab" style="${lab};margin:10px 0 6px">Their name</div>
+    <input id="gaName" maxlength="24" placeholder="e.g. Auntie Renee" style="${ist}">
+    <div class="lab" style="${lab};margin:14px 0 6px">What are they great at? <span style="text-transform:none;letter-spacing:0;color:var(--ink-dim);font-weight:700">— optional</span></div>
+    <input id="gaRel" maxlength="40" placeholder="e.g. Colour genius" style="${ist}">
+    <div class="btnrow" style="margin-top:16px"><button class="btn alt" id="gaBack">Back</button><button class="btn" id="gaAdd">Add</button></div>`;
+  $("#gaBack").onclick=openFamily;
+  $("#gaAdd").onclick=()=>{
+    const name=($("#gaName").value||"").trim();
+    if(!name){toast("Give them a name 🙂");return;}
+    state.adults=state.adults||[];
+    state.adults.push({id:"ua"+Date.now(),name:name.slice(0,24),rel:($("#gaRel").value||"").trim().slice(0,40)||"Someone who's got you",hue:pickHue(state.adults.length)});
+    save();openFamily();toast(`${name} added 🧑`);
+  };
+  openSheet();
+}
+function openAddCrew(){
+  let spec="street";
+  const lab='font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-dim);font-weight:900';
+  const ist='width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:13px;font:inherit;color:var(--ink)';
+  const specs=[["street","🧢","Street"],["avant","🖤","Avant"],["future","🛰️","Techy"],["maker","🧵","Maker"]];
+  $("#sheetPad").innerHTML=`
+    <h2 style="margin:0;font-size:23px;font-weight:900">Add a cousin or crew 🧃</h2>
+    <p style="color:var(--ink-soft);margin:6px 0 4px">Someone who knows you and can put a fit together for you.</p>
+    <div class="lab" style="${lab};margin:10px 0 6px">Their name</div>
+    <input id="cwName" maxlength="24" placeholder="e.g. Cousin Ben" style="${ist}">
+    <div class="lab" style="${lab};margin:14px 0 6px">Their style <span style="text-transform:none;letter-spacing:0;color:var(--ink-dim);font-weight:700">— shapes the fits they make you</span></div>
+    <div class="filters" id="cwSpec">${specs.map(s=>`<button class="chip" data-s="${s[0]}" aria-pressed="${s[0]==='street'}">${s[1]} ${s[2]}</button>`).join("")}</div>
+    <div class="btnrow" style="margin-top:16px"><button class="btn alt" id="cwBack">Back</button><button class="btn" id="cwAdd">Add</button></div>`;
+  $$("#cwSpec .chip").forEach(b=>b.onclick=()=>{spec=b.dataset.s;$$("#cwSpec .chip").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  $("#cwBack").onclick=openFamily;
+  $("#cwAdd").onclick=()=>{
+    const name=($("#cwName").value||"").trim();
+    if(!name){toast("Give them a name 🙂");return;}
+    state.crew=state.crew||[];
+    state.crew.push({id:"uc"+Date.now(),name:name.slice(0,24),rel:"Knows your style",emoji:SPEC_EMOJI[spec],spec,cat:SPEC_CAT[spec],hue:SPEC_HUE[spec]});
+    save();openFamily();toast(`${name} added 🧃`);
   };
   openSheet();
 }
@@ -1626,7 +1744,8 @@ function shareGame(){
   toast(`Thanks for sharing! +${bonus}⭐ — our treat 🌍`);renderYou();
 }
 function helpAPal(){
-  const pal=FRIENDS[Math.floor(Math.random()*FRIENDS.length)];
+  const roster=allFriends().length?allFriends():FRIENDS;
+  const pal=roster[Math.floor(Math.random()*roster.length)];
   const needs=["picture day","a birthday","first day back","a cold day out"][Math.floor(Math.random()*4)];
   const tips=["keep it comfy + one bold piece","go layered, add a pop of colour","clean lines, fresh kicks","thrift something sturdy & lived-in"];
   $("#sheetPad").innerHTML=`<div class="claimwrap"><div class="ava" style="width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:32px;margin:6px auto;background:${pal.hue}">${pal.emoji}</div>
@@ -1800,6 +1919,7 @@ function renderYou(){
     ab.innerHTML=`<div class="viewhead" style="padding-top:22px"><h1 style="font-size:20px">Questions you asked</h1></div>`+
       state.asked.slice(0,5).map(a=>`<div class="know" style="margin-bottom:8px">💬 To <b>${esc(a.to)}</b>: “${esc(a.q)}”</div>`).join("");
   }else ab.innerHTML="";
+  renderFamilyBox();
   renderSupporter();
 }
 
@@ -2008,7 +2128,7 @@ function openItemActions(item){
 }
 /* give a piece to family or a pal — earns a Star for giving (on us) */
 function openPassItem(item){
-  const people=ADULTS.map(a=>({id:a.id,name:a.name,emoji:a.name[0],hue:a.hue})).concat(allFriends().map(f=>({id:f.id,name:f.name,emoji:f.emoji,hue:f.hue})));
+  const people=getAdults().map(a=>({id:a.id,name:a.name,emoji:a.name[0],hue:a.hue})).concat(allFriends().map(f=>({id:f.id,name:f.name,emoji:f.emoji,hue:f.hue})));
   $("#sheetPad").innerHTML=`<h2 style="margin:0;font-size:22px;font-weight:900">Pass “${esc(item.name)}” on 💛</h2>
     <p style="color:var(--ink-soft);margin:6px 0 4px">Give it to someone who'll love it next. Hand-me-downs keep good clothes going — and giving earns a Star, on us.</p>
     <div class="safe-note">🛡️ <div>Pretend hand-off inside the app — only people you &amp; a grown-up added. No real shipping, no money.</div></div>
@@ -2172,7 +2292,7 @@ function drawBuilder(){
 let selOcc=OCCASIONS[0], selCrew="mia";
 /* a stylist can be family (CREW) or a peer pal (FRIENDS/addedFriends) */
 const SPEC_CAT={avant:"Avant",street:"Street",future:"Future",maker:"Workwear"};
-function helperById(id){return CREW.find(x=>x.id===id)||allFriends().find(x=>x.id===id)||CREW[0];}
+function helperById(id){return getCrew().find(x=>x.id===id)||allFriends().find(x=>x.id===id)||getCrew()[0]||CREW[0];}
 function isPeer(id){return (allFriends()||[]).some(f=>f.id===id);}
 function friendFitNote(c,o){return `${c.name.split(" ")[0]} says — ${(FRIEND_TIP[c.spec]||FRIEND_TIP.street)(o.toLowerCase())}`;}
 function makeFit(crewId,occasion){
@@ -2204,7 +2324,7 @@ function renderFits(){
     <div class="lab" style="margin-top:0">What's the occasion?</div>
     <div class="filters" id="occRow">${OCCASIONS.map(o=>`<button class="chip" data-o="${esc(o)}" aria-pressed="${o===selOcc}">${esc(o)}</button>`).join("")}</div>
     <div class="lab">Who knows you best? <span style="color:var(--ink-dim);font-weight:700;text-transform:none;letter-spacing:0">— family or a pal</span></div>
-    <div class="crewpick" id="crewRow">${CREW.concat(allFriends().filter(f=>!CREW.some(c=>c.id===f.id))).map(c=>`<div class="crewcard" data-c="${c.id}" aria-pressed="${c.id===selCrew}"><div class="ava" style="background:${c.hue}">${c.emoji}</div><div class="cn">${esc(c.name)}</div><div class="cr">${esc(c.rel)}</div>${isPeer(c.id)?`<div class="helpbadge">⭐ pal</div>`:""}</div>`).join("")}</div>
+    <div class="crewpick" id="crewRow">${getCrew().concat(allFriends().filter(f=>!getCrew().some(c=>c.id===f.id))).map(c=>`<div class="crewcard" data-c="${c.id}" aria-pressed="${c.id===selCrew}"><div class="ava" style="background:${c.hue}">${c.emoji}</div><div class="cn">${esc(c.name)}</div><div class="cr">${esc(c.rel)}</div>${isPeer(c.id)?`<div class="helpbadge">⭐ pal</div>`:""}</div>`).join("")}</div>
     <button class="btn" id="askFit" style="margin-top:14px">✂️ Ask for my fit</button></div>
     ${state.fits.length?`<div class="lab" style="margin:4px 0 8px">Fits made for you</div>`+state.fits.map(f=>fitCardHTML(f,"saved")).join(""):`<div class="empty"><div class="big">✂️</div>No fits yet.<br>Pick an occasion and ask your crew.</div>`}`;
   $$("#occRow .chip").forEach(b=>b.onclick=()=>{selOcc=b.dataset.o;renderFits();});
