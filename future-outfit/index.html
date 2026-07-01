@@ -717,6 +717,7 @@
     </div>
     <div class="filters" id="filters"></div>
     <button class="btn cool" id="quickCloset" style="margin:10px 0 -2px;padding:13px">📸 Add my clothes to my closet</button>
+    <div id="finds"></div>
     <div class="feed" id="feed"></div>
   </section>
 
@@ -1352,6 +1353,67 @@ let activeCat="For you";
 function renderFilters(){
   $("#filters").innerHTML=CATS.map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===activeCat}">${c}</button>`).join("");
   $$("#filters .chip").forEach(b=>b.onclick=()=>{activeCat=b.dataset.c;renderFilters();renderFeed();});
+}
+
+/* ---- real thrift finds: actual secondhand pieces (kid-safe, curated) ----
+   Real photos of real garments from a real secondhand shop — the whole point of
+   the app made concrete: hunt for pieces like these, not the mall. No people,
+   no prices, no shopping — just "look what's out there if you go looking." */
+const THRIFT_FINDS=[
+  {f:"CKfJjo9shbi",n:"Gaultier striped tee",t:"Top"},
+  {f:"CKmbMRjhTCR",n:"Versace monogram tops",t:"Tops"},
+  {f:"CKiObmkh5sq",n:"Evisu koi jeans",t:"Denim"},
+  {f:"Cs938W9PZqg",n:"Bottega tire boots",t:"Shoes"},
+  {f:"CKr-clihbJI",n:"Satin bomber jacket",t:"Jacket"},
+  {f:"CKzrzt7hFoA",n:"‘TECHNO’ coach jacket",t:"Jacket"},
+  {f:"CKCZ1ftsnqd",n:"Terry Fox Run tee",t:"Top"},
+  {f:"CKVEECms0M0",n:"Colour-block shirt",t:"Top"},
+  {f:"CKkcfYWhzp5",n:"DKNY long-sleeve",t:"Top"},
+  {f:"CKAw8HlMjev",n:"Givenchy vintage top",t:"Top"},
+  {f:"CKmqH0QBQL-",n:"Versace Couture shorts",t:"Bottoms"},
+  {f:"CK96o6Sh2by",n:"Patterned trousers",t:"Bottoms"},
+  {f:"CKj_Iq3BRMh",n:"Cut-off denim jorts",t:"Denim"},
+  {f:"CKNaGCDsalp",n:"Striped shorts",t:"Bottoms"},
+  {f:"CKPXRKrsyX8",n:"Anarchy sweatshirt",t:"Top"},
+  {f:"CKiUl98hYD9",n:"Beaded-collar top",t:"Top"},
+  {f:"CuVgpdjxcF6",n:"Vintage bags",t:"Bags"},
+  {f:"CK7WPqMhjTI",n:"Vintage GAP goggles",t:"Accessory"},
+  {f:"CLDb9AYhus2",n:"Addams Family cap",t:"Accessory"},
+  {f:"CKNDPZKMVOv",n:"Racks of varsity",t:"Jackets"},
+];
+function ensureFindsCSS(){
+  if(document.getElementById("findsCSS"))return;
+  const st=document.createElement("style");st.id="findsCSS";st.textContent=`
+#finds{margin:14px 0 4px}
+.findshead{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 8px}
+.findshead b{font-size:16px}
+.findstrip{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.findstrip::-webkit-scrollbar{height:0}
+.findcard{flex:0 0 auto;width:132px;scroll-snap-align:start;cursor:pointer;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.findcard .fimg{width:132px;height:132px;background:var(--panel-2);position:relative}
+.findcard .fimg img{width:100%;height:100%;object-fit:cover;display:block}
+.findcard .ft{padding:7px 9px}
+.findcard .fn{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.findcard .fk{font-size:10px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.06em}`;
+  document.head.appendChild(st);
+}
+function renderFinds(){
+  const box=$("#finds"); if(!box)return;
+  ensureFindsCSS();
+  box.innerHTML=`<div class="findshead"><b>🛍️ Real thrift finds</b><span style="font-size:12px;color:var(--ink-soft)">real secondhand pieces — hunt these, not the mall</span></div>
+    <div class="findstrip" id="findstrip">${THRIFT_FINDS.map((x,i)=>`<div class="findcard" data-fi="${i}"><div class="fimg"><img src="looks/finds/${x.f}.jpg" alt="${esc(x.n)}" loading="lazy"></div><div class="ft"><div class="fn">${esc(x.n)}</div><div class="fk">${esc(x.t)}</div></div></div>`).join("")}</div>`;
+  $$("#findstrip .findcard").forEach(c=>c.onclick=()=>openFind(THRIFT_FINDS[+c.dataset.fi]));
+}
+function openFind(x){
+  if(!x)return;
+  $("#sheetPad").innerHTML=`<div style="text-align:center">
+    <div style="width:100%;max-width:320px;margin:0 auto;border-radius:16px;overflow:hidden;border:1px solid var(--line)"><img src="looks/finds/${x.f}.jpg" alt="${esc(x.n)}" style="width:100%;display:block"></div>
+    <h2 style="margin:12px 0 2px;font-size:22px">${esc(x.n)}</h2>
+    <div style="font-size:12px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.08em;font-weight:800">${esc(x.t)}</div>
+    <p style="color:var(--ink-soft);margin:10px 4px 0">A real secondhand find 🛍️ Someone loved it first — now it's out there waiting for its next person. This is the good stuff you find <b>thrifting</b>, never at the mall.</p>
+    <button class="btn" id="findClose" style="margin-top:16px">Nice 👀</button></div>`;
+  $("#findClose").onclick=closeSheet;
+  openSheet();
 }
 function feedItems(){
   let arr=[...LOOKS];
@@ -2584,7 +2646,7 @@ function showView(viewId){ $$(".view").forEach(x=>x.classList.remove("active"));
 function showTab(v){
   showView("view-"+v);
   $$("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.go===v));
-  if(v==="discover"){renderFilters();renderFeed();}
+  if(v==="discover"){renderFilters();renderFinds();renderFeed();}
   if(v==="board")renderBoard();
   if(v==="quests")renderQuests();
   if(v==="you"){renderAvatar();renderYou();}
