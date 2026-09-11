@@ -212,6 +212,31 @@ function applyCaptureTags(ref, input) {
   return ref;
 }
 
+/** Which slide of a carousel a link points at — Instagram puts it in the URL. */
+function slideOf(url) {
+  try {
+    const n = Number.parseInt(new URL(url).searchParams.get("img_index"), 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  } catch {
+    return 0;
+  }
+}
+
+/** Give a file drop the post it was taken from. A bad URL leaves the drop as it was. */
+function attachSource(ref, raw) {
+  const u = parseUrl(raw);
+  if (!u) return ref;
+  const cls = categorize({ url: u.toString() });
+  ref.url = u.toString();
+  ref.host = cls.host || ref.host;
+  ref.category = cls.category || ref.category;
+  ref.tags = normalizeTags([...(ref.tags || []), ...(cls.tags || [])]);
+  ref.slide = slideOf(ref.url);
+  // Says what it is even when the host tells us nothing back.
+  if (!ref.note && ref.host) ref.title = `${ref.host}${ref.slide ? ` · slide ${ref.slide}` : ""}`.slice(0, 200);
+  return ref;
+}
+
 /** How many refs to read for the tag vocabulary. Newest first — keys sort that way. */
 const TAG_VOCAB_READ = 600;
 const TAG_VOCAB_KEY = "tags:vocab";
@@ -993,6 +1018,7 @@ async function handleSave(request, env, ctx, url) {
     if (cls.kind === "url") {
       ref.url = parseUrl(body.url).toString();
       ref.title = (body.title || "").slice(0, 300);
+      ref.slide = slideOf(ref.url);
       // enrich with OG metadata (best-effort, doesn't block the response long)
       const meta = await fetchMeta(ref.url);
       ref.title = ref.title || meta.title || ref.host;
@@ -1023,6 +1049,12 @@ async function handleSave(request, env, ctx, url) {
     ref.desc = ref.note;
     const tags = request.headers.get("x-tags") || "";
     if (tags) applyCaptureTags(ref, decodeURIComponent(tags));
+    // A screenshot of the exact slide he was on, with the post it came from.
+    // Instagram and TikTok never hand us anything past the cover image, so
+    // this is the only way the brain sees what he saw. The picture is the
+    // screenshot; the link, host and category are the post's.
+    const src = request.headers.get("x-source-url") || "";
+    if (src) attachSource(ref, decodeURIComponent(src));
   }
 
   await env.REFS_KV.put(`ref:${ref.id}`, JSON.stringify(ref));

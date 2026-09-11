@@ -113,6 +113,39 @@ const run = async () => {
   eq("and a realm from it", d.ref.realm, "INSPO");
   taggedIds.push(d.ref.id);
 
+  // a screenshot of the slide he was on, with the post it came from
+  r = await call("/save", {
+    method: "POST",
+    headers: {
+      ...TOK, "Content-Type": "image/png", "X-Filename": "IMG_0412.png",
+      "X-Source-Url": encodeURIComponent("https://www.instagram.com/p/C9abc/?img_index=3"),
+    },
+    body: new Uint8Array([7, 7, 7]),
+  });
+  d = await r.json();
+  ok("the picture is the screenshot", d.ref.image.includes("/blob/"));
+  eq("the link is the post's", d.ref.url, "https://www.instagram.com/p/C9abc/?img_index=3");
+  eq("filed under the post's host and kind", d.ref.host + "/" + d.ref.category, "instagram.com/post");
+  eq("and it knows which slide", d.ref.slide, 3);
+  eq("titled so it reads as one even when the host tells us nothing", d.ref.title, "instagram.com · slide 3");
+  taggedIds.push(d.ref.id);
+  r = await call("/save", {
+    method: "POST",
+    headers: { ...TOK, "Content-Type": "image/png", "X-Source-Url": "not a url at all" },
+    body: new Uint8Array([7]),
+  });
+  d = await r.json();
+  ok("a bad source leaves the drop a plain image", r.status === 201 && !d.ref.url && d.ref.category === "image");
+  taggedIds.push(d.ref.id);
+  r = await call("/save", {
+    method: "POST",
+    headers: { ...TOK, "Content-Type": "application/json" },
+    body: JSON.stringify({ url: "https://www.instagram.com/p/C9abc/?img_index=2" }),
+  });
+  d = await r.json();
+  eq("a shared carousel link remembers its slide", d.ref.slide, 2);
+  taggedIds.push(d.ref.id);
+
   // the vocabulary the phone's pick list is built from
   r = await call("/api/tags", { headers: TOK });
   d = await r.json();

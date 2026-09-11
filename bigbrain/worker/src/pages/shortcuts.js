@@ -103,6 +103,24 @@ export const SHORTCUTS_HTML = /* html */ `<!doctype html>
   </div>
 
   <div class="card">
+    <div class="head"><span class="num">3c</span><h2>The exact slide — not the cover</h2></div>
+    <p class="why">Share a carousel and the brain only ever gets the first image: Instagram and TikTok block everything past the cover, and TikTok's link doesn't even say which slide you were on. This one sends a screenshot of what you're actually looking at, <em>with</em> the link, so the ref shows the slide and still opens the post.</p>
+    <ol>
+      <li>New shortcut named <strong>Brain Slide</strong>. Put it on <strong>Back Tap</strong>.</li>
+      <li>Add <strong>Take Screenshot</strong>.</li>
+      <li>Add <strong>Get Clipboard</strong>, then <strong>URL Encode</strong> (input: Clipboard).</li>
+      <li>Add <strong>Get Contents of URL</strong>, method <strong>POST</strong>, the same <code id="u4"></code><button class="copy" data-c="u4">Copy</button></li>
+    </ol>
+    <div class="lbl">Headers</div>
+    <div class="field"><code>X-Auth-Token</code> = <code id="t4"></code><button class="copy" data-c="t4">Copy</button></div>
+    <div class="field"><code>Content-Type</code> = <code>image/png</code></div>
+    <div class="field"><code>X-Source-Url</code> = <strong>URL Encoded Text</strong></div>
+    <div class="lbl">Request Body → File</div>
+    <div class="field"><strong>Screenshot</strong></div>
+    <p class="note">Using it: on the slide you want, tap Share → <strong>Copy Link</strong>, then Back Tap. That's it — two taps. Add <code>X-Tags</code> from 3b if you want the pick list here too. Works the same on TikTok photo posts, and on anything else you can screenshot.</p>
+  </div>
+
+  <div class="card">
     <div class="head"><span class="num">4</span><h2>Voice — ask the archive out loud</h2></div>
     <p class="why">Hands full, in a warehouse, walking. "Hey Siri, ask Big Brain" — spoken answer back, grounded in your refs.</p>
     <ol>
@@ -133,6 +151,8 @@ const O=location.origin;
 document.getElementById("u1").textContent=O+"/save";
 document.getElementById("u2").textContent=O+"/api/ask?format=text";
 document.getElementById("u3").textContent=O+"/api/tags?format=lines";
+document.getElementById("u4").textContent=O+"/save";
+document.getElementById("t4").textContent=token||"(save your token on /drop first)";
 document.getElementById("t1").textContent=token||"(save your token on /drop first)";
 document.getElementById("t2").textContent=token||"(save your token on /drop first)";
 if(token)document.getElementById("notok").style.display="none";
