@@ -82,6 +82,51 @@ const run = async () => {
   d = await r.json();
   eq("note category", d.ref.category, "note");
 
+  // tags at the moment of saving — a realm word among them is the realm
+  r = await call("/save", {
+    method: "POST",
+    headers: { ...TOK, "Content-Type": "application/json" },
+    body: JSON.stringify({ url: "https://github.com/a/tagged", tags: "Set Design, Knowledge, set design, rigs" }),
+  });
+  d = await r.json();
+  // His words lead; what categorize() inferred (host, kind) follows.
+  ok("tags saved, normalized, deduped, his first", d.ref.tags.join(",").startsWith("set design,rigs,") && !d.ref.tags.includes("knowledge"));
+  eq("a realm picked at capture is the realm, not a tag", d.ref.realm, "KNOWLEDGE");
+  const taggedIds = [d.ref.id];
+  r = await call("/save", {
+    method: "POST",
+    headers: { ...TOK, "Content-Type": "application/json" },
+    body: JSON.stringify({ text: "untagged note" }),
+  });
+  d = await r.json();
+  ok("no tags given -> none invented, no realm forced", !d.ref.realm && Array.isArray(d.ref.tags));
+  taggedIds.push(d.ref.id);
+
+  // and on a file drop, as a header, the way Shortcuts sends it
+  r = await call("/save", {
+    method: "POST",
+    headers: { ...TOK, "Content-Type": "image/png", "X-Filename": "rig.png", "X-Tags": encodeURIComponent("inspo, curtain rig") },
+    body: new Uint8Array([9, 9, 9]),
+  });
+  d = await r.json();
+  ok("file drop takes X-Tags, his first", d.ref.tags[0] === "curtain rig" && !d.ref.tags.includes("inspo"));
+  eq("and a realm from it", d.ref.realm, "INSPO");
+  taggedIds.push(d.ref.id);
+
+  // the vocabulary the phone's pick list is built from
+  r = await call("/api/tags", { headers: TOK });
+  d = await r.json();
+  ok("vocabulary lists his tags with counts", d.ok && d.tags.some((t) => t.tag === "set design" && t.count === 1));
+  ok("and not the realm words", !d.tags.some((t) => t.tag === "inspo" || t.tag === "knowledge"));
+  r = await call("/api/tags?format=lines", { headers: TOK });
+  const lines = (await r.text()).split("\n");
+  eq("lines format leads with the four realms", lines.slice(0, 4).join(","), "inspo,knowledge,culture+news,self");
+  ok("then the tags", lines.includes("curtain rig"));
+  r = await call("/api/tags");
+  eq("vocabulary needs the token", r.status, 401);
+  // Leave the archive as the tests below expect to find it.
+  for (const id of taggedIds) await call("/api/ref/" + encodeURIComponent(id), { method: "DELETE", headers: TOK });
+
   // save a raw image blob
   const bytes = new Uint8Array([1, 2, 3, 4, 5]);
   r = await call("/save", {

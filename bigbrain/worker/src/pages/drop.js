@@ -18,6 +18,11 @@ export const DROP_HTML = /* html */ `<!doctype html>
   .setup{background:var(--panel2);border:1px solid #2c61b0}
   label{font-weight:600;display:block;margin-bottom:8px}
   input[type=text],input[type=password],textarea{width:100%;background:#0b0e14;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px 14px;font:inherit}
+  /* the tag row: his own vocabulary as one-tap chips, a realm chip sets the realm */
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .chips button{min-height:34px;padding:0 12px;border:1px solid var(--line);background:var(--panel);color:var(--soft);border-radius:999px;font:inherit;font-size:13px;cursor:pointer}
+  .chips button.on{border-color:var(--blue);color:var(--ink);background:#1b2a44}
+  .chips button.realm{font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.06em}
   textarea{min-height:70px;resize:vertical}
   button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:11px 18px;background:var(--blue);color:#fff;cursor:pointer}
   button:hover{background:var(--blue2)}
@@ -70,6 +75,8 @@ export const DROP_HTML = /* html */ `<!doctype html>
       <button id="add">Save</button>
     </div>
     <input id="note" type="text" placeholder="why are you saving this? (optional — but it's the part that sounds like you)" autocomplete="off" style="margin-top:10px">
+    <input id="tags" type="text" placeholder="tags — comma separated, or tap below (a realm name sets the realm)" autocomplete="off" style="margin-top:8px">
+    <div id="chips" class="chips"></div>
     <input id="file" type="file" multiple class="hide" accept="image/*,video/*,application/pdf">
 
     <div id="echo" class="card hide">
@@ -105,7 +112,7 @@ let token=localStorage.getItem(KEY)||"";
 const $=s=>document.querySelector(s);
 const setup=$("#setup"),app=$("#app");
 
-function show(){ if(token){setup.classList.add("hide");app.classList.remove("hide");loadRecent();} else {setup.classList.remove("hide");app.classList.add("hide");} }
+function show(){ if(token){setup.classList.add("hide");app.classList.remove("hide");loadRecent();loadChips();} else {setup.classList.remove("hide");app.classList.add("hide");} }
 function toast(msg,kind){const t=$("#toast");t.textContent=msg;t.className="toast show "+(kind||"");setTimeout(()=>t.className="toast",2200);}
 
 async function api(path,opts={}){
@@ -133,28 +140,48 @@ async function saveJSON(payload){
   const d=await r.json(); if(!r.ok||!d.ok)throw new Error(d.error||"save failed");
   return d;
 }
-async function saveBlob(file,note){
+async function saveBlob(file,note,tags){
   const headers={"Content-Type":file.type||"application/octet-stream","X-Filename":encodeURIComponent(file.name||"")};
   if(note)headers["X-Note"]=encodeURIComponent(note);
+  if(tags)headers["X-Tags"]=encodeURIComponent(tags);
   const r=await api("/save?similar=1",{method:"POST",headers,body:file});
   const d=await r.json(); if(!r.ok||!d.ok)throw new Error(d.error||"save failed");
   return d;
 }
 function takeNote(){const el=$("#note");const v=el.value.trim();el.value="";return v;}
+// The tag row is read once per save and cleared, like the note — a tag is
+// about this ref, not a mode the page stays in.
+function takeTags(){const el=$("#tags");const v=el.value.trim();el.value="";syncChips();return v;}
+const REALMS=["inspo","knowledge","culture+news","self"];
+function tagList(){return $("#tags").value.split(",").map(t=>t.trim().toLowerCase()).filter(Boolean);}
+function syncChips(){const have=new Set(tagList());document.querySelectorAll("#chips button").forEach(b=>b.classList.toggle("on",have.has(b.dataset.t)));}
+function toggleTag(t){
+  let list=tagList();
+  if(list.includes(t))list=list.filter(x=>x!==t);
+  else{ if(REALMS.includes(t))list=list.filter(x=>!REALMS.includes(x)); list.push(t); }
+  $("#tags").value=list.join(", ");syncChips();
+}
+async function loadChips(){
+  const box=$("#chips");box.innerHTML="";
+  const mk=(t,realm)=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.dataset.t=t;if(realm)b.className="realm";b.onclick=()=>toggleTag(t);box.appendChild(b);};
+  REALMS.forEach(t=>mk(t,true));
+  try{const r=await api("/api/tags");const d=await r.json();(d.tags||[]).slice(0,14).forEach(x=>mk(x.tag,false));}catch(e){}
+  $("#tags").addEventListener("input",syncChips);
+}
 
 async function handleText(text){
   text=text.trim(); if(!text)return;
-  const note=takeNote();
+  const note=takeNote();const tags=takeTags();
   const isUrl=/^https?:\\/\\//i.test(text)||/^[\\w-]+\\.[a-z]{2,}/i.test(text);
   try{
-    const d=await saveJSON(isUrl?{url:text,note}:{text,note});
+    const d=await saveJSON(isUrl?{url:text,note,tags}:{text,note,tags});
     toast("Saved → "+d.ref.category,"ok");prepend(d.ref);echo(d.similar);
   }catch(e){toast("Failed: "+e.message,"bad");}
 }
 async function handleFiles(files){
-  const note=takeNote();
+  const note=takeNote();const tags=takeTags();
   for(const f of files){
-    try{const d=await saveBlob(f,note);toast("Saved → "+d.ref.category,"ok");prepend(d.ref);echo(d.similar);}
+    try{const d=await saveBlob(f,note,tags);toast("Saved → "+d.ref.category,"ok");prepend(d.ref);echo(d.similar);}
     catch(e){toast("Failed: "+e.message,"bad");}
   }
 }
@@ -207,7 +234,7 @@ $("#file").onchange=e=>{handleFiles([...e.target.files]);e.target.value="";};
 $("#add").onclick=()=>{const v=$("#urlin").value;$("#urlin").value="";handleText(v);};
 $("#urlin").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();const v=e.target.value;e.target.value="";handleText(v);}});
 window.addEventListener("paste",e=>{
-  if(document.activeElement===$("#urlin")||document.activeElement===$("#tok")||document.activeElement===$("#note"))return;
+  if(document.activeElement===$("#urlin")||document.activeElement===$("#tok")||document.activeElement===$("#note")||document.activeElement===$("#tags"))return;
   const items=[...(e.clipboardData?.items||[])];
   const imgs=items.filter(i=>i.type.startsWith("image/")).map(i=>i.getAsFile()).filter(Boolean);
   if(imgs.length){e.preventDefault();return handleFiles(imgs);}

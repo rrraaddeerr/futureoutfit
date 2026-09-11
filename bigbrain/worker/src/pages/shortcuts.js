@@ -86,6 +86,23 @@ export const SHORTCUTS_HTML = /* html */ `<!doctype html>
   </div>
 
   <div class="card">
+    <div class="head"><span class="num">3b</span><h2>Capture + tag — one tap, your own words</h2></div>
+    <p class="why">A pick list of your tags appears as you save. Tap one or several, done. The first four are the realms — picking <em>inspo</em> or <em>knowledge</em> files it there, no guessing. The list is live: any tag you've used shows up, most used first.</p>
+    <ol>
+      <li>Duplicate <strong>Brain Grab</strong>, rename it <strong>Brain + Tag</strong>.</li>
+      <li>Before the existing URL action, add <strong>Get Contents of URL</strong>, method <strong>GET</strong>, header <code>X-Auth-Token</code> as above, URL:</li>
+    </ol>
+    <div class="field"><code id="u3"></code><button class="copy" data-c="u3">Copy</button></div>
+    <ol start="3">
+      <li>Add <strong>Split Text</strong> → by <strong>New Lines</strong>.</li>
+      <li>Add <strong>Choose from List</strong> → turn on <strong>Select Multiple</strong>. Prompt: <em>"tag it"</em>.</li>
+      <li>Add <strong>Combine Text</strong> → with <strong>Custom</strong> → a comma.</li>
+      <li>In the save action's JSON body add a field <code>tags</code> (Text) = <strong>Combined Text</strong>.</li>
+    </ol>
+    <p class="note">Sharing a photo? Same thing, but as a header: <code>X-Tags</code> = Combined Text. Want a "why?" as well — stack it: this list first, then the <em>Ask for Input</em> from step 3.</p>
+  </div>
+
+  <div class="card">
     <div class="head"><span class="num">4</span><h2>Voice — ask the archive out loud</h2></div>
     <p class="why">Hands full, in a warehouse, walking. "Hey Siri, ask Big Brain" — spoken answer back, grounded in your refs.</p>
     <ol>
@@ -115,6 +132,7 @@ const token=localStorage.getItem("bigbrain_token")||"";
 const O=location.origin;
 document.getElementById("u1").textContent=O+"/save";
 document.getElementById("u2").textContent=O+"/api/ask?format=text";
+document.getElementById("u3").textContent=O+"/api/tags?format=lines";
 document.getElementById("t1").textContent=token||"(save your token on /drop first)";
 document.getElementById("t2").textContent=token||"(save your token on /drop first)";
 if(token)document.getElementById("notok").style.display="none";

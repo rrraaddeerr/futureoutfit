@@ -22,6 +22,7 @@
  *
  * Free maintenance (Tier 0 — no model, no index write; works with no bindings)
  *   POST   /api/thumbs           -> backfill missing og:image thumbnails
+ *   GET    /api/tags             -> his tag vocabulary (the pick list at capture)
  *   POST   /api/propose          -> fill the swipe queue with proposals
  *   GET    /api/propose/preview  -> the same pass, queueing nothing
  *
@@ -187,6 +188,65 @@ function normalizeTags(input) {
   if (Array.isArray(input)) arr = input;
   else if (typeof input === "string") arr = input.split(/[,\n]/);
   return [...new Set(arr.map((t) => String(t).trim().toLowerCase()).filter(Boolean))].slice(0, 30);
+}
+
+/**
+ * Tags typed or picked at the moment of saving.
+ *
+ * One list, so the phone shows one list: a realm name among the tags
+ * ("inspo", "knowledge", "culture+news", "self") is a realm, not a tag — it
+ * is stored as the realm, which the classifier never overrides, and dropped
+ * from the tags. Everything else is a tag, merged with whatever categorize()
+ * already inferred. A word he chose beats a word a rule guessed.
+ */
+function applyCaptureTags(ref, input) {
+  const picked = normalizeTags(input);
+  if (!picked.length) return ref;
+  const realms = new Map(REALMS.map((r) => [r.toLowerCase(), r]));
+  const tags = [];
+  for (const t of picked) {
+    if (realms.has(t)) ref.realm = realms.get(t);
+    else tags.push(t);
+  }
+  ref.tags = normalizeTags([...tags, ...(ref.tags || [])]);
+  return ref;
+}
+
+/** How many refs to read for the tag vocabulary. Newest first — keys sort that way. */
+const TAG_VOCAB_READ = 600;
+const TAG_VOCAB_KEY = "tags:vocab";
+const TAG_VOCAB_TTL = 3600;
+
+/**
+ * His tag vocabulary, most used first, for the pick list on the phone. The
+ * Shortcut asks for this on every capture, so it is served from a cached
+ * copy that is at most an hour stale; the scan behind it is batched and
+ * capped, never the whole archive.
+ */
+async function tagVocabulary(env, { refresh = false } = {}) {
+  if (!refresh) {
+    const hit = await env.REFS_KV.get(TAG_VOCAB_KEY, "json").catch(() => null);
+    if (hit && Array.isArray(hit.tags)) return { ...hit, cached: true };
+  }
+  const counts = new Map();
+  let read = 0;
+  let cursor;
+  while (read < TAG_VOCAB_READ) {
+    const page = await env.REFS_KV.list({ prefix: "ref:", cursor, limit: Math.min(100, TAG_VOCAB_READ - read) });
+    for (let i = 0; i < page.keys.length; i += 20) {
+      const chunk = page.keys.slice(i, i + 20);
+      const refs = await Promise.all(chunk.map((k) => env.REFS_KV.get(k.name, "json").catch(() => null)));
+      for (const ref of refs) for (const t of ref?.tags || []) counts.set(t, (counts.get(t) || 0) + 1);
+    }
+    read += page.keys.length;
+    if (page.list_complete || !page.keys.length) break;
+    cursor = page.cursor;
+  }
+  const tags = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 60)
+    .map(([tag, count]) => ({ tag, count }));
+  const out = { ok: true, tags, read, at: new Date().toISOString() };
+  await env.REFS_KV.put(TAG_VOCAB_KEY, JSON.stringify(out), { expirationTtl: TAG_VOCAB_TTL }).catch(() => {});
+  return { ...out, cached: false };
 }
 
 async function putBlob(env, bytes, contentType) {
@@ -848,6 +908,20 @@ export default {
       }
 
       // GET /api/profile — the archive's taste fingerprint, distilled
+      // GET /api/tags — his tag vocabulary, for the pick list at capture.
+      // ?format=lines gives the realms then the tags one per line, which is
+      // what Shortcuts' "Split Text" wants; JSON otherwise.
+      if (path === "/api/tags" && request.method === "GET") {
+        const fail = requireToken(request, env);
+        if (fail) return fail;
+        const out = await tagVocabulary(env, { refresh: truthy(url.searchParams.get("refresh")) });
+        if (url.searchParams.get("format") === "lines") {
+          const lines = [...REALMS.map((r) => r.toLowerCase()), ...out.tags.map((t) => t.tag)];
+          return new Response(lines.join("\n"), { headers: { "content-type": "text/plain; charset=utf-8" } });
+        }
+        return json(out);
+      }
+
       if (path === "/api/profile" && request.method === "GET") {
         const fail = requireToken(request, env);
         if (fail) return fail;
@@ -915,6 +989,7 @@ async function handleSave(request, env, ctx, url) {
     // Your own words about why you saved it — the single most useful signal
     // the archive gets, because it's the only part that isn't scraped.
     ref.note = String(body.note || "").slice(0, 1000);
+    applyCaptureTags(ref, body.tags);
     if (cls.kind === "url") {
       ref.url = parseUrl(body.url).toString();
       ref.title = (body.title || "").slice(0, 300);
@@ -946,6 +1021,8 @@ async function handleSave(request, env, ctx, url) {
     const note = request.headers.get("x-note") || "";
     ref.note = note ? decodeURIComponent(note).slice(0, 1000) : "";
     ref.desc = ref.note;
+    const tags = request.headers.get("x-tags") || "";
+    if (tags) applyCaptureTags(ref, decodeURIComponent(tags));
   }
 
   await env.REFS_KV.put(`ref:${ref.id}`, JSON.stringify(ref));
