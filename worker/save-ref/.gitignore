@@ -4,3 +4,4 @@ node_modules/
 .bigbrain-local
 .bigbrain-dev.json
 old-refs.ndjson
+old-blobs/

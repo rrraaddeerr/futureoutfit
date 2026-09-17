@@ -107,7 +107,7 @@ the good references. So:
 ## Develop / test locally
 
 ```bash
-npm test                 # 108 tests: categorization, worker routes, PWA/share
+npm test                 # 140 tests: categorization, worker routes, PWA/share, migration
 npm run dev:local        # http://localhost:8788 — no Cloudflare account needed
 npm run dev              # wrangler dev --local: real KV in miniflare, hot reload
 npm run icons            # regenerate the app icons (only if the artwork changes)
@@ -129,7 +129,7 @@ curl -X POST localhost:8788/save -H "X-Auth-Token: dev" \
 ## Migrating from the old worker
 
 `npm run migrate` walks it in three steps. Steps 1–2 are read-only, and nothing
-ever writes to the old namespace:
+ever writes to or deletes from the old namespace:
 
 ```bash
 npm run migrate -- --list                 # every KV namespace on the account
@@ -138,7 +138,20 @@ npm run migrate -- --import --url https://save-ref-v2.<sub>.workers.dev --token 
 ```
 
 Dump first and read the sample — that's how you confirm you picked the old
-worker's namespace and not some other one. `old-refs.ndjson` is gitignored.
+worker's namespace and not some other one. If two look alike, dump both and
+compare; dumping costs nothing.
+
+Two things worth knowing:
+
+- **Uploaded files come too.** Refs are JSON and go over HTTP to `/api/import`,
+  but uploaded bytes live under `blob:` keys and `/api/import` only accepts ref
+  JSON. Those are dumped to `old-blobs/` and written straight into the new KV
+  namespace with `wrangler kv key put`, metadata included. The new namespace id
+  is read from `wrangler.toml`, or pass `--namespace-id <id>`.
+- **Re-running is safe.** Each ref keeps its id (falling back to the KV key), so
+  a second run overwrites the same records instead of duplicating them.
+
+`old-refs.ndjson` and `old-blobs/` are gitignored — they hold real data.
 
 Already have the data as JSON? POST it straight to `/api/import`:
 

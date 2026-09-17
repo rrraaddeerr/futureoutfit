@@ -1,31 +1,38 @@
 #!/usr/bin/env node
 /**
- * Big Brain — migrate refs out of the ORIGINAL save-ref worker's KV namespace
- * and into the new one, via POST /api/import.
+ * Big Brain — migrate the ORIGINAL save-ref worker's KV namespace into the new
+ * worker.
  *
- * Read-only until you pass --import. Three steps, run them in order:
+ * Read-only until you pass --import. Three steps, in order:
  *
- *   1. node scripts/migrate-old-kv.mjs --list
- *        Prints every KV namespace on your account (title + id).
+ *   1. npm run migrate -- --list
+ *        Every KV namespace on your account (title + id).
  *
- *   2. node scripts/migrate-old-kv.mjs --dump <namespace-id>
- *        Reads every key out of that namespace into ./old-refs.ndjson and
- *        prints a sample so you can confirm it's the right one BEFORE anything
- *        is written to the new worker.
+ *   2. npm run migrate -- --dump <namespace-id>
+ *        Reads the namespace into ./old-refs.ndjson (+ ./old-blobs/ for any
+ *        uploaded bytes) and prints a sample, so you can confirm it's the right
+ *        namespace BEFORE anything is written to the new worker.
  *
- *   3. node scripts/migrate-old-kv.mjs --import --url https://… --token <token>
- *        POSTs the dump to /api/import on the new worker.
+ *   3. npm run migrate -- --import --url https://… --token <token>
+ *        Refs go over HTTP to /api/import. Uploaded blobs can't go that way —
+ *        /api/import only takes ref JSON — so they're written straight into the
+ *        new namespace with `wrangler kv key put`.
  *
- * Nothing here ever writes to or deletes from the old namespace.
+ * Nothing here ever writes to or deletes from the OLD namespace.
  */
 
 import { spawnSync } from "node:child_process";
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const DUMP = join(ROOT, "old-refs.ndjson");
+// Where the dump lands. Overridable so the tests never clobber a real dump.
+const OUT = process.env.BIGBRAIN_MIGRATE_DIR || ROOT;
+const DUMP = join(OUT, "old-refs.ndjson");
+const BLOBDIR = join(OUT, "old-blobs");
+const BLOBIDX = join(BLOBDIR, "index.json");
+const TOML = join(ROOT, "wrangler.toml");
 
 const c = {
   b: (s) => `\x1b[1m${s}\x1b[0m`,
@@ -39,60 +46,104 @@ const argv = process.argv.slice(2);
 const has = (f) => argv.includes(f);
 const val = (f) => {
   const i = argv.indexOf(f);
-  return i >= 0 ? argv[i + 1] : null;
+  const v = i >= 0 ? argv[i + 1] : null;
+  return v && !v.startsWith("--") ? v : null;
 };
 
 function die(msg, detail) {
   console.error(`\n${c.red("✗ " + msg)}`);
-  if (detail) console.error(c.dim(detail.trim().split("\n").slice(-12).join("\n")));
+  if (detail) console.error(c.dim(String(detail).trim().split("\n").slice(-12).join("\n")));
   process.exit(1);
 }
 
-/** Run wrangler, capturing output. Falls back to the v3 `kv:` command spelling. */
+/**
+ * Wrangler prints its banner, proxy notices and version warnings to STDOUT,
+ * mixed in with real output. Drop those leading lines so they can't corrupt a
+ * parsed value. Operates on a Buffer, because blob values are binary.
+ */
+const NOISE = [
+  /^Proxy environment variables detected/,
+  /^\s*⛅️\s*wrangler/,
+  /^\s*-{5,}\s*$/,
+  /^\s*$/,
+  /^\s*▲?\s*\[?WARNING\]?/,
+  /^\s*Please update to the latest version/,
+  /^\s*Run `npm install/,
+  /^\s*After installation, run Wrangler/,
+  /^\s*Note that there is a newer version/,
+  /^\s*🪵/,
+];
+function stripNoise(buf) {
+  let rest = buf;
+  for (;;) {
+    const nl = rest.indexOf(0x0a);
+    if (nl < 0) break;
+    const line = rest.subarray(0, nl).toString("utf8").replace(/\x1b\[[0-9;]*m/g, "");
+    if (!NOISE.some((re) => re.test(line))) break;
+    rest = rest.subarray(nl + 1);
+  }
+  return rest;
+}
+
+/** Run wrangler, capturing stdout as a Buffer. Falls back to v3 `kv:` spelling. */
 function wrangler(args) {
   const go = (a) =>
     spawnSync("npx", ["--no-install", "wrangler", ...a], {
       cwd: ROOT,
-      encoding: "utf8",
-      maxBuffer: 256 * 1024 * 1024,
+      maxBuffer: 512 * 1024 * 1024,
       shell: process.platform === "win32",
     });
   let r = go(args);
-  if (r.status !== 0 && /unknown argument|did you mean|not a valid/i.test(`${r.stdout}${r.stderr}`)) {
-    // wrangler 3: `kv namespace list` -> `kv:namespace list`
+  const text = `${r.stdout || ""}${r.stderr || ""}`;
+  if (r.status !== 0 && /unknown argument|did you mean|not a valid|Unknown command/i.test(text)) {
     const [a, b, ...rest] = args;
     if (a === "kv" && b) r = go([`kv:${b}`, ...rest]);
   }
-  return { code: r.status, out: r.stdout || "", err: `${r.stdout || ""}${r.stderr || ""}` };
+  return {
+    code: r.status,
+    stdout: stripNoise(r.stdout || Buffer.alloc(0)),
+    err: `${r.stdout || ""}${r.stderr || ""}`,
+  };
 }
 
-/** Pull the first JSON array out of wrangler's chatty output. */
-function parseJsonArray(out, what) {
-  const start = out.indexOf("[");
-  const end = out.lastIndexOf("]");
-  if (start < 0 || end < start) die(`Couldn't find ${what} in wrangler's output.`, out);
-  try {
-    return JSON.parse(out.slice(start, end + 1));
-  } catch (e) {
-    die(`Couldn't parse ${what}: ${e.message}`, out);
+/**
+ * Pull a JSON array out of wrangler's output. Tries every `[` as a starting
+ * point (a stray "[WARNING]" must not win) and keeps the largest array parsed.
+ */
+function parseJsonArray(text, what) {
+  let best = null;
+  for (let i = text.indexOf("["); i >= 0; i = text.indexOf("[", i + 1)) {
+    for (let j = text.lastIndexOf("]"); j > i; j = text.lastIndexOf("]", j - 1)) {
+      try {
+        const v = JSON.parse(text.slice(i, j + 1));
+        if (Array.isArray(v) && (!best || v.length > best.length)) best = v;
+        break;
+      } catch {
+        /* keep shrinking */
+      }
+    }
+    if (best) break;
   }
+  if (!best) die(`Couldn't find ${what} in wrangler's output.`, text);
+  return best;
 }
+
+const safeName = (key) => key.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120);
+const isBlob = (key) => key.startsWith("blob:");
 
 // --- --list ----------------------------------------------------------------
 if (has("--list")) {
   console.log(c.b("\nKV namespaces on this account:\n"));
   const r = wrangler(["kv", "namespace", "list"]);
   if (r.code !== 0) die("Couldn't list KV namespaces.", r.err);
-  const list = parseJsonArray(r.out, "the namespace list");
+  const list = parseJsonArray(r.stdout.toString("utf8"), "the namespace list");
   if (!list.length) die("No KV namespaces found on this account.");
-  for (const ns of list) {
-    console.log(`  ${c.b(ns.title || "(untitled)")}\n    ${c.dim(ns.id)}`);
-  }
+  for (const ns of list) console.log(`  ${c.b(ns.title || "(untitled)")}\n    ${c.dim(ns.id)}`);
   console.log(
-    `\n${c.dim("The original worker's namespace is usually the one bound in the OLD")}\n` +
-      `${c.dim("worker's wrangler.toml. If two look alike, --dump each and compare the")}\n` +
-      `${c.dim("samples — dumping is read-only.")}\n\n` +
-      `Next: ${c.b("node scripts/migrate-old-kv.mjs --dump <id>")}\n`
+    `\n${c.dim("The old worker's namespace is the one bound in the OLD worker's")}\n` +
+      `${c.dim("wrangler.toml. If two look alike, --dump each and compare — dumping")}\n` +
+      `${c.dim("is read-only.")}\n\n` +
+      `Next: ${c.b("npm run migrate -- --dump <id>")}\n`
   );
   process.exit(0);
 }
@@ -100,30 +151,52 @@ if (has("--list")) {
 // --- --dump ----------------------------------------------------------------
 if (has("--dump")) {
   const id = val("--dump");
-  if (!id || id.startsWith("--")) die("Usage: --dump <namespace-id>   (get the id from --list)");
+  if (!id) die("Usage: --dump <namespace-id>   (get the id from --list)");
 
   console.log(`\n${c.b("Listing keys")} ${c.dim(id)}`);
   const kr = wrangler(["kv", "key", "list", `--namespace-id=${id}`]);
   if (kr.code !== 0) die("Couldn't list keys in that namespace.", kr.err);
-  const keys = parseJsonArray(kr.out, "the key list").map((k) => k.name).filter(Boolean);
-  console.log(`  ${c.green("✓")} ${keys.length} key${keys.length === 1 ? "" : "s"}`);
-  if (!keys.length) die("That namespace is empty — probably not the one you want.");
+  const entries = parseJsonArray(kr.stdout.toString("utf8"), "the key list").filter((k) => k && k.name);
+  if (!entries.length) die("That namespace is empty — probably not the one you want.");
+
+  const refKeys = entries.filter((k) => !isBlob(k.name));
+  const blobKeys = entries.filter((k) => isBlob(k.name));
+  console.log(`  ${c.green("✓")} ${entries.length} keys — ${refKeys.length} refs, ${blobKeys.length} uploaded blobs`);
 
   const rows = [];
   let n = 0;
-  for (const key of keys) {
-    process.stdout.write(`\r  reading ${++n}/${keys.length}…`);
-    const vr = wrangler(["kv", "key", "get", key, `--namespace-id=${id}`]);
+  for (const k of refKeys) {
+    process.stdout.write(`\r  reading refs ${++n}/${refKeys.length}…`);
+    const vr = wrangler(["kv", "key", "get", k.name, `--namespace-id=${id}`]);
     if (vr.code !== 0) {
-      console.log(`\n  ${c.yellow("!")} skipped ${key}: ${vr.err.trim().split("\n").pop()}`);
+      console.log(`\n  ${c.yellow("!")} skipped ${k.name}: ${vr.err.trim().split("\n").pop()}`);
       continue;
     }
-    rows.push({ key, value: vr.out });
+    rows.push({ key: k.name, value: vr.stdout.toString("utf8") });
   }
-  process.stdout.write("\n");
-
+  if (refKeys.length) process.stdout.write("\n");
   writeFileSync(DUMP, rows.map((r) => JSON.stringify(r)).join("\n") + "\n");
-  console.log(`  ${c.green("✓")} wrote ${rows.length} rows to ${c.b("old-refs.ndjson")}`);
+  console.log(`  ${c.green("✓")} wrote ${rows.length} refs to ${c.b("old-refs.ndjson")}`);
+
+  if (blobKeys.length) {
+    mkdirSync(BLOBDIR, { recursive: true });
+    const index = [];
+    n = 0;
+    for (const k of blobKeys) {
+      process.stdout.write(`\r  reading blobs ${++n}/${blobKeys.length}…`);
+      const vr = wrangler(["kv", "key", "get", k.name, `--namespace-id=${id}`]);
+      if (vr.code !== 0) {
+        console.log(`\n  ${c.yellow("!")} skipped ${k.name}: ${vr.err.trim().split("\n").pop()}`);
+        continue;
+      }
+      const file = `${safeName(k.name)}.bin`;
+      writeFileSync(join(BLOBDIR, file), vr.stdout);
+      index.push({ key: k.name, file, metadata: k.metadata ?? null, bytes: vr.stdout.length });
+    }
+    process.stdout.write("\n");
+    writeFileSync(BLOBIDX, JSON.stringify(index, null, 2));
+    console.log(`  ${c.green("✓")} wrote ${index.length} blobs to ${c.b("old-blobs/")}`);
+  }
 
   console.log(`\n${c.b("Sample — confirm this is the right namespace:")}\n`);
   for (const r of rows.slice(0, 3)) {
@@ -134,18 +207,10 @@ if (has("--dump")) {
       /* not JSON — show it raw */
     }
     console.log(`  ${c.b(r.key)}`);
-    console.log(
-      preview
-        .split("\n")
-        .slice(0, 12)
-        .map((l) => `    ${c.dim(l.slice(0, 160))}`)
-        .join("\n") + "\n"
-    );
+    console.log(preview.split("\n").slice(0, 12).map((l) => `    ${c.dim(l.slice(0, 160))}`).join("\n") + "\n");
   }
-  console.log(
-    `${c.dim("Looks right?")}\n` +
-      `Next: ${c.b("node scripts/migrate-old-kv.mjs --import --url https://… --token <token>")}\n`
-  );
+  if (!rows.length) console.log(`  ${c.yellow("(no ref-shaped keys — this may be the wrong namespace)")}\n`);
+  console.log(`${c.dim("Looks right?")}\nNext: ${c.b("npm run migrate -- --import --url https://… --token <token>")}\n`);
   process.exit(0);
 }
 
@@ -156,13 +221,10 @@ if (has("--import")) {
   if (!url || !token) die("Usage: --import --url https://save-ref-v2.<sub>.workers.dev --token <token>");
   if (!existsSync(DUMP)) die("No old-refs.ndjson here — run --dump first.");
 
-  const rows = readFileSync(DUMP, "utf8")
-    .split("\n")
-    .filter(Boolean)
-    .map((l) => JSON.parse(l));
+  const rows = readFileSync(DUMP, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l));
 
-  // The old worker stored one JSON ref per key. Keep anything that parses as an
-  // object; carry the KV key through as the id so re-running is idempotent.
+  // One JSON ref per key. Carry the KV key through as the id so a re-run
+  // overwrites the same records instead of duplicating them.
   const refs = [];
   const skipped = [];
   for (const { key, value } of rows) {
@@ -192,18 +254,47 @@ if (has("--import")) {
     headers: { "Content-Type": "application/json", "X-Auth-Token": token },
     body: JSON.stringify(refs),
   }).catch((e) => die(`Request failed: ${e.message}`));
-
   const body = await res.text();
   if (!res.ok) die(`Import failed (HTTP ${res.status}).`, body);
   console.log(`  ${c.green("✓")} ${body}`);
+
+  // --- blobs: straight into the new namespace, since /api/import won't take them
+  if (existsSync(BLOBIDX)) {
+    const index = JSON.parse(readFileSync(BLOBIDX, "utf8"));
+    const nsId =
+      val("--namespace-id") || (readFileSync(TOML, "utf8").match(/^\s*id\s*=\s*"([0-9a-fA-F]{32})"/m) || [])[1];
+    if (!nsId) {
+      console.log(
+        `  ${c.yellow("!")} ${index.length} blobs NOT migrated: no KV id in wrangler.toml.\n` +
+          `    Re-run with --namespace-id <new-id> once the new worker is deployed.`
+      );
+    } else {
+      console.log(`\n${c.b("Copying")} ${index.length} blobs -> namespace ${c.dim(nsId)}`);
+      let done = 0;
+      for (const b of index) {
+        const args = ["kv", "key", "put", b.key, `--namespace-id=${nsId}`, `--path=${join(BLOBDIR, b.file)}`];
+        if (b.metadata) args.push(`--metadata=${JSON.stringify(b.metadata)}`);
+        let r = wrangler(args);
+        if (r.code !== 0 && b.metadata) {
+          // older wrangler builds have no --metadata; keep the bytes at least
+          r = wrangler(args.filter((a) => !a.startsWith("--metadata=")));
+          if (r.code === 0) console.log(`  ${c.yellow("!")} ${b.key}: copied without metadata`);
+        }
+        if (r.code !== 0) console.log(`  ${c.yellow("!")} ${b.key} failed: ${r.err.trim().split("\n").pop()}`);
+        else done++;
+      }
+      console.log(`  ${c.green("✓")} ${done}/${index.length} blobs copied`);
+    }
+  }
+
   console.log(`\nCheck the gallery: ${c.b(`${url}/browse`)}\n`);
   process.exit(0);
 }
 
 console.log(
   `\n${c.b("Big Brain — migrate the old worker's KV into the new one")}\n\n` +
-    `  1. node scripts/migrate-old-kv.mjs --list\n` +
-    `  2. node scripts/migrate-old-kv.mjs --dump <namespace-id>      ${c.dim("(read-only, prints a sample)")}\n` +
-    `  3. node scripts/migrate-old-kv.mjs --import --url https://… --token <token>\n\n` +
+    `  1. npm run migrate -- --list\n` +
+    `  2. npm run migrate -- --dump <namespace-id>      ${c.dim("(read-only, prints a sample)")}\n` +
+    `  3. npm run migrate -- --import --url https://… --token <token>\n\n` +
     `${c.dim("Never writes to the old namespace.")}\n`
 );
