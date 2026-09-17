@@ -20,14 +20,21 @@ import { fileURLToPath } from "node:url";
 import worker from "../src/index.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const STATE = join(ROOT, ".bigbrain-dev.json");
 const PORT = Number(process.env.PORT || 8788);
 const TOKEN = process.env.TOKEN || "dev";
+
+// Where refs are persisted between restarts. BB_STATE=memory keeps everything
+// in RAM, which is what the e2e tests use — otherwise each run would assert
+// against refs left behind by the previous one.
+const STATE =
+  process.env.BB_STATE === "memory"
+    ? null
+    : process.env.BB_STATE || join(ROOT, ".bigbrain-dev.json");
 
 // ---- a KV namespace backed by a Map, saved to disk -------------------------
 function makeKV() {
   const store = new Map();
-  if (existsSync(STATE)) {
+  if (STATE && existsSync(STATE)) {
     try {
       for (const [k, v] of JSON.parse(readFileSync(STATE, "utf8"))) store.set(k, v);
     } catch {
@@ -36,6 +43,7 @@ function makeKV() {
   }
   let timer = null;
   const persist = () => {
+    if (!STATE) return;
     clearTimeout(timer);
     timer = setTimeout(() => {
       // Blobs are raw bytes; skip them so the JSON stays valid and small.
@@ -112,7 +120,7 @@ server.listen(PORT, () => {
    Setup    http://localhost:${PORT}/setup
 
    Token    ${TOKEN}
-   Data     ${STATE}
+   Data     ${STATE || "in memory only — nothing is persisted"}
 
    Service workers and PWA installs work on localhost, so the share target
    and the offline queue can be tested here. Ctrl-C to stop.
