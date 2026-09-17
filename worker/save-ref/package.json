@@ -5,9 +5,13 @@
   "description": "Big Brain — drop-anything reference inbox (Cloudflare Worker).",
   "type": "module",
   "scripts": {
+    "setup": "node scripts/setup.mjs",
     "dev": "wrangler dev",
+    "dev:local": "node scripts/dev-server.mjs",
     "deploy": "wrangler deploy",
-    "test": "node test/categorize.test.mjs && node test/worker.test.mjs"
+    "icons": "node scripts/make-icons.mjs",
+    "test:e2e": "node test/e2e.mjs",
+    "test": "node test/categorize.test.mjs && node test/worker.test.mjs && node test/share.test.mjs"
   },
   "devDependencies": {
     "wrangler": "^3.114.17"

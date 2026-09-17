@@ -1,0 +1,199 @@
+{
+  "$comment": "Machine-readable handoff for a second agent working on Big Brain. Prose version: HANDOFF.md",
+  "version": 2,
+  "updated": "2026-09-17",
+
+  "project": {
+    "name": "Big Brain",
+    "oneLiner": "A drop-anything reference inbox: save a link, image, or note from anywhere; find it later.",
+    "owner": {
+      "name": "Rader",
+      "role": "Freelance Production Designer / Set Decorator",
+      "location": "Vancouver, BC",
+      "context": "Project-based film/TV and commercial work. Captures visual references (furniture, props, textures, lighting, wardrobe, locations) while on his feet, on set, often with poor signal."
+    },
+    "repo": "rrraaddeerr/futureoutfit",
+    "path": "worker/save-ref/",
+    "visibility": "public — never paste secrets into chat windows or committed files"
+  },
+
+  "stack": {
+    "runtime": "Cloudflare Workers",
+    "language": "JavaScript, no framework, no build step",
+    "storage": ["Cloudflare KV", "Cloudflare R2 (optional, large blobs)"],
+    "ui": "Self-contained HTML pages served as template literals from the Worker",
+    "tests": "Plain Node scripts, no test framework",
+    "size": "~2000 lines total",
+    "deps": ["wrangler (dev only)"]
+  },
+
+  "commands": {
+    "deploy": "npm run setup",
+    "runLocally": "npm run dev:local",
+    "localUrl": "http://localhost:8788",
+    "localToken": "dev",
+    "test": "npm test",
+    "testBrowser": "npm run test:e2e",
+    "regenerateIcons": "npm run icons"
+  },
+
+  "dataModel": {
+    "storageKey": "ref:<id>",
+    "idScheme": "reverse-timestamp + random, so a plain key-prefix list returns newest-first with cursor paging",
+    "fields": {
+      "id": "string",
+      "kind": "url | note | blob",
+      "category": "one of the categories list",
+      "host": "string | null",
+      "tags": "string[]",
+      "title": "string",
+      "desc": "string",
+      "image": "string (URL or /blob/<key>)",
+      "url": "string, when kind=url",
+      "text": "string, when kind=note",
+      "blobKey": "string, when kind=blob",
+      "bytes": "number, when kind=blob",
+      "mime": "string, when kind=blob",
+      "createdAt": "ISO 8601"
+    },
+    "categories": ["image", "video", "audio", "post", "article", "code", "shop", "document", "note", "link"]
+  },
+
+  "auth": {
+    "model": "single shared secret, single user, no accounts",
+    "header": "X-Auth-Token",
+    "clientStorage": "localStorage + IndexedDB (the service worker can only read IndexedDB)"
+  },
+
+  "endpoints": [
+    { "method": "POST", "path": "/save", "auth": true, "purpose": "save a link/note (JSON) or file (raw bytes)" },
+    { "method": "GET", "path": "/api/list", "auth": true, "purpose": "list / search / filter, cursor-paged" },
+    { "method": "GET", "path": "/api/ref/:id", "auth": true, "purpose": "fetch one" },
+    { "method": "PATCH", "path": "/api/ref/:id", "auth": true, "purpose": "edit category / tags / title" },
+    { "method": "DELETE", "path": "/api/ref/:id", "auth": true, "purpose": "delete a ref and its blob" },
+    { "method": "GET", "path": "/api/export", "auth": true, "purpose": "NDJSON of all refs" },
+    { "method": "POST", "path": "/api/import", "auth": true, "purpose": "bulk insert" },
+    { "method": "GET", "path": "/blob/:key", "auth": false, "purpose": "raw bytes; the random key is the capability" },
+    { "method": "GET", "path": "/drop", "auth": false, "purpose": "capture page: drag-drop, paste, multi-file" },
+    { "method": "GET", "path": "/browse", "auth": false, "purpose": "gallery: thumbnails, filter chips, search, edit, delete, export" },
+    { "method": "GET", "path": "/setup", "auth": false, "purpose": "connect a device, per-platform share-sheet instructions" },
+    { "method": "GET|POST", "path": "/share", "auth": false, "purpose": "share-target landing; token applied client-side" }
+  ],
+
+  "shipped": [
+    "Auto-categorization by content-type, file extension, and a domain ruleset",
+    "Open Graph scraping for saved links (title, description, thumbnail)",
+    "Gallery with thumbnails, category chips, full-text search, edit, delete, NDJSON export/import",
+    "Installable PWA with a share_target — Big Brain is in the phone's share sheet",
+    "iOS Shortcut recipe, pre-filled with the real URL and token",
+    "Offline app shell and a sync-later queue in IndexedDB",
+    "One-command deploy (npm run setup), idempotent",
+    "Dependency-free local dev server, no Cloudflare account needed",
+    "108 unit tests + 14 browser tests"
+  ],
+
+  "wanted": [
+    {
+      "id": 1,
+      "title": "Semantic search",
+      "detail": "'that rust-colored velvet armchair' should find the thing even though those words appear nowhere in the title.",
+      "guidance": "Prefer the cheapest approach that works at this scale. Embeddings in KV with brute-force cosine over a few thousand items is probably fine — say where that breaks down. Cloudflare Workers AI runs embeddings inside the Worker with no external call; Vectorize is the same-account upgrade path.",
+      "priority": 1
+    },
+    {
+      "id": 2,
+      "title": "Auto-tagging images",
+      "detail": "A vision model tags a saved photo with material, color, era, and object type, in set-decoration vocabulary rather than generic alt-text.",
+      "guidance": "Use a small/cheap vision model for the bulk pass, not a frontier model. Needs the controlled vocabulary from task queue item 1.",
+      "priority": 2
+    },
+    {
+      "id": 3,
+      "title": "Boards / projects",
+      "detail": "Group refs into a named project (work is project-based, each with a codename), and export a board as a PDF or shareable link to send a director or producer.",
+      "priority": 3
+    },
+    {
+      "id": 4,
+      "title": "Dupe detection",
+      "detail": "The same chair saved from four different sites should collapse into one.",
+      "priority": 4
+    },
+    {
+      "id": 5,
+      "title": "Weekly digest",
+      "detail": "'Here's what you saved this week, grouped by theme.'",
+      "priority": 5
+    }
+  ],
+
+  "constraints": [
+    "Cloudflare Workers runtime: no Node built-ins, no filesystem, per-request CPU limits",
+    "KV values capped at 25 MB; KV is eventually consistent",
+    "No build step — plain JS that a browser or the Workers runtime runs as-is",
+    "Do not introduce React, TypeScript, or a bundler",
+    "Single user — do not design for multi-tenancy",
+    "Stay on or near Cloudflare's free tier",
+    "Match the existing style: small focused modules, comments explaining why, plain Node test scripts"
+  ],
+
+  "rulesOfEngagement": {
+    "returns": ["data files", "analysis", "critique", "design proposals"],
+    "neverReturns": ["commits", "pull requests", "direct edits to this repo"],
+    "reason": "One driver per branch. Claude Code integrates the output and runs the tests. Two agents editing the same files produces conflicts.",
+    "gate": "npm test must pass before anything is pushed"
+  },
+
+  "taskQueue": [
+    {
+      "id": 1,
+      "title": "Set-dec tagging vocabulary + vision prompt + eval set",
+      "status": "ready",
+      "prerequisite": null,
+      "deliverable": "a single JSON object: facets (object, material, era, color, finish, style, use), a vision_prompt, and 25 eval cases",
+      "promptLocation": "HANDOFF.md, Part 2b, Task 1"
+    },
+    {
+      "id": 2,
+      "title": "Adversarial review of the semantic-search plan",
+      "status": "blocked",
+      "prerequisite": "Claude Code writes the plan first"
+    },
+    {
+      "id": 3,
+      "title": "Board / PDF layout options for client-facing exports",
+      "status": "blocked",
+      "prerequisite": "~50 real refs saved"
+    },
+    {
+      "id": 4,
+      "title": "Dupe-detection heuristics",
+      "status": "blocked",
+      "prerequisite": "~200 real refs saved"
+    }
+  ],
+
+  "toolRouting": {
+    "$comment": "Which work is worth sending where, by cost and capability.",
+    "frontierModel": {
+      "use": ["architecture and design reasoning", "feature code", "adversarial review"],
+      "avoid": ["bulk image tagging — frontier pricing for a job a small model does as well"]
+    },
+    "smallVisionModel": {
+      "use": ["bulk image auto-tagging"],
+      "why": "comparable quality on 'tag this chair', roughly 10-20x cheaper"
+    },
+    "embeddings": {
+      "candidates": ["Cloudflare Workers AI (runs inside the Worker, no external call)", "OpenAI text-embedding-3-small"],
+      "note": "Not a job for a chat model."
+    },
+    "claudeCode": {
+      "use": ["anything that touches the repo", "anything that must run the tests", "deploys"]
+    }
+  },
+
+  "openQuestions": [
+    "Not yet deployed — the Worker URL is unknown until `npm run setup` is run.",
+    "No real corpus yet, so tasks 3 and 4 above cannot be tuned against real data."
+  ]
+}
