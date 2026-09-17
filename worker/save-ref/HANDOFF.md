@@ -112,6 +112,74 @@ it pushes.
 
 ---
 
+## Part 2b — the task queue for Astra
+
+Rules, so two agents never collide:
+
+- Astra produces **data files, analysis and critique**. Never commits, never PRs,
+  never direct edits to this repo.
+- Anything that has to run `npm test` lands through Claude Code.
+- One task at a time, in this order. Don't start a task before its
+  prerequisite is real — building against an imagined corpus means building
+  twice.
+
+| # | Task | Prerequisite | Status |
+|---|---|---|---|
+| 1 | Set-dec tagging vocabulary + vision prompt + eval set | none | **ready now** |
+| 2 | Adversarial review of the semantic-search plan | Claude writes the plan | blocked |
+| 3 | Board/PDF layout options for client-facing exports | ~50 real refs saved | blocked |
+| 4 | Dupe-detection heuristics | ~200 real refs saved | blocked |
+
+### Task 1 — paste this into Astra
+
+---
+
+You're helping build an auto-tagging system for a film/TV set decorator's visual
+reference library. A vision model will look at a saved photo (furniture, props,
+textures, lighting, wardrobe, locations) and output tags.
+
+I need you to produce the controlled vocabulary it tags against. It must use
+**working set-decoration and production-design language** — the words a set
+decorator, buyer or prop master actually says on a job — not generic
+image-captioning language. "Walnut mid-century credenza, teak veneer, patinated
+brass" not "brown wooden furniture".
+
+Return a single JSON object, no prose around it, in exactly this shape:
+
+```json
+{
+  "version": 1,
+  "facets": {
+    "object":   ["credenza", "wingback chair", "..."],
+    "material": ["walnut", "patinated brass", "..."],
+    "era":      ["victorian", "mid-century", "..."],
+    "color":    ["oxblood", "sage", "..."],
+    "finish":   ["distressed", "high-gloss", "..."],
+    "style":    ["brutalist", "art deco", "..."],
+    "use":      ["hero prop", "set dressing", "..."]
+  },
+  "vision_prompt": "the exact prompt to send a vision model, instructing it to return ONLY tags drawn from the vocabulary above, as a JSON array, with a hard cap on how many",
+  "eval": [
+    { "description": "a plain-English description of a photo", "expected_tags": ["..."] }
+  ]
+}
+```
+
+Requirements:
+- 40–80 terms per facet. Lowercase, hyphenated, no duplicates across facets.
+- Terms must be things a model can plausibly see in a photo. Drop anything that
+  depends on knowing provenance or price.
+- `eval` should have 25 entries spanning easy and genuinely ambiguous cases,
+  including at least 5 where you'd expect a model to get it wrong, and say why
+  in the description.
+- Bias the vocabulary toward what shows up on Vancouver film jobs — period
+  drama, PNW contemporary, sci-fi, commercial/lifestyle.
+
+Ask me about my actual jobs before you write it if that would change your
+answer.
+
+---
+
 ## Part 3 — facts to hand over with it
 
 - Repo: `rrraaddeerr/futureoutfit`, the Worker lives in `worker/save-ref/`.
