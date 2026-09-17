@@ -11,10 +11,13 @@ const args = a.slice(2);
 const LOG = process.env.FAKE_WRANGLER_LOG;
 const flag = (n) => (args.find((x) => x.startsWith(`--${n}=`)) || "").split("=").slice(1).join("=");
 
-const noise =
-  "Proxy environment variables detected. We'll use your proxy for fetch requests.\n" +
-  "\n ⛅️ wrangler 3.114.17\n------------------------------------------------\n" +
-  "▲ [WARNING] The version of Wrangler you are using is now out-of-date.\n\n";
+// wrangler 3 spelling (hyphen rule) and wrangler 4 spelling (box-drawing rule).
+// FAKE_WRANGLER_V4 picks the v4 banner, which is what a real Mac install prints.
+const noise = process.env.FAKE_WRANGLER_V4
+  ? "\n \u26c5\ufe0f wrangler 4.115.0\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n"
+  : "Proxy environment variables detected. We'll use your proxy for fetch requests.\n" +
+    "\n \u26c5\ufe0f wrangler 3.114.17\n------------------------------------------------\n" +
+    "\u25b2 [WARNING] The version of Wrangler you are using is now out-of-date.\n\n";
 
 const NS = [
   { id: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1", title: "save-ref-worker-REFS_KV", supports_url_encoding: true },

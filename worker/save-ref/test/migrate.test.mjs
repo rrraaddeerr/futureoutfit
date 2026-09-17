@@ -14,6 +14,14 @@ const SCRIPT = join(ROOT, "scripts", "migrate-old-kv.mjs");
 const FAKE = join(ROOT, "test", "fixtures", "fake-npx.mjs");
 const BLOB = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0xff, 0xfe, 0x00, 0x01, 0x80]);
 
+const tryParse = (s) => {
+  try {
+    return JSON.parse(s);
+  } catch {
+    return null;
+  }
+};
+
 let pass = 0;
 let fail = 0;
 const ok = (cond, name) => (cond ? (pass++, true) : (fail++, console.log(`  ✗ ${name}`), false));
@@ -65,7 +73,7 @@ clean();
   ok(!rows.some((x) => x.key.startsWith("blob:")), "--dump keeps blobs out of the refs file");
 
   const abc = rows.find((x) => x.key === "ref:abc123");
-  ok(abc && JSON.parse(abc.value).title === "Brass sconce", "--dump strips noise from ref values");
+  ok(abc && tryParse(abc.value)?.title === "Brass sconce", "--dump strips noise from ref values");
 
   ok(r.out.includes("3 refs, 1 uploaded blobs"), "--dump reports the refs/blobs split");
   ok(r.out.includes("Brass sconce"), "--dump prints a sample before anything is imported");
@@ -145,6 +153,21 @@ withServer((port) => {
   );
   ok(/copied without metadata/.test(r.out), "the metadata fallback is reported, not silent");
 });
+
+// --- the same dump, against a wrangler 4 banner (box-drawing rule) ----------
+{
+  clean();
+  const r = run(["--dump", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"], { FAKE_WRANGLER_V4: "1" });
+  ok(r.code === 0, "v4: --dump exits 0");
+
+  const rows = readFileSync(DUMP, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l));
+  const abc = rows.find((x) => x.key === "ref:abc123");
+  ok(abc && tryParse(abc.value)?.title === "Brass sconce", "v4: ref values parse past the box-drawing rule");
+
+  const idx = JSON.parse(readFileSync(join(BLOBDIR, "index.json"), "utf8"));
+  const bytes = readFileSync(join(BLOBDIR, idx[0].file));
+  ok(bytes.equals(BLOB), "v4: blob bytes stay byte-exact past the box-drawing rule");
+}
 
 // --- guards ----------------------------------------------------------------
 {

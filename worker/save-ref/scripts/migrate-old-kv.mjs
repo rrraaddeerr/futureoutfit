@@ -63,8 +63,8 @@ function die(msg, detail) {
  */
 const NOISE = [
   /^Proxy environment variables detected/,
-  /^\s*⛅️\s*wrangler/,
-  /^\s*-{5,}\s*$/,
+  /^\s*⛅️?\s*wrangler \d/,
+  /^[\s\-\u2500-\u257f_=]{5,}$/,
   /^\s*$/,
   /^\s*▲?\s*\[?WARNING\]?/,
   /^\s*Please update to the latest version/,
