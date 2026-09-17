@@ -31,6 +31,11 @@ import { categorize, ALL_CATEGORIES, parseUrl } from "./categorize.js";
 import { fetchMeta } from "./og.js";
 import { DROP_HTML } from "./pages/drop.js";
 import { BROWSE_HTML } from "./pages/browse.js";
+import { SETUP_HTML } from "./pages/setup.js";
+import { SHARE_HTML } from "./pages/share.js";
+import { BB_JS } from "./pages/bb.js";
+import { MANIFEST, SW_JS } from "./pwa.js";
+import { iconBytes } from "./icons.js";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -49,6 +54,32 @@ const html = (markup) =>
   new Response(markup, {
     headers: { "Content-Type": "text/html; charset=utf-8", ...CORS },
   });
+
+const js = (src, maxAge = 0) =>
+  new Response(src, {
+    headers: {
+      "Content-Type": "application/javascript; charset=utf-8",
+      // The SW must be able to control the whole origin, not just its folder.
+      "Service-Worker-Allowed": "/",
+      "Cache-Control": maxAge ? `public, max-age=${maxAge}` : "no-cache",
+      ...CORS,
+    },
+  });
+
+const ICON_ROUTES = ["/icon-192.png", "/icon-512.png", "/icon-maskable.png", "/apple-touch-icon.png"];
+
+/**
+ * Embed a share payload in the page for the no-service-worker case (the very
+ * first share, before the SW has activated). JSON is safe inside a <script>
+ * only once "<" can't close the tag.
+ */
+function shareBootstrap(payload) {
+  const safe = JSON.stringify(payload).replace(/</g, "\\u003c");
+  return SHARE_HTML.replace(
+    '<script src="/bb.js"></script>',
+    `<script>self.__BB_SHARE__=${safe};</script>\n<script src="/bb.js"></script>`,
+  );
+}
 
 function requireToken(request, env) {
   const token = request.headers.get("X-Auth-Token") || "";
@@ -119,7 +150,40 @@ export default {
       if (path === "/") return Response.redirect(`${url.origin}/drop`, 302);
       if (path === "/drop" && request.method === "GET") return html(DROP_HTML);
       if (path === "/browse" && request.method === "GET") return html(BROWSE_HTML);
+      if (path === "/setup" && request.method === "GET") return html(SETUP_HTML);
       if (path === "/health") return json({ ok: true, categories: ALL_CATEGORIES });
+
+      // ---- PWA plumbing (all public; nothing here is secret) ----
+      if (path === "/bb.js" && request.method === "GET") return js(BB_JS);
+      if (path === "/sw.js" && request.method === "GET") return js(SW_JS);
+      if (path === "/manifest.webmanifest" && request.method === "GET") {
+        return new Response(MANIFEST, {
+          headers: { "Content-Type": "application/manifest+json", ...CORS },
+        });
+      }
+      if ((ICON_ROUTES.includes(path) || path === "/favicon.ico") && request.method === "GET") {
+        const bytes = iconBytes(path === "/favicon.ico" ? "icon-192.png" : path.slice(1));
+        if (!bytes) return json({ ok: false, error: "Not found" }, 404);
+        return new Response(bytes, {
+          headers: {
+            "Content-Type": "image/png",
+            "Cache-Control": "public, max-age=604800",
+            ...CORS,
+          },
+        });
+      }
+
+      // ---- share target ----
+      // Normally the service worker intercepts the POST and redirects here
+      // with the payload parked in IndexedDB. This server-side branch is the
+      // fallback for the first share, before the SW has activated.
+      if (path === "/share") {
+        if (request.method === "GET") return html(SHARE_HTML);
+        if (request.method === "POST") {
+          const shared = await readSharedForm(request);
+          return html(shareBootstrap(shared));
+        }
+      }
 
       // ---- public blob read (key is the capability) ----
       if (path.startsWith("/blob/") && request.method === "GET") {
@@ -224,6 +288,27 @@ export default {
   },
 };
 
+/**
+ * Read a share-sheet POST. Only the text fields can be forwarded to the page —
+ * file bytes can't be handed across a page load, so we just report how many
+ * there were and the page explains what to do. Once the service worker is
+ * active (i.e. every share after the first) files never come through here.
+ */
+async function readSharedForm(request) {
+  try {
+    const fd = await request.formData();
+    const files = fd.getAll("files").filter((f) => f && typeof f === "object" && f.size > 0);
+    return {
+      title: String(fd.get("title") || ""),
+      text: String(fd.get("text") || ""),
+      url: String(fd.get("url") || ""),
+      filesDropped: files.length,
+    };
+  } catch {
+    return { title: "", text: "", url: "", filesDropped: 0 };
+  }
+}
+
 async function handleSave(request, env, ctx, url) {
   const contentType = request.headers.get("content-type") || "";
   let ref;
@@ -248,6 +333,9 @@ async function handleSave(request, env, ctx, url) {
     } else {
       return json({ ok: false, error: "Nothing to save" }, 400);
     }
+    // Tags supplied at save time (share sheet, Shortcut) merge with the ones
+    // categorization inferred.
+    if (body.tags !== undefined) ref.tags = normalizeTags([...ref.tags, ...normalizeTags(body.tags)]);
   } else {
     // raw bytes (file upload / pasted image)
     const bytes = await request.arrayBuffer();

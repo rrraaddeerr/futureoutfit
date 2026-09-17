@@ -21,6 +21,10 @@ it under a new name first, try it, then point your bookmark at it when happy.
 - **Multi-file drop + paste** — drag many files, paste screenshots or URLs (⌘V).
 - **Export / import** — NDJSON round-trip, so you can migrate data in and out.
 - **R2-ready** — large uploads can offload to R2 instead of KV (optional).
+- **In your phone's share sheet** — installable PWA with a share target, plus an
+  iOS Shortcut recipe. Share → Big Brain, from any app.
+- **Works with no signal** — offline app shell and a sync-later queue.
+- **One-command deploy** — `npm run setup`.
 
 ## Endpoints
 
@@ -37,22 +41,34 @@ it under a new name first, try it, then point your bookmark at it when happy.
 | POST | `/api/import` | token | bulk insert (array of refs) |
 | GET | `/blob/:key` | public (key is the capability) | raw upload bytes |
 | GET | `/health` | public | liveness |
+| GET | `/setup` | public page | connect a device + share-sheet instructions |
+| GET/POST | `/share` | public page | share-target landing (token applied client-side) |
+| GET | `/manifest.webmanifest` | public | PWA manifest incl. `share_target` |
+| GET | `/sw.js` | public | service worker (offline shell, queue, share) |
+| GET | `/bb.js` | public | shared client lib (token, queue, save) |
+| GET | `/icon-*.png` | public | app icons |
 
 Auth = header `X-Auth-Token: <AUTH_TOKEN>`. The token is stored only in the
 browser's localStorage and sent only to your Worker.
 
-## One-time setup
+## Ship it (one command)
 
 ```bash
 cd worker/save-ref
-npm install
-npx wrangler login
-npx wrangler kv namespace create save-ref-kv     # prints an id
-# paste that id into wrangler.toml -> [[kv_namespaces]] id = "..."
-
-openssl rand -hex 32                              # your Big Brain token
-npx wrangler secret put AUTH_TOKEN                # paste it when prompted
+npm run setup
 ```
+
+That's the whole deploy. It installs deps, logs you into Cloudflare, creates the
+KV namespace and writes its id into `wrangler.toml`, generates your token and
+pushes it as a secret, deploys, then prints your URL + token. It's safe to
+re-run — every step checks whether it's already done and skips.
+
+It never touches your original `save-ref-worker`: `wrangler.toml` names a
+separate Worker (`save-ref-v2`) with its own storage.
+
+Then, **on your phone**, open the `/setup` URL it printed. That page connects
+the phone and walks you through putting Big Brain in your share sheet. After
+that, capturing a reference is: **Share → Big Brain**.
 
 Optional, for lots of large uploads:
 
@@ -61,26 +77,54 @@ npx wrangler r2 bucket create save-ref-blobs
 # uncomment the [[r2_buckets]] block in wrangler.toml
 ```
 
-## Deploy
+## Using it from your phone
 
-```bash
-npm run deploy
-```
+`/setup` detects the device and shows one card:
 
-Open `https://save-ref-worker.<your-subdomain>.workers.dev/drop`, paste the same
-token, and start dropping. The gallery is at `/browse`.
+- **Android** — tap Install. Android reads the app's `share_target` and Big
+  Brain appears in the system share sheet for links, text, images and video.
+  The shared POST is caught by the service worker, so your token never leaves
+  the phone.
+- **iPhone** — Add to Home Screen for the app + offline, then build the
+  3-field Shortcut the page spells out (it fills in your real URL and token, so
+  it's copy-paste). Enable *Show in Share Sheet* and you get **Share → Big
+  Brain** from any app. Photos/screenshots go through the app icon.
+- **Desktop** — a bookmarklet, or install it as a Chrome/Edge app.
+
+### It works with no signal
+
+Sets, warehouses and basements have no bars, which is exactly where you find
+the good references. So:
+
+- the app shell is cached — `/drop` opens offline
+- a drop with no connection is queued in IndexedDB and the page says so
+- it syncs itself when signal returns (on the `online` event, on next open, or
+  via background sync), and `Sync now` forces it
+- items are claimed atomically before sending, so a drop is never saved twice
+  even when the page, the `online` event and the service worker all flush at
+  once
 
 ## Develop / test locally
 
 ```bash
-npm test                 # pure-logic categorization tests (no deps, no network)
+npm test                 # 108 tests: categorization, worker routes, PWA/share
+npm run dev:local        # http://localhost:8788 — no Cloudflare account needed
 npm run dev              # wrangler dev --local: real KV in miniflare, hot reload
-# then: curl -X POST localhost:8787/save -H "X-Auth-Token: dev" \
-#   -H "Content-Type: application/json" -d '{"url":"https://github.com/x/y"}'
+npm run icons            # regenerate the app icons (only if the artwork changes)
 ```
 
-(Set a dev token for local runs with `wrangler dev` via a `.dev.vars` file
-containing `AUTH_TOKEN=dev`.)
+`npm run dev:local` runs the real Worker on plain Node with a Map-backed KV
+persisted to `.bigbrain-dev.json`, token `dev`. Service workers and PWA installs
+are allowed on localhost, so the share target, the offline queue and Add to Home
+Screen can all be exercised there before you deploy anything.
+
+```bash
+curl -X POST localhost:8788/save -H "X-Auth-Token: dev" \
+  -H "Content-Type: application/json" -d '{"url":"https://github.com/x/y"}'
+```
+
+(For `wrangler dev`, set a dev token via a `.dev.vars` file containing
+`AUTH_TOKEN=dev`.)
 
 ## Migrating from the old worker
 

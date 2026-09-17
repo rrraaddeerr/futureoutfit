@@ -5,6 +5,12 @@ export const DROP_HTML = /* html */ `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0f1115">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Big Brain">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/icon-192.png" type="image/png">
 <title>🧠 Big Brain</title>
 <style>
   :root{--bg:#0f1115;--panel:#161a22;--panel2:#1b2030;--line:#283042;--ink:#e7ecf5;--soft:#9aa6bd;--blue:#3b82f6;--blue2:#2563eb;--ok:#22c55e;--bad:#ef4444}
@@ -38,9 +44,15 @@ export const DROP_HTML = /* html */ `<!doctype html>
   .tile img{width:100%;height:100%;object-fit:cover}
   .tile .ph{font-size:12px;color:var(--soft);padding:6px;word-break:break-word}
   .badge{position:absolute;left:5px;top:5px;background:#000a;border:1px solid var(--line);border-radius:999px;font-size:10px;padding:2px 7px;text-transform:uppercase;letter-spacing:.04em}
-  .links{display:flex;gap:16px;justify-content:center;margin-top:18px}
+  .links{display:flex;gap:16px;justify-content:center;margin-top:18px;flex-wrap:wrap}
   a{color:var(--blue)}
   .hide{display:none}
+  /* offline / queue banner — the thing that makes this trustworthy on set */
+  .queue{display:flex;align-items:center;gap:10px;background:#2a2113;border:1px solid #6b4f14;color:#fde68a;
+         border-radius:12px;padding:10px 14px;margin:12px 0;font-size:14px}
+  .queue button{background:#6b4f14;color:#fde68a;font-size:13px;padding:6px 12px}
+  .queue .grow{flex:1}
+  .tile.pending{opacity:.55;border-style:dashed}
 </style>
 </head>
 <body>
@@ -59,6 +71,12 @@ export const DROP_HTML = /* html */ `<!doctype html>
   </div>
 
   <div id="app" class="hide">
+    <div id="queue" class="queue hide">
+      <span>📥</span>
+      <span class="grow" id="queuetext"></span>
+      <button id="syncnow">Sync now</button>
+    </div>
+
     <div id="zone" class="drop" tabindex="0" role="button" aria-label="Drop files here or click to pick">
       <div class="big">⬇ Drop here</div>
       <div class="hint">Files, screenshots, or images — drag in, paste (⌘V), or click to pick. Multiple at once is fine.</div>
@@ -83,55 +101,79 @@ export const DROP_HTML = /* html */ `<!doctype html>
 
   <div class="links">
     <a href="/browse">Gallery</a>
+    <a href="/setup">Phone setup</a>
     <a href="#" id="logout">Reset token</a>
   </div>
 </div>
 <div id="toast" class="toast"></div>
 
+<script src="/bb.js"></script>
 <script>
-const KEY="bigbrain_token";
-let token=localStorage.getItem(KEY)||"";
+let token="";
 const $=s=>document.querySelector(s);
 const setup=$("#setup"),app=$("#app");
 
-function show(){ if(token){setup.classList.add("hide");app.classList.remove("hide");loadRecent();} else {setup.classList.remove("hide");app.classList.add("hide");} }
+function show(){ if(token){setup.classList.add("hide");app.classList.remove("hide");loadRecent();refreshQueue();} else {setup.classList.remove("hide");app.classList.add("hide");} }
 function toast(msg,kind){const t=$("#toast");t.textContent=msg;t.className="toast show "+(kind||"");setTimeout(()=>t.className="toast",2200);}
 
 async function api(path,opts={}){
   const headers=Object.assign({"X-Auth-Token":token},opts.headers||{});
   const res=await fetch(path,Object.assign({},opts,{headers}));
-  if(res.status===401){toast("Bad token — reset it","bad");localStorage.removeItem(KEY);token="";show();throw new Error("401");}
+  if(res.status===401){toast("Bad token — reset it","bad");await BB.clearToken();token="";show();throw new Error("401");}
   return res;
 }
 
 $("#savetok").onclick=async()=>{
   const v=$("#tok").value.trim(); if(!v){return;}
-  token=v;
   try{const r=await fetch("/api/list?limit=1",{headers:{"X-Auth-Token":v}});
-    if(r.ok){localStorage.setItem(KEY,v);$("#tokmsg").textContent="✓ Saved";show();}
-    else{$("#tokmsg").textContent="That token was rejected.";token="";}
+    if(r.ok){await BB.setToken(v);token=v;$("#tokmsg").textContent="✓ Saved";show();}
+    else{$("#tokmsg").textContent="That token was rejected.";}
   }catch(e){$("#tokmsg").textContent="Couldn't reach the Worker.";}
 };
-$("#logout").onclick=e=>{e.preventDefault();localStorage.removeItem(KEY);token="";show();};
+$("#logout").onclick=async e=>{e.preventDefault();await BB.clearToken();token="";show();};
 
-// ---- saving ----
-async function saveJSON(payload){
-  const r=await api("/save",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-  const d=await r.json(); if(!r.ok||!d.ok)throw new Error(d.error||"save failed");
-  return d.ref;
-}
-async function saveBlob(file){
-  const r=await api("/save",{method:"POST",headers:{"Content-Type":file.type||"application/octet-stream","X-Filename":encodeURIComponent(file.name||"")},body:file});
-  const d=await r.json(); if(!r.ok||!d.ok)throw new Error(d.error||"save failed");
-  return d.ref;
-}
+// ---- saving (via BB: queues to IndexedDB when there's no signal) ----
 async function handleText(text){
-  text=text.trim(); if(!text)return;
-  try{const ref=await saveJSON(/^https?:\\/\\//i.test(text)||/^[\\w-]+\\.[a-z]{2,}/i.test(text)?{url:text}:{text});
-    toast("Saved → "+ref.category,"ok");prepend(ref);}catch(e){toast("Failed: "+e.message,"bad");}
+  try{
+    const r=await BB.saveText(text);
+    if(!r)return;
+    if(r.queued){toast("No signal — queued","");pendingTile(text);refreshQueue();}
+    else{toast("Saved → "+r.ref.category,"ok");prepend(r.ref);}
+  }catch(e){toast("Failed: "+e.message,"bad");}
 }
 async function handleFiles(files){
-  for(const f of files){try{const ref=await saveBlob(f);toast("Saved → "+ref.category,"ok");prepend(ref);}catch(e){toast("Failed: "+e.message,"bad");}}
+  for(const f of files){
+    try{
+      const r=await BB.saveFile(f);
+      if(r.queued){toast("No signal — queued","");pendingTile(f.name||"file");refreshQueue();}
+      else{toast("Saved → "+r.ref.category,"ok");prepend(r.ref);}
+    }catch(e){toast("Failed: "+e.message,"bad");}
+  }
+}
+
+// ---- offline queue ----
+async function refreshQueue(){
+  const n=await BB.queueCount();
+  const box=$("#queue");
+  box.classList.toggle("hide",!n);
+  if(n)$("#queuetext").textContent=n+(n===1?" drop is":" drops are")+" waiting for signal.";
+}
+async function syncNow(){
+  const b=$("#syncnow");b.disabled=true;b.textContent="Syncing…";
+  const r=await BB.flush();
+  b.disabled=false;b.textContent="Sync now";
+  if(r.sent){toast("Synced "+r.sent,"ok");loadRecent();}
+  else if(r.left>0)toast("Still no signal","bad");
+  refreshQueue();
+}
+$("#syncnow").onclick=syncNow;
+window.addEventListener("online",()=>{toast("Back online — syncing","ok");syncNow();});
+function pendingTile(label){
+  const r=$("#recent");$("#emptyrecent").classList.add("hide");
+  const d=document.createElement("span");d.className="tile pending";
+  d.innerHTML='<span class="badge">queued</span><span class="ph">'+
+    (label||"").replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])).slice(0,40)+'</span>';
+  r.prepend(d);while(r.children.length>12)r.removeChild(r.lastChild);
 }
 
 // ---- recent strip ----
@@ -172,7 +214,13 @@ window.addEventListener("paste",e=>{
   const text=e.clipboardData?.getData("text");if(text){e.preventDefault();handleText(text);}
 });
 
-show();
+BB.getToken().then(t=>{
+  token=t||"";
+  show();
+  // Anything captured offline goes up the moment the page can reach the net.
+  if(token)BB.flush().then(r=>{if(r.sent){toast("Synced "+r.sent,"ok");loadRecent();}refreshQueue();});
+});
+if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
 </script>
 </body>
 </html>`;
