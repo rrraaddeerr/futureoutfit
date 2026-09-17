@@ -85,8 +85,9 @@ Honest read on splitting this across tools:
 | Work | Best tool | Why |
 |---|---|---|
 | Multi-file changes in this repo, running tests, deploying | **Claude Code** (here) | It has the repo, runs the tests, and can push. Pasting files into a chat window to get diffs back is the slow path. |
-| Thinking through the semantic-search design before code | **ChatGPT** (o-series / Thinking) | Pure reasoning, no repo access needed. Good use of tokens you've already paid for. Bring the conclusion back here to implement. |
-| Bulk image auto-tagging (#2) | **Gemini Flash** or **GPT-4.1-mini** via API | Vision at a fraction of frontier pricing. For "tag this chair", a small model is ~as good and 10–20x cheaper. Do NOT run this through a chat window one image at a time. |
+| Thinking through the semantic-search design before code | **GPT-6 Astra** (ChatGPT) | Frontier reasoning, no repo access needed. Good use of tokens you've already paid for. Bring the conclusion back here to implement. |
+| Writing the semantic-search / boards / digest code | **GPT-6 Astra**, in chat or via Codex | Strong at coding and agentic work. If you drive it through Codex, see the warning below about two agents on one repo. |
+| Bulk image auto-tagging (#2) | **Gemini Flash** or a small vision model via API | Astra is ~$10/M in, $50/M out — frontier pricing for a job that doesn't need it. For "tag this chair", a small model is ~as good and 10–20x cheaper. Do NOT send a thousand images through a frontier model, and do NOT do it through a chat window one at a time. |
 | Embeddings for semantic search (#1) | **OpenAI `text-embedding-3-small`** | ~$0.02 per million tokens. Embedding a few thousand refs costs cents. Cloudflare **Workers AI** also has embedding models that run *inside* the Worker with no external API call — worth pricing out first, since you're already on Cloudflare. |
 | Rubber-ducking / "is this a good idea" | Whichever you have tokens in | Genuinely interchangeable. Use the one you're paying for. |
 
@@ -103,9 +104,11 @@ Honest read on splitting this across tools:
   is free and the images never leave your machine. Slower, and only worth it
   for big batches.
 
-**One caution:** don't let two assistants edit this repo at the same time. Use
-ChatGPT for design and one-off scripts; land the actual changes here, where the
-tests run.
+**One caution:** don't let two agents edit this repo at the same time. Astra can
+drive Codex directly against the repo, which is genuinely capable — but if
+something else is also working the branch you'll get conflicting edits on the
+same files. One driver per branch. Whoever drives, `npm test` has to pass before
+it pushes.
 
 ---
 
