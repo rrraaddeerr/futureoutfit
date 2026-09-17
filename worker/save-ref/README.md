@@ -128,7 +128,19 @@ curl -X POST localhost:8788/save -H "X-Auth-Token: dev" \
 
 ## Migrating from the old worker
 
-If you can export your existing data as JSON, POST it to `/api/import`:
+`npm run migrate` walks it in three steps. Steps 1–2 are read-only, and nothing
+ever writes to the old namespace:
+
+```bash
+npm run migrate -- --list                 # every KV namespace on the account
+npm run migrate -- --dump <namespace-id>  # -> old-refs.ndjson, prints a sample
+npm run migrate -- --import --url https://save-ref-v2.<sub>.workers.dev --token <token>
+```
+
+Dump first and read the sample — that's how you confirm you picked the old
+worker's namespace and not some other one. `old-refs.ndjson` is gitignored.
+
+Already have the data as JSON? POST it straight to `/api/import`:
 
 ```bash
 curl -X POST .../api/import -H "X-Auth-Token: <token>" \
