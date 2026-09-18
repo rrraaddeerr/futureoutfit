@@ -198,6 +198,16 @@ withServer((port) => {
   ok(rows.length === 3, `v3: --dump still captures the refs (got ${rows.length})`);
 }
 
+// --- --profile reaches wrangler, so a second account can be read ----------
+{
+  const r = run(["--list", "--profile", "old"], { FAKE_WRANGLER_NEED_PROFILE: "1" });
+  ok(r.code === 0, "--profile is passed through to wrangler");
+  ok(r.out.includes("save-ref-worker-REFS_KV"), "--profile still lists the namespaces");
+
+  const r2 = run(["--list"], { FAKE_WRANGLER_NEED_PROFILE: "1" });
+  ok(r2.code !== 0, "without --profile the same call fails (test is not vacuous)");
+}
+
 // --- guards ----------------------------------------------------------------
 {
   clean();

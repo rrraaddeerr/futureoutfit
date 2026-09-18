@@ -105,13 +105,14 @@ function wrangler(args) {
   const unknownArg = (t) => /unknown argument|did you mean|not a valid|Unknown command|Unrecognized/i.test(t);
 
   const wantsRemote = args[0] === "kv" && args[1] === "key";
-  let attempt = wantsRemote ? [...args, "--remote"] : args;
+  const withProfile = PROFILE ? [...args, "--profile", PROFILE] : args;
+  let attempt = wantsRemote ? [...withProfile, "--remote"] : withProfile;
   let r = go(attempt);
   let text = `${r.stdout || ""}${r.stderr || ""}`;
 
   // this wrangler predates --remote (v3 is remote-only anyway)
   if (r.status !== 0 && wantsRemote && unknownArg(text)) {
-    attempt = args;
+    attempt = withProfile;
     r = go(attempt);
     text = `${r.stdout || ""}${r.stderr || ""}`;
   }
@@ -147,6 +148,14 @@ function parseJsonArray(text, what) {
   if (!best) die(`Couldn't find ${what} in wrangler's output.`, text);
   return best;
 }
+
+/**
+ * Wrangler 4 keeps named auth profiles, so a dump can read a SECOND Cloudflare
+ * account without logging out of the first. `wrangler login --profile old`
+ * once, then pass --profile old here. Beats juggling CLOUDFLARE_API_TOKEN,
+ * which also silently retargets the blob writes on import.
+ */
+const PROFILE = val("--profile");
 
 const safeName = (key) => key.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 120);
 const isBlob = (key) => key.startsWith("blob:");

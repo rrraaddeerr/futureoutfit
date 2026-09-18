@@ -39,6 +39,11 @@ const BLOB = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0xff, 
 
 const sub = args.slice(0, 3).join(" ");
 if (sub === "kv namespace list") {
+  // stands in for a second Cloudflare account: unreachable without --profile
+  if (process.env.FAKE_WRANGLER_NEED_PROFILE && !args.includes("--profile")) {
+    process.stderr.write("Authentication error [code: 10000]\n");
+    process.exit(1);
+  }
   process.stdout.write(noise + JSON.stringify(NS, null, 2) + "\n");
 } else if (sub === "kv key list") {
   if (process.env.FAKE_WRANGLER_V4 && !args.includes("--remote")) {
