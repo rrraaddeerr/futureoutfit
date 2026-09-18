@@ -238,7 +238,7 @@ if (has("--dump")) {
 if (has("--import")) {
   const url = (val("--url") || "").replace(/\/+$/, "");
   const token = val("--token");
-  if (!url || !token) die("Usage: --import --url https://save-ref-v2.<sub>.workers.dev --token <token>");
+  if (!url || !token) die("Usage: --import --url https://<your-worker>.<sub>.workers.dev --token <token>");
   if (!existsSync(DUMP)) die("No old-refs.ndjson here — run --dump first.");
 
   const rows = readFileSync(DUMP, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l));

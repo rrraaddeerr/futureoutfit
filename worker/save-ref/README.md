@@ -63,8 +63,10 @@ KV namespace and writes its id into `wrangler.toml`, generates your token and
 pushes it as a secret, deploys, then prints your URL + token. It's safe to
 re-run — every step checks whether it's already done and skips.
 
-It never touches your original `save-ref-worker`: `wrangler.toml` names a
-separate Worker (`save-ref-v2`) with its own storage.
+It never touches your original `save-ref-worker`, or `bigbrain/worker`:
+`wrangler.toml` names a separate Worker (`save-ref-rebuild`) with its own
+storage. Two configs deploying under one name replace each other — keep the
+names distinct.
 
 Then, **on your phone**, open the `/setup` URL it printed. That page connects
 the phone and walks you through putting Big Brain in your share sheet. After
@@ -134,7 +136,7 @@ ever writes to or deletes from the old namespace:
 ```bash
 npm run migrate -- --list                 # every KV namespace on the account
 npm run migrate -- --dump <namespace-id>  # -> old-refs.ndjson, prints a sample
-npm run migrate -- --import --url https://save-ref-v2.<sub>.workers.dev --token <token>
+npm run migrate -- --import --url https://<your-worker>.<sub>.workers.dev --token <token>
 ```
 
 Dump first and read the sample — that's how you confirm you picked the old

@@ -14,8 +14,8 @@
  *   5. deploy                     -> wrangler deploy
  *   6. print the URL + token, and save them to .bigbrain-local (gitignored)
  *
- * Nothing here touches the ORIGINAL save-ref-worker: wrangler.toml names a
- * separate Worker (save-ref-v2) with its own KV namespace.
+ * Nothing here touches the ORIGINAL save-ref-worker, or bigbrain/worker:
+ * wrangler.toml names a separate Worker (save-ref-rebuild) with its own KV.
  */
 
 import { spawn, spawnSync } from "node:child_process";

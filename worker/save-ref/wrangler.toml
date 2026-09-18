@@ -1,9 +1,14 @@
-# Deploys to save-ref-v2.<your-subdomain>.workers.dev — a NEW worker, so it
-# runs side-by-side and never touches your existing save-ref-worker or its data.
-# When you're happy and want it to BE the main one, change this back to
-# "save-ref-worker" and redeploy (that replaces the old code; migrate old data
-# first via POST /api/import if you can export it).
-name = "save-ref-v2"
+# Deploys to save-ref-rebuild.<your-subdomain>.workers.dev.
+#
+# NOT "save-ref-v2": bigbrain/worker already deploys under that name, and a
+# deploy from here would REPLACE it — different code, a different KV binding,
+# no cron, no Vectorize. That happened once (2026-09-18) and cost a live
+# worker until it was redeployed from bigbrain/worker. Two configs must never
+# claim one name; keep these distinct.
+#
+# This is the standalone rebuild. If you want it to BE the main one, migrate
+# the data first (npm run migrate) and change the name deliberately.
+name = "save-ref-rebuild"
 main = "src/index.js"
 compatibility_date = "2025-05-01"
 
