@@ -36,7 +36,7 @@ import { promisify } from "node:util";
 import { tmpdir } from "node:os";
 import { join, resolve, basename } from "node:path";
 import { parseCsv } from "./lib/csv.mjs";
-import { classify, titleFor, summarize, instagramShortcode, normalizeHandle } from "../worker/save-ref/src/realm.js";
+import { classify, titleFor, summarize, instagramShortcode, normalizeHandle } from "../worker/src/realm.js";
 
 const run = promisify(execFile);
 

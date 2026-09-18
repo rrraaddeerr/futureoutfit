@@ -31,7 +31,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve, basename } from "node:path";
 import { parseCsv } from "./lib/csv.mjs";
-import { classify, titleFor, normalizeHandle, instagramShortcode } from "../worker/save-ref/src/realm.js";
+import { classify, titleFor, normalizeHandle, instagramShortcode } from "../worker/src/realm.js";
 
 const args = process.argv.slice(2);
 const flag = (n, d) => {
