@@ -85,7 +85,16 @@ function stripNoise(buf) {
   return rest;
 }
 
-/** Run wrangler, capturing stdout as a Buffer. Falls back to v3 `kv:` spelling. */
+/**
+ * Run wrangler, capturing stdout as a Buffer.
+ *
+ * Two version differences to absorb:
+ *  - wrangler 3 spells the KV commands `kv:namespace` / `kv:key`.
+ *  - wrangler 4 defaults KV key operations to LOCAL storage, so without
+ *    --remote it happily reports a populated namespace as empty. That is a
+ *    silent wrong answer, not an error, so --remote goes on every key command
+ *    and is dropped again only if this wrangler doesn't know the flag.
+ */
 function wrangler(args) {
   const go = (a) =>
     spawnSync("npx", ["--no-install", "wrangler", ...a], {
@@ -93,10 +102,21 @@ function wrangler(args) {
       maxBuffer: 512 * 1024 * 1024,
       shell: process.platform === "win32",
     });
-  let r = go(args);
-  const text = `${r.stdout || ""}${r.stderr || ""}`;
-  if (r.status !== 0 && /unknown argument|did you mean|not a valid|Unknown command/i.test(text)) {
-    const [a, b, ...rest] = args;
+  const unknownArg = (t) => /unknown argument|did you mean|not a valid|Unknown command|Unrecognized/i.test(t);
+
+  const wantsRemote = args[0] === "kv" && args[1] === "key";
+  let attempt = wantsRemote ? [...args, "--remote"] : args;
+  let r = go(attempt);
+  let text = `${r.stdout || ""}${r.stderr || ""}`;
+
+  // this wrangler predates --remote (v3 is remote-only anyway)
+  if (r.status !== 0 && wantsRemote && unknownArg(text)) {
+    attempt = args;
+    r = go(attempt);
+    text = `${r.stdout || ""}${r.stderr || ""}`;
+  }
+  if (r.status !== 0 && unknownArg(text)) {
+    const [a, b, ...rest] = attempt;
     if (a === "kv" && b) r = go([`kv:${b}`, ...rest]);
   }
   return {

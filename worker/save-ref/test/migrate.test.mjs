@@ -14,6 +14,11 @@ const SCRIPT = join(ROOT, "scripts", "migrate-old-kv.mjs");
 const FAKE = join(ROOT, "test", "fixtures", "fake-npx.mjs");
 const BLOB = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0xff, 0xfe, 0x00, 0x01, 0x80]);
 
+const readRows = (f) =>
+  existsSync(f)
+    ? readFileSync(f, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l))
+    : [];
+
 const tryParse = (s) => {
   try {
     return JSON.parse(s);
@@ -167,6 +172,30 @@ withServer((port) => {
   const idx = JSON.parse(readFileSync(join(BLOBDIR, "index.json"), "utf8"));
   const bytes = readFileSync(join(BLOBDIR, idx[0].file));
   ok(bytes.equals(BLOB), "v4: blob bytes stay byte-exact past the box-drawing rule");
+}
+
+// --- wrangler 4 reads LOCAL KV without --remote, and reports a full namespace
+// --- as empty. That is a silent wrong answer, so it must never happen. -------
+{
+  clean();
+  const r = run(["--dump", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"], { FAKE_WRANGLER_V4: "1" });
+  ok(r.code === 0, "v4: --dump does not report a populated namespace as empty");
+  ok(!/namespace is empty/i.test(r.out), "v4: no false 'empty namespace' verdict");
+
+  const rows = readRows(DUMP);
+  ok(rows.length === 3, `v4: --dump still captures the refs (got ${rows.length})`);
+  const idxFile = join(BLOBDIR, "index.json");
+  const idx = existsSync(idxFile) ? JSON.parse(readFileSync(idxFile, "utf8")) : [];
+  ok(idx[0] && readFileSync(join(BLOBDIR, idx[0].file)).equals(BLOB), "v4: blob bytes still byte-exact");
+}
+
+// a wrangler with no --remote flag (v3) must still work
+{
+  clean();
+  const r = run(["--dump", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"], { FAKE_WRANGLER_NO_REMOTE: "1" });
+  ok(r.code === 0, "v3: --dump falls back when --remote is unknown");
+  const rows = readRows(DUMP);
+  ok(rows.length === 3, `v3: --dump still captures the refs (got ${rows.length})`);
 }
 
 // --- guards ----------------------------------------------------------------

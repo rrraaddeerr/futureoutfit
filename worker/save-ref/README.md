@@ -107,7 +107,7 @@ the good references. So:
 ## Develop / test locally
 
 ```bash
-npm test                 # 143 tests: categorization, worker routes, PWA/share, migration
+npm test                 # 149 tests: categorization, worker routes, PWA/share, migration
 npm run dev:local        # http://localhost:8788 — no Cloudflare account needed
 npm run dev              # wrangler dev --local: real KV in miniflare, hot reload
 npm run icons            # regenerate the app icons (only if the artwork changes)

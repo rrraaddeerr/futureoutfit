@@ -41,9 +41,22 @@ const sub = args.slice(0, 3).join(" ");
 if (sub === "kv namespace list") {
   process.stdout.write(noise + JSON.stringify(NS, null, 2) + "\n");
 } else if (sub === "kv key list") {
+  if (process.env.FAKE_WRANGLER_V4 && !args.includes("--remote")) {
+    process.stdout.write(noise + "[]\n"); // local storage: empty, but exit 0
+    process.exit(0);
+  }
+  if (process.env.FAKE_WRANGLER_NO_REMOTE && args.includes("--remote")) {
+    process.stderr.write("Unknown argument: remote\n");
+    process.exit(1);
+  }
   process.stdout.write(noise + JSON.stringify(KEYS, null, 2) + "\n");
 } else if (sub === "kv key get") {
   const key = args[3];
+  if (process.env.FAKE_WRANGLER_V4 && !args.includes("--remote")) {
+    // wrangler 4 reads LOCAL storage without --remote: empty, exit 0, no error
+    process.stdout.write(noise);
+    process.exit(0);
+  }
   process.stdout.write(noise);
   if (key.startsWith("blob:")) process.stdout.write(BLOB);
   else if (key in VALUES) process.stdout.write(VALUES[key]);
