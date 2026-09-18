@@ -259,6 +259,21 @@ if (has("--import")) {
   console.log(`  ${c.green("✓")} ${body}`);
 
   // --- blobs: straight into the new namespace, since /api/import won't take them
+  //
+  // Refs went over HTTPS and are account-agnostic, but this part shells out to
+  // wrangler, which targets whatever account the environment points at. When
+  // the dump came from a DIFFERENT account, CLOUDFLARE_API_TOKEN is probably
+  // still set to that one, and these writes would land on the wrong account
+  // (or just fail). Say so plainly rather than letting it fail halfway.
+  if (existsSync(BLOBIDX) && process.env.CLOUDFLARE_API_TOKEN) {
+    console.log(
+      `\n  ${c.yellow("!")} CLOUDFLARE_API_TOKEN is set, so wrangler will write blobs to THAT\n` +
+        `    account — but the new worker's namespace may live on another one.\n` +
+        `    If the dump came from a different account, stop, run:\n` +
+        `        unset CLOUDFLARE_API_TOKEN\n` +
+        `    and re-run this import. Refs are already in and re-importing is safe.`
+    );
+  }
   if (existsSync(BLOBIDX)) {
     const index = JSON.parse(readFileSync(BLOBIDX, "utf8"));
     const nsId =
