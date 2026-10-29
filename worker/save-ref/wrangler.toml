@@ -26,3 +26,21 @@ id = "REPLACE_WITH_KV_ID"
 #   openssl rand -hex 32           # copy the output -> this is your Big Brain token
 #   npx wrangler secret put AUTH_TOKEN
 # Paste the SAME value into the /drop page's first-time setup field.
+
+# ---- Big Brain intake enrichment (describe / taxonomy / dedupe / Notion) ----
+# Workers AI — powers src/describe.js (vision Look + tag proposals).
+# Same Cloudflare account, no API key.
+[ai]
+binding = "AI"
+
+# Optional configuration (uncomment + set to enable):
+# [vars]
+# DESCRIBE_MODEL = "@cf/llava-hf/llava-1.5-7b-hf"
+# BB_NOTION_DB_ID = ""   # Big Brain Notion database id (Option A sync; config, not a secret)
+#
+# NOTION_API_KEY is a secret, never committed (Option A sync only):
+#   npx wrangler secret put NOTION_API_KEY
+# The Notion integration must also be shared on the Big Brain database in
+# Notion's UI. The full sync payload also wants a "Needs review" checkbox
+# property on that DB (a one-time schema addition); until it exists the
+# sync falls back to a minimal payload — it does not fail.

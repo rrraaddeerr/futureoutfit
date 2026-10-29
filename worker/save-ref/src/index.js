@@ -29,6 +29,9 @@
 
 import { categorize, ALL_CATEGORIES, parseUrl } from "./categorize.js";
 import { fetchMeta } from "./og.js";
+import { normalizeUrl, sha256Hex, findDuplicate, writeIndexes, deleteIndexes } from "./dedupe.js";
+import { BIG_BRAIN_TAGS } from "./taxonomy.js";
+import { enrichRef } from "./enrich.js";
 import { DROP_HTML } from "./pages/drop.js";
 import { BROWSE_HTML } from "./pages/browse.js";
 import { SETUP_HTML } from "./pages/setup.js";
@@ -237,12 +240,27 @@ export default {
           }
           if (body.tags !== undefined) ref.tags = normalizeTags(body.tags);
           if (body.title !== undefined) ref.title = String(body.title).slice(0, 300);
+          if (body.look !== undefined) ref.look = String(body.look).slice(0, 300);
+          if (body.status !== undefined) {
+            if (!["ready", "needs_review"].includes(body.status)) {
+              return json({ ok: false, error: 'status must be "ready" or "needs_review"' }, 400);
+            }
+            ref.status = body.status;
+          }
+          if (body.bbTags !== undefined) {
+            // Title Case taxonomy values — do NOT route through normalizeTags (it lowercases).
+            if (!Array.isArray(body.bbTags)) return json({ ok: false, error: "bbTags must be an array" }, 400);
+            const bad = body.bbTags.filter((t) => !BIG_BRAIN_TAGS.includes(t));
+            if (bad.length) return json({ ok: false, error: `Unknown Big Brain tags: ${bad.join(", ")}` }, 400);
+            ref.bbTags = [...new Set(body.bbTags)].slice(0, 16);
+          }
           await env.REFS_KV.put(`ref:${id}`, JSON.stringify(ref));
           return json({ ok: true, ref });
         }
         if (request.method === "DELETE") {
           const ref = await env.REFS_KV.get(`ref:${id}`, "json");
           if (ref?.blobKey) await deleteBlob(env, ref.blobKey);
+          if (ref) await deleteIndexes(env, ref);
           await env.REFS_KV.delete(`ref:${id}`);
           return json({ ok: true });
         }
@@ -271,14 +289,20 @@ export default {
         const items = Array.isArray(body) ? body : body?.refs;
         if (!Array.isArray(items)) return json({ ok: false, error: "Expected an array of refs" }, 400);
         let n = 0;
+        let skippedDuplicates = 0;
         for (const r of items) {
           if (!r || typeof r !== "object") continue;
           const id = typeof r.id === "string" && r.id ? r.id : newId();
           const ref = { ...r, id };
+          if (!ref.urlNorm) ref.urlNorm = normalizeUrl(r.url);
+          if (ref.status === undefined) ref.status = "needs_review";
+          const dup = await findDuplicate(env, { urlNorm: ref.urlNorm, contentHash: ref.contentHash || null });
+          if (dup && dup.id !== id) { skippedDuplicates++; continue; }
           await env.REFS_KV.put(`ref:${id}`, JSON.stringify(ref));
+          await writeIndexes(env, ref);
           n++;
         }
-        return json({ ok: true, imported: n });
+        return json({ ok: true, imported: n, skippedDuplicates });
       }
 
       return json({ ok: false, error: "Not found", path }, 404);
@@ -312,6 +336,8 @@ async function readSharedForm(request) {
 async function handleSave(request, env, ctx, url) {
   const contentType = request.headers.get("content-type") || "";
   let ref;
+  let humanTagged = false;
+  let rawBytes;
 
   if (contentType.includes("application/json")) {
     const body = await request.json().catch(() => null);
@@ -321,6 +347,13 @@ async function handleSave(request, env, ctx, url) {
     ref = baseRef(cls);
     if (cls.kind === "url") {
       ref.url = parseUrl(body.url).toString();
+      ref.urlNorm = normalizeUrl(body.url);
+      // Dedupe BEFORE the OG fetch: a dupe costs one KV read, saves nothing.
+      const dup = await findDuplicate(env, { urlNorm: ref.urlNorm });
+      if (dup) {
+        const existing = await env.REFS_KV.get(`ref:${dup.id}`, "json");
+        if (existing) return json({ ok: true, ref: existing, duplicate: true, duplicateVia: dup.via }, 200);
+      }
       ref.title = (body.title || "").slice(0, 300);
       // enrich with OG metadata (best-effort, doesn't block the response long)
       const meta = await fetchMeta(ref.url);
@@ -334,24 +367,49 @@ async function handleSave(request, env, ctx, url) {
       return json({ ok: false, error: "Nothing to save" }, 400);
     }
     // Tags supplied at save time (share sheet, Shortcut) merge with the ones
-    // categorization inferred.
-    if (body.tags !== undefined) ref.tags = normalizeTags([...ref.tags, ...normalizeTags(body.tags)]);
+    // categorization inferred. Human tags count as curation for enrichment.
+    if (body.tags !== undefined) {
+      humanTagged = normalizeTags(body.tags).length > 0;
+      ref.tags = normalizeTags([...ref.tags, ...normalizeTags(body.tags)]);
+    }
   } else {
     // raw bytes (file upload / pasted image)
     const bytes = await request.arrayBuffer();
     if (!bytes || bytes.byteLength === 0) return json({ ok: false, error: "Empty upload" }, 400);
+    // Hash + dedupe BEFORE putBlob, or every rejected dupe orphans a blob.
+    const contentHash = await sha256Hex(bytes);
+    const dup = await findDuplicate(env, { contentHash });
+    if (dup) {
+      const existing = await env.REFS_KV.get(`ref:${dup.id}`, "json");
+      if (existing) return json({ ok: true, ref: existing, duplicate: true, duplicateVia: dup.via }, 200);
+    }
     const filename = request.headers.get("x-filename") || "";
     const cls = categorize({ isBlob: true, filename, contentType });
     const { key } = await putBlob(env, bytes, contentType);
     ref = baseRef(cls);
     ref.blobKey = key;
+    ref.contentHash = contentHash;
     ref.image = `${url.origin}/blob/${key}`;
     ref.title = (filename || `${cls.category} ${new Date().toLocaleDateString()}`).slice(0, 200);
     ref.bytes = bytes.byteLength;
     ref.mime = contentType;
+    rawBytes = bytes;
   }
 
   await env.REFS_KV.put(`ref:${ref.id}`, JSON.stringify(ref));
+  await writeIndexes(env, ref);
+  // Enrichment (describe -> taxonomy -> Notion sync) runs after the response:
+  // the save returns as fast as before, and a failed enrichment leaves the
+  // ref status:"needs_review" instead of silently blank.
+  if (ctx && typeof ctx.waitUntil === "function") {
+    ctx.waitUntil(enrichRef(env, ref.id, {
+      imageBytes: rawBytes,
+      imageUrl: ref.image || undefined,
+      caption: ref.desc || "",
+      title: ref.title || "",
+      humanTagged,
+    }));
+  }
   return json({ ok: true, ref }, 201);
 }
 
@@ -367,12 +425,23 @@ function baseRef(cls) {
     desc: "",
     image: "",
     createdAt: createdAtFromId(id),
+    // Big Brain intake (additive — refs saved before this have none of
+    // these; readers treat a missing status as "needs_review").
+    look: "",
+    bbTags: [],
+    tagScores: [],
+    status: "needs_review",
+    urlNorm: null,
+    contentHash: null,
+    dupOf: null,
+    notionPageId: null,
   };
 }
 
 async function handleList(env, url) {
   const q = (url.searchParams.get("q") || "").toLowerCase().trim();
   const cat = (url.searchParams.get("cat") || "").trim();
+  const status = (url.searchParams.get("status") || "").trim();
   const limit = Math.min(parseInt(url.searchParams.get("limit") || "60", 10) || 60, 200);
   const cursor = url.searchParams.get("cursor") || undefined;
 
@@ -388,13 +457,14 @@ async function handleList(env, url) {
       scanned++;
       if (!ref) continue;
       if (cat && ref.category !== cat) continue;
+      if (status && (ref.status || "needs_review") !== status) continue;
       if (q && !matches(ref, q)) continue;
       out.push(ref);
       if (out.length >= limit) break;
     }
     if (page.list_complete) { complete = true; kvCursor = undefined; break; }
     kvCursor = page.cursor;
-    if (!q && !cat) break; // unfiltered: one page is enough, return its cursor
+    if (!q && !cat && !status) break; // unfiltered: one page is enough, return its cursor
   }
   return json({ ok: true, refs: out, cursor: complete ? null : kvCursor, categories: ALL_CATEGORIES });
 }
@@ -406,6 +476,8 @@ function matches(ref, q) {
     (ref.url && ref.url.toLowerCase().includes(q)) ||
     (ref.host && ref.host.toLowerCase().includes(q)) ||
     (ref.text && ref.text.toLowerCase().includes(q)) ||
+    (ref.look && ref.look.toLowerCase().includes(q)) ||
+    (ref.bbTags && ref.bbTags.join(" ").toLowerCase().includes(q)) ||
     (ref.tags && ref.tags.join(" ").toLowerCase().includes(q))
   );
 }
