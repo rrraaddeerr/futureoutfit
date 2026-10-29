@@ -12,7 +12,7 @@ compatibility_date = "2025-05-01"
 #   npx wrangler kv namespace create save-ref-kv
 [[kv_namespaces]]
 binding = "REFS_KV"
-id = "REPLACE_WITH_KV_ID"
+id = "b897388fecfb4a258b169a1397cfac37"
 
 # OPTIONAL — offload uploaded image/file bytes to R2 instead of KV (recommended
 # if you drop lots of large files; KV values are capped at 25 MB). Create with:
@@ -33,10 +33,10 @@ id = "REPLACE_WITH_KV_ID"
 [ai]
 binding = "AI"
 
-# Optional configuration (uncomment + set to enable):
-# [vars]
-# DESCRIBE_MODEL = "@cf/llava-hf/llava-1.5-7b-hf"
-# BB_NOTION_DB_ID = ""   # Big Brain Notion database id (Option A sync; config, not a secret)
+# Big Brain intake configuration:
+[vars]
+DESCRIBE_MODEL = "@cf/llava-hf/llava-1.5-7b-hf"
+BB_NOTION_DB_ID = "59aa49293ca641ffad4a9c41d2f23b36"   # Big Brain Notion database id (Option A sync; config, not a secret)
 #
 # NOTION_API_KEY is a secret, never committed (Option A sync only):
 #   npx wrangler secret put NOTION_API_KEY
