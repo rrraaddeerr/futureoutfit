@@ -1,0 +1,23 @@
+# Big Brain News: a NEW worker, sibling to save-ref. It has its own KV
+# namespace and never touches save-ref, its data, or its intake pipeline.
+name = "big-brain-news"
+main = "src/index.js"
+compatibility_date = "2025-05-01"
+
+# KV holds the news items, under news: keys. Create it once, then paste
+# the printed id:
+#   npx wrangler kv namespace create big-brain-news-kv
+[[kv_namespaces]]
+binding = "NEWS_KV"
+id = "REPLACE_WITH_KV_ID"
+
+# Poll the feeds a few times a day (UTC). Nate's posts land around
+# 13:00 UTC, so the 16:15 UTC run has them before Vancouver's morning
+# is over; the page itself renders fresh from KV on every visit.
+[triggers]
+crons = ["15 */4 * * *"]
+
+# AUTH_TOKEN is a secret, never committed. It guards /api/items and
+# /api/refresh only; the digest page is public, like save-ref's pages.
+# Reuse the SAME value as save-ref's token so one token runs Big Brain:
+#   npx wrangler secret put AUTH_TOKEN
