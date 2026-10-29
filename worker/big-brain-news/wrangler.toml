@@ -9,7 +9,7 @@ compatibility_date = "2025-05-01"
 #   npx wrangler kv namespace create big-brain-news-kv
 [[kv_namespaces]]
 binding = "NEWS_KV"
-id = "REPLACE_WITH_KV_ID"
+id = "da8e7f79e1c94765854b927e9d7ad8c9"
 
 # Poll the feeds a few times a day (UTC). Nate's posts land around
 # 13:00 UTC, so the 16:15 UTC run has them before Vancouver's morning
